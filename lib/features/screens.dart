@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import '../app/providers.dart';
+import '../app/brand.dart';
 import '../core/database/database.dart';
 import 'forms.dart';
 import 'goals/goal_plan.dart';
@@ -40,14 +41,14 @@ String dateLabel(String? value) => value == null
 String moneyLabel(int cents) =>
     '${NumberFormat('#,##0.00', 'pt').format(cents / 100)} MT';
 
-class LifeScreen extends ConsumerStatefulWidget {
-  const LifeScreen({required this.section, super.key});
+class TudoAkiScreen extends ConsumerStatefulWidget {
+  const TudoAkiScreen({required this.section, super.key});
   final String section;
   @override
-  ConsumerState<LifeScreen> createState() => _LifeScreenState();
+  ConsumerState<TudoAkiScreen> createState() => _TudoAkiScreenState();
 }
 
-class _LifeScreenState extends ConsumerState<LifeScreen> {
+class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
   DateTime selected = DateTime.now();
   String agendaMode = 'Dia';
   Future<void> act(Future<void> Function() operation) async {
@@ -65,7 +66,7 @@ class _LifeScreenState extends ConsumerState<LifeScreen> {
     }
   }
 
-  LifeRepository get repo => ref.read(repositoryProvider);
+  TudoAkiRepository get repo => ref.read(repositoryProvider);
   Widget heading(String text, {Widget? action}) => Padding(
     padding: const EdgeInsets.only(top: 20, bottom: 8),
     child: Row(
@@ -116,13 +117,7 @@ class _LifeScreenState extends ConsumerState<LifeScreen> {
           return ListView(
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 110),
             children: [
-              Text(
-                'LIFEOS',
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  letterSpacing: 3,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
+              TudoAkiBrandHeader(showSlogan: widget.section == 'Hoje'),
               const SizedBox(height: 8),
               Text(
                 widget.section == 'Hoje'
@@ -172,7 +167,7 @@ class _LifeScreenState extends ConsumerState<LifeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Bem-vindo ao seu espaço.',
+                  'Bem-vindo ao ${TudoAkiBrand.name}.',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Text(
@@ -706,7 +701,10 @@ class _LifeScreenState extends ConsumerState<LifeScreen> {
       onTap: () => act(() async {
         final json = await repo.exportJson();
         await SharePlus.instance.share(
-          ShareParams(text: json, subject: 'LifeOS — exportação de dados'),
+          ShareParams(
+            text: json,
+            subject: '${TudoAkiBrand.name} — exportação de dados',
+          ),
         );
       }),
     ),

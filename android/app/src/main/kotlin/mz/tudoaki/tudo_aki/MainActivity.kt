@@ -1,4 +1,4 @@
-package mz.lifeos.lifeos
+package mz.tudoaki.tudo_aki
 
 import io.flutter.embedding.android.FlutterActivity
 

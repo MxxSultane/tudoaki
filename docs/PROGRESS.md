@@ -1,4 +1,16 @@
-# Progresso — LifeOS
+# Progresso — Tudo Aki
+
+## Estado por fase
+A fase principal é a consolidação do núcleo funcional (Fase 2), em paralelo com os controlos de qualidade da Fase 6.
+
+| Fase | Estado | Entrega e pendências |
+| --- | --- | --- |
+| 1 — Fundação | Concluída para desenvolvimento | Arquitectura, tema, navegação e SQLite preparados. |
+| 2 — Núcleo funcional | Implementado; validação real do MVP pendente | Hoje, tarefas, agenda, metas, submetas e etapas; lembretes e ciclo de reabertura Android ainda precisam de dispositivo. |
+| 3 — Organização pessoal | Parcial | Hábitos, disciplinas e revisões; horários, avaliações e foco pendentes. |
+| 4 — Áreas de vida | Parcial | Transacções, poupanças e bem-estar via hábitos; orçamentos e recorrência financeira pendentes. |
+| 5 — Gamificação | Parcial | XP e níveis; catálogo de conquistas e gráficos pendentes. |
+| 6 — Qualidade | Em curso | Análise, testes automatizados e APK; utilização, notificações e acessibilidade num dispositivo ainda pendentes. |
 
 ## Fundação e núcleo implementados
 - Documentos de visão, requisitos, histórias, arquitectura, design e fases criados antes do código.
@@ -21,15 +33,22 @@
 - Migração transaccional v1 → v2 e exportação JSON com a versão actual. Nenhuma dependência nova.
 - Testes adicionais verificam hierarquias, ciclos, eliminação de pai, edição de etapas, exportação e abertura/migração/reabertura de um ficheiro v1. O novo teste de widget cria uma submeta, gere etapas e conclui uma tarefa sem modificar métricas indevidamente.
 
+## Incremento 0.2.1 — identidade oficial
+- Nome **Tudo Aki** e slogan **A tua vida, organizada num só lugar.** no cabeçalho, onboarding e documentação; nome oficial também no título da aplicação e na exportação.
+- Identificador Flutter/Dart e nome Gradle `tudo_aki`; classes e namespace Android actualizados.
+- Ícone com visto branco e fundo verde-petróleo, ícones adaptativo/monocromático e arranque com a mesma identidade.
+- ID Android `mz.lifeos.lifeos` e ficheiro `lifeos.sqlite` preservados apenas para compatibilidade com instalações e dados anteriores; esquema v2 e funcionalidades inalterados.
+- Teste do nome e slogan no fluxo inicial e teste de quebra de linhas do cabeçalho com texto a 200% em ambos os temas.
+
 ## Verificação efectuada no ambiente
 - `flutter pub get`: concluído, lockfile gerado e dependências instaladas.
 - `dart format lib test`: executado.
 - `flutter analyze`: sem problemas na verificação final concluída.
-- `flutter test --reporter expanded`: **19 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
+- `flutter test --reporter expanded`: **20 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
 - `python3 tool/check_schema.py`: SQL, relações, unicidade, centavos e reabertura aprovados.
-- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.4 MiB), LifeOS 0.2.0, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
-- `apksigner verify --verbose`: assinatura de depuração v2 verificada. `aapt dump badging` confirmou identidade, versões, permissões e arquitecturas.
-- SHA-256 do APK: `1a49a88897838082d06c11102ffac6829c824b75348a9b795d1bcceb4c8a1010`.
+- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.4 MiB), Tudo Aki 0.2.1, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
+- `apksigner verify --verbose`: assinatura de depuração v2 verificada. O APK apresenta o nome Tudo Aki, uma única actividade no launcher e os ícones novos, mantendo o ID de instalação anterior. `aapt dump badging` confirmou identidade, versões, permissões e arquitecturas.
+- SHA-256 do APK: `36f715af982e57f207135bfe663f309a33c54bdaef522661a664e4a0e92bc203`.
 
 ## Ambiente e reprodução
 `tool/setup.sh` fixa o Flutter por commit oficial e o Temurin JDK 21.0.13+9 por SHA-256, instala dependências com lockfile, prepara SQLite de testes e as ferramentas Android. `tool/env.sh` activa os caminhos. `tool/setup_android.sh` usa o checksum oficial da CLI e configura o proxy Java sem copiar credenciais. SDKs/caches ficam em `/workspace/.tools`, fora do repositório da aplicação. A instalação foi repetida com sucesso, com o lockfile respeitado. `install_script`, `start_skill` e o domínio `storage.googleapis.com` foram guardados no rascunho; isso não publica o ambiente.

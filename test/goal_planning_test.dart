@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:drift/drift.dart' show MigrationStrategy;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lifeos/core/database/database.dart';
-import 'package:lifeos/core/database/schema.dart';
-import 'package:lifeos/features/goals/goal_tree.dart';
+import 'package:tudo_aki/core/database/database.dart';
+import 'package:tudo_aki/core/database/schema.dart';
+import 'package:tudo_aki/features/goals/goal_tree.dart';
 
-Future<int> addGoal(LifeRepository repo, String title, {int? parent}) =>
+Future<int> addGoal(TudoAkiRepository repo, String title, {int? parent}) =>
     repo.save('Goals', {
       'title': title,
       'initial': 0,
@@ -20,11 +20,11 @@ Future<int> addGoal(LifeRepository repo, String title, {int? parent}) =>
 
 void main() {
   group('goal planning', () {
-    late LifeDatabase db;
-    late LifeRepository repo;
+    late TudoAkiDatabase db;
+    late TudoAkiRepository repo;
     setUp(() {
-      db = LifeDatabase.memory();
-      repo = LifeRepository(db);
+      db = TudoAkiDatabase.memory();
+      repo = TudoAkiRepository(db);
     });
     tearDown(() => db.close());
 
@@ -121,11 +121,11 @@ void main() {
     'v1 upgrades in place to v2 and reopens with goals and history intact',
     () async {
       final directory = await Directory.systemTemp.createTemp(
-        'lifeos-v1-migration-',
+        'tudo-aki-v1-migration-',
       );
-      final file = File('${directory.path}/lifeos.sqlite');
+      final file = File('${directory.path}/tudo_aki.sqlite');
       final legacy = LegacyDatabase(NativeDatabase(file));
-      final old = LifeRepository(legacy);
+      final old = TudoAkiRepository(legacy);
       final goal = await old.save('Goals', {
         'title': 'Doze livros',
         'target': 12,
@@ -145,8 +145,8 @@ void main() {
       await old.updateMetric(goal, 2);
       await old.save('UserPreferences', {'theme': 'dark'}, id: 1);
       await legacy.close();
-      final current = LifeDatabase(NativeDatabase(file));
-      final repo = LifeRepository(current);
+      final current = TudoAkiDatabase(NativeDatabase(file));
+      final repo = TudoAkiRepository(current);
       try {
         expect(
           (await repo.query('PRAGMA user_version')).single.values.single,
@@ -168,9 +168,9 @@ void main() {
       } finally {
         await current.close();
       }
-      final reopened = LifeDatabase(NativeDatabase(file));
+      final reopened = TudoAkiDatabase(NativeDatabase(file));
       try {
-        final data = LifeRepository(reopened);
+        final data = TudoAkiRepository(reopened);
         expect((await data.all('Goals')).length, 2);
         expect((await data.all('GoalMilestones')).single['due'], '2026-11-01');
       } finally {
@@ -187,7 +187,7 @@ void main() {
   });
 }
 
-class LegacyDatabase extends LifeDatabase {
+class LegacyDatabase extends TudoAkiDatabase {
   LegacyDatabase(super.executor);
   @override
   int get schemaVersion => 1;

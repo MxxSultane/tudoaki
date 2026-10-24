@@ -1,10 +1,23 @@
-# LifeOS
+# Tudo Aki
+
+**A tua vida, organizada num só lugar.**
+
+Identificador Flutter/Dart: `tudo_aki`.
+
 Gestão pessoal offline em Flutter: Hoje, Agenda, Metas, Progresso e Perfil. Interface em português, tema claro/escuro, Drift/SQLite e nenhuma conta obrigatória.
 
 ## Estado
-APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 19 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
+APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 20 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
 
 Consulte [docs/PROGRESS.md](docs/PROGRESS.md) para separar implementação, verificações e funcionalidades pendentes. O código não contém dados de demonstração nem credenciais.
+
+## Fase actual
+Consolidação do núcleo funcional (Fase 2), com funcionalidades básicas das Fases 3–5 e verificação de qualidade em curso (Fase 6). A fundação está concluída; lembretes e utilização real em Android continuam por validar. O estado de cada fase consta em `docs/PROGRESS.md`.
+
+## Novidades da versão 0.2.1 — identidade oficial
+Nome público, título, onboarding e launcher: **Tudo Aki**. O slogan provisório é **A tua vida, organizada num só lugar.** O pacote Dart e o projecto Gradle chamam-se `tudo_aki`; o namespace Android é `mz.tudoaki.tudo_aki`. Ícones e arranque usam um visto branco com fundo verde-petróleo, incluindo ícone adaptativo e variante monocromática.
+
+O ID de instalação Android `mz.lifeos.lifeos` e o ficheiro local `lifeos.sqlite` são mantidos apenas como identificadores internos de compatibilidade. Isso permite actualizar instalações anteriores e continuar a usar os seus dados. Não são nomes apresentados na interface. O repositório GitHub e a pasta de checkout continuam a ser `tudoaki`.
 
 ## Novidades da versão 0.2.0
 - Crie submetas a partir de uma meta: anual → mensal → semanal.

@@ -1,7 +1,7 @@
-name: lifeos
-description: Gestão pessoal offline, em português de Moçambique.
+name: tudo_aki
+description: Tudo Aki — gestão pessoal offline, em português de Moçambique.
 publish_to: none
-version: 0.2.0+2
+version: 0.2.1+3
 environment:
   sdk: '>=3.8.0 <4.0.0'
 dependencies:

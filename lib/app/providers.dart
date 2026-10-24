@@ -3,12 +3,12 @@ import '../core/database/database.dart';
 import '../core/database/schema.dart';
 import '../core/notifications/reminders.dart';
 
-final repositoryProvider = Provider<LifeRepository>((ref) {
-  final db = LifeDatabase.local();
+final repositoryProvider = Provider<TudoAkiRepository>((ref) {
+  final db = TudoAkiDatabase.local();
   ref.onDispose(() {
     db.close();
   });
-  return LifeRepository(db);
+  return TudoAkiRepository(db);
 });
 final remindersProvider = Provider<Reminders>((_) => Reminders());
 final dataProvider = FutureProvider<Map<String, List<DataRowMap>>>((ref) async {

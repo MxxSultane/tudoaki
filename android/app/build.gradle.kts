@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "mz.lifeos.lifeos"
+    namespace = "mz.tudoaki.tudo_aki"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,8 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // Stable installation ID: keep existing users' data and allow in-place updates.
+        // The Flutter/Dart project identifier is tudo_aki.
         applicationId = "mz.lifeos.lifeos"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.

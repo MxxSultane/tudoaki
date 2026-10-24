@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:lifeos/app/providers.dart';
-import 'package:lifeos/core/database/database.dart';
-import 'package:lifeos/features/screens.dart';
+import 'package:tudo_aki/app/providers.dart';
+import 'package:tudo_aki/core/database/database.dart';
+import 'package:tudo_aki/features/screens.dart';
 
 void main() {
   testWidgets('create a subgoal, manage milestones and complete a linked task', (
@@ -22,8 +22,8 @@ void main() {
     }
 
     await initializeDateFormatting('pt');
-    final db = LifeDatabase.memory();
-    final repo = LifeRepository(db);
+    final db = TudoAkiDatabase.memory();
+    final repo = TudoAkiRepository(db);
     addTearDown(db.close);
     final parent = await tester.runAsync(() async {
       final id = await repo.save('Goals', {
@@ -43,7 +43,7 @@ void main() {
       ProviderScope(
         overrides: [repositoryProvider.overrideWithValue(repo)],
         child: const MaterialApp(
-          home: Scaffold(body: LifeScreen(section: 'Metas')),
+          home: Scaffold(body: TudoAkiScreen(section: 'Metas')),
         ),
       ),
     );

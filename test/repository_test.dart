@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lifeos/core/database/database.dart';
+import 'package:tudo_aki/core/database/database.dart';
 
 void main() {
   group('repository', () {
-    late LifeDatabase db;
-    late LifeRepository repo;
+    late TudoAkiDatabase db;
+    late TudoAkiRepository repo;
     setUp(() {
-      db = LifeDatabase.memory();
-      repo = LifeRepository(db);
+      db = TudoAkiDatabase.memory();
+      repo = TudoAkiRepository(db);
     });
     tearDown(() => db.close());
     Future<int> task({int? goal}) => repo.save('Tasks', {
@@ -125,16 +125,16 @@ void main() {
   test(
     'unknown future database versions are refused without data loss',
     () async {
-      final dir = await Directory.systemTemp.createTemp('lifeos-migration-');
+      final dir = await Directory.systemTemp.createTemp('tudo-aki-migration-');
       final file = File('${dir.path}/db.sqlite');
-      final first = LifeDatabase(NativeDatabase(file));
-      await LifeRepository(first).save('Habits', {'title': 'Preservar'});
+      final first = TudoAkiDatabase(NativeDatabase(file));
+      await TudoAkiRepository(first).save('Habits', {'title': 'Preservar'});
       await first.customStatement('PRAGMA user_version = 3');
       await first.close();
-      final future = LifeDatabase(NativeDatabase(file));
+      final future = TudoAkiDatabase(NativeDatabase(file));
       try {
         await expectLater(
-          LifeRepository(future).all('Habits'),
+          TudoAkiRepository(future).all('Habits'),
           throwsStateError,
         );
       } finally {
@@ -143,7 +143,7 @@ void main() {
       final compatible = FutureVersionDatabase(NativeDatabase(file));
       try {
         expect(
-          (await LifeRepository(compatible).all('Habits')).single['title'],
+          (await TudoAkiRepository(compatible).all('Habits')).single['title'],
           'Preservar',
         );
       } finally {
@@ -153,15 +153,15 @@ void main() {
     },
   );
   test('native SQLite data survives closing and reopening', () async {
-    final dir = await Directory.systemTemp.createTemp('lifeos-test-');
+    final dir = await Directory.systemTemp.createTemp('tudo-aki-test-');
     final file = File('${dir.path}/db.sqlite');
-    final first = LifeDatabase(NativeDatabase(file));
-    await LifeRepository(first).save('Habits', {'title': 'Ler diariamente'});
+    final first = TudoAkiDatabase(NativeDatabase(file));
+    await TudoAkiRepository(first).save('Habits', {'title': 'Ler diariamente'});
     await first.close();
-    final second = LifeDatabase(NativeDatabase(file));
+    final second = TudoAkiDatabase(NativeDatabase(file));
     try {
       expect(
-        (await LifeRepository(second).all('Habits')).single['title'],
+        (await TudoAkiRepository(second).all('Habits')).single['title'],
         'Ler diariamente',
       );
     } finally {
@@ -172,7 +172,7 @@ void main() {
 }
 
 // Simulates the version that wrote the file, proving failed downgrade preserves it.
-class FutureVersionDatabase extends LifeDatabase {
+class FutureVersionDatabase extends TudoAkiDatabase {
   FutureVersionDatabase(super.executor);
   @override
   int get schemaVersion => 3;

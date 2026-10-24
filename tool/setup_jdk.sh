@@ -9,7 +9,7 @@ if [[ -e "$jdk_root" ]]; then
   echo 'An incomplete JDK directory exists; inspect before replacing.' >&2
   exit 1
 fi
-stage=$(mktemp -d /tmp/lifeos-jdk.XXXXXX)
+stage=$(mktemp -d /tmp/tudo-aki-jdk.XXXXXX)
 trap 'rm -rf "$stage"' EXIT
 curl -fsSL 'https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.13%2B9/OpenJDK21U-jdk_x64_linux_hotspot_21.0.13_9.tar.gz' -o "$stage/jdk.tar.gz"
 # SHA-256 published by Eclipse Adoptium with the official release asset.

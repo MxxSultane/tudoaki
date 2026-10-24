@@ -6,14 +6,15 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'schema.dart';
 
-class LifeDatabase extends GeneratedDatabase {
-  LifeDatabase(super.executor);
-  factory LifeDatabase.memory() => LifeDatabase(NativeDatabase.memory());
-  factory LifeDatabase.local() => LifeDatabase(
+class TudoAkiDatabase extends GeneratedDatabase {
+  TudoAkiDatabase(super.executor);
+  factory TudoAkiDatabase.memory() => TudoAkiDatabase(NativeDatabase.memory());
+  factory TudoAkiDatabase.local() => TudoAkiDatabase(
     LazyDatabase(() async {
       final directory = await getApplicationSupportDirectory();
       await directory.create(recursive: true);
       return NativeDatabase.createInBackground(
+        // Keep the existing storage filename so branding updates preserve user data.
         File(path.join(directory.path, 'lifeos.sqlite')),
       );
     }),
@@ -71,9 +72,9 @@ int moneyCents(String input) {
   return cents;
 }
 
-class LifeRepository {
-  LifeRepository(this.db);
-  final LifeDatabase db;
+class TudoAkiRepository {
+  TudoAkiRepository(this.db);
+  final TudoAkiDatabase db;
   Future<List<DataRowMap>> query(
     String sql, [
     List<Variable> args = const [],

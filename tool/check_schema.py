@@ -14,7 +14,7 @@ statements = statements_for(1)
 upgrade = statements_for(2)
 assert len(statements) == 20 and len(upgrade) == 5, 'Incomplete schema parsing'
 with tempfile.TemporaryDirectory() as directory:
-    file = pathlib.Path(directory) / 'lifeos.sqlite'
+    file = pathlib.Path(directory) / 'tudo_aki.sqlite'
     db = sqlite3.connect(file)
     db.execute('PRAGMA foreign_keys=ON')
     for sql in statements:

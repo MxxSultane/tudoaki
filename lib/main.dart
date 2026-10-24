@@ -6,5 +6,5 @@ import 'app/app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('pt');
-  runApp(const ProviderScope(child: LifeApp()));
+  runApp(const ProviderScope(child: TudoAkiApp()));
 }

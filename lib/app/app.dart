@@ -4,12 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../features/screens.dart';
 import 'providers.dart';
+import 'brand.dart';
 
 final _router = GoRouter(
   routes: [
     ShellRoute(
       builder: (_, state, child) =>
-          LifeShell(path: state.uri.path, child: child),
+          TudoAkiShell(path: state.uri.path, child: child),
       routes: [
         for (final entry in {
           '/': 'Hoje',
@@ -24,15 +25,15 @@ final _router = GoRouter(
         }.entries)
           GoRoute(
             path: entry.key,
-            builder: (context, state) => LifeScreen(section: entry.value),
+            builder: (context, state) => TudoAkiScreen(section: entry.value),
           ),
       ],
     ),
   ],
 );
 
-class LifeApp extends ConsumerWidget {
-  const LifeApp({super.key});
+class TudoAkiApp extends ConsumerWidget {
+  const TudoAkiApp({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref
@@ -48,7 +49,7 @@ class LifeApp extends ConsumerWidget {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xff26756b),
+        seedColor: TudoAkiBrand.seedColor,
         brightness: brightness,
       ),
       inputDecorationTheme: const InputDecorationTheme(
@@ -60,7 +61,7 @@ class LifeApp extends ConsumerWidget {
       ),
     );
     return MaterialApp.router(
-      title: 'LifeOS',
+      title: TudoAkiBrand.name,
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
       theme: theme(Brightness.light),
@@ -73,8 +74,8 @@ class LifeApp extends ConsumerWidget {
   }
 }
 
-class LifeShell extends StatelessWidget {
-  const LifeShell({required this.path, required this.child, super.key});
+class TudoAkiShell extends StatelessWidget {
+  const TudoAkiShell({required this.path, required this.child, super.key});
   final String path;
   final Widget child;
   static const paths = ['/', '/agenda', '/goals', '/progress', '/profile'];

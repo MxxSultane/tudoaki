@@ -1,4 +1,8 @@
-# LifeOS — visão do produto
+# Tudo Aki — visão do produto
+
+**Slogan provisório:** A tua vida, organizada num só lugar.
+
+**Identificador Flutter/Dart:** `tudo_aki`.
 Uma aplicação pessoal offline em português de Moçambique que transforma intenções em acções agendadas. Sem conta, publicidade ou analytics.
 
 ## Necessidades (Design Thinking / JTBD)
