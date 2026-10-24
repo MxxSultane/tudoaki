@@ -14,3 +14,5 @@ Hipóteses a validar com utilizadores: criação de tarefa em menos de um minuto
 
 ## Princípios
 Clareza, controlo, progresso; autonomia e descanso. Dados financeiros em centavos; nunca solicitar credenciais bancárias. Bem-estar sem prescrições ou padrões corporais.
+
+A organização académica liga disciplinas e compromissos à agenda, com foco opcional e pausas sem penalização. A confirmação do estudo reconhece esforço sem exigir atenção contínua à aplicação.

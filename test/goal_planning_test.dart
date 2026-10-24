@@ -109,7 +109,7 @@ void main() {
         expect(await repo.all('ExperienceEvents'), isEmpty);
         final export =
             jsonDecode(await repo.exportJson()) as Map<String, dynamic>;
-        expect(export['schemaVersion'], 2);
+        expect(export['schemaVersion'], 3);
         expect((export['GoalMilestones'] as List).single['completed'], 1);
         await repo.delete('GoalMilestones', step);
         expect(await repo.all('GoalMilestones'), isEmpty);
@@ -118,7 +118,7 @@ void main() {
   });
 
   test(
-    'v1 upgrades in place to v2 and reopens with goals and history intact',
+    'v1 upgrades in place to v3 and reopens with goals and history intact',
     () async {
       final directory = await Directory.systemTemp.createTemp(
         'tudo-aki-v1-migration-',
@@ -150,7 +150,7 @@ void main() {
       try {
         expect(
           (await repo.query('PRAGMA user_version')).single.values.single,
-          2,
+          3,
         );
         expect((await repo.all('Goals')).single['current'], 2);
         expect((await repo.all('Goals')).single['parent_id'], isNull);

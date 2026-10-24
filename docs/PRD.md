@@ -2,10 +2,17 @@
 ## Must (MVP)
 Arranque sem conta; cinco áreas Hoje/Agenda/Metas/Progresso/Perfil; tarefas com edição, prioridade, prazo e associação a meta; eventos; metas com métricas e acções; hábitos e histórico; SQLite offline; lembretes locais mediante permissão Android; estados vazios; eliminação de dados; testes.
 ## Should
-Recorrência diária/semanal, revisões, transacções e poupanças, exportação JSON, modo escuro, disciplinas.
+Recorrência diária/semanal, revisões, transacções e poupanças, exportação JSON, modo escuro, disciplinas, horários de aulas, avaliações e foco configurável.
 ## Could / fases posteriores
-Calendário mensal avançado, edição de instância recorrente, orçamentos, subtarefas, WOOP guiado, foco Pomodoro, gráficos, backups, personalização de categorias, conquistas extensas.
+Calendário mensal avançado, edição de instância recorrente, orçamentos, subtarefas, WOOP guiado, ciclos automáticos de foco/descanso, gráficos, backups, personalização de categorias, conquistas extensas.
 ## Regras
 Concluir uma tarefa não altera automaticamente a métrica da meta. XP é opcional e idempotente; reabrir/concluir a mesma tarefa não soma XP novamente. Hábitos pausados preservam histórico. Sem dados de demonstração injectados.
 ## Critério de entrega
 MVP só pode ser declarado concluído após testes do fluxo criar meta → associar e agendar tarefa → lembrete → concluir → reabrir com dados preservados, incluindo num dispositivo Android. Limitações e funcionalidades por implementar constam em PROGRESS.md.
+
+## Organização académica — versão 0.3.0
+- Horários semanais com disciplina obrigatória, horas de início/fim no mesmo dia, local opcional e validade por datas civis; avaliações com tipo, data/hora e duração; sessões de estudo com disciplina opcional.
+- Aulas, avaliações e blocos planeados de estudo aparecem na agenda e participam na detecção de conflitos. Trabalhos associados a disciplinas continuam a usar tarefas.
+- Foco de 1–180 minutos, com pausa, retoma e confirmação depois do prazo. Só uma sessão pode estar em curso; a regra existe na base e no repositório. Não se edita uma sessão iniciada/concluída; pode ser eliminada com confirmação.
+- XP idempotente: 15 por sessão de foco confirmada, até três sessões premiadas por dia local; registos adicionais são preservados. Desactivar gamificação mantém o estudo e o histórico sem XP.
+- Sem alarme de fim de foco em segundo plano nesta versão. Tempo recuperado por prazo UTC, incluindo ao reabrir a base; funcionamento real em suspensão Android ainda não certificado.

@@ -8,6 +8,9 @@ import '../app/brand.dart';
 import '../core/database/database.dart';
 import 'forms.dart';
 import 'goals/goal_plan.dart';
+import 'academics/academic_rules.dart';
+import 'academics/academic_editor.dart';
+import 'academics/academics_panel.dart';
 
 void showQuickCreate(BuildContext context) => showModalBottomSheet<void>(
   context: context,
@@ -152,13 +155,29 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
         )
         .toList();
     final events =
-        data['CalendarEvents']!
+        [...data['CalendarEvents']!, ...academicEventsForDay(data, now)]
             .map((e) => (e, occurrenceOn(e, now)))
             .where((e) => e.$2 != null && e.$2!.isAfter(now))
             .toList()
           ..sort((a, b) => a.$2!.compareTo(b.$2!));
     return [
       Text(DateFormat('EEEE, d MMMM', 'pt').format(now)),
+      for (final session in data['StudySessions']!.where(
+        (s) => s['completed'] == 0 && s['focus_end'] != null,
+      ))
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.timer_outlined),
+            title: Text(
+              focusSecondsRemaining(session, now) == 0
+                  ? 'Sessão de estudo por registar'
+                  : 'Foco em curso',
+            ),
+            subtitle: Text(session['title'] as String),
+            onTap: () => context.go('/academics'),
+          ),
+        ),
+
       if (prefs['onboarded'] == 0)
         Card(
           child: Padding(
@@ -373,7 +392,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
 
   List<Widget> agendaDay(Map<String, List<DataRowMap>> data, DateTime day) {
     final events =
-        data['CalendarEvents']!
+        [...data['CalendarEvents']!, ...academicEventsForDay(data, day)]
             .map((e) => (e, occurrenceOn(e, day)))
             .where((e) => e.$2 != null)
             .toList()
@@ -420,7 +439,20 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
                 subtitle: Text(
                   '${DateFormat.Hm().format(start)} – ${DateFormat.Hm().format(end)}${event['recurrence'] == 'none' ? '' : ' · recorrente'}${conflict ? '\nConflito de horário' : ''}',
                 ),
-                onTap: () => showEditor(context, 'Evento', existing: event),
+                onTap: () {
+                  final kind = event['academic_kind'] as String?;
+                  if (kind == 'Estudo') {
+                    context.go('/academics');
+                  } else if (kind != null) {
+                    showAcademicEditor(
+                      context,
+                      kind,
+                      existing: event['academic_row'] as DataRowMap,
+                    );
+                  } else {
+                    showEditor(context, 'Evento', existing: event);
+                  }
+                },
               ),
             );
           },
@@ -598,6 +630,9 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
               Text('$done tarefas concluídas'),
               Text('$active metas activas · $completed metas alcançadas'),
               Text('${data['HabitCompletions']!.length} registos de hábitos'),
+              Text(
+                '${data['StudySessions']!.where((s) => s['completed'] == 1).length} sessões de estudo concluídas',
+              ),
               if (prefs['gamification'] == 1) ...[
                 const Divider(),
                 Text('$xp XP · Nível ${1 + xp ~/ 100}'),
@@ -826,34 +861,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
   }
 
   List<Widget> academics(Map<String, List<DataRowMap>> data) => [
-    heading(
-      'Disciplinas',
-      action: TextButton(
-        onPressed: () => showEditor(context, 'Disciplina'),
-        child: const Text('Adicionar'),
-      ),
-    ),
-    if (data['Subjects']!.isEmpty)
-      empty('Organize as suas próximas sessões de estudo.', 'Disciplina'),
-    for (final subject in data['Subjects']!)
-      Card(
-        child: ExpansionTile(
-          title: Text(subject['title'] as String),
-          children: [
-            ...data['Tasks']!
-                .where((t) => t['subject_id'] == subject['id'])
-                .map((t) => taskCard(t, data)),
-            TextButton(
-              onPressed: () => showEditor(
-                context,
-                'Tarefa',
-                subjectId: subject['id'] as int,
-              ),
-              child: const Text('Adicionar trabalho ou sessão'),
-            ),
-          ],
-        ),
-      ),
+    AcademicsPanel(taskBuilder: (task) => taskCard(task, data)),
   ];
   List<Widget> reviews(Map<String, List<DataRowMap>> data) => [
     heading(

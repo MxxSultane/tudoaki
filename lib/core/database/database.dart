@@ -20,17 +20,17 @@ class TudoAkiDatabase extends GeneratedDatabase {
     }),
   );
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
   @override
   Iterable<TableInfo<Table, Object?>> get allTables => const [];
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => const [];
   @override
   MigrationStrategy get migration => MigrationStrategy(
-    onCreate: (_) => _applySchema([...schemaV1, ...schemaV2]),
+    onCreate: (_) => _applySchema([...schemaV1, ...schemaV2, ...schemaV3]),
     onUpgrade: (_, from, to) async {
-      if (from == 1 && to == 2) {
-        await _applySchema(schemaV2);
+      if (from >= 1 && from < 3 && to == 3) {
+        await _applySchema([if (from < 2) ...schemaV2, ...schemaV3]);
         return;
       }
       throw StateError(

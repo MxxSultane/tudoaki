@@ -631,6 +631,8 @@ class _EditorState extends ConsumerState<Editor> {
         content: Text(
           widget.kind == 'Meta'
               ? 'As etapas e o histórico desta meta serão eliminados. As submetas, tarefas e hábitos serão preservados sem ligação a esta meta.'
+              : widget.kind == 'Disciplina'
+              ? 'Os horários desta disciplina serão eliminados. As tarefas, avaliações e sessões de estudo serão preservadas sem associação.'
               : widget.kind == 'Etapa'
               ? 'A etapa será eliminada. A meta e as tarefas serão preservadas.'
               : 'Esta acção não pode ser desfeita.',

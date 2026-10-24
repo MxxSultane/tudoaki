@@ -1,7 +1,7 @@
 # Plano incremental
 1. Fundação: documentos, Flutter/Android, tema, router, esquema v1, repositório.
 2. Núcleo: tarefas/metas/eventos/agenda/Hoje e armazenamento real.
-3. Organização: hábitos, disciplinas, revisões; foco e horários académicos depois.
+3. Organização: hábitos, disciplinas, horários, avaliações, estudo com foco e revisões implementados no escopo actual; validar também num dispositivo.
 4. Áreas: transacções, poupanças e hábitos de bem-estar; orçamentos depois.
 5. Motivação: XP idempotente, resumo; catálogo de conquistas depois.
 6. Qualidade: testes de regras/persistência/widgets, análise, APK e testes em Android.
@@ -13,3 +13,6 @@ Concluídos: hierarquia de submetas, gestão de etapas e tarefas no plano da met
 
 ## Incremento 0.2.1 — identidade Tudo Aki
 Nome oficial e slogan aplicados à interface, onboarding, launcher, arranque, exportação e documentação. Identificador Flutter/Dart `tudo_aki`, namespace Android actualizado e IDs de instalação/armazenamento preservados para compatibilidade. Funcionalidades e metodologias permanecem as definidas no plano.
+
+## Incremento 0.3.0 — organização pessoal/académica
+Horários por disciplina, avaliações, sessões de estudo, integração na agenda e foco persistido com pausa/retoma/conclusão. Migração v3 e testes de recuperação, limites de XP, privacidade e conflitos. O próximo incremento funcional é a consolidação da área financeira (orçamentos e movimentos recorrentes); a validação física Android continua pendente na Fase 6.

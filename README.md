@@ -7,12 +7,19 @@ Identificador Flutter/Dart: `tudo_aki`.
 Gestão pessoal offline em Flutter: Hoje, Agenda, Metas, Progresso e Perfil. Interface em português, tema claro/escuro, Drift/SQLite e nenhuma conta obrigatória.
 
 ## Estado
-APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 20 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
+APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 31 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
 
 Consulte [docs/PROGRESS.md](docs/PROGRESS.md) para separar implementação, verificações e funcionalidades pendentes. O código não contém dados de demonstração nem credenciais.
 
 ## Fase actual
-Consolidação do núcleo funcional (Fase 2), com funcionalidades básicas das Fases 3–5 e verificação de qualidade em curso (Fase 6). A fundação está concluída; lembretes e utilização real em Android continuam por validar. O estado de cada fase consta em `docs/PROGRESS.md`.
+Organização pessoal e académica implementada no escopo actual da Fase 3, com o núcleo da Fase 2 funcional, as Fases 4–5 parciais e verificação de qualidade em curso (Fase 6). A fundação está concluída; lembretes e utilização real em Android continuam por validar. O estado de cada fase consta em `docs/PROGRESS.md`.
+
+## Novidades da versão 0.3.0 — organização académica
+Em **Perfil → Estudos**, pode criar/editar disciplinas, horários de aulas semanais com período de validade e local, avaliações e sessões de estudo. A agenda reúne aulas, avaliações, estudo e eventos pessoais e sinaliza sobreposições. Os trabalhos continuam ligados às disciplinas pelas tarefas existentes.
+
+O foco tem duração configurável de **1 a 180 minutos** (25 por defeito), pausa e retoma. O prazo UTC e o tempo restante são guardados em SQLite; ao voltar à aplicação, o contador é recuperado. Quando o tempo termina, confirme **Registar sessão concluída**. O histórico preserva os registos; a gamificação opcional reconhece 15 XP por sessão, até três por dia, sem duplicar recompensas.
+
+A aplicação não emite um alarme de fim de foco em segundo plano. A recuperação foi testada em SQLite e widgets; suspensão/fecho e notificações no Android real ainda precisam de validação num dispositivo. A base v1/v2 é migrada para v3 sem apagar dados. Aulas editadas alteram o horário semanal dentro do período definido; sessões já iniciadas preservam o seu registo e não podem ser replaneadas.
 
 ## Novidades da versão 0.2.1 — identidade oficial
 Nome público, título, onboarding e launcher: **Tudo Aki**. O slogan provisório é **A tua vida, organizada num só lugar.** O pacote Dart e o projecto Gradle chamam-se `tudo_aki`; o namespace Android é `mz.tudoaki.tudo_aki`. Ícones e arranque usam um visto branco com fundo verde-petróleo, incluindo ícone adaptativo e variante monocromática.

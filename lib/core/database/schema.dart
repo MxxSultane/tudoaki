@@ -82,6 +82,36 @@ const schemaV2 = <String>[
     END""",
 ];
 
+// Academic planning and durable focus state; existing records keep their IDs.
+const schemaV3 = <String>[
+  """CREATE TABLE ClassSchedules (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    subject_id INTEGER NOT NULL REFERENCES Subjects(id) ON DELETE CASCADE,
+    weekday INTEGER NOT NULL CHECK(weekday BETWEEN 1 AND 7),
+    start_minute INTEGER NOT NULL CHECK(start_minute BETWEEN 0 AND 1439),
+    end_minute INTEGER NOT NULL CHECK(end_minute > start_minute AND end_minute <= 1440),
+    location TEXT NOT NULL DEFAULT '', active_from TEXT NOT NULL,
+    active_until TEXT CHECK(active_until IS NULL OR active_until >= active_from))""",
+  """CREATE TABLE Assessments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    subject_id INTEGER REFERENCES Subjects(id) ON DELETE SET NULL,
+    title TEXT NOT NULL, kind TEXT NOT NULL DEFAULT 'Teste'
+      CHECK(kind IN ('Teste','Exame','Apresentação')),
+    at TEXT NOT NULL, minutes INTEGER NOT NULL DEFAULT 60 CHECK(minutes > 0),
+    completed INTEGER NOT NULL DEFAULT 0 CHECK(completed IN (0,1)))""",
+  "ALTER TABLE StudySessions ADD COLUMN title TEXT NOT NULL DEFAULT 'Sessão de estudo'",
+  'ALTER TABLE StudySessions ADD COLUMN remaining_seconds INTEGER NOT NULL DEFAULT 0 CHECK(remaining_seconds >= 0)',
+  'ALTER TABLE StudySessions ADD COLUMN focus_end TEXT',
+  'ALTER TABLE StudySessions ADD COLUMN focus_started_at TEXT',
+  'ALTER TABLE StudySessions ADD COLUMN completed_at TEXT',
+  'UPDATE StudySessions SET remaining_seconds = CASE WHEN completed = 1 THEN 0 ELSE minutes * 60 END',
+  'CREATE UNIQUE INDEX study_one_running ON StudySessions((1)) WHERE focus_end IS NOT NULL AND completed = 0',
+  'CREATE INDEX study_subject ON StudySessions(subject_id)',
+  'CREATE INDEX study_start ON StudySessions(start)',
+  'CREATE INDEX assessment_at ON Assessments(at)',
+  'CREATE INDEX class_subject ON ClassSchedules(subject_id)',
+];
+
 const exportTables = [
   'UserPreferences',
   'Goals',
@@ -98,4 +128,6 @@ const exportTables = [
   'ExperienceEvents',
   'PeriodicReviews',
   'GoalProgress',
+  'ClassSchedules',
+  'Assessments',
 ];

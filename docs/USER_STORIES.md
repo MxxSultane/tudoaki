@@ -12,3 +12,8 @@
 11. Abro o plano de uma meta para ver as suas submetas, etapas e tarefas directamente associadas. Concluir uma tarefa neste plano actualiza o seu estado e o XP, sem alterar resultados medidos.
 12. Crio e edito uma etapa com prazo opcional; posso concluir, reabrir e eliminar a etapa. A métrica da meta mantém-se independente.
 13. Actualizo uma instalação v1 para v2. A migração preserva IDs, tarefas, preferências, histórico de progresso e XP. Eliminar uma meta mantém as suas submetas sem pai e as tarefas sem associação; o diálogo explica o que será apagado.
+14. Crio uma disciplina e um horário semanal, com datas de validade. A aula aparece apenas no dia e período correctos; posso editar o horário completo ou eliminá-lo.
+15. Registo um teste, exame ou apresentação, marco-o como realizado e consulto o histórico. A agenda mostra o compromisso e os conflitos, sem introduzir um sistema de notas.
+16. Planeio uma sessão de estudo com título, disciplina opcional, data/hora e duração. Posso editar o plano antes de o iniciar.
+17. Inicio, pauso e retomo o foco. A pausa preserva o tempo restante e o prazo é recuperado ao reabrir a base. Só posso registar a conclusão após terminar o tempo; repetir a confirmação não duplica XP.
+18. Ao apagar uma disciplina, os seus horários são removidos, mas trabalhos, avaliações e sessões de estudo são preservados sem associação. A exportação e a eliminação total incluem os novos dados.
