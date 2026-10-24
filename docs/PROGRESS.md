@@ -1,21 +1,21 @@
 # Progresso — Tudo Aki
 
 ## Estado por fase
-A Fase 3 está implementada no escopo actual de organização pessoal/académica, com os controlos de qualidade da Fase 6 em curso. As Fases 4–5 continuam parciais.
+A Fase 3 está implementada no escopo actual e a Fase 4 foi consolidada com orçamentos e recorrências. A moeda configurável e a Fase 5 continuam parciais; a validação física da Fase 6 está pendente.
 
 | Fase | Estado | Entrega e pendências |
 | --- | --- | --- |
 | 1 — Fundação | Concluída para desenvolvimento | Arquitectura, tema, navegação e SQLite preparados. |
 | 2 — Núcleo funcional | Implementado; validação real do MVP pendente | Hoje, tarefas, agenda, metas, submetas e etapas; lembretes e ciclo de reabertura Android ainda precisam de dispositivo. |
 | 3 — Organização pessoal | Implementada no escopo actual; validação Android pendente | Hábitos, disciplinas, horários, avaliações, sessões de estudo, foco e revisões. |
-| 4 — Áreas de vida | Parcial | Transacções, poupanças e bem-estar via hábitos; orçamentos e recorrência financeira pendentes. |
+| 4 — Áreas de vida | Financeiro consolidado; moeda configurável pendente | Transacções, poupanças, orçamentos, recorrências e bem-estar via hábitos. |
 | 5 — Gamificação | Parcial | XP e níveis; catálogo de conquistas e gráficos pendentes. |
 | 6 — Qualidade | Em curso | Análise, testes automatizados e APK; utilização, notificações e acessibilidade num dispositivo ainda pendentes. |
 
 ## Fundação e núcleo implementados
 - Documentos de visão, requisitos, histórias, arquitectura, design e fases criados antes do código.
 - Flutter 3.35.7 / Dart 3.9.2, Riverpod, GoRouter e Material 3; português, tema claro/escuro, cinco áreas principais.
-- Drift/SQLite nativo, esquema v3 com 17 entidades e migrações aditivas v1/v2 → v3, chaves estrangeiras, índices, transacções e recusa de migrações desconhecidas.
+- Drift/SQLite nativo, esquema v4 com 20 entidades e migrações aditivas v1/v2/v3 → v4, chaves estrangeiras, índices, transacções e recusa de migrações desconhecidas.
 - Metas com horizonte, métrica, prazo, edição e histórico; criação de acções associadas. Métricas de resultados independentes da conclusão de tarefas.
 - Tarefas com prioridades, importância, disciplina, meta e data/hora; edição, reagendamento, conclusão, reabertura e eliminação.
 - Agenda diária/semanal/mensal em lista; eventos com edição, recorrência diária/semanal e sinalização de sobreposição entre eventos.
@@ -49,15 +49,24 @@ A Fase 3 está implementada no escopo actual de organização pessoal/académica
 - Novos testes de regras, abertura/migração/reabertura, estado persistido, XP, eliminação e exportação. Testes de widgets exercitam a criação de aula/avaliação/estudo, pausa/retoma/conclusão em 360×800 e conflitos na agenda.
 - O fim do foco não emite alarme em segundo plano. Recuperação testada em SQLite e widgets; suspensão/reabertura do processo Android ainda por testar num dispositivo.
 
+## Incremento 0.4.0 — planeamento financeiro
+- Orçamentos por categoria/mês, despesas realizadas e restante; navegação mensal e categorias normalizadas sem reescrever movimentos.
+- Regras recorrentes semanais/mensais/anuais, com revisão e confirmação explícita. Nenhuma entrada criada ao abrir a página; lotes até 24 e calendário sem deriva de fins de mês.
+- Registos idempotentes por regra/vencimento; pré-visualizações desactualizadas/futuras recusadas. Movimentos eliminados não são recriados; eliminar a regra preserva o histórico monetário.
+- Datas de movimentos editáveis e gestão de metas/contribuições de poupança. Eliminar uma meta preserva contribuições sem associação.
+- Parser, somas e formatação monetária exactos, com BigInt antes de validar limites. Um teste reproduziu overflow de entrada muito grande; a correcção rejeita a entrada em vez de a transformar num valor pequeno.
+- Migração v1/v2/v3 → v4, exportação e eliminação total com os novos dados. Sem novas dependências; moeda MZN mantida.
+- Testes de regras e migração e três fluxos de widgets em 360×800: orçamento/despesa/mês, revisão/confirmar/eliminar recorrências e poupança/contribuições. Corrigido overflow visual dos selectores em ecrãs pequenos.
+
 ## Verificação efectuada no ambiente
 - `flutter pub get`: concluído, lockfile gerado e dependências instaladas.
 - `dart format lib test`: executado.
 - `flutter analyze`: sem problemas na verificação final concluída.
-- `flutter test --reporter expanded`: **31 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
+- `flutter test --reporter expanded`: **45 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
 - `python3 tool/check_schema.py`: SQL, relações, unicidade, centavos e reabertura aprovados.
-- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.5 MiB), Tudo Aki 0.3.0, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
+- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.5 MiB), Tudo Aki 0.4.0, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
 - `apksigner verify --verbose`: assinatura de depuração v2 verificada. O APK apresenta o nome Tudo Aki, uma única actividade no launcher e os ícones novos, mantendo o ID de instalação anterior. `aapt dump badging` confirmou identidade, versões, permissões e arquitecturas.
-- SHA-256 do APK: `422b5e22ac1a226d7efe9c8b960eec2ff3e278cd70732fa49d43dd53cb1bbce6`.
+- SHA-256 do APK: `a4b80ddc995b869711ac3c8c3c9aad82632add94d0cebcc9dee89fed6483c4f7`.
 
 ## Ambiente e reprodução
 `tool/setup.sh` fixa o Flutter por commit oficial e o Temurin JDK 21.0.13+9 por SHA-256, instala dependências com lockfile, prepara SQLite de testes e as ferramentas Android. `tool/env.sh` activa os caminhos. `tool/setup_android.sh` usa o checksum oficial da CLI e configura o proxy Java sem copiar credenciais. SDKs/caches ficam em `/workspace/.tools`, fora do repositório da aplicação. A instalação foi repetida com sucesso, com o lockfile respeitado. `install_script`, `start_skill` e o domínio `storage.googleapis.com` foram guardados no rascunho; isso não publica o ambiente.
@@ -67,7 +76,7 @@ A primeira tentativa de download do catálogo Flutter teve 403 e depois 404; a i
 ## Pendências e limites
 O MVP **ainda não está certificado num dispositivo Android**. Falta testar a entrega de lembretes e a persistência no ciclo de fecho/reabertura do processo Android; o teste existente valida SQLite em Linux. Sem dispositivo ligado e sem `/dev/kvm` neste ambiente.
 
-Fases posteriores: edição de uma ocorrência isolada e excepções de recorrência; eventos que atravessam vários dias e conflitos com blocos de tarefas; categorias configuráveis; orçamentos e despesas recorrentes; moeda configurável; conquistas com catálogo; WOOP guiado; interesses no onboarding; backup/importação; suporte a outros fusos/DST e plataformas; verificação de acessibilidade em dispositivo.
+Fases posteriores: edição de uma ocorrência isolada e excepções de recorrência; eventos que atravessam vários dias e conflitos com blocos de tarefas; categorias configuráveis; moeda configurável; conquistas com catálogo; WOOP guiado; interesses no onboarding; backup/importação; suporte a outros fusos/DST e plataformas; verificação de acessibilidade em dispositivo.
 
 O catálogo de conquistas continua sem interface; as etapas de metas e as sessões de estudo já dispõem de interface funcional. A grelha mensal avançada e os gráficos não fazem parte desta fundação. Não há analytics, conta, backend, sincronização bancária ou encriptação implementada.
 

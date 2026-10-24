@@ -188,7 +188,7 @@ void main() {
         await repo.startStudy(id, now: t0);
         final exported =
             jsonDecode(await repo.exportJson()) as Map<String, dynamic>;
-        expect(exported['schemaVersion'], 3);
+        expect(exported['schemaVersion'], 4);
         expect((exported['ClassSchedules'] as List).length, 1);
         expect((exported['Assessments'] as List).length, 1);
         expect(
@@ -292,7 +292,7 @@ void main() {
   );
 
   test(
-    'v2 migrates to v3 and a running deadline survives database reopening',
+    'v2 migrates to v4 and a running deadline survives database reopening',
     () async {
       final directory = await Directory.systemTemp.createTemp(
         'tudo-aki-study-migration-',
@@ -325,7 +325,7 @@ void main() {
       try {
         expect(
           (await repo.query('PRAGMA user_version')).single.values.single,
-          3,
+          4,
         );
         expect((await repo.studyById(planned))['remaining_seconds'], 1500);
         expect((await repo.studyById(completed))['remaining_seconds'], 0);

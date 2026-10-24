@@ -112,6 +112,30 @@ const schemaV3 = <String>[
   'CREATE INDEX class_subject ON ClassSchedules(subject_id)',
 ];
 
+// Planning never posts money automatically. A ledger preserves explicit postings.
+const schemaV4 = <String>[
+  """CREATE TABLE Budgets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    month TEXT NOT NULL CHECK(length(month) = 7 AND substr(month,5,1) = '-' AND CAST(substr(month,6,2) AS INTEGER) BETWEEN 1 AND 12),
+    category TEXT NOT NULL CHECK(length(trim(category)) > 0), category_key TEXT NOT NULL,
+    limit_cents INTEGER NOT NULL CHECK(limit_cents > 0), UNIQUE(month,category_key))""",
+  """CREATE TABLE RecurringTransactions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL,
+    amount_cents INTEGER NOT NULL CHECK(amount_cents > 0),
+    kind TEXT NOT NULL CHECK(kind IN ('income','expense')),
+    category TEXT NOT NULL, frequency TEXT NOT NULL CHECK(frequency IN ('weekly','monthly','yearly')),
+    start_day TEXT NOT NULL, end_day TEXT CHECK(end_day IS NULL OR end_day >= start_day),
+    active INTEGER NOT NULL DEFAULT 1 CHECK(active IN (0,1)), revision INTEGER NOT NULL DEFAULT 1)""",
+  """CREATE TABLE RecurringOccurrences (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rule_id INTEGER NOT NULL REFERENCES RecurringTransactions(id) ON DELETE CASCADE,
+    day TEXT NOT NULL, transaction_id INTEGER REFERENCES FinancialTransactions(id) ON DELETE SET NULL,
+    UNIQUE(rule_id,day))""",
+  'ALTER TABLE FinancialTransactions ADD COLUMN recurring_id INTEGER REFERENCES RecurringTransactions(id) ON DELETE SET NULL',
+  'ALTER TABLE FinancialTransactions ADD COLUMN recurring_day TEXT',
+  'CREATE UNIQUE INDEX financial_recurring_day ON FinancialTransactions(recurring_id,recurring_day) WHERE recurring_id IS NOT NULL',
+];
+
 const exportTables = [
   'UserPreferences',
   'Goals',
@@ -130,4 +154,7 @@ const exportTables = [
   'GoalProgress',
   'ClassSchedules',
   'Assessments',
+  'Budgets',
+  'RecurringTransactions',
+  'RecurringOccurrences',
 ];

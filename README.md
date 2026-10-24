@@ -7,12 +7,21 @@ Identificador Flutter/Dart: `tudo_aki`.
 Gestão pessoal offline em Flutter: Hoje, Agenda, Metas, Progresso e Perfil. Interface em português, tema claro/escuro, Drift/SQLite e nenhuma conta obrigatória.
 
 ## Estado
-APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 31 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
+APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 45 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
 
 Consulte [docs/PROGRESS.md](docs/PROGRESS.md) para separar implementação, verificações e funcionalidades pendentes. O código não contém dados de demonstração nem credenciais.
 
 ## Fase actual
-Organização pessoal e académica implementada no escopo actual da Fase 3, com o núcleo da Fase 2 funcional, as Fases 4–5 parciais e verificação de qualidade em curso (Fase 6). A fundação está concluída; lembretes e utilização real em Android continuam por validar. O estado de cada fase consta em `docs/PROGRESS.md`.
+Organização pessoal/académica da Fase 3 implementada no escopo actual; área financeira da Fase 4 consolidada com orçamentos e recorrências. Moeda configurável, conquistas e gráficos ainda estão pendentes, assim como a validação real da Fase 6. A fundação está concluída; lembretes e utilização real em Android continuam por validar. O estado de cada fase consta em `docs/PROGRESS.md`.
+
+## Novidades da versão 0.4.0 — planeamento financeiro
+Em **Perfil → Finanças**, escolha o mês e defina orçamentos por categoria. As despesas registadas actualizam o valor utilizado e o restante; receitas e contribuições de poupança não são contadas como despesas. Categorias ignoram diferenças de maiúsculas e espaços. Pode editar a data dos movimentos, ajustar metas de poupança e registar contribuições directamente na meta.
+
+Crie regras de receita/despesa semanal, mensal ou anual. **Rever vencimentos** apresenta datas e valores (até 24 por lote); só **Confirmar registo** cria os movimentos. Abrir a aplicação não cria entradas. Os fins de mês mantêm o dia de referência: 31 de Janeiro → último dia de Fevereiro → 31 de Março. Regras pausadas não geram registos; alterações aplicam-se apenas a movimentos ainda não criados. Depois de usar um calendário, encerre a regra e crie outra para mudar frequência ou data inicial.
+
+A confirmação repetida não duplica movimentos. Eliminar um movimento não o recria na revisão seguinte; eliminar uma regra preserva os movimentos existentes. Os valores e limites são guardados em centavos inteiros; somas e formatação preservam os centavos mesmo para totais muito grandes. Os orçamentos são referências ajustáveis, sem integração bancária. A moeda continua MZN.
+
+A base v1/v2/v3 é migrada para v4, preservando o estudo e os dados existentes. Não foram acrescentadas dependências.
 
 ## Novidades da versão 0.3.0 — organização académica
 Em **Perfil → Estudos**, pode criar/editar disciplinas, horários de aulas semanais com período de validade e local, avaliações e sessões de estudo. A agenda reúne aulas, avaliações, estudo e eventos pessoais e sinaliza sobreposições. Os trabalhos continuam ligados às disciplinas pelas tarefas existentes.

@@ -20,17 +20,22 @@ class TudoAkiDatabase extends GeneratedDatabase {
     }),
   );
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
   @override
   Iterable<TableInfo<Table, Object?>> get allTables => const [];
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => const [];
   @override
   MigrationStrategy get migration => MigrationStrategy(
-    onCreate: (_) => _applySchema([...schemaV1, ...schemaV2, ...schemaV3]),
+    onCreate: (_) =>
+        _applySchema([...schemaV1, ...schemaV2, ...schemaV3, ...schemaV4]),
     onUpgrade: (_, from, to) async {
-      if (from >= 1 && from < 3 && to == 3) {
-        await _applySchema([if (from < 2) ...schemaV2, ...schemaV3]);
+      if (from >= 1 && from < 4 && to == 4) {
+        await _applySchema([
+          if (from < 2) ...schemaV2,
+          if (from < 3) ...schemaV3,
+          ...schemaV4,
+        ]);
         return;
       }
       throw StateError(
@@ -64,12 +69,15 @@ int moneyCents(String input) {
   if (match == null) {
     throw const FormatException('Use um valor como 1250,50');
   }
+  // Validate with unbounded integers before converting to the storage range.
+  // Native int multiplication could otherwise wrap a very large input to 1 cent.
   final cents =
-      int.parse(match[1]!) * 100 + int.parse((match[2] ?? '').padRight(2, '0'));
-  if (cents <= 0 || cents > 9007199254740991) {
+      BigInt.parse(match[1]!) * BigInt.from(100) +
+      BigInt.parse((match[2] ?? '').padRight(2, '0'));
+  if (cents <= BigInt.zero || cents > BigInt.from(9007199254740991)) {
     throw const FormatException('Valor fora do intervalo permitido');
   }
-  return cents;
+  return cents.toInt();
 }
 
 class TudoAkiRepository {

@@ -11,6 +11,7 @@ import 'goals/goal_plan.dart';
 import 'academics/academic_rules.dart';
 import 'academics/academic_editor.dart';
 import 'academics/academics_panel.dart';
+import 'finance/finance_panel.dart';
 
 void showQuickCreate(BuildContext context) => showModalBottomSheet<void>(
   context: context,
@@ -41,8 +42,6 @@ void showQuickCreate(BuildContext context) => showModalBottomSheet<void>(
 String dateLabel(String? value) => value == null
     ? 'Sem data'
     : DateFormat('dd MMM, HH:mm', 'pt').format(DateTime.parse(value));
-String moneyLabel(int cents) =>
-    '${NumberFormat('#,##0.00', 'pt').format(cents / 100)} MT';
 
 class TudoAkiScreen extends ConsumerStatefulWidget {
   const TudoAkiScreen({required this.section, super.key});
@@ -775,91 +774,9 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
       },
     ),
   ];
-  List<Widget> finance(Map<String, List<DataRowMap>> data) {
-    final transactions = data['FinancialTransactions']!;
-    final month = dayKey(DateTime.now()).substring(0, 7);
-    int total(String kind) => transactions
-        .where(
-          (t) => t['kind'] == kind && (t['day'] as String).startsWith(month),
-        )
-        .fold(0, (s, t) => s + (t['amount_cents'] as int));
-    return [
-      heading('Este mês · MZN'),
-      Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Receitas: ${moneyLabel(total('income'))}'),
-              Text('Despesas: ${moneyLabel(total('expense'))}'),
-              Text(
-                'Contribuições para poupança: ${moneyLabel(total('saving'))}',
-              ),
-              Text(
-                'Disponível após contribuições: ${moneyLabel(total('income') - total('expense') - total('saving'))}',
-              ),
-            ],
-          ),
-        ),
-      ),
-      Wrap(
-        spacing: 8,
-        children: [
-          FilledButton.tonal(
-            onPressed: () => showEditor(context, 'Transacção'),
-            child: const Text('Registar movimento'),
-          ),
-          OutlinedButton(
-            onPressed: () => showEditor(context, 'Poupança'),
-            child: const Text('Criar poupança'),
-          ),
-        ],
-      ),
-      heading('Metas de poupança'),
-      for (final goal in data['SavingsGoals']!)
-        Builder(
-          builder: (_) {
-            final cents = transactions
-                .where(
-                  (t) => t['kind'] == 'saving' && t['savings_id'] == goal['id'],
-                )
-                .fold<int>(0, (s, t) => s + (t['amount_cents'] as int));
-            return Card(
-              child: ListTile(
-                title: Text(goal['title'] as String),
-                subtitle: Text(
-                  '${moneyLabel(cents)} / ${moneyLabel(goal['target_cents'] as int)}',
-                ),
-                trailing: Text(
-                  '${(100 * cents / (goal['target_cents'] as int)).round()}%',
-                ),
-              ),
-            );
-          },
-        ),
-      heading('Movimentos'),
-      if (transactions.isEmpty)
-        empty('Ainda não há movimentos financeiros.', 'Transacção'),
-      ...transactions.reversed.map(
-        (t) => Card(
-          child: ListTile(
-            title: Text(t['title'] as String),
-            subtitle: Text(
-              '${t['day']} · ${t['category']} · ${switch (t['kind']) {
-                'income' => 'Receita',
-                'saving' => 'Poupança',
-                _ => 'Despesa',
-              }}',
-            ),
-            trailing: Text(moneyLabel(t['amount_cents'] as int)),
-            onTap: () => showEditor(context, 'Transacção', existing: t),
-          ),
-        ),
-      ),
-    ];
-  }
-
+  List<Widget> finance(Map<String, List<DataRowMap>> data) => [
+    const FinancePanel(),
+  ];
   List<Widget> academics(Map<String, List<DataRowMap>> data) => [
     AcademicsPanel(taskBuilder: (task) => taskCard(task, data)),
   ];

@@ -2,9 +2,9 @@
 ## Must (MVP)
 Arranque sem conta; cinco áreas Hoje/Agenda/Metas/Progresso/Perfil; tarefas com edição, prioridade, prazo e associação a meta; eventos; metas com métricas e acções; hábitos e histórico; SQLite offline; lembretes locais mediante permissão Android; estados vazios; eliminação de dados; testes.
 ## Should
-Recorrência diária/semanal, revisões, transacções e poupanças, exportação JSON, modo escuro, disciplinas, horários de aulas, avaliações e foco configurável.
+Recorrência diária/semanal, revisões, transacções, poupanças, orçamentos e recorrências financeiras, exportação JSON, modo escuro, disciplinas, horários de aulas, avaliações e foco configurável.
 ## Could / fases posteriores
-Calendário mensal avançado, edição de instância recorrente, orçamentos, subtarefas, WOOP guiado, ciclos automáticos de foco/descanso, gráficos, backups, personalização de categorias, conquistas extensas.
+Calendário mensal avançado, edição de instância recorrente, moeda configurável, subtarefas, WOOP guiado, ciclos automáticos de foco/descanso, gráficos, backups, personalização de categorias, conquistas extensas.
 ## Regras
 Concluir uma tarefa não altera automaticamente a métrica da meta. XP é opcional e idempotente; reabrir/concluir a mesma tarefa não soma XP novamente. Hábitos pausados preservam histórico. Sem dados de demonstração injectados.
 ## Critério de entrega
@@ -16,3 +16,11 @@ MVP só pode ser declarado concluído após testes do fluxo criar meta → assoc
 - Foco de 1–180 minutos, com pausa, retoma e confirmação depois do prazo. Só uma sessão pode estar em curso; a regra existe na base e no repositório. Não se edita uma sessão iniciada/concluída; pode ser eliminada com confirmação.
 - XP idempotente: 15 por sessão de foco confirmada, até três sessões premiadas por dia local; registos adicionais são preservados. Desactivar gamificação mantém o estudo e o histórico sem XP.
 - Sem alarme de fim de foco em segundo plano nesta versão. Tempo recuperado por prazo UTC, incluindo ao reabrir a base; funcionamento real em suspensão Android ainda não certificado.
+
+## Planeamento financeiro — versão 0.4.0
+- Orçamento único por mês/categoria normalizada, com limite positivo, despesas realizadas e restante exactos. Alterar um orçamento não altera movimentos.
+- Movimentos manuais com data editável e metas de poupança editáveis. Contribuições preservadas sem associação quando a meta é apagada.
+- Regras semanais/mensais/anuais de receita ou despesa, com período de validade e activação. Nenhum movimento automático: datas/valores são revistos antes de confirmação explícita, até 24 ocorrências por lote.
+- Registo único por regra/vencimento; um ledger conserva vencimentos mesmo quando o movimento correspondente foi eliminado. Eliminar a regra preserva os movimentos financeiros.
+- Alterações não reescrevem histórico; revisões impedem confirmar uma pré-visualização desactualizada. O calendário de uma regra com registos é preservado.
+- Montantes individuais em centavos inteiros e somas com BigInt, sem conversão monetária por double. MZN mantém-se; moeda configurável continua pendente.

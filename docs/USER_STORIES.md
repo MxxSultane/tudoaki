@@ -17,3 +17,8 @@
 16. Planeio uma sessão de estudo com título, disciplina opcional, data/hora e duração. Posso editar o plano antes de o iniciar.
 17. Inicio, pauso e retomo o foco. A pausa preserva o tempo restante e o prazo é recuperado ao reabrir a base. Só posso registar a conclusão após terminar o tempo; repetir a confirmação não duplica XP.
 18. Ao apagar uma disciplina, os seus horários são removidos, mas trabalhos, avaliações e sessões de estudo são preservados sem associação. A exportação e a eliminação total incluem os novos dados.
+19. Defino e edito um orçamento por categoria/mês. Maiúsculas e espaços não duplicam categorias; só despesas desse mês/categoria consomem o orçamento.
+20. Registo um movimento com data escolhida, consulto meses anteriores/seguintes e vejo receitas, despesas, contribuições e saldo dos movimentos com centavos exactos.
+21. Defino uma recorrência, revejo datas/valores e confirmo o registo. Cancelar a revisão não cria movimentos; repetir a confirmação não duplica entradas.
+22. Pauso ou encerro uma regra. Alterar o valor não altera movimentos já registados; datas de fim de mês e anos bissextos mantêm a referência original.
+23. Elimino um movimento recorrente e o vencimento não volta a ser criado. Elimino uma regra ou uma meta de poupança e o histórico monetário é preservado.

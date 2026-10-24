@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../app/providers.dart';
 import '../core/database/database.dart';
 import 'goals/goal_tree.dart';
+import 'finance/finance_rules.dart';
 
 Future<void> showEditor(
   BuildContext context,
@@ -12,6 +13,8 @@ Future<void> showEditor(
   int? goalId,
   int? subjectId,
   int? parentGoalId,
+  int? savingsGoalId,
+  DateTime? initialDate,
 }) => showModalBottomSheet<void>(
   context: context,
   isScrollControlled: true,
@@ -23,6 +26,8 @@ Future<void> showEditor(
     goalId: goalId,
     subjectId: subjectId,
     parentGoalId: parentGoalId,
+    savingsGoalId: savingsGoalId,
+    initialDate: initialDate,
   ),
 );
 
@@ -33,6 +38,8 @@ class Editor extends ConsumerStatefulWidget {
     this.goalId,
     this.subjectId,
     this.parentGoalId,
+    this.savingsGoalId,
+    this.initialDate,
     super.key,
   });
   final String kind;
@@ -40,6 +47,8 @@ class Editor extends ConsumerStatefulWidget {
   final int? goalId;
   final int? subjectId;
   final int? parentGoalId;
+  final int? savingsGoalId;
+  final DateTime? initialDate;
   @override
   ConsumerState<Editor> createState() => _EditorState();
 }
@@ -76,7 +85,9 @@ class _EditorState extends ConsumerState<Editor> {
         original['horizon'] as String? ??
         nextGoalHorizon(parent?['horizon'] as String?);
     recurrence = original['recurrence'] as String? ?? 'none';
-    transactionKind = original['kind'] as String? ?? 'expense';
+    transactionKind =
+        original['kind'] as String? ??
+        (widget.savingsGoalId == null ? 'expense' : 'saving');
     period = original['period'] as String? ?? 'Semanal';
     priority = original['priority'] as int? ?? 1;
     important = original['important'] == 1;
@@ -84,7 +95,7 @@ class _EditorState extends ConsumerState<Editor> {
     remind = original['reminder'] == 1;
     goalId = original['goal_id'] as int? ?? widget.goalId;
     subjectId = original['subject_id'] as int? ?? widget.subjectId;
-    savingsId = original['savings_id'] as int?;
+    savingsId = original['savings_id'] as int? ?? widget.savingsGoalId;
     due = original['due'] == null
         ? null
         : DateTime.parse(original['due'] as String);
@@ -98,11 +109,18 @@ class _EditorState extends ConsumerState<Editor> {
         .split(',')
         .map(int.parse)
         .toSet();
-    if (widget.kind == 'Transacção' && original['amount_cents'] != null) {
-      final cents = original['amount_cents'] as int;
-      fields['amount'] = TextEditingController(
-        text: '${cents ~/ 100},${(cents % 100).toString().padLeft(2, '0')}',
-      );
+    if (widget.kind == 'Transacção') {
+      due =
+          DateTime.tryParse(original['day'] as String? ?? '') ??
+          widget.initialDate ??
+          DateTime.now();
+    }
+    final cents =
+        original[widget.kind == 'Poupança' ? 'target_cents' : 'amount_cents']
+            as int?;
+    if ((widget.kind == 'Transacção' || widget.kind == 'Poupança') &&
+        cents != null) {
+      fields['amount'] = TextEditingController(text: moneyInput(cents));
     }
   }
 
@@ -154,10 +172,16 @@ class _EditorState extends ConsumerState<Editor> {
   ) => Padding(
     padding: const EdgeInsets.only(bottom: 14),
     child: DropdownButtonFormField<String>(
+      isExpanded: true,
       initialValue: value,
       decoration: InputDecoration(labelText: label),
       items: options.entries
-          .map((e) => DropdownMenuItem(value: e.key, child: Text(e.value)))
+          .map(
+            (e) => DropdownMenuItem(
+              value: e.key,
+              child: Text(e.value, overflow: TextOverflow.ellipsis),
+            ),
+          )
           .toList(),
       onChanged: (v) => setState(() => change(v!)),
     ),
@@ -170,6 +194,7 @@ class _EditorState extends ConsumerState<Editor> {
   ) => Padding(
     padding: const EdgeInsets.only(bottom: 14),
     child: DropdownButtonFormField<int>(
+      isExpanded: true,
       initialValue: value,
       decoration: InputDecoration(labelText: label),
       items: [
@@ -400,13 +425,35 @@ class _EditorState extends ConsumerState<Editor> {
                 ),
               ],
               if (widget.kind == 'Transacção') ...[
+                TextButton(
+                  onPressed: () async {
+                    final day = await showDatePicker(
+                      context: context,
+                      initialDate: due!,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    );
+                    if (day != null && mounted) setState(() => due = day);
+                  },
+                  child: Text('Data: ${DateFormat('dd/MM/yyyy').format(due!)}'),
+                ),
+                if (original['recurring_id'] != null)
+                  const Text(
+                    'Editar este movimento não altera a regra de recorrência.',
+                  ),
+
                 text('amount', 'Valor em MT (ex.: 1250,50)', required: true),
                 choice('Tipo', transactionKind, {
                   'income': 'Receita',
                   'expense': 'Despesa',
                   'saving': 'Contribuição para poupança',
                 }, (v) => transactionKind = v),
-                text('category', 'Categoria', fallback: 'Geral'),
+                text(
+                  'category',
+                  'Categoria',
+                  fallback: 'Geral',
+                  required: true,
+                ),
                 if (transactionKind == 'saving')
                   relation(
                     'Meta de poupança',
@@ -552,14 +599,18 @@ class _EditorState extends ConsumerState<Editor> {
             'goal_id': goalId,
           });
         case 'Transacção':
-          if (transactionKind == 'saving' && savingsId == null) {
+          if (transactionKind == 'saving' &&
+              savingsId == null &&
+              (id == null ||
+                  original['kind'] != 'saving' ||
+                  original['savings_id'] != null)) {
             throw const FormatException('Escolha uma meta de poupança.');
           }
           row.addAll({
             'amount_cents': moneyCents(value('amount')),
             'kind': transactionKind,
-            'category': value('category', 'Geral'),
-            'day': original['day'] ?? dayKey(now),
+            'category': cleanCategory(value('category', 'Geral')),
+            'day': dayKey(due ?? now),
             'savings_id': transactionKind == 'saving' ? savingsId : null,
           });
         case 'Poupança':
@@ -631,6 +682,8 @@ class _EditorState extends ConsumerState<Editor> {
         content: Text(
           widget.kind == 'Meta'
               ? 'As etapas e o histórico desta meta serão eliminados. As submetas, tarefas e hábitos serão preservados sem ligação a esta meta.'
+              : widget.kind == 'Poupança'
+              ? 'A meta será eliminada. As contribuições serão preservadas sem associação.'
               : widget.kind == 'Disciplina'
               ? 'Os horários desta disciplina serão eliminados. As tarefas, avaliações e sessões de estudo serão preservadas sem associação.'
               : widget.kind == 'Etapa'
