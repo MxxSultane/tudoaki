@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../app/providers.dart';
 import '../core/database/database.dart';
+import 'goals/goal_tree.dart';
 
 Future<void> showEditor(
   BuildContext context,
@@ -10,6 +11,7 @@ Future<void> showEditor(
   DataRowMap? existing,
   int? goalId,
   int? subjectId,
+  int? parentGoalId,
 }) => showModalBottomSheet<void>(
   context: context,
   isScrollControlled: true,
@@ -20,6 +22,7 @@ Future<void> showEditor(
     existing: existing,
     goalId: goalId,
     subjectId: subjectId,
+    parentGoalId: parentGoalId,
   ),
 );
 
@@ -29,12 +32,14 @@ class Editor extends ConsumerStatefulWidget {
     this.existing,
     this.goalId,
     this.subjectId,
+    this.parentGoalId,
     super.key,
   });
   final String kind;
   final DataRowMap? existing;
   final int? goalId;
   final int? subjectId;
+  final int? parentGoalId;
   @override
   ConsumerState<Editor> createState() => _EditorState();
 }
@@ -49,7 +54,7 @@ class _EditorState extends ConsumerState<Editor> {
   String? error;
   DateTime? due;
   late DateTime start, end;
-  int? goalId, subjectId, savingsId;
+  int? goalId, subjectId, savingsId, parentGoalId;
   late Set<int> weekdays;
   DataRowMap get original => widget.existing ?? {};
   TextEditingController c(String key, [String fallback = '']) =>
@@ -61,7 +66,15 @@ class _EditorState extends ConsumerState<Editor> {
   void initState() {
     super.initState();
     category = original['category'] as String? ?? 'Pessoal';
-    horizon = original['horizon'] as String? ?? 'Anual';
+    parentGoalId = original['parent_id'] as int? ?? widget.parentGoalId;
+    final parent = ref
+        .read(dataProvider)
+        .valueOrNull?['Goals']
+        ?.where((g) => g['id'] == parentGoalId)
+        .firstOrNull;
+    horizon =
+        original['horizon'] as String? ??
+        nextGoalHorizon(parent?['horizon'] as String?);
     recurrence = original['recurrence'] as String? ?? 'none';
     transactionKind = original['kind'] as String? ?? 'expense';
     period = original['period'] as String? ?? 'Semanal';
@@ -290,7 +303,25 @@ class _EditorState extends ConsumerState<Editor> {
                       : (v) => setState(() => remind = v),
                 ),
               ],
+              if (widget.kind == 'Etapa') ...[
+                relation(
+                  'Meta associada',
+                  goalId,
+                  data['Goals']!,
+                  (v) => goalId = v,
+                ),
+                dateButton('Prazo', due, (v) => due = v, clear: true),
+                const Text(
+                  'Concluir uma etapa não altera a métrica de resultado da meta.',
+                ),
+              ],
               if (widget.kind == 'Meta') ...[
+                relation(
+                  'Meta principal (opcional)',
+                  parentGoalId,
+                  availableGoalParents(data['Goals']!, original['id'] as int?),
+                  (v) => parentGoalId = v,
+                ),
                 text('description', 'Porque é importante?', lines: 2),
                 choice('Horizonte', horizon, {
                   for (final h in ['Anual', 'Trimestral', 'Mensal', 'Semanal'])
@@ -435,6 +466,7 @@ class _EditorState extends ConsumerState<Editor> {
   String get table => switch (widget.kind) {
     'Tarefa' => 'Tasks',
     'Meta' => 'Goals',
+    'Etapa' => 'GoalMilestones',
     'Evento' => 'CalendarEvents',
     'Hábito' => 'Habits',
     'Transacção' => 'FinancialTransactions',
@@ -471,6 +503,11 @@ class _EditorState extends ConsumerState<Editor> {
           if (id == null) {
             row['created'] = now.toIso8601String();
           }
+        case 'Etapa':
+          if (goalId == null) {
+            throw const FormatException('Escolha a meta desta etapa.');
+          }
+          row.addAll({'goal_id': goalId, 'due': due?.toIso8601String()});
         case 'Meta':
           final initial = number('initial');
           final target = number('target', '1');
@@ -481,6 +518,7 @@ class _EditorState extends ConsumerState<Editor> {
             'description': value('description'),
             'category': value('category', 'Pessoal'),
             'horizon': horizon,
+            'parent_id': parentGoalId,
             'unit': value('unit', 'unidades'),
             'initial': initial,
             'target': target,
@@ -590,8 +628,12 @@ class _EditorState extends ConsumerState<Editor> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Eliminar este registo?'),
-        content: const Text(
-          'Esta acção não pode ser desfeita. Acções associadas a uma meta serão preservadas sem associação.',
+        content: Text(
+          widget.kind == 'Meta'
+              ? 'As etapas e o histórico desta meta serão eliminados. As submetas, tarefas e hábitos serão preservados sem ligação a esta meta.'
+              : widget.kind == 'Etapa'
+              ? 'A etapa será eliminada. A meta e as tarefas serão preservadas.'
+              : 'Esta acção não pode ser desfeita.',
         ),
         actions: [
           TextButton(

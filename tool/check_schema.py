@@ -5,9 +5,14 @@ import sqlite3
 import tempfile
 
 source = (pathlib.Path(__file__).parents[1] / 'lib/core/database/schema.dart').read_text()
-block = source.split('const schemaV1 = <String>[', 1)[1].split('\n];', 1)[0]
-statements = [match[0] or match[1] for match in re.findall(r"'''(.*?)'''|'([^'\n]*)'", block, flags=re.S)]
-assert len(statements) == 20, f'Unexpected schema statement count: {len(statements)}'
+def statements_for(version):
+    block = source.split(f'const schemaV{version} = <String>[', 1)[1].split('\n];', 1)[0]
+    matches = re.findall(r"'''(.*?)'''|\"\"\"(.*?)\"\"\"|'([^'\n]*)'", block, flags=re.S)
+    return [next(part for part in match if part) for match in matches]
+
+statements = statements_for(1)
+upgrade = statements_for(2)
+assert len(statements) == 20 and len(upgrade) == 5, 'Incomplete schema parsing'
 with tempfile.TemporaryDirectory() as directory:
     file = pathlib.Path(directory) / 'lifeos.sqlite'
     db = sqlite3.connect(file)
@@ -31,6 +36,21 @@ with tempfile.TemporaryDirectory() as directory:
     assert db.execute('SELECT SUM(points) FROM ExperienceEvents').fetchone() == (10,)
     db.execute("INSERT INTO FinancialTransactions(title,amount_cents,kind,day) VALUES('Poupança',1200010,'saving','2026-10-24')")
     assert db.execute('SELECT amount_cents,typeof(amount_cents) FROM FinancialTransactions').fetchone() == (1200010, 'integer')
+    db.commit()
+    with db:
+        for sql in upgrade:
+            db.execute(sql)
+        db.execute('PRAGMA user_version=2')
+    year = db.execute("INSERT INTO Goals(title,target,created) VALUES('Ano',12,'2026-10-24')").lastrowid
+    month = db.execute("INSERT INTO Goals(title,target,created,parent_id) VALUES('Mês',1,'2026-10-24',?)", (year,)).lastrowid
+    try:
+        db.execute('UPDATE Goals SET parent_id=? WHERE id=?', (month,year))
+    except sqlite3.IntegrityError:
+        pass
+    else:
+        raise AssertionError('Goal cycle accepted')
+    db.execute('DELETE FROM Goals WHERE id=?', (year,))
+    assert db.execute('SELECT parent_id FROM Goals WHERE id=?', (month,)).fetchone() == (None,)
     assert db.execute('PRAGMA foreign_key_check').fetchall() == []
     db.commit()
     db.close()
@@ -38,4 +58,4 @@ with tempfile.TemporaryDirectory() as directory:
     assert db.execute('SELECT title FROM Tasks').fetchone() == ('Ler capítulo',)
     assert db.execute('SELECT COUNT(*) FROM HabitCompletions').fetchone() == (1,)
     db.close()
-print('SQL OK: schema v1, foreign keys, habit uniqueness, XP uniqueness, integer cents, reopen persistence.')
+print('SQL OK: v1 → v2 migration, acyclic goals, foreign keys, habit/XP uniqueness, integer cents, reopen persistence.')

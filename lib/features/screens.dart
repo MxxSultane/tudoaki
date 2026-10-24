@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import '../app/providers.dart';
 import '../core/database/database.dart';
 import 'forms.dart';
+import 'goals/goal_plan.dart';
 
 void showQuickCreate(BuildContext context) => showModalBottomSheet<void>(
   context: context,
@@ -445,12 +446,17 @@ class _LifeScreenState extends ConsumerState<LifeScreen> {
     ...data['Goals']!.map(goalCard),
   ];
   Widget goalCard(DataRowMap g) {
+    final data = ref.watch(dataProvider).valueOrNull!;
+    final parent = data['Goals']!
+        .where((p) => p['id'] == g['parent_id'])
+        .firstOrNull;
     final value = goalProgress(
       g['initial'] as num,
       g['target'] as num,
       g['current'] as num,
     );
     return Card(
+      key: ValueKey('goal-${g['id']}'),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -474,6 +480,7 @@ class _LifeScreenState extends ConsumerState<LifeScreen> {
             Text(
               '${g['horizon']} · ${g['category']}${g['due'] == null ? '' : ' · até ${DateFormat.yMd('pt').format(DateTime.parse(g['due'] as String))}'}',
             ),
+            if (parent != null) Text('Submeta de: ${parent['title']}'),
             const SizedBox(height: 12),
             LinearProgressIndicator(
               value: value,
@@ -497,8 +504,14 @@ class _LifeScreenState extends ConsumerState<LifeScreen> {
                       showEditor(context, 'Tarefa', goalId: g['id'] as int),
                   child: const Text('Adicionar acção'),
                 ),
+                TextButton(
+                  onPressed: () =>
+                      showEditor(context, 'Meta', parentGoalId: g['id'] as int),
+                  child: const Text('Criar submeta'),
+                ),
               ],
             ),
+            GoalPlan(goal: g, taskBuilder: (task) => taskCard(task, data)),
           ],
         ),
       ),

@@ -7,3 +7,6 @@
 6. Qualidade: testes de regras/persistência/widgets, análise, APK e testes em Android.
 
 Cada fase exige registar os resultados reais em PROGRESS.md. Código escrito não equivale a comportamento validado. A rede/SDK bloqueados não justificam declarar testes aprovados.
+
+## Incremento 0.2.0 — planeamento de metas
+Concluídos: hierarquia de submetas, gestão de etapas e tarefas no plano da meta, migração v1 → v2, protecção contra ciclos e teste do fluxo pela interface. Ver PROGRESS.md para as verificações e limitações de Android.

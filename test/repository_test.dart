@@ -26,9 +26,9 @@ void main() {
       'created': DateTime(2026).toIso8601String(),
     });
 
-    test('schema v1 creates every entity and defaults', () async {
+    test('schema v2 creates every entity and defaults', () async {
       expect((await repo.all('UserPreferences')).single['currency'], 'MZN');
-      expect((await repo.query('PRAGMA user_version')).single.values.single, 1);
+      expect((await repo.query('PRAGMA user_version')).single.values.single, 2);
       expect((await repo.query('PRAGMA foreign_keys')).single.values.single, 1);
       expect((await repo.all('Tasks')), isEmpty);
     });
@@ -129,7 +129,7 @@ void main() {
       final file = File('${dir.path}/db.sqlite');
       final first = LifeDatabase(NativeDatabase(file));
       await LifeRepository(first).save('Habits', {'title': 'Preservar'});
-      await first.customStatement('PRAGMA user_version = 2');
+      await first.customStatement('PRAGMA user_version = 3');
       await first.close();
       final future = LifeDatabase(NativeDatabase(file));
       try {
@@ -175,5 +175,5 @@ void main() {
 class FutureVersionDatabase extends LifeDatabase {
   FutureVersionDatabase(super.executor);
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 }

@@ -3,7 +3,7 @@
 ## Fundação e núcleo implementados
 - Documentos de visão, requisitos, histórias, arquitectura, design e fases criados antes do código.
 - Flutter 3.35.7 / Dart 3.9.2, Riverpod, GoRouter e Material 3; português, tema claro/escuro, cinco áreas principais.
-- Drift/SQLite nativo, esquema v1 com 15 entidades, chaves estrangeiras, índices, transacções e recusa de migrações desconhecidas.
+- Drift/SQLite nativo, esquema v2 com 15 entidades e migração aditiva v1 → v2, chaves estrangeiras, índices, transacções e recusa de migrações desconhecidas.
 - Metas com horizonte, métrica, prazo, edição e histórico; criação de acções associadas. Métricas de resultados independentes da conclusão de tarefas.
 - Tarefas com prioridades, importância, disciplina, meta e data/hora; edição, reagendamento, conclusão, reabertura e eliminação.
 - Agenda diária/semanal/mensal em lista; eventos com edição, recorrência diária/semanal e sinalização de sobreposição entre eventos.
@@ -14,15 +14,22 @@
 - Boas-vindas ignoráveis, estados vazios, erros, exportação JSON pela partilha do sistema e eliminação confirmada dos dados.
 - Adaptador Android para notificações com permissão a pedido, agendamento aproximado em Africa/Maputo e receptores de reinício. Notificações não foram validadas num dispositivo.
 
+## Incremento 0.2.0 — concluído
+- Submetas com relação à meta principal e sugestão de horizonte mensal/semanal; selector sem a própria meta nem descendentes e prevenção de ciclos também na base.
+- Painel **Plano desta meta** com submetas, etapas e tarefas directamente associadas.
+- Etapas com título, prazo opcional, edição, conclusão/reabertura e eliminação; confirmação descreve a preservação dos dados associados.
+- Migração transaccional v1 → v2 e exportação JSON com a versão actual. Nenhuma dependência nova.
+- Testes adicionais verificam hierarquias, ciclos, eliminação de pai, edição de etapas, exportação e abertura/migração/reabertura de um ficheiro v1. O novo teste de widget cria uma submeta, gere etapas e conclui uma tarefa sem modificar métricas indevidamente.
+
 ## Verificação efectuada no ambiente
 - `flutter pub get`: concluído, lockfile gerado e dependências instaladas.
 - `dart format lib test`: executado.
 - `flutter analyze`: sem problemas na verificação final concluída.
-- `flutter test --reporter expanded`: **13 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
+- `flutter test --reporter expanded`: **19 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
 - `python3 tool/check_schema.py`: SQL, relações, unicidade, centavos e reabertura aprovados.
-- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.4 MiB), LifeOS 0.1.0, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
+- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.4 MiB), LifeOS 0.2.0, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
 - `apksigner verify --verbose`: assinatura de depuração v2 verificada. `aapt dump badging` confirmou identidade, versões, permissões e arquitecturas.
-- SHA-256 do APK: `8578b1d79e1b098ea6a5d2de69c5a220e805ad82c956dc774fd82f44e58dfd98`.
+- SHA-256 do APK: `1a49a88897838082d06c11102ffac6829c824b75348a9b795d1bcceb4c8a1010`.
 
 ## Ambiente e reprodução
 `tool/setup.sh` fixa o Flutter por commit oficial e o Temurin JDK 21.0.13+9 por SHA-256, instala dependências com lockfile, prepara SQLite de testes e as ferramentas Android. `tool/env.sh` activa os caminhos. `tool/setup_android.sh` usa o checksum oficial da CLI e configura o proxy Java sem copiar credenciais. SDKs/caches ficam em `/workspace/.tools`, fora do repositório da aplicação. A instalação foi repetida com sucesso, com o lockfile respeitado. `install_script`, `start_skill` e o domínio `storage.googleapis.com` foram guardados no rascunho; isso não publica o ambiente.
@@ -32,9 +39,9 @@ A primeira tentativa de download do catálogo Flutter teve 403 e depois 404; a i
 ## Pendências e limites
 O MVP **ainda não está certificado num dispositivo Android**. Falta testar a entrega de lembretes e a persistência no ciclo de fecho/reabertura do processo Android; o teste existente valida SQLite em Linux. Sem dispositivo ligado e sem `/dev/kvm` neste ambiente.
 
-Fases posteriores: hierarquia de submetas e marcos com UI; edição de uma ocorrência isolada e excepções de recorrência; eventos que atravessam vários dias e conflitos com blocos de tarefas; categorias configuráveis; horários e avaliações académicas dedicados; sessões de estudo e temporizador de foco; orçamentos e despesas recorrentes; moeda configurável; conquistas com catálogo; WOOP guiado; interesses no onboarding; backup/importação; suporte a outros fusos/DST e plataformas; verificação de acessibilidade em dispositivo.
+Fases posteriores: edição de uma ocorrência isolada e excepções de recorrência; eventos que atravessam vários dias e conflitos com blocos de tarefas; categorias configuráveis; horários e avaliações académicas dedicados; sessões de estudo e temporizador de foco; orçamentos e despesas recorrentes; moeda configurável; conquistas com catálogo; WOOP guiado; interesses no onboarding; backup/importação; suporte a outros fusos/DST e plataformas; verificação de acessibilidade em dispositivo.
 
-Há tabelas preparadas para marcos, sessões de estudo e conquistas, mas isso não constitui funcionalidades disponíveis na interface. A grelha mensal avançada e os gráficos não fazem parte desta fundação. Não há analytics, conta, backend, sincronização bancária ou encriptação implementada.
+Há tabelas preparadas para sessões de estudo e conquistas, mas isso não constitui funcionalidades disponíveis na interface. As etapas de metas já dispõem de interface funcional. A grelha mensal avançada e os gráficos não fazem parte desta fundação. Não há analytics, conta, backend, sincronização bancária ou encriptação implementada.
 
 ## Execução
 ```bash

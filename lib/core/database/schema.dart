@@ -64,6 +64,24 @@ const schemaV1 = <String>[
     id INTEGER PRIMARY KEY AUTOINCREMENT, goal_id INTEGER NOT NULL REFERENCES Goals(id) ON DELETE CASCADE,
     value REAL NOT NULL, recorded_at TEXT NOT NULL)''',
 ];
+// Additive upgrade: existing goals, actions, history and IDs are preserved.
+const schemaV2 = <String>[
+  'ALTER TABLE Goals ADD COLUMN parent_id INTEGER REFERENCES Goals(id) ON DELETE SET NULL CHECK(parent_id IS NULL OR parent_id != id)',
+  'ALTER TABLE GoalMilestones ADD COLUMN due TEXT',
+  'CREATE INDEX goal_parent ON Goals(parent_id)',
+  'CREATE INDEX milestone_goal ON GoalMilestones(goal_id)',
+  """CREATE TRIGGER goal_parent_no_cycles BEFORE UPDATE OF parent_id ON Goals
+    WHEN NEW.parent_id IS NOT NULL BEGIN
+      SELECT RAISE(ABORT, 'Ciclo entre metas') WHERE EXISTS (
+        WITH RECURSIVE ancestors(id, parent_id) AS (
+          SELECT id, parent_id FROM Goals WHERE id = NEW.parent_id
+          UNION
+          SELECT g.id, g.parent_id FROM Goals g JOIN ancestors a ON g.id = a.parent_id
+        ) SELECT 1 FROM ancestors WHERE id = NEW.id
+      );
+    END""",
+];
+
 const exportTables = [
   'UserPreferences',
   'Goals',

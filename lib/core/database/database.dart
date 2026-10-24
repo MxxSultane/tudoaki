@@ -19,19 +19,19 @@ class LifeDatabase extends GeneratedDatabase {
     }),
   );
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
   @override
   Iterable<TableInfo<Table, Object?>> get allTables => const [];
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => const [];
   @override
   MigrationStrategy get migration => MigrationStrategy(
-    onCreate: (_) async {
-      for (final sql in schemaV1) {
-        await customStatement(sql);
-      }
-    },
+    onCreate: (_) => _applySchema([...schemaV1, ...schemaV2]),
     onUpgrade: (_, from, to) async {
+      if (from == 1 && to == 2) {
+        await _applySchema(schemaV2);
+        return;
+      }
       throw StateError(
         'Migração não suportada: $from → $to. Preserve a base de dados.',
       );
@@ -40,6 +40,14 @@ class LifeDatabase extends GeneratedDatabase {
       await customStatement('PRAGMA foreign_keys = ON');
     },
   );
+
+  Future<void> _applySchema(List<String> statements) => transaction(() async {
+    for (final sql in statements) {
+      await customStatement(sql);
+    }
+    // Commit schema changes and their version together, including after a crash.
+    await customStatement('PRAGMA user_version = $schemaVersion');
+  });
 }
 
 typedef DataRowMap = Map<String, dynamic>;
@@ -176,7 +184,7 @@ class LifeRepository {
   });
   Future<String> exportJson() async {
     final data = <String, dynamic>{
-      'schemaVersion': 1,
+      'schemaVersion': db.schemaVersion,
       'exportedAt': DateTime.now().toIso8601String(),
     };
     for (final table in exportTables) {

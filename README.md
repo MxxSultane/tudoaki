@@ -2,9 +2,17 @@
 Gestão pessoal offline em Flutter: Hoje, Agenda, Metas, Progresso e Perfil. Interface em português, tema claro/escuro, Drift/SQLite e nenhuma conta obrigatória.
 
 ## Estado
-APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 13 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
+APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 19 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
 
 Consulte [docs/PROGRESS.md](docs/PROGRESS.md) para separar implementação, verificações e funcionalidades pendentes. O código não contém dados de demonstração nem credenciais.
+
+## Novidades da versão 0.2.0
+- Crie submetas a partir de uma meta: anual → mensal → semanal.
+- Abra **Plano desta meta** para consultar as submetas, gerir etapas com prazo e concluir tarefas associadas.
+- Crie, edite, conclua/reabra e elimine etapas sem alterar automaticamente os resultados medidos.
+- A base de dados v1 é migrada para v2, preservando os dados existentes. Eliminar uma meta preserva as suas submetas e tarefas; as etapas e o histórico dessa meta são eliminados mediante confirmação.
+
+Se já clonou o projecto, execute `git pull` e `flutter pub get` e volte a executar a aplicação no Android Studio.
 
 ## Abrir no Android Studio
 1. Instale o Flutter **3.35.7**, o Android Studio e os plugins **Flutter** e **Dart**. Configure o caminho do Flutter SDK no Android Studio.
