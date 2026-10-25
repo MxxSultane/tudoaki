@@ -4,7 +4,10 @@
 
 Aplicação Flutter offline para agenda, metas, tarefas e áreas pessoais. Identificador técnico: `tudo_aki`. Temas claro/escuro, Inter e Newsreader locais, cartões planos e três separadores.
 
-## Versão 0.9.0 — planeamento semanal
+## Versão 0.9.1 — ícone actualizado
+O launcher Android usa o calendário preto com argola e visto em verde-petróleo, sobre fundo claro, conforme a imagem fornecida. Inclui variantes para Android 7, ícone adaptativo e ícone temático Android 13+. Sem novos pacotes.
+
+## Planeamento semanal — desde 0.9.0
 A nova interface está ligada à base de dados real. Não há listas de demonstração na aplicação. Os dados guardados nas versões anteriores são recuperados automaticamente.
 
 | Entrada | O que permite fazer |
@@ -76,7 +79,7 @@ flutter test
 flutter build apk --debug
 ```
 
-**Verificado nesta versão:** 69 testes aprovados, análise sem problemas e APK debug compilado com assinatura verificada.
+**Verificação:** a bateria funcional mais recente tem 69 testes aprovados e análise sem problemas. O APK 0.9.1 foi recompilado e a assinatura verificada após a actualização dos ícones.
 
 Os testes cobrem dados, migrações e fluxos reais da interface, incluindo reabrir um ficheiro SQLite com meta/tarefa/evento e recuperar o progresso. Os temas são verificados em 360 px com texto até 200%.
 

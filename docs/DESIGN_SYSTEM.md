@@ -23,3 +23,6 @@ A navegação principal mantém Agenda/Metas/Tarefas. “Mais” abre um direct�
 
 ## Planeamento semanal
 O planeador abre em Mais e usa uma lista de sete cartões, com um dia expandido de cada vez. O tipo de criação fica no topo, sem filtrar ou esconder os compromissos do outro tipo. O rodapé mantém visíveis o dia escolhido e a única acção principal. Dias sem compromissos são identificados por texto, sem badges. Seleccionar outro dia aproxima o cartão com animação funcional de 250 ms/easeOutCubic. Tarefas não exigem hora; o formulário e os campos avançados reutilizam os componentes existentes.
+
+## Ícone Android — 0.9.1
+O símbolo do calendário de assets/logo/tudoaki-icon-outline-light.svg substitui o visto isolado anterior. Traços #18181B, acentos #0D9488 e fundo #F9FAFB, conforme a imagem aprovada. Recursos VectorDrawable preservam a geometria sem dependências adicionais. A camada adaptativa respeita a zona segura; o ícone temático usa uma máscara monocromática dedicada. O arranque nativo que reutiliza estes recursos acompanha a nova identidade.

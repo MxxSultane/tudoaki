@@ -1,5 +1,11 @@
 # Progresso — Tudo Aki
 
+## Actualização 0.9.1 — ícone
+Calendário preto com argola e visto verde-petróleo sobre fundo claro, usando a geometria do logótipo fornecido. Ícone vectorial Android 7, camadas adaptativas Android 8+ e máscara monocromática Android 13+. A zona segura foi verificada; o arranque nativo reutiliza a nova arte. Sem novos pacotes ou alterações aos dados.
+
+APK debug 0.9.1+11 compilado, recursos conferidos com aapt e assinatura verificada. SHA-256: `3fb27550080a0049b7f989da5166cdec0342dee603d0931a6aed7ddbd2a4e381`. A bateria funcional mais recente continua a ser a da versão 0.9.0 (69 testes); não foi repetida para esta alteração de recursos.
+
+
 ## Entrega actual — planeamento semanal 0.9.0
 - **Mais → Planear semana**, fora da navegação principal. Tipo Tarefas/Eventos no topo, cartões dos sete dias e uma única acção principal que adiciona ao dia seleccionado. Contagens e detalhes recolhidos para caber no telemóvel.
 - Domingo sugere a segunda-feira seguinte; nos restantes dias abre a segunda-feira da semana actual. Navegação civil entre semanas e selector de data, preservando o dia da semana e respeitando 2000–2100.
