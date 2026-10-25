@@ -1,4 +1,12 @@
 # Arquitectura — Tudo Aki
+
+## Entrada actual — esqueleto 0.7.0
+`main.dart` abre TudoAkiApp sem ProviderScope nem acesso a dados. GoRouter mantém três destinos estáticos e uma folha inferior apenas visual. Tema em `core/theme`, componentes de composição em `core/widgets`, ecrãs em `features/{agenda,goals,tasks}/presentation`. Modo de tema automático e localização pt_PT. Sem novo estado de negócio, Cubits, persistência ou sincronização nesta entrega.
+
+`google_fonts` é a única dependência acrescentada. Inter e Newsreader estão incluídas nos assets, com carregamento por rede desactivado. Os ficheiros estáticos foram derivados das fontes variáveis oficiais do repositório google/fonts usando fontTools; licenças SIL OFL acompanham os ficheiros. Os logótipos foram copiados do pacote fornecido para assets/logo.
+
+## Arquitectura histórica até 0.6.0
+
 Flutter/Dart, Material 3, Riverpod (injecção e invalidação), GoRouter (cinco destinos e módulos auxiliares), Drift/SQLite nativo. Sem backend.
 
 ## Responsabilidades

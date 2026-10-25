@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Public identity, shared by the application title, onboarding and interface.
 abstract final class TudoAkiBrand {
-  static const name = 'Tudo Aki';
+  static const name = 'tudoAki';
   static const slogan = 'A tua vida, organizada num só lugar.';
   static const seedColor = Color(0xff26756b);
 }

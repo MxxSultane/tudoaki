@@ -1,4 +1,6 @@
 # Plano incremental
+
+**Âmbito actual (0.7.0):** apenas o esqueleto visual solicitado e definido em AGENTS.md. As fases abaixo registam o trabalho anterior; não autorizam alargar esta entrega.
 1. Fundação: documentos, Flutter/Android, tema, router, esquema v1, repositório.
 2. Núcleo: tarefas/metas/eventos/agenda/Hoje e armazenamento real.
 3. Organização: hábitos, disciplinas, horários, avaliações, estudo com foco e revisões implementados no escopo actual; validar também num dispositivo.

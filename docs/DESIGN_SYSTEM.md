@@ -1,11 +1,20 @@
-# Tudo Aki — sistema visual
+# tudoAki — sistema visual actual
 
-Nome oficial: **Tudo Aki**. Slogan provisório: **A tua vida, organizada num só lugar.** A forma do nome é a mesma em títulos, onboarding, exportação e launcher. `TudoAkiBrand` centraliza o nome, o slogan e a cor-base no Flutter.
+O [AGENTS.md](../AGENTS.md) fornecido rege o esqueleto 0.7.0. O pedido actual limita a entrega aos temas, três separadores, Hoje com exemplos e folha de criação.
 
-A marca usa um visto branco numa superfície arredondada verde-petróleo. O cabeçalho acompanha os temas claro/escuro e permite quebra de linhas. O launcher tem vector de compatibilidade, ícone adaptativo (Android 8+) e variante monocromática (Android 13+). O arranque nativo usa a mesma marca. O ícone Flutter de exemplo foi retirado.
+| Papel | Claro | Escuro |
+| --- | --- | --- |
+| Fundo | `#F9FAFB` | `#18181B` |
+| Cartões/barras | `#FFFFFF` / `#F3F4F6` | `#27272A` |
+| Acento | `#0D9488` | `#10B981` |
+| Texto | `#18181B` | `#F9FAFB` |
+| Texto secundário | `#6B7280` | `#9CA3AF` |
+| Divisores | `#E5E7EB` | `#3F3F46` |
 
-Material Design 3; semente verde-petróleo #26756B, superfícies claras e tema escuro seguindo sistema ou preferência. Grelha de 8 px; cartões com 20 px de raio; texto escalável; alvos de toque Material de pelo menos 48 px. Ícones acompanhados por texto e estados por rótulos, não apenas cor.
+Inter na interface; Newsreader nos títulos grandes. Escala: 34/700, 22/600, 16/400, 13/400. Fontes TTF incluídas localmente com licenças OFL; `google_fonts` não efectua pedidos de rede durante a utilização.
 
-Navegação inferior: Hoje, Agenda, Metas, Progresso, Perfil. Em ecrãs largos, conteúdo centrado com largura máxima 1000 px. Criação rápida por folha inferior; campos avançados revelados no formulário. Sem gráficos que ocultem unidades ou mensagens culpabilizadoras.
+Margens laterais de 20 px; espaçamento em múltiplos de 8 px. Cartões com raio 16 e borda de 1 px, botões 14, campos 12, folhas 24. Elevação zero; sem gradientes, sombras fortes, banners ou ícones ornamentais.
 
-Acessibilidade deve ser verificada em dispositivo com leitor de ecrã, contraste, texto a 200% e navegação por teclado; ainda não validada num dispositivo. O cabeçalho da marca é testado em largura de 220 px e texto a 200%, nos temas claro e escuro.
+Um único botão principal **+** por ecrã. Navegação **Agenda / Metas / Tarefas**, com acento no ícone activo e texto neutro. O acento claro não atinge 4,5:1 para texto pequeno sobre branco, por isso não é usado nos rótulos. O símbolo + usa texto escuro sobre o acento, com contraste superior a 4,5:1.
+
+Listas agrupadas, com separação por espaço e divisores discretos. Em texto ampliado, os títulos das entradas podem ocupar mais de uma linha para evitar cortes; a faixa de dias permite deslocação horizontal. Alvos de toque de pelo menos 44 px. Temas seguem o sistema, sem selector adicional.

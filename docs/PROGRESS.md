@@ -1,5 +1,16 @@
 # Progresso — Tudo Aki
 
+## Entrega actual — esqueleto 0.7.0
+O pedido mais recente redefine a interface activa para o esqueleto descrito em [AGENTS.md](../AGENTS.md): temas claro/escuro, três separadores, Hoje com exemplos e folha Evento/Tarefa/Meta. Metas e Tarefas são estados vazios. Nenhum formulário ou funcionalidade adicional foi implementado. O código anterior foi preservado, sem ligação à entrada actual nem abertura da base de dados pelo esqueleto.
+
+Tema centralizado, Inter/Newsreader locais via google_fonts, cartões planos, botão + único e navegação Agenda/Metas/Tarefas. O nome apresentado pela aplicação é tudoAki e o identificador técnico continua tudo_aki. A versão Android existente foi preservada; a criação da plataforma iOS não faz parte deste pedido.
+
+Verificação 0.7.0: `flutter analyze` sem problemas; **57 testes aprovados**, incluindo os três novos testes do esqueleto; layouts claro/escuro revistos visualmente em 360 px; APK debug compilado e assinatura v2 verificada. `aapt` confirmou nome tudoAki, versão 0.7.0+8, Android mínimo 24 e target 36. SHA-256: `9c5d894d315c402fd4db0c6b5b49f5af53cc6c21ccd37891da3e8a4b57d69088`. Testes em dispositivo Android real continuam pendentes.
+
+Os resultados e fases abaixo são históricos das versões até 0.6.0; não descrevem a navegação actual.
+
+## Histórico até 0.6.0
+
 ## Estado por fase
 A Fase 3 está implementada no escopo actual e a Fase 4 foi consolidada com orçamentos e recorrências. A Fase 5 inclui agora conquistas e um gráfico semanal; a Fase 4 inclui moeda configurável; a validação física da Fase 6 está pendente.
 
