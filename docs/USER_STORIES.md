@@ -25,3 +25,7 @@
 
 24. Escolho uma moeda para novos registos. Os movimentos anteriores mantêm a moeda original, inclusive quando editados; nenhuma mudança de preferência converte valores.
 25. Consulto Finanças por moeda e crio registos nessa moeda. Orçamentos iguais noutras moedas são independentes; contribuições de poupança não podem misturar moedas; uma recorrência mantém a sua moeda após mudar a preferência.
+
+26. Na interface de três separadores, o + permite guardar eventos, tarefas e metas reais. Ao guardar, vejo a área correcta; cancelar não grava. Campos avançados ficam ocultos até pedir Mais opções e não perdem os valores ao editar.
+27. Abro Mais e entro em Hábitos, Estudos, Finanças, Progresso, Revisões ou Definições. Voltar devolve-me à navegação principal, sem novos separadores nem FAB duplicado.
+28. Reabro uma base existente e encontro metas, tarefas, eventos e resultados na interface nova. Concluir uma tarefa atribui XP uma vez e não altera a métrica da meta.

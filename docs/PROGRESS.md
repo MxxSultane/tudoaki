@@ -1,6 +1,22 @@
 # Progresso — Tudo Aki
 
-## Entrega actual — esqueleto 0.7.0
+## Entrega actual — integração funcional 0.8.0
+O pedido mais recente autoriza ligar o esqueleto aos dados reais e recuperar as áreas do produto original. Mantêm-se três separadores, temas e tipografia do guia; o limite anterior a um esqueleto já não é o âmbito actual.
+
+- **Agenda:** dados reais, datas seleccionáveis, modos Dia/Semana/Mês em lista, mistura cronológica de eventos/tarefas/estudo/aulas/avaliações, recorrências e conflitos. “O meu dia” recolhe prioridades, rotinas, próximo compromisso e metas. Tarefas sem data ficam numa secção recolhida.
+- **Metas:** lista leve, filtros Activas/Alcançadas, detalhe com métricas, registo de progresso em folha, edição, submetas, etapas, tarefas e histórico. Concluir tarefas não altera a métrica.
+- **Tarefas:** filtros Pendentes/Concluídas, edição ao tocar, agendamento, prioridade/importância e associações avançadas, conclusão/reabertura com XP idempotente e feedback táctil.
+- **Criação:** + → Evento/Tarefa/Meta abre formulários reais; os campos avançados ficam em “Mais opções”. Guardar mostra o novo registo na área adequada, com filtro/dia ajustados. Cancelar não cria dados.
+- **Mais:** hábitos/bem-estar, estudos/foco, finanças multimoeda, progresso/conquistas, revisões e definições acessíveis sem novos separadores. Módulos existentes partilham o mesmo repositório; cabeçalhos repetidos e botões principais duplicados foram retirados destas rotas.
+- **Dados:** esquema v5 e compatibilidade de instalação/SQLite preservados; sem migração destrutiva ou dados fictícios. A entrada volta a abrir a base existente. Riverpod mantém os dados partilhados; três Cubits tratam data/modo e filtros de cada separador. Única dependência nova: flutter_bloc 9.1.1.
+- **Qualidade:** teste da app cria meta anual, associa/programa tarefa, conclui/edita, regista resultado, cria/edita evento semanal e reabre SQLite. Testes verificam todas as áreas, uma acção principal por página e layouts de 360 px nos dois temas até 200% de texto. Regras novas cobrem mistura cronológica, fronteiras de conflitos e limites de navegação.
+
+Verificação concluída: **61 testes aprovados**, `flutter analyze` sem problemas, formatação sem alterações, verificação SQL v1 → v5 aprovada, layouts reais revistos em claro/escuro, APK debug 0.8.0+9 compilado e assinatura v2 verificada. `aapt` confirmou tudoAki e ID de instalação preservado, API mínima 24 e target 36. SHA-256 do APK: `bc10c7feceb1ba3be5e35b6660465301c46fc819821a96f73b0434c8252da5eb`.
+
+A integração recupera as funções já implementadas. Não declara concluídos o WOOP guiado, interesses no onboarding, categorias de calendário, excepções por ocorrência, backup/importação ou a certificação Android. As limitações de foco, notificações e outros fusos continuam válidas.
+
+
+## Histórico — esqueleto 0.7.0
 O pedido mais recente redefine a interface activa para o esqueleto descrito em [AGENTS.md](../AGENTS.md): temas claro/escuro, três separadores, Hoje com exemplos e folha Evento/Tarefa/Meta. Metas e Tarefas são estados vazios. Nenhum formulário ou funcionalidade adicional foi implementado. O código anterior foi preservado, sem ligação à entrada actual nem abertura da base de dados pelo esqueleto.
 
 Tema centralizado, Inter/Newsreader locais via google_fonts, cartões planos, botão + único e navegação Agenda/Metas/Tarefas. O nome apresentado pela aplicação é tudoAki e o identificador técnico continua tudo_aki. A versão Android existente foi preservada; a criação da plataforma iOS não faz parte deste pedido.

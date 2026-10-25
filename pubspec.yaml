@@ -1,7 +1,7 @@
 name: tudo_aki
-description: tudoAki — esqueleto visual de agenda, metas e tarefas.
+description: tudoAki — agenda, metas, tarefas e áreas pessoais offline.
 publish_to: none
-version: 0.7.0+8
+version: 0.8.0+9
 environment:
   sdk: '>=3.8.0 <4.0.0'
 dependencies:
@@ -20,6 +20,7 @@ dependencies:
   timezone: ^0.10.1
   share_plus: ^11.1.0
   google_fonts: ^6.3.3
+  flutter_bloc: ^9.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

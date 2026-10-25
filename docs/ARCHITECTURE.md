@@ -1,6 +1,18 @@
 # Arquitectura — Tudo Aki
 
-## Entrada actual — esqueleto 0.7.0
+## Entrada actual — integração 0.8.0
+`main.dart` restaura ProviderScope. TudoAkiApp usa GoRouter com um shell de três separadores e páginas adicionais empilhadas fora do shell. `WorkspaceData` fornece estados de carregamento/erro e snapshots partilhados. `WorkspacePage` mantém título, acção Mais e margens consistentes. Criação retorna o ID guardado e selecciona a área/filtro/dia que permite ver o resultado.
+
+Riverpod continua responsável por repositório, notificações, preferências e invalidação do snapshot. `flutter_bloc` acrescenta um Cubit por funcionalidade principal para selecções efémeras: AgendaSelection (data/modo), GoalsCubit e TasksCubit (filtros). Não duplicamos entidades persistidas nos Cubits nem migramos os módulos existentes para outro armazenamento. Este compromisso aplica o guia sem reescrever regras já testadas.
+
+O modelo de leitura `agenda_items.dart` combina ocorrências pessoais/académicas e tarefas, ordena instantes e detecta colisões. Tarefas são pontos no tempo, sem inventar durações; tarefas concluídas não geram conflitos. Blocos são eventos com início/fim. Modos semana/mês usam aritmética civil e limites do selector.
+
+`GoalDetail` usa GoalPlan para etapas/acções e uma folha para registar métricas. `TaskRow` partilha edição e conclusão entre agenda, tarefas e metas. Formulários compactos mostram primeiro o essencial, preservando valores dos campos avançados ocultos; invalidação após gravações usa o container capturado antes de await para suportar fecho da folha.
+
+As áreas adicionais reutilizam os painéis e operações existentes com o novo tema e cabeçalhos únicos. Progresso tem um ecrã próprio resumido. Esquema v5, ID Android e caminho de armazenamento são mantidos; não há migração nesta versão.
+
+
+## Histórico — esqueleto 0.7.0
 `main.dart` abre TudoAkiApp sem ProviderScope nem acesso a dados. GoRouter mantém três destinos estáticos e uma folha inferior apenas visual. Tema em `core/theme`, componentes de composição em `core/widgets`, ecrãs em `features/{agenda,goals,tasks}/presentation`. Modo de tema automático e localização pt_PT. Sem novo estado de negócio, Cubits, persistência ou sincronização nesta entrega.
 
 `google_fonts` é a única dependência acrescentada. Inter e Newsreader estão incluídas nos assets, com carregamento por rede desactivado. Os ficheiros estáticos foram derivados das fontes variáveis oficiais do repositório google/fonts usando fontTools; licenças SIL OFL acompanham os ficheiros. Os logótipos foram copiados do pacote fornecido para assets/logo.

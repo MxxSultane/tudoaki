@@ -29,12 +29,10 @@ class ProgressPanel extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          'Actividade nos últimos 7 dias',
+          'Últimos sete dias',
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        const Text(
-          'Tarefas, registos de hábitos e sessões de estudo concluídas. Os valores reflectem os registos actuais; não medem o seu valor pessoal.',
-        ),
+        const Text('Tarefas, hábitos e estudo concluídos.'),
         Card(
           child: Padding(
             padding: const EdgeInsets.all(16),

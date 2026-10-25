@@ -1,6 +1,6 @@
 # Plano incremental
 
-**Âmbito actual (0.7.0):** apenas o esqueleto visual solicitado e definido em AGENTS.md. As fases abaixo registam o trabalho anterior; não autorizam alargar esta entrega.
+**Âmbito actual (0.8.0):** ligar a nova interface aos dados reais e integrar os módulos anteriores com três separadores e divulgação progressiva. O pedido actual substitui a limitação anterior ao esqueleto.
 1. Fundação: documentos, Flutter/Android, tema, router, esquema v1, repositório.
 2. Núcleo: tarefas/metas/eventos/agenda/Hoje e armazenamento real.
 3. Organização: hábitos, disciplinas, horários, avaliações, estudo com foco e revisões implementados no escopo actual; validar também num dispositivo.
@@ -27,3 +27,6 @@ Quatro conquistas do histórico de XP, reconhecimento retroactivo sem XP adicion
 
 ## Incremento 0.6.0 — moedas
 Preferência para novos registos e consulta por moeda; preservação de MZN no histórico, migração v5, orçamentos independentes e contribuições/recorrências com denominação consistente. A validação física Android permanece pendente; seguem melhorias de planeamento e recuperação de dados conforme os requisitos.
+
+## Incremento 0.8.0 — integração harmónica
+Núcleo funcional na interface nova, formulários compactos, detalhes de metas e acesso Mais aos módulos de hábitos, estudos, finanças, progresso, revisões e definições. Preservar esquema/dados e verificar navegação, persistência real, regras e acessibilidade. Continuam pendentes os itens explicitamente futuros e a validação física Android.

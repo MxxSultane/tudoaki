@@ -30,3 +30,6 @@ Gráfico de actividade dos sete dias civis mais recentes com contagens por área
 
 ## Moedas — versão 0.6.0
 MZN/USD/EUR/ZAR configuráveis para novos registos, com duas casas decimais. Cada movimento, orçamento, poupança e regra preserva a sua denominação. Consultas e totais são separados por moeda; contribuições incompatíveis são recusadas. O histórico anterior permanece MZN. Sem câmbio automático.
+
+## Integração — versão 0.8.0
+O pedido actual recupera as funcionalidades na nova interface: três separadores com dados reais, criação/edição/conclusão, detalhe de metas e acesso Mais aos módulos pessoais. Não voltar a introduzir cinco separadores ou dados de exemplo. Preservar os dados de instalações anteriores e mostrar imediatamente o registo criado. Formulários devem preservar campos avançados quando ocultos.

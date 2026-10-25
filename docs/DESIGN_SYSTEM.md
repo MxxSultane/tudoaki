@@ -1,6 +1,6 @@
 # tudoAki — sistema visual actual
 
-O [AGENTS.md](../AGENTS.md) fornecido rege o esqueleto 0.7.0. O pedido actual limita a entrega aos temas, três separadores, Hoje com exemplos e folha de criação.
+O [AGENTS.md](../AGENTS.md) fornecido rege o esqueleto 0.7.0. O pedido actual (0.8.0) liga a interface aos dados e áreas reais; não há exemplos na aplicação.
 
 | Papel | Claro | Escuro |
 | --- | --- | --- |
@@ -15,6 +15,8 @@ Inter na interface; Newsreader nos títulos grandes. Escala: 34/700, 22/600, 16/
 
 Margens laterais de 20 px; espaçamento em múltiplos de 8 px. Cartões com raio 16 e borda de 1 px, botões 14, campos 12, folhas 24. Elevação zero; sem gradientes, sombras fortes, banners ou ícones ornamentais.
 
-Um único botão principal **+** por ecrã. Navegação **Agenda / Metas / Tarefas**, com acento no ícone activo e texto neutro. O acento claro não atinge 4,5:1 para texto pequeno sobre branco, por isso não é usado nos rótulos. O símbolo + usa texto escuro sobre o acento, com contraste superior a 4,5:1.
+Um único botão principal **+** nos três separadores. As folhas usam Guardar; páginas adicionais abrem sem FAB e têm no máximo uma acção principal. Navegação **Agenda / Metas / Tarefas**, com acento no ícone activo e texto neutro. O acento claro não atinge 4,5:1 para texto pequeno sobre branco, por isso não é usado nos rótulos. O símbolo + usa texto escuro sobre o acento, com contraste superior a 4,5:1.
 
-Listas agrupadas, com separação por espaço e divisores discretos. Em texto ampliado, os títulos das entradas podem ocupar mais de uma linha para evitar cortes; a faixa de dias permite deslocação horizontal. Alvos de toque de pelo menos 44 px. Temas seguem o sistema, sem selector adicional.
+Listas agrupadas, com separação por espaço e divisores discretos. Em texto ampliado, os títulos das entradas podem ocupar mais de uma linha para evitar cortes; a faixa de dias permite deslocação horizontal. Alvos de toque de pelo menos 44 px. O tema segue o sistema por defeito; a preferência existente pode ser alterada em Mais → Definições.
+
+A navegação principal mantém Agenda/Metas/Tarefas. “Mais” abre um directório discreto de áreas; detalhes são empilhados com Voltar, sem duplicar a barra inferior. Métricas, acções de metas e formulários avançados ficam em detalhes/folhas. Após guardar, a navegação torna o registo visível sem banners de sucesso. Input e botões têm raios 12/14, bordas de 1 px e texto com contraste adequado também em foco.

@@ -46,7 +46,12 @@ String dateLabel(String? value) => value == null
     : DateFormat('dd MMM, HH:mm', 'pt').format(DateTime.parse(value));
 
 class TudoAkiScreen extends ConsumerStatefulWidget {
-  const TudoAkiScreen({required this.section, super.key});
+  const TudoAkiScreen({
+    required this.section,
+    this.embedded = false,
+    super.key,
+  });
+  final bool embedded;
   final String section;
   @override
   ConsumerState<TudoAkiScreen> createState() => _TudoAkiScreenState();
@@ -121,14 +126,16 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
           return ListView(
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 110),
             children: [
-              TudoAkiBrandHeader(showSlogan: widget.section == 'Hoje'),
-              const SizedBox(height: 8),
-              Text(
-                widget.section == 'Hoje'
-                    ? 'Um passo de cada vez.'
-                    : widget.section,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
+              if (!widget.embedded) ...[
+                TudoAkiBrandHeader(showSlogan: widget.section == 'Hoje'),
+                const SizedBox(height: 8),
+                Text(
+                  widget.section == 'Hoje'
+                      ? 'Um passo de cada vez.'
+                      : widget.section,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ],
               if (widget.section == 'Hoje') ...today(data, prefs),
               if (widget.section == 'Agenda') ...agenda(data),
               if (widget.section == 'Metas') ...goals(data),
@@ -684,7 +691,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
             ),
           ),
       TextButton.icon(
-        onPressed: () => context.go('/reviews'),
+        onPressed: () => context.push('/reviews'),
         icon: const Icon(Icons.rate_review_outlined),
         label: const Text('Fazer uma revisão'),
       ),
@@ -692,23 +699,26 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
   }
 
   List<Widget> profile(DataRowMap prefs) => [
-    heading('Organize as suas áreas'),
-    for (final item in {
-      '/habits': ('Hábitos e bem-estar', Icons.spa_outlined),
-      '/academics': ('Estudos', Icons.school_outlined),
-      '/finance': ('Finanças', Icons.account_balance_wallet_outlined),
-      '/reviews': ('Revisões', Icons.rate_review_outlined),
-    }.entries)
-      Card(
-        child: ListTile(
-          leading: Icon(item.value.$2),
-          title: Text(item.value.$1),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => context.go(item.key),
+    if (!widget.embedded) ...[
+      heading('Organize as suas áreas'),
+      for (final item in {
+        '/habits': ('Hábitos e bem-estar', Icons.spa_outlined),
+        '/academics': ('Estudos', Icons.school_outlined),
+        '/finance': ('Finanças', Icons.account_balance_wallet_outlined),
+        '/reviews': ('Revisões', Icons.rate_review_outlined),
+      }.entries)
+        Card(
+          child: ListTile(
+            leading: Icon(item.value.$2),
+            title: Text(item.value.$1),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.go(item.key),
+          ),
         ),
-      ),
+    ],
     heading('Preferências'),
     DropdownButtonFormField<String>(
+      key: ValueKey('theme-${prefs['theme']}'),
       initialValue: prefs['theme'] as String,
       decoration: const InputDecoration(labelText: 'Aparência'),
       items: const [
@@ -813,7 +823,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
   ];
   List<Widget> reviews(Map<String, List<DataRowMap>> data) => [
     heading(
-      'Pare, observe e ajuste',
+      'Olhar para trás',
       action: TextButton(
         onPressed: () => showEditor(context, 'Revisão'),
         child: const Text('Nova'),

@@ -179,7 +179,7 @@ class _AcademicsPanelState extends ConsumerState<AcademicsPanel> {
         Wrap(
           spacing: 8,
           children: [
-            FilledButton.tonalIcon(
+            TextButton.icon(
               onPressed: () => showAcademicEditor(context, 'Estudo'),
               icon: const Icon(Icons.timer_outlined),
               label: const Text('Planear estudo'),

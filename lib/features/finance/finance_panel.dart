@@ -250,7 +250,7 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
         Wrap(
           spacing: 8,
           children: [
-            FilledButton.tonal(
+            FilledButton(
               onPressed: () => showEditor(
                 context,
                 'Transacção',
@@ -380,7 +380,7 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                 Wrap(
                   spacing: 8,
                   children: [
-                    FilledButton.tonal(
+                    TextButton(
                       onPressed: rule['active'] == 0 || posting != null
                           ? null
                           : () => review(rule),

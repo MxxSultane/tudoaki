@@ -6,7 +6,7 @@ import '../core/database/database.dart';
 import 'goals/goal_tree.dart';
 import 'finance/finance_rules.dart';
 
-Future<void> showEditor(
+Future<int?> showEditor(
   BuildContext context,
   String kind, {
   DataRowMap? existing,
@@ -16,7 +16,8 @@ Future<void> showEditor(
   int? savingsGoalId,
   DateTime? initialDate,
   String? currency,
-}) => showModalBottomSheet<void>(
+  bool compact = false,
+}) => showModalBottomSheet<int>(
   context: context,
   isScrollControlled: true,
   useSafeArea: true,
@@ -30,6 +31,7 @@ Future<void> showEditor(
     savingsGoalId: savingsGoalId,
     initialDate: initialDate,
     currency: currency,
+    compact: compact,
   ),
 );
 
@@ -43,9 +45,11 @@ class Editor extends ConsumerStatefulWidget {
     this.savingsGoalId,
     this.initialDate,
     this.currency,
+    this.compact = false,
     super.key,
   });
   final String kind;
+  final bool compact;
   final String? currency;
   final DataRowMap? existing;
   final int? goalId;
@@ -65,6 +69,7 @@ class _EditorState extends ConsumerState<Editor> {
   late int priority;
   late bool important, paused;
   bool busy = false, remind = false;
+  late bool advanced;
   String? error;
   DateTime? due;
   late DateTime start, end;
@@ -79,6 +84,7 @@ class _EditorState extends ConsumerState<Editor> {
   @override
   void initState() {
     super.initState();
+    advanced = !widget.compact;
     category = original['category'] as String? ?? 'Pessoal';
     parentGoalId = original['parent_id'] as int? ?? widget.parentGoalId;
     final parent = ref
@@ -124,6 +130,9 @@ class _EditorState extends ConsumerState<Editor> {
         .split(',')
         .map(int.parse)
         .toSet();
+    if (widget.kind == 'Tarefa' && original['due'] == null) {
+      due = widget.initialDate;
+    }
     if (widget.kind == 'Transacção') {
       due =
           DateTime.tryParse(original['day'] as String? ?? '') ??
@@ -305,43 +314,45 @@ class _EditorState extends ConsumerState<Editor> {
               if (widget.kind == 'Tarefa') ...[
                 dateButton('Quando', due, (v) => due = v, clear: true),
                 const SizedBox(height: 12),
-                choice('Prioridade', '$priority', {
-                  '0': 'Baixa',
-                  '1': 'Normal',
-                  '2': 'Alta',
-                }, (v) => priority = int.parse(v)),
-                SwitchListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: const Text('Importante'),
-                  subtitle: const Text(
-                    'Priorize também o que tem impacto a longo prazo.',
+                if (advanced) ...[
+                  choice('Prioridade', '$priority', {
+                    '0': 'Baixa',
+                    '1': 'Normal',
+                    '2': 'Alta',
+                  }, (v) => priority = int.parse(v)),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Importante'),
+                    subtitle: const Text(
+                      'Priorize também o que tem impacto a longo prazo.',
+                    ),
+                    value: important,
+                    onChanged: (v) => setState(() => important = v),
                   ),
-                  value: important,
-                  onChanged: (v) => setState(() => important = v),
-                ),
-                relation(
-                  'Meta associada',
-                  goalId,
-                  data['Goals']!,
-                  (v) => goalId = v,
-                ),
-                relation(
-                  'Disciplina',
-                  subjectId,
-                  data['Subjects']!,
-                  (v) => subjectId = v,
-                ),
-                SwitchListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: const Text('Lembrete local'),
-                  subtitle: const Text(
-                    'Android · horário de Maputo · entrega aproximada. Sem acesso exacto a alarmes.',
+                  relation(
+                    'Meta associada',
+                    goalId,
+                    data['Goals']!,
+                    (v) => goalId = v,
                   ),
-                  value: remind,
-                  onChanged: due == null
-                      ? null
-                      : (v) => setState(() => remind = v),
-                ),
+                  relation(
+                    'Disciplina',
+                    subjectId,
+                    data['Subjects']!,
+                    (v) => subjectId = v,
+                  ),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Lembrete local'),
+                    subtitle: const Text(
+                      'Android · horário de Maputo · entrega aproximada. Sem acesso exacto a alarmes.',
+                    ),
+                    value: remind,
+                    onChanged: due == null
+                        ? null
+                        : (v) => setState(() => remind = v),
+                  ),
+                ],
               ],
               if (widget.kind == 'Etapa') ...[
                 relation(
@@ -356,30 +367,15 @@ class _EditorState extends ConsumerState<Editor> {
                 ),
               ],
               if (widget.kind == 'Meta') ...[
-                relation(
-                  'Meta principal (opcional)',
-                  parentGoalId,
-                  availableGoalParents(data['Goals']!, original['id'] as int?),
-                  (v) => parentGoalId = v,
-                ),
-                text('description', 'Porque é importante?', lines: 2),
                 choice('Horizonte', horizon, {
                   for (final h in ['Anual', 'Trimestral', 'Mensal', 'Semanal'])
                     h: h,
                 }, (v) => horizon = v),
-                text('category', 'Área de vida', fallback: 'Pessoal'),
                 text(
                   'unit',
                   'Métrica de sucesso (ex.: livros)',
                   fallback: 'unidades',
                   required: true,
-                ),
-                text(
-                  'initial',
-                  'Valor inicial',
-                  fallback: '0',
-                  required: true,
-                  numeric: true,
                 ),
                 text(
                   'target',
@@ -388,24 +384,51 @@ class _EditorState extends ConsumerState<Editor> {
                   required: true,
                   numeric: true,
                 ),
-                dateButton('Prazo', due, (v) => due = v, clear: true),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  child: Text(
-                    'O progresso usa resultados medidos. Concluir tarefas não altera esta métrica.',
+                if (advanced) ...[
+                  relation(
+                    'Meta principal (opcional)',
+                    parentGoalId,
+                    availableGoalParents(
+                      data['Goals']!,
+                      original['id'] as int?,
+                    ),
+                    (v) => parentGoalId = v,
                   ),
-                ),
+                  text('description', 'Porque é importante?', lines: 2),
+                  text('category', 'Área de vida', fallback: 'Pessoal'),
+                  text(
+                    'initial',
+                    'Valor inicial',
+                    fallback: '0',
+                    required: true,
+                    numeric: true,
+                  ),
+                  dateButton('Prazo', due, (v) => due = v, clear: true),
+                  const Text(
+                    'Os resultados são independentes das tarefas concluídas.',
+                  ),
+                ],
               ],
               if (widget.kind == 'Evento') ...[
-                dateButton('Início', start, (v) => start = v!),
+                dateButton('Início', start, (v) {
+                  final duration = end.difference(start);
+                  start = v!;
+                  end = start.add(
+                    duration.isNegative ? const Duration(hours: 1) : duration,
+                  );
+                }),
                 dateButton('Fim', end, (v) => end = v!),
                 const SizedBox(height: 12),
-                choice('Repetir', recurrence, {
-                  'none': 'Não repetir',
-                  'daily': 'Todos os dias',
-                  'weekly': 'Todas as semanas',
-                }, (v) => recurrence = v),
-                const Text('Editar um evento recorrente altera toda a série.'),
+                if (advanced)
+                  choice('Repetir', recurrence, {
+                    'none': 'Não repetir',
+                    'daily': 'Todos os dias',
+                    'weekly': 'Todas as semanas',
+                  }, (v) => recurrence = v),
+                if (advanced)
+                  const Text(
+                    'Editar um evento recorrente altera toda a série.',
+                  ),
               ],
               if (widget.kind == 'Hábito') ...[
                 text('cue', 'Quando acontecer X, farei Y', lines: 2),
@@ -506,6 +529,12 @@ class _EditorState extends ConsumerState<Editor> {
                   lines: 3,
                 ),
               ],
+              if (widget.compact &&
+                  ['Tarefa', 'Meta', 'Evento'].contains(widget.kind))
+                TextButton(
+                  onPressed: () => setState(() => advanced = !advanced),
+                  child: Text(advanced ? 'Menos opções' : 'Mais opções'),
+                ),
               if (error != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -557,6 +586,7 @@ class _EditorState extends ConsumerState<Editor> {
       busy = true;
       error = null;
     });
+    final container = ProviderScope.containerOf(context, listen: false);
     try {
       final now = DateTime.now();
       final id = original['id'] as int?;
@@ -656,18 +686,22 @@ class _EditorState extends ConsumerState<Editor> {
             'next': value('next'),
           });
       }
-      final savedId = await ref
+      final savedId = await container
           .read(repositoryProvider)
           .save(table, row, id: id);
       String? warning;
       if (widget.kind == 'Tarefa' && (remind || original['reminder'] == 1)) {
         try {
-          final reminders = ref.read(remindersProvider);
+          final reminders = container.read(remindersProvider);
           await reminders.cancel(savedId);
           if (remind &&
               original['completed'] != 1 &&
               due != null &&
-              !await reminders.schedule(savedId, value('title'), due!)) {
+              !await reminders.schedule(
+                savedId,
+                row['title'] as String,
+                due!,
+              )) {
             warning =
                 'Tarefa guardada. Lembrete indisponível: verifique a permissão, a data futura e o suporte Android.';
           }
@@ -676,12 +710,12 @@ class _EditorState extends ConsumerState<Editor> {
               'Tarefa guardada, mas não foi possível configurar o lembrete.';
         }
       }
-      ref.invalidate(dataProvider);
+      container.invalidate(dataProvider);
       if (!mounted) {
         return;
       }
       final messenger = ScaffoldMessenger.of(context);
-      Navigator.pop(context);
+      Navigator.pop(context, savedId);
       if (warning != null) {
         messenger.showSnackBar(SnackBar(content: Text(warning)));
       }
@@ -731,16 +765,19 @@ class _EditorState extends ConsumerState<Editor> {
         ],
       ),
     );
-    if (confirmed != true) {
+    if (confirmed != true || !mounted) {
       return;
     }
+    final container = ProviderScope.containerOf(context, listen: false);
     setState(() => busy = true);
     try {
       if (widget.kind == 'Tarefa' && original['reminder'] == 1) {
-        await ref.read(remindersProvider).cancel(original['id'] as int);
+        await container.read(remindersProvider).cancel(original['id'] as int);
       }
-      await ref.read(repositoryProvider).delete(table, original['id'] as int);
-      ref.invalidate(dataProvider);
+      await container
+          .read(repositoryProvider)
+          .delete(table, original['id'] as int);
+      container.invalidate(dataProvider);
       if (mounted) {
         Navigator.pop(context);
       }
