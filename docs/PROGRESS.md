@@ -1,7 +1,7 @@
 # Progresso — Tudo Aki
 
 ## Estado por fase
-A Fase 3 está implementada no escopo actual e a Fase 4 foi consolidada com orçamentos e recorrências. A moeda configurável e a Fase 5 continuam parciais; a validação física da Fase 6 está pendente.
+A Fase 3 está implementada no escopo actual e a Fase 4 foi consolidada com orçamentos e recorrências. A Fase 5 inclui agora conquistas e um gráfico semanal; a moeda configurável continua pendente; a validação física da Fase 6 está pendente.
 
 | Fase | Estado | Entrega e pendências |
 | --- | --- | --- |
@@ -9,7 +9,7 @@ A Fase 3 está implementada no escopo actual e a Fase 4 foi consolidada com orç
 | 2 — Núcleo funcional | Implementado; validação real do MVP pendente | Hoje, tarefas, agenda, metas, submetas e etapas; lembretes e ciclo de reabertura Android ainda precisam de dispositivo. |
 | 3 — Organização pessoal | Implementada no escopo actual; validação Android pendente | Hábitos, disciplinas, horários, avaliações, sessões de estudo, foco e revisões. |
 | 4 — Áreas de vida | Financeiro consolidado; moeda configurável pendente | Transacções, poupanças, orçamentos, recorrências e bem-estar via hábitos. |
-| 5 — Gamificação | Parcial | XP e níveis; catálogo de conquistas e gráficos pendentes. |
+| 5 — Gamificação | Incremento funcional implementado | XP, níveis, quatro conquistas persistentes e gráfico semanal com contagens; catálogo ampliado e gráficos de tendências ficam para evolução. |
 | 6 — Qualidade | Em curso | Análise, testes automatizados e APK; utilização, notificações e acessibilidade num dispositivo ainda pendentes. |
 
 ## Fundação e núcleo implementados
@@ -58,15 +58,21 @@ A Fase 3 está implementada no escopo actual e a Fase 4 foi consolidada com orç
 - Migração v1/v2/v3 → v4, exportação e eliminação total com os novos dados. Sem novas dependências; moeda MZN mantida.
 - Testes de regras e migração e três fluxos de widgets em 360×800: orçamento/despesa/mês, revisão/confirmar/eliminar recorrências e poupança/contribuições. Corrigido overflow visual dos selectores em ecrãs pequenos.
 
+## Incremento 0.5.0 — progresso e conquistas
+- Quatro conquistas persistentes, derivadas de origens únicas do histórico de XP, sem recompensa adicional; sincronização transaccional e idempotente antes de carregar os dados. Reconhecimento retroactivo com data do marco; desactivar gamificação oculta/suspende reconhecimento sem apagar história.
+- Gráfico de sete dias com barras e contagens por área, incluindo dias sem actividade. Instantes UTC são agrupados pela data de Maputo; datas civis antigas são preservadas. Tarefas reabertas e registos apagados deixam de contar no gráfico.
+- Resumo conta metas alcançadas apenas pelo estado completed. Esquema v4 preservado; exportação e eliminação já incluem conquistas.
+- Quatro testes adicionais: reconhecimento/reabertura/exportação/reset, gamificação desactivada/reactivada, fronteiras de datas e exclusões, e widget de 360 px com texto a 200%.
+
 ## Verificação efectuada no ambiente
 - `flutter pub get`: concluído, lockfile gerado e dependências instaladas.
 - `dart format lib test`: executado.
 - `flutter analyze`: sem problemas na verificação final concluída.
-- `flutter test --reporter expanded`: **45 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
+- `flutter test --reporter expanded`: **49 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
 - `python3 tool/check_schema.py`: SQL, relações, unicidade, centavos e reabertura aprovados.
-- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.5 MiB), Tudo Aki 0.4.0, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
+- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.5 MiB), Tudo Aki 0.5.0, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
 - `apksigner verify --verbose`: assinatura de depuração v2 verificada. O APK apresenta o nome Tudo Aki, uma única actividade no launcher e os ícones novos, mantendo o ID de instalação anterior. `aapt dump badging` confirmou identidade, versões, permissões e arquitecturas.
-- SHA-256 do APK: `a4b80ddc995b869711ac3c8c3c9aad82632add94d0cebcc9dee89fed6483c4f7`.
+- SHA-256 do APK: `fae9cf0df9a63eb9eaf7be596c98aad348310bc85a2c169ac6ec5c40109405ee`.
 
 ## Ambiente e reprodução
 `tool/setup.sh` fixa o Flutter por commit oficial e o Temurin JDK 21.0.13+9 por SHA-256, instala dependências com lockfile, prepara SQLite de testes e as ferramentas Android. `tool/env.sh` activa os caminhos. `tool/setup_android.sh` usa o checksum oficial da CLI e configura o proxy Java sem copiar credenciais. SDKs/caches ficam em `/workspace/.tools`, fora do repositório da aplicação. A instalação foi repetida com sucesso, com o lockfile respeitado. `install_script`, `start_skill` e o domínio `storage.googleapis.com` foram guardados no rascunho; isso não publica o ambiente.
@@ -76,9 +82,9 @@ A primeira tentativa de download do catálogo Flutter teve 403 e depois 404; a i
 ## Pendências e limites
 O MVP **ainda não está certificado num dispositivo Android**. Falta testar a entrega de lembretes e a persistência no ciclo de fecho/reabertura do processo Android; o teste existente valida SQLite em Linux. Sem dispositivo ligado e sem `/dev/kvm` neste ambiente.
 
-Fases posteriores: edição de uma ocorrência isolada e excepções de recorrência; eventos que atravessam vários dias e conflitos com blocos de tarefas; categorias configuráveis; moeda configurável; conquistas com catálogo; WOOP guiado; interesses no onboarding; backup/importação; suporte a outros fusos/DST e plataformas; verificação de acessibilidade em dispositivo.
+Fases posteriores: edição de uma ocorrência isolada e excepções de recorrência; eventos que atravessam vários dias e conflitos com blocos de tarefas; categorias configuráveis; moeda configurável; catálogo ampliado de conquistas; WOOP guiado; interesses no onboarding; backup/importação; suporte a outros fusos/DST e plataformas; verificação de acessibilidade em dispositivo.
 
-O catálogo de conquistas continua sem interface; as etapas de metas e as sessões de estudo já dispõem de interface funcional. A grelha mensal avançada e os gráficos não fazem parte desta fundação. Não há analytics, conta, backend, sincronização bancária ou encriptação implementada.
+Quatro conquistas e o gráfico semanal dispõem de interface funcional. A grelha mensal avançada e outros gráficos de tendências continuam pendentes. Não há analytics, conta, backend, sincronização bancária ou encriptação implementada.
 
 ## Execução
 ```bash

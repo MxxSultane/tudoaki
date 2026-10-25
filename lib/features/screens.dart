@@ -12,6 +12,7 @@ import 'academics/academic_rules.dart';
 import 'academics/academic_editor.dart';
 import 'academics/academics_panel.dart';
 import 'finance/finance_panel.dart';
+import 'progress/progress_panel.dart';
 
 void showQuickCreate(BuildContext context) => showModalBottomSheet<void>(
   context: context,
@@ -613,7 +614,9 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
   List<Widget> progress(Map<String, List<DataRowMap>> data, DataRowMap prefs) {
     final done = data['Tasks']!.where((t) => t['completed'] == 1).length;
     final active = data['Goals']!.where((g) => g['status'] == 'active').length;
-    final completed = data['Goals']!.length - active;
+    final completed = data['Goals']!
+        .where((g) => g['status'] == 'completed')
+        .length;
     final xp = data['ExperienceEvents']!.fold<int>(
       0,
       (sum, e) => sum + (e['points'] as int),
@@ -643,6 +646,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
           ),
         ),
       ),
+      ProgressPanel(data: data, gamification: prefs['gamification'] == 1),
       heading('Resultados das metas'),
       ...data['Goals']!.map(goalCard),
       heading('Histórico recente de hábitos'),

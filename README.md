@@ -7,12 +7,17 @@ Identificador Flutter/Dart: `tudo_aki`.
 Gestão pessoal offline em Flutter: Hoje, Agenda, Metas, Progresso e Perfil. Interface em português, tema claro/escuro, Drift/SQLite e nenhuma conta obrigatória.
 
 ## Estado
-APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 45 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
+APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 49 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
 
 Consulte [docs/PROGRESS.md](docs/PROGRESS.md) para separar implementação, verificações e funcionalidades pendentes. O código não contém dados de demonstração nem credenciais.
 
 ## Fase actual
-Organização pessoal/académica da Fase 3 implementada no escopo actual; área financeira da Fase 4 consolidada com orçamentos e recorrências. Moeda configurável, conquistas e gráficos ainda estão pendentes, assim como a validação real da Fase 6. A fundação está concluída; lembretes e utilização real em Android continuam por validar. O estado de cada fase consta em `docs/PROGRESS.md`.
+Organização pessoal/académica da Fase 3 implementada no escopo actual; área financeira da Fase 4 consolidada com orçamentos e recorrências. A Fase 5 já inclui quatro conquistas persistentes e um gráfico semanal acessível. Moeda configurável e validação real da Fase 6 continuam pendentes. A fundação está concluída; lembretes e utilização real em Android continuam por validar. O estado de cada fase consta em `docs/PROGRESS.md`.
+
+## Novidades da versão 0.5.0 — progresso e conquistas
+Em **Progresso**, consulte os últimos sete dias com barras e contagens de tarefas, hábitos e sessões de estudo concluídas. O gráfico usa as datas civis de Maputo e os registos actuais; reabrir uma tarefa ou eliminar um registo altera a contagem.
+
+Quatro conquistas reconhecem o histórico de XP: primeira tarefa, dez tarefas, sete registos de hábitos (sem exigir dias seguidos) e três sessões de estudo. A data corresponde ao marco no histórico; não há XP adicional. Conquistas permanecem guardadas e exportadas, mesmo após eliminar as acções associadas. A preferência de gamificação oculta-as e suspende novos reconhecimentos; ao reactivar, o histórico de XP existente é considerado. Eliminar todos os dados também elimina conquistas. Não há nova migração nem dependências.
 
 ## Novidades da versão 0.4.0 — planeamento financeiro
 Em **Perfil → Finanças**, escolha o mês e defina orçamentos por categoria. As despesas registadas actualizam o valor utilizado e o restante; receitas e contribuições de poupança não são contadas como despesas. Categorias ignoram diferenças de maiúsculas e espaços. Pode editar a data dos movimentos, ajustar metas de poupança e registar contribuições directamente na meta.

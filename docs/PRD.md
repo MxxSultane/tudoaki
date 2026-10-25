@@ -4,7 +4,7 @@ Arranque sem conta; cinco áreas Hoje/Agenda/Metas/Progresso/Perfil; tarefas com
 ## Should
 Recorrência diária/semanal, revisões, transacções, poupanças, orçamentos e recorrências financeiras, exportação JSON, modo escuro, disciplinas, horários de aulas, avaliações e foco configurável.
 ## Could / fases posteriores
-Calendário mensal avançado, edição de instância recorrente, moeda configurável, subtarefas, WOOP guiado, ciclos automáticos de foco/descanso, gráficos, backups, personalização de categorias, conquistas extensas.
+Calendário mensal avançado, edição de instância recorrente, moeda configurável, subtarefas, WOOP guiado, ciclos automáticos de foco/descanso, gráficos avançados de tendências, backups, personalização de categorias, conquistas extensas.
 ## Regras
 Concluir uma tarefa não altera automaticamente a métrica da meta. XP é opcional e idempotente; reabrir/concluir a mesma tarefa não soma XP novamente. Hábitos pausados preservam histórico. Sem dados de demonstração injectados.
 ## Critério de entrega
@@ -24,3 +24,6 @@ MVP só pode ser declarado concluído após testes do fluxo criar meta → assoc
 - Registo único por regra/vencimento; um ledger conserva vencimentos mesmo quando o movimento correspondente foi eliminado. Eliminar a regra preserva os movimentos financeiros.
 - Alterações não reescrevem histórico; revisões impedem confirmar uma pré-visualização desactualizada. O calendário de uma regra com registos é preservado.
 - Montantes individuais em centavos inteiros e somas com BigInt, sem conversão monetária por double. MZN mantém-se; moeda configurável continua pendente.
+
+## Progresso — versão 0.5.0
+Gráfico de actividade dos sete dias civis mais recentes com contagens por área e semântica acessível. Quatro conquistas persistentes reconhecem o histórico de XP sem pontos adicionais ou exigência de dias consecutivos. Gamificação desactivada oculta conquistas e suspende novos reconhecimentos; o gráfico funcional permanece disponível.
