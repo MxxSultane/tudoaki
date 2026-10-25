@@ -14,7 +14,8 @@ statements = statements_for(1)
 upgrade = statements_for(2)
 academic_upgrade = statements_for(3)
 finance_upgrade = statements_for(4)
-assert len(statements) == 20 and len(upgrade) == 5 and len(academic_upgrade) == 13 and len(finance_upgrade) == 6, 'Incomplete schema parsing'
+currency_upgrade = statements_for(5)
+assert len(statements) == 20 and len(upgrade) == 5 and len(academic_upgrade) == 13 and len(finance_upgrade) == 6 and len(currency_upgrade) == 16, 'Incomplete schema parsing'
 with tempfile.TemporaryDirectory() as directory:
     file = pathlib.Path(directory) / 'tudo_aki.sqlite'
     db = sqlite3.connect(file)
@@ -66,6 +67,19 @@ with tempfile.TemporaryDirectory() as directory:
     db.execute("INSERT INTO RecurringOccurrences(rule_id,day,transaction_id) VALUES(?,'2026-10-01',?)", (rule,movement))
     db.execute('DELETE FROM FinancialTransactions WHERE id=?', (movement,))
     assert db.execute('SELECT transaction_id FROM RecurringOccurrences').fetchone() == (None,)
+    with db:
+        for sql in currency_upgrade:
+            db.execute(sql)
+        db.execute('PRAGMA user_version=5')
+    assert db.execute('SELECT currency FROM FinancialTransactions').fetchone() == ('MZN',)
+    assert db.execute('SELECT currency FROM Budgets').fetchone() == ('MZN',)
+    db.execute("INSERT INTO Budgets(month,category,category_key,limit_cents,currency) VALUES('2026-10','Casa','casa',50000,'USD')")
+    try:
+        db.execute("UPDATE FinancialTransactions SET currency='USD'")
+    except sqlite3.IntegrityError:
+        pass
+    else:
+        raise AssertionError('Historical currency changed')
     db.execute("UPDATE StudySessions SET focus_end='2026-10-24T10:25:00Z' WHERE id=1")
     try:
         db.execute("INSERT INTO StudySessions(start,minutes,remaining_seconds,focus_end) VALUES('2026-10-24T10:00:00',25,1500,'2026-10-24T10:25:00Z')")
@@ -90,4 +104,4 @@ with tempfile.TemporaryDirectory() as directory:
     assert db.execute('SELECT title FROM Tasks').fetchone() == ('Ler capítulo',)
     assert db.execute('SELECT COUNT(*) FROM HabitCompletions').fetchone() == (1,)
     db.close()
-print('SQL OK: v1 → v4 migration, financial ledger/budgets, durable focus, acyclic goals, foreign keys, integer cents, reopen persistence.')
+print('SQL OK: v1 → v5 migration, currency integrity, financial ledger/budgets, durable focus, acyclic goals, foreign keys, integer cents, reopen persistence.')

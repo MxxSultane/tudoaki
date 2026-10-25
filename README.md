@@ -7,12 +7,19 @@ Identificador Flutter/Dart: `tudo_aki`.
 Gestão pessoal offline em Flutter: Hoje, Agenda, Metas, Progresso e Perfil. Interface em português, tema claro/escuro, Drift/SQLite e nenhuma conta obrigatória.
 
 ## Estado
-APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 49 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
+APK de depuração compilado: `build/app/outputs/flutter-apk/app-debug.apk` (Android 7.0+). Análise sem problemas e 56 testes aprovados. Lembretes e comportamento num dispositivo real ainda não certificados.
 
 Consulte [docs/PROGRESS.md](docs/PROGRESS.md) para separar implementação, verificações e funcionalidades pendentes. O código não contém dados de demonstração nem credenciais.
 
 ## Fase actual
-Organização pessoal/académica da Fase 3 implementada no escopo actual; área financeira da Fase 4 consolidada com orçamentos e recorrências. A Fase 5 já inclui quatro conquistas persistentes e um gráfico semanal acessível. Moeda configurável e validação real da Fase 6 continuam pendentes. A fundação está concluída; lembretes e utilização real em Android continuam por validar. O estado de cada fase consta em `docs/PROGRESS.md`.
+Organização pessoal/académica da Fase 3 implementada no escopo actual; área financeira da Fase 4 consolidada com orçamentos e recorrências. A Fase 5 já inclui quatro conquistas persistentes e um gráfico semanal acessível. A moeda é configurável em MZN, USD, EUR e ZAR, preservando os valores antigos. A validação real da Fase 6 continua pendente. A fundação está concluída; lembretes e utilização real em Android continuam por validar. O estado de cada fase consta em `docs/PROGRESS.md`.
+
+## Novidades da versão 0.6.0 — moedas sem conversão
+Em **Perfil → Moeda para novos registos**, escolha MZN, USD, EUR ou ZAR. A preferência aplica-se a novos registos; cada movimento, orçamento, meta de poupança e regra recorrente preserva a sua moeda após ser criado.
+
+Em **Perfil → Finanças → Moeda apresentada**, consulte cada moeda separadamente. Novos registos usam a moeda apresentada, mesmo que seja diferente da preferência. Receitas, despesas, saldo, orçamentos, poupanças e recorrências são filtrados pela moeda; não somamos moedas diferentes nem usamos taxas de câmbio. Contribuições só podem ser ligadas a poupanças da mesma moeda. Ao editar, a moeda original mantém-se.
+
+A migração para o esquema v5 atribui MZN a todos os valores antigos, preservando IDs, centavos e histórico. Uma regra antiga em MZN continua a gerar movimentos em MZN depois de mudar a preferência. As quatro moedas usam duas casas decimais. Não há conversão cambial, integração bancária ou novas dependências.
 
 ## Novidades da versão 0.5.0 — progresso e conquistas
 Em **Progresso**, consulte os últimos sete dias com barras e contagens de tarefas, hábitos e sessões de estudo concluídas. O gráfico usa as datas civis de Maputo e os registos actuais; reabrir uma tarefa ou eliminar um registo altera a contagem.

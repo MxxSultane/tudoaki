@@ -1,5 +1,14 @@
 import '../../core/database/database.dart';
 
+const currencyLabels = {
+  'MZN': 'Metical (MZN)',
+  'USD': 'Dólar americano (USD)',
+  'EUR': 'Euro (EUR)',
+  'ZAR': 'Rand (ZAR)',
+};
+String currencyUnit(String currency) => currency == 'MZN' ? 'MT' : currency;
+String rowCurrency(DataRowMap row) => row['currency'] as String? ?? 'MZN';
+
 String cleanCategory(String value) =>
     value.trim().replaceAll(RegExp(r'\s+'), ' ');
 String categoryKey(String value) => cleanCategory(value).toLowerCase();
@@ -8,7 +17,7 @@ String moneyInput(int cents) =>
     '${cents ~/ 100},${(cents % 100).toString().padLeft(2, '0')}';
 
 /// Formatting never converts centavos to floating point, including large totals.
-String formatMoney(BigInt cents) {
+String formatMoney(BigInt cents, {String currency = 'MZN'}) {
   final digits = cents.abs().toString().padLeft(3, '0');
   final whole = digits.substring(0, digits.length - 2);
   final fraction = digits.substring(digits.length - 2);
@@ -16,10 +25,11 @@ String formatMoney(BigInt cents) {
   for (var end = whole.length; end > 0; end -= 3) {
     groups.insert(0, whole.substring(end < 3 ? 0 : end - 3, end));
   }
-  return '${cents.isNegative ? '-' : ''}${groups.join('.')},$fraction MT';
+  return '${cents.isNegative ? '-' : ''}${groups.join('.')},$fraction ${currencyUnit(currency)}';
 }
 
-String money(int cents) => formatMoney(BigInt.from(cents));
+String money(int cents, {String currency = 'MZN'}) =>
+    formatMoney(BigInt.from(cents), currency: currency);
 
 BigInt transactionTotal(
   Iterable<DataRowMap> rows,
@@ -35,6 +45,7 @@ BigInt budgetSpent(DataRowMap budget, Iterable<DataRowMap> rows) =>
       rows,
       (row) =>
           row['kind'] == 'expense' &&
+          rowCurrency(row) == rowCurrency(budget) &&
           (row['day'] as String).startsWith(budget['month'] as String) &&
           categoryKey(row['category'] as String) == budget['category_key'],
     );

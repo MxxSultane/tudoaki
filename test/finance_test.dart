@@ -337,7 +337,7 @@ void main() {
         );
         final exported =
             jsonDecode(await repo.exportJson()) as Map<String, dynamic>;
-        expect(exported['schemaVersion'], 4);
+        expect(exported['schemaVersion'], 5);
         expect((exported['Budgets'] as List).length, 1);
         expect((exported['RecurringOccurrences'] as List).length, 3);
         await repo.erase();
@@ -382,7 +382,7 @@ void main() {
       try {
         expect(
           (await repo.query('PRAGMA user_version')).single.values.single,
-          4,
+          5,
         );
         final row = (await repo.all('FinancialTransactions')).single;
         expect(row['amount_cents'], 10001);

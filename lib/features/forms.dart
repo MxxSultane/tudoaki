@@ -15,6 +15,7 @@ Future<void> showEditor(
   int? parentGoalId,
   int? savingsGoalId,
   DateTime? initialDate,
+  String? currency,
 }) => showModalBottomSheet<void>(
   context: context,
   isScrollControlled: true,
@@ -28,6 +29,7 @@ Future<void> showEditor(
     parentGoalId: parentGoalId,
     savingsGoalId: savingsGoalId,
     initialDate: initialDate,
+    currency: currency,
   ),
 );
 
@@ -40,9 +42,11 @@ class Editor extends ConsumerStatefulWidget {
     this.parentGoalId,
     this.savingsGoalId,
     this.initialDate,
+    this.currency,
     super.key,
   });
   final String kind;
+  final String? currency;
   final DataRowMap? existing;
   final int? goalId;
   final int? subjectId;
@@ -56,6 +60,7 @@ class Editor extends ConsumerStatefulWidget {
 class _EditorState extends ConsumerState<Editor> {
   final form = GlobalKey<FormState>();
   final fields = <String, TextEditingController>{};
+  late String currency;
   late String category, horizon, recurrence, transactionKind, period;
   late int priority;
   late bool important, paused;
@@ -96,6 +101,16 @@ class _EditorState extends ConsumerState<Editor> {
     goalId = original['goal_id'] as int? ?? widget.goalId;
     subjectId = original['subject_id'] as int? ?? widget.subjectId;
     savingsId = original['savings_id'] as int? ?? widget.savingsGoalId;
+    final data = ref.read(dataProvider).valueOrNull;
+    final savings = data?['SavingsGoals']
+        ?.where((g) => g['id'] == savingsId)
+        .firstOrNull;
+    currency =
+        original['currency'] as String? ??
+        (savings == null ? null : rowCurrency(savings)) ??
+        widget.currency ??
+        data?['UserPreferences']?.single['currency'] as String? ??
+        'MZN';
     due = original['due'] == null
         ? null
         : DateTime.parse(original['due'] as String);
@@ -424,6 +439,8 @@ class _EditorState extends ConsumerState<Editor> {
                   onChanged: (v) => setState(() => paused = v),
                 ),
               ],
+              if (widget.kind == 'Transacção' || widget.kind == 'Poupança')
+                Text('Moeda do registo: $currency'),
               if (widget.kind == 'Transacção') ...[
                 TextButton(
                   onPressed: () async {
@@ -442,7 +459,11 @@ class _EditorState extends ConsumerState<Editor> {
                     'Editar este movimento não altera a regra de recorrência.',
                   ),
 
-                text('amount', 'Valor em MT (ex.: 1250,50)', required: true),
+                text(
+                  'amount',
+                  'Valor em ${currencyUnit(currency)} (ex.: 1250,50)',
+                  required: true,
+                ),
                 choice('Tipo', transactionKind, {
                   'income': 'Receita',
                   'expense': 'Despesa',
@@ -458,12 +479,18 @@ class _EditorState extends ConsumerState<Editor> {
                   relation(
                     'Meta de poupança',
                     savingsId,
-                    data['SavingsGoals']!,
+                    data['SavingsGoals']!
+                        .where((g) => rowCurrency(g) == currency)
+                        .toList(),
                     (v) => savingsId = v,
                   ),
               ],
               if (widget.kind == 'Poupança')
-                text('amount', 'Valor pretendido em MT', required: true),
+                text(
+                  'amount',
+                  'Valor pretendido em ${currencyUnit(currency)}',
+                  required: true,
+                ),
               if (widget.kind == 'Revisão') ...[
                 choice('Período', period, {
                   'Semanal': 'Semanal',
@@ -608,6 +635,7 @@ class _EditorState extends ConsumerState<Editor> {
           }
           row.addAll({
             'amount_cents': moneyCents(value('amount')),
+            'currency': currency,
             'kind': transactionKind,
             'category': cleanCategory(value('category', 'Geral')),
             'day': dayKey(due ?? now),
@@ -615,6 +643,7 @@ class _EditorState extends ConsumerState<Editor> {
           });
         case 'Poupança':
           row['target_cents'] = moneyCents(value('amount'));
+          row['currency'] = currency;
         case 'Disciplina':
           break;
         case 'Revisão':

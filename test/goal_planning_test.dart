@@ -109,7 +109,7 @@ void main() {
         expect(await repo.all('ExperienceEvents'), isEmpty);
         final export =
             jsonDecode(await repo.exportJson()) as Map<String, dynamic>;
-        expect(export['schemaVersion'], 4);
+        expect(export['schemaVersion'], 5);
         expect((export['GoalMilestones'] as List).single['completed'], 1);
         await repo.delete('GoalMilestones', step);
         expect(await repo.all('GoalMilestones'), isEmpty);
@@ -150,7 +150,7 @@ void main() {
       try {
         expect(
           (await repo.query('PRAGMA user_version')).single.values.single,
-          4,
+          5,
         );
         expect((await repo.all('Goals')).single['current'], 2);
         expect((await repo.all('Goals')).single['parent_id'], isNull);

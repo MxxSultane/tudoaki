@@ -18,6 +18,7 @@ class FinancePanel extends ConsumerStatefulWidget {
 class _FinancePanelState extends ConsumerState<FinancePanel> {
   late DateTime month;
   int? posting;
+  String? selectedCurrency;
   @override
   void initState() {
     super.initState();
@@ -61,7 +62,7 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                   '${preview.kind == 'income' ? 'Receita' : 'Despesa'} · ${preview.category}',
                 ),
                 Text(
-                  'Total: ${formatMoney(BigInt.from(preview.amountCents) * BigInt.from(preview.days.length))}',
+                  'Total: ${formatMoney(BigInt.from(preview.amountCents) * BigInt.from(preview.days.length), currency: preview.currency)}',
                 ),
                 for (final day in preview.days)
                   ListTile(
@@ -69,7 +70,9 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                     title: Text(
                       DateFormat('dd/MM/yyyy').format(DateTime.parse(day)),
                     ),
-                    trailing: Text(money(preview.amountCents)),
+                    trailing: Text(
+                      money(preview.amountCents, currency: preview.currency),
+                    ),
                   ),
                 if (preview.days.length == recurringBatchLimit)
                   const Text(
@@ -126,7 +129,15 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
   Widget build(BuildContext context) {
     final data = ref.watch(dataProvider).valueOrNull;
     if (data == null) return const SizedBox.shrink();
-    final rows = data['FinancialTransactions']!;
+    final currency =
+        selectedCurrency ??
+        data['UserPreferences']!.single['currency'] as String;
+    final rows = data['FinancialTransactions']!
+        .where((row) => rowCurrency(row) == currency)
+        .toList();
+    final savings = data['SavingsGoals']!
+        .where((row) => rowCurrency(row) == currency)
+        .toList();
     final key = monthKey(month);
     final today = ref.watch(financeClockProvider)();
     final date = monthKey(today) == key ? today : month;
@@ -138,14 +149,38 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
         rows.where((row) => (row['day'] as String).startsWith(key)).toList()
           ..sort((a, b) => (b['day'] as String).compareTo(a['day'] as String));
     final budgets =
-        data['Budgets']!.where((row) => row['month'] == key).toList()..sort(
-          (a, b) => (a['category_key'] as String).compareTo(
-            b['category_key'] as String,
-          ),
-        );
+        data['Budgets']!
+            .where((row) => row['month'] == key && rowCurrency(row) == currency)
+            .toList()
+          ..sort(
+            (a, b) => (a['category_key'] as String).compareTo(
+              b['category_key'] as String,
+            ),
+          );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        DropdownButtonFormField<String>(
+          key: ValueKey('view-currency-$currency'),
+          initialValue: currency,
+          isExpanded: true,
+          decoration: const InputDecoration(labelText: 'Moeda apresentada'),
+          items: [
+            for (final entry in currencyLabels.entries)
+              DropdownMenuItem(
+                value: entry.key,
+                child: Text(
+                  entry.value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+          ],
+          onChanged: (value) => setState(() => selectedCurrency = value),
+        ),
+        const Text(
+          'Resumo e novos registos nesta moeda. Consulte outras moedas no selector; não há conversão cambial.',
+        ),
         Row(
           children: [
             IconButton(
@@ -193,16 +228,20 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Resumo mensal · MZN',
+                  'Resumo mensal · $currency',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Text('Receitas: ${formatMoney(total('income'))}'),
-                Text('Despesas: ${formatMoney(total('expense'))}'),
                 Text(
-                  'Contribuições para poupança: ${formatMoney(total('saving'))}',
+                  'Receitas: ${formatMoney(total('income'), currency: currency)}',
                 ),
                 Text(
-                  'Saldo dos movimentos: ${formatMoney(total('income') - total('expense') - total('saving'))}',
+                  'Despesas: ${formatMoney(total('expense'), currency: currency)}',
+                ),
+                Text(
+                  'Contribuições para poupança: ${formatMoney(total('saving'), currency: currency)}',
+                ),
+                Text(
+                  'Saldo dos movimentos: ${formatMoney(total('income') - total('expense') - total('saving'), currency: currency)}',
                 ),
               ],
             ),
@@ -212,12 +251,17 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
           spacing: 8,
           children: [
             FilledButton.tonal(
-              onPressed: () =>
-                  showEditor(context, 'Transacção', initialDate: date),
+              onPressed: () => showEditor(
+                context,
+                'Transacção',
+                initialDate: date,
+                currency: currency,
+              ),
               child: const Text('Registar movimento'),
             ),
             OutlinedButton(
-              onPressed: () => showEditor(context, 'Poupança'),
+              onPressed: () =>
+                  showEditor(context, 'Poupança', currency: currency),
               child: const Text('Criar poupança'),
             ),
           ],
@@ -231,6 +275,7 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                 'Orçamento',
                 month: month,
                 today: today,
+                currency: currency,
               ),
               child: const Text('Adicionar orçamento'),
             ),
@@ -268,12 +313,15 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                               existing: budget,
                               month: month,
                               today: today,
+                              currency: currency,
                             ),
                             icon: const Icon(Icons.edit_outlined),
                           ),
                         ],
                       ),
-                      Text('${formatMoney(spent)} de ${money(limit)}'),
+                      Text(
+                        '${formatMoney(spent, currency: currency)} de ${money(limit, currency: currency)}',
+                      ),
                       const SizedBox(height: 8),
                       LinearProgressIndicator(
                         value: moneyProgress(spent, limit),
@@ -284,8 +332,8 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                       const SizedBox(height: 8),
                       Text(
                         remaining.isNegative
-                            ? 'Limite ultrapassado em ${formatMoney(-remaining)}'
-                            : 'Restante: ${formatMoney(remaining)}',
+                            ? 'Limite ultrapassado em ${formatMoney(-remaining, currency: currency)}'
+                            : 'Restante: ${formatMoney(remaining, currency: currency)}',
                       ),
                     ],
                   ),
@@ -297,8 +345,12 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
           children: [
             Expanded(child: heading('Movimentos recorrentes')),
             TextButton(
-              onPressed: () =>
-                  showFinancePlan(context, 'Recorrência', today: today),
+              onPressed: () => showFinancePlan(
+                context,
+                'Recorrência',
+                today: today,
+                currency: currency,
+              ),
               child: const Text('Nova recorrência'),
             ),
           ],
@@ -306,13 +358,15 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
         const Text(
           'Reveja os vencimentos antes de confirmar. Nenhum movimento é criado ao abrir esta página.',
         ),
-        for (final rule in data['RecurringTransactions']!)
+        for (final rule in data['RecurringTransactions']!.where(
+          (row) => rowCurrency(row) == currency,
+        ))
           Card(
             child: ExpansionTile(
               key: PageStorageKey('recurring-${rule['id']}'),
               title: Text(rule['title'] as String),
               subtitle: Text(
-                '${money(rule['amount_cents'] as int)} · ${frequencyLabels[rule['frequency']]}${rule['active'] == 0 ? ' · Em pausa' : ''}',
+                '${money(rule['amount_cents'] as int, currency: currency)} · ${frequencyLabels[rule['frequency']]}${rule['active'] == 0 ? ' · Em pausa' : ''}',
               ),
               childrenPadding: const EdgeInsets.all(12),
               expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
@@ -342,6 +396,7 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                         'Recorrência',
                         existing: rule,
                         today: today,
+                        currency: currency,
                       ),
                       child: const Text('Editar regra'),
                     ),
@@ -370,9 +425,9 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
             ),
           ),
         heading('Metas de poupança'),
-        if (data['SavingsGoals']!.isEmpty)
+        if (savings.isEmpty)
           const Text('Crie uma meta para acompanhar as suas contribuições.'),
-        for (final goal in data['SavingsGoals']!)
+        for (final goal in savings)
           Builder(
             builder: (_) {
               final cents = transactionTotal(
@@ -403,7 +458,9 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                           ),
                         ],
                       ),
-                      Text('${formatMoney(cents)} / ${money(target)}'),
+                      Text(
+                        '${formatMoney(cents, currency: currency)} / ${money(target, currency: currency)}',
+                      ),
                       const SizedBox(height: 8),
                       LinearProgressIndicator(
                         value: moneyProgress(cents, target),
@@ -440,7 +497,9 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                 }}${row['recurring_day'] == null ? '' : ' · Recorrente'}',
               ),
               isThreeLine: true,
-              trailing: Text(money(row['amount_cents'] as int)),
+              trailing: Text(
+                money(row['amount_cents'] as int, currency: currency),
+              ),
               onTap: () => showEditor(context, 'Transacção', existing: row),
             ),
           ),

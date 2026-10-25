@@ -3,7 +3,7 @@
 2. Crio uma tarefa com prazo e meta. Posso editar, concluir e reabrir; o histórico de XP não duplica.
 3. Consulto a agenda do dia/semana/mês. Eventos recorrentes aparecem nas datas válidas; sobreposições são sinalizadas.
 4. Registo um hábito uma vez por dia. Um segundo toque remove o registo, sem acumular XP. Pausar não apaga histórico.
-5. Registo receita ou despesa em MT. O valor é positivo e convertido exactamente em centavos; o saldo usa soma de inteiros.
+5. Registo receita ou despesa numa moeda suportada (MZN/USD/EUR/ZAR). O valor é positivo e convertido exactamente em centavos; o saldo usa soma de inteiros.
 6. Faço uma revisão semanal ou mensal. As respostas ficam disponíveis após reiniciar.
 7. Posso ignorar boas-vindas, mudar tema, exportar e apagar dados mediante confirmação.
 8. Lembretes pedem permissão apenas ao agendar. A recusa não impede guardar a tarefa e é comunicada.
@@ -17,8 +17,11 @@
 16. Planeio uma sessão de estudo com título, disciplina opcional, data/hora e duração. Posso editar o plano antes de o iniciar.
 17. Inicio, pauso e retomo o foco. A pausa preserva o tempo restante e o prazo é recuperado ao reabrir a base. Só posso registar a conclusão após terminar o tempo; repetir a confirmação não duplica XP.
 18. Ao apagar uma disciplina, os seus horários são removidos, mas trabalhos, avaliações e sessões de estudo são preservados sem associação. A exportação e a eliminação total incluem os novos dados.
-19. Defino e edito um orçamento por categoria/mês. Maiúsculas e espaços não duplicam categorias; só despesas desse mês/categoria consomem o orçamento.
+19. Defino e edito um orçamento por categoria/mês/moeda. Maiúsculas e espaços não duplicam categorias; só despesas desse mês/categoria/moeda consomem o orçamento.
 20. Registo um movimento com data escolhida, consulto meses anteriores/seguintes e vejo receitas, despesas, contribuições e saldo dos movimentos com centavos exactos.
 21. Defino uma recorrência, revejo datas/valores e confirmo o registo. Cancelar a revisão não cria movimentos; repetir a confirmação não duplica entradas.
 22. Pauso ou encerro uma regra. Alterar o valor não altera movimentos já registados; datas de fim de mês e anos bissextos mantêm a referência original.
 23. Elimino um movimento recorrente e o vencimento não volta a ser criado. Elimino uma regra ou uma meta de poupança e o histórico monetário é preservado.
+
+24. Escolho uma moeda para novos registos. Os movimentos anteriores mantêm a moeda original, inclusive quando editados; nenhuma mudança de preferência converte valores.
+25. Consulto Finanças por moeda e crio registos nessa moeda. Orçamentos iguais noutras moedas são independentes; contribuições de poupança não podem misturar moedas; uma recorrência mantém a sua moeda após mudar a preferência.

@@ -12,6 +12,7 @@ import 'academics/academic_rules.dart';
 import 'academics/academic_editor.dart';
 import 'academics/academics_panel.dart';
 import 'finance/finance_panel.dart';
+import 'finance/finance_rules.dart';
 import 'progress/progress_panel.dart';
 
 void showQuickCreate(BuildContext context) => showModalBottomSheet<void>(
@@ -718,6 +719,32 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
       onChanged: (value) => act(() async {
         await repo.save('UserPreferences', {'theme': value}, id: 1);
       }),
+    ),
+    const SizedBox(height: 16),
+    DropdownButtonFormField<String>(
+      key: ValueKey('default-currency-${prefs['currency']}'),
+      initialValue: prefs['currency'] as String,
+      isExpanded: true,
+      decoration: const InputDecoration(labelText: 'Moeda para novos registos'),
+      items: [
+        for (final entry in currencyLabels.entries)
+          DropdownMenuItem(
+            value: entry.key,
+            child: Text(
+              entry.value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+      ],
+      onChanged: (value) => act(() async {
+        if (value != null) {
+          await repo.save('UserPreferences', {'currency': value}, id: 1);
+        }
+      }),
+    ),
+    const Text(
+      'Aplica-se a novos registos. Os valores existentes mantêm a moeda original. Sem conversão cambial.',
     ),
     SwitchListTile(
       title: const Text('Gamificação'),

@@ -188,7 +188,7 @@ void main() {
         await repo.startStudy(id, now: t0);
         final exported =
             jsonDecode(await repo.exportJson()) as Map<String, dynamic>;
-        expect(exported['schemaVersion'], 4);
+        expect(exported['schemaVersion'], 5);
         expect((exported['ClassSchedules'] as List).length, 1);
         expect((exported['Assessments'] as List).length, 1);
         expect(
@@ -325,7 +325,7 @@ void main() {
       try {
         expect(
           (await repo.query('PRAGMA user_version')).single.values.single,
-          4,
+          5,
         );
         expect((await repo.studyById(planned))['remaining_seconds'], 1500);
         expect((await repo.studyById(completed))['remaining_seconds'], 0);

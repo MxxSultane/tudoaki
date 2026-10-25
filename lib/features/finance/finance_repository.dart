@@ -11,10 +11,11 @@ class RecurringPreview {
     required this.kind,
     required this.category,
     required this.through,
+    this.currency = 'MZN',
     required List<String> days,
   }) : days = List.unmodifiable(days);
   final int ruleId, revision, amountCents;
-  final String title, kind, category, through;
+  final String title, kind, category, through, currency;
   final List<String> days;
 }
 
@@ -24,6 +25,7 @@ extension FinanceRepository on TudoAkiRepository {
     required String month,
     required String category,
     required int limitCents,
+    String? currency,
   }) => db.transaction(() async {
     if (!RegExp(r'^\d{4}-(0[1-9]|1[0-2])$').hasMatch(month) ||
         categoryKey(category).isEmpty ||
@@ -32,9 +34,21 @@ extension FinanceRepository on TudoAkiRepository {
         'Defina mês, categoria e um limite positivo.',
       );
     }
+    currency ??= id == null
+        ? (await all('UserPreferences')).single['currency'] as String
+        : rowCurrency(
+            (await all('Budgets')).singleWhere((row) => row['id'] == id),
+          );
+    if (!currencyLabels.containsKey(currency)) {
+      throw const FormatException('Moeda inválida.');
+    }
     final duplicate = await query(
-      'SELECT id FROM Budgets WHERE month=? AND category_key=?',
-      [Variable.withString(month), Variable.withString(categoryKey(category))],
+      'SELECT id FROM Budgets WHERE month=? AND category_key=? AND currency=?',
+      [
+        Variable.withString(month),
+        Variable.withString(categoryKey(category)),
+        Variable.withString(currency!),
+      ],
     );
     if (duplicate.any((row) => row['id'] != id)) {
       throw const FormatException(
@@ -46,6 +60,7 @@ extension FinanceRepository on TudoAkiRepository {
       'category': cleanCategory(category),
       'category_key': categoryKey(category),
       'limit_cents': limitCents,
+      'currency': currency,
     }, id: id);
   });
 
@@ -59,6 +74,7 @@ extension FinanceRepository on TudoAkiRepository {
     required DateTime start,
     DateTime? end,
     bool active = true,
+    String? currency,
   }) => db.transaction(() async {
     if (title.trim().isEmpty ||
         amountCents <= 0 ||
@@ -72,6 +88,16 @@ extension FinanceRepository on TudoAkiRepository {
         end != null &&
             (end.year > 2100 || dayKey(end).compareTo(dayKey(start)) < 0)) {
       throw const FormatException('Use datas válidas entre 2000 e 2100.');
+    }
+    currency ??= id == null
+        ? (await all('UserPreferences')).single['currency'] as String
+        : rowCurrency(
+            (await all(
+              'RecurringTransactions',
+            )).singleWhere((row) => row['id'] == id),
+          );
+    if (!currencyLabels.containsKey(currency)) {
+      throw const FormatException('Moeda inválida.');
     }
     var revision = 1;
     if (id != null) {
@@ -102,6 +128,7 @@ extension FinanceRepository on TudoAkiRepository {
       'end_day': end == null ? null : dayKey(end),
       'active': active ? 1 : 0,
       'revision': revision,
+      'currency': currency,
     }, id: id);
   });
 
@@ -128,6 +155,7 @@ extension FinanceRepository on TudoAkiRepository {
       kind: rule['kind'] as String,
       category: rule['category'] as String,
       through: dayKey(at),
+      currency: rowCurrency(rule),
       days: dates,
     );
   }
@@ -173,6 +201,7 @@ extension FinanceRepository on TudoAkiRepository {
           final transaction = await save('FinancialTransactions', {
             'title': rule['title'],
             'amount_cents': rule['amount_cents'],
+            'currency': rule['currency'],
             'kind': rule['kind'],
             'category': rule['category'],
             'day': day,

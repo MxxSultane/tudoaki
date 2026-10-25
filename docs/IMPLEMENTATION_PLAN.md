@@ -2,7 +2,7 @@
 1. Fundação: documentos, Flutter/Android, tema, router, esquema v1, repositório.
 2. Núcleo: tarefas/metas/eventos/agenda/Hoje e armazenamento real.
 3. Organização: hábitos, disciplinas, horários, avaliações, estudo com foco e revisões implementados no escopo actual; validar também num dispositivo.
-4. Áreas: transacções, poupanças, orçamentos, recorrências e hábitos de bem-estar implementados; moeda configurável pendente.
+4. Áreas: transacções, poupanças, orçamentos, recorrências e hábitos de bem-estar implementados, incluindo MZN/USD/EUR/ZAR com denominação por registo.
 5. Motivação: XP idempotente, níveis, quatro conquistas persistentes e gráfico semanal implementados; evoluir catálogo/tendências após utilização real.
 6. Qualidade: testes de regras/persistência/widgets, análise, APK e testes em Android.
 
@@ -21,4 +21,7 @@ Horários por disciplina, avaliações, sessões de estudo, integração na agen
 Orçamentos mensais, revisão/confirmação de movimentos recorrentes, datas editáveis, gestão de poupanças e cálculo/validação monetária exactos. Migração v4 e testes de regressão, consentimento de registo, idempotência, histórico e interface em 360×800. Ficam para os próximos incrementos moeda configurável, conquistas/gráficos e a validação física Android.
 
 ## Incremento 0.5.0 — progresso e conquistas
-Quatro conquistas do histórico de XP, reconhecimento retroactivo sem XP adicional, preferência respeitada e gráfico acessível dos últimos sete dias. Mantém esquema v4 e nenhuma dependência nova. Moeda configurável e verificação física Android continuam pendentes.
+Quatro conquistas do histórico de XP, reconhecimento retroactivo sem XP adicional, preferência respeitada e gráfico acessível dos últimos sete dias. Mantém esquema v4 e nenhuma dependência nova. Neste incremento, moeda configurável e verificação física Android ficaram pendentes; a moeda foi tratada no incremento 0.6.0.
+
+## Incremento 0.6.0 — moedas
+Preferência para novos registos e consulta por moeda; preservação de MZN no histórico, migração v5, orçamentos independentes e contribuições/recorrências com denominação consistente. A validação física Android permanece pendente; seguem melhorias de planeamento e recuperação de dados conforme os requisitos.

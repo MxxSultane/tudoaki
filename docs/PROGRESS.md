@@ -1,27 +1,27 @@
 # Progresso — Tudo Aki
 
 ## Estado por fase
-A Fase 3 está implementada no escopo actual e a Fase 4 foi consolidada com orçamentos e recorrências. A Fase 5 inclui agora conquistas e um gráfico semanal; a moeda configurável continua pendente; a validação física da Fase 6 está pendente.
+A Fase 3 está implementada no escopo actual e a Fase 4 foi consolidada com orçamentos e recorrências. A Fase 5 inclui agora conquistas e um gráfico semanal; a Fase 4 inclui moeda configurável; a validação física da Fase 6 está pendente.
 
 | Fase | Estado | Entrega e pendências |
 | --- | --- | --- |
 | 1 — Fundação | Concluída para desenvolvimento | Arquitectura, tema, navegação e SQLite preparados. |
 | 2 — Núcleo funcional | Implementado; validação real do MVP pendente | Hoje, tarefas, agenda, metas, submetas e etapas; lembretes e ciclo de reabertura Android ainda precisam de dispositivo. |
 | 3 — Organização pessoal | Implementada no escopo actual; validação Android pendente | Hábitos, disciplinas, horários, avaliações, sessões de estudo, foco e revisões. |
-| 4 — Áreas de vida | Financeiro consolidado; moeda configurável pendente | Transacções, poupanças, orçamentos, recorrências e bem-estar via hábitos. |
+| 4 — Áreas de vida | Implementada no escopo actual | Transacções, poupanças, orçamentos e recorrências por moeda (MZN/USD/EUR/ZAR), bem-estar via hábitos. |
 | 5 — Gamificação | Incremento funcional implementado | XP, níveis, quatro conquistas persistentes e gráfico semanal com contagens; catálogo ampliado e gráficos de tendências ficam para evolução. |
 | 6 — Qualidade | Em curso | Análise, testes automatizados e APK; utilização, notificações e acessibilidade num dispositivo ainda pendentes. |
 
 ## Fundação e núcleo implementados
 - Documentos de visão, requisitos, histórias, arquitectura, design e fases criados antes do código.
 - Flutter 3.35.7 / Dart 3.9.2, Riverpod, GoRouter e Material 3; português, tema claro/escuro, cinco áreas principais.
-- Drift/SQLite nativo, esquema v4 com 20 entidades e migrações aditivas v1/v2/v3 → v4, chaves estrangeiras, índices, transacções e recusa de migrações desconhecidas.
+- Drift/SQLite nativo, esquema v5 com 20 entidades e migrações transaccionais v1/v2/v3/v4 → v5, chaves estrangeiras, índices, transacções e recusa de migrações desconhecidas.
 - Metas com horizonte, métrica, prazo, edição e histórico; criação de acções associadas. Métricas de resultados independentes da conclusão de tarefas.
 - Tarefas com prioridades, importância, disciplina, meta e data/hora; edição, reagendamento, conclusão, reabertura e eliminação.
 - Agenda diária/semanal/mensal em lista; eventos com edição, recorrência diária/semanal e sinalização de sobreposição entre eventos.
 - Hábitos com dias da semana, plano quando/então, pausa, registo e histórico.
 - Disciplinas e trabalhos associados; revisões semanais/mensais persistidas.
-- Receitas, despesas, contribuições e metas de poupança em centavos; resumo mensal em MZN.
+- Receitas, despesas, contribuições e metas de poupança em centavos; resumos mensais separados por moeda.
 - XP opcional e idempotente por tarefa e por hábito/dia, níveis e resumo textual de progresso.
 - Boas-vindas ignoráveis, estados vazios, erros, exportação JSON pela partilha do sistema e eliminação confirmada dos dados.
 - Adaptador Android para notificações com permissão a pedido, agendamento aproximado em Africa/Maputo e receptores de reinício. Notificações não foram validadas num dispositivo.
@@ -64,15 +64,21 @@ A Fase 3 está implementada no escopo actual e a Fase 4 foi consolidada com orç
 - Resumo conta metas alcançadas apenas pelo estado completed. Esquema v4 preservado; exportação e eliminação já incluem conquistas.
 - Quatro testes adicionais: reconhecimento/reabertura/exportação/reset, gamificação desactivada/reactivada, fronteiras de datas e exclusões, e widget de 360 px com texto a 200%.
 
+## Incremento 0.6.0 — moedas com denominação preservada
+- Preferência MZN/USD/EUR/ZAR para novos registos e selector de consulta/criação na área financeira. Cada valor guarda a moeda; somas, limites, contribuições e recorrências são separados por moeda, sem câmbio.
+- Migração transaccional v1/v2/v3/v4 → v5: valores antigos recebem MZN independentemente da preferência antiga sem interface. Orçamentos passam a ter unicidade por mês/categoria/moeda, com IDs e centavos preservados.
+- Triggers impedem alterar a moeda de registos existentes e associar uma contribuição a poupança noutra moeda. Recorrências mantêm a denominação da regra; edição, eliminação de associações, exportação e reset preservam as regras definidas.
+- Sete testes novos: migração v4/reabertura com histórico/foco/conquistas; preferências/imutabilidade; orçamentos por moeda; contribuições incompatíveis; recorrências após mudar preferência; dois fluxos de interface em 360×800.
+
 ## Verificação efectuada no ambiente
 - `flutter pub get`: concluído, lockfile gerado e dependências instaladas.
 - `dart format lib test`: executado.
 - `flutter analyze`: sem problemas na verificação final concluída.
-- `flutter test --reporter expanded`: **49 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
+- `flutter test --reporter expanded`: **56 testes aprovados**, incluindo o fluxo de widget meta → tarefa associada → agendamento → conclusão → XP, recusa de versão futura da base, persistência em ficheiro após reabertura, hábitos, relações, dinheiro e recorrência.
 - `python3 tool/check_schema.py`: SQL, relações, unicidade, centavos e reabertura aprovados.
-- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.5 MiB), Tudo Aki 0.5.0, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
+- `flutter build apk --debug`: **aprovado**; APK em `build/app/outputs/flutter-apk/app-debug.apk` (149.5 MiB), Tudo Aki 0.6.0, Android 7.0+ (API 24), target API 36, ARM64/ARMv7/x86-64.
 - `apksigner verify --verbose`: assinatura de depuração v2 verificada. O APK apresenta o nome Tudo Aki, uma única actividade no launcher e os ícones novos, mantendo o ID de instalação anterior. `aapt dump badging` confirmou identidade, versões, permissões e arquitecturas.
-- SHA-256 do APK: `fae9cf0df9a63eb9eaf7be596c98aad348310bc85a2c169ac6ec5c40109405ee`.
+- SHA-256 do APK: `c02db9de58920d35ea691dfa4c9c88c7c11428bc37eddd03cebd815a1322116e`.
 
 ## Ambiente e reprodução
 `tool/setup.sh` fixa o Flutter por commit oficial e o Temurin JDK 21.0.13+9 por SHA-256, instala dependências com lockfile, prepara SQLite de testes e as ferramentas Android. `tool/env.sh` activa os caminhos. `tool/setup_android.sh` usa o checksum oficial da CLI e configura o proxy Java sem copiar credenciais. SDKs/caches ficam em `/workspace/.tools`, fora do repositório da aplicação. A instalação foi repetida com sucesso, com o lockfile respeitado. `install_script`, `start_skill` e o domínio `storage.googleapis.com` foram guardados no rascunho; isso não publica o ambiente.
@@ -82,7 +88,7 @@ A primeira tentativa de download do catálogo Flutter teve 403 e depois 404; a i
 ## Pendências e limites
 O MVP **ainda não está certificado num dispositivo Android**. Falta testar a entrega de lembretes e a persistência no ciclo de fecho/reabertura do processo Android; o teste existente valida SQLite em Linux. Sem dispositivo ligado e sem `/dev/kvm` neste ambiente.
 
-Fases posteriores: edição de uma ocorrência isolada e excepções de recorrência; eventos que atravessam vários dias e conflitos com blocos de tarefas; categorias configuráveis; moeda configurável; catálogo ampliado de conquistas; WOOP guiado; interesses no onboarding; backup/importação; suporte a outros fusos/DST e plataformas; verificação de acessibilidade em dispositivo.
+Fases posteriores: edição de uma ocorrência isolada e excepções de recorrência; eventos que atravessam vários dias e conflitos com blocos de tarefas; categorias configuráveis; outras moedas além de MZN/USD/EUR/ZAR; catálogo ampliado de conquistas; WOOP guiado; interesses no onboarding; backup/importação; suporte a outros fusos/DST e plataformas; verificação de acessibilidade em dispositivo.
 
 Quatro conquistas e o gráfico semanal dispõem de interface funcional. A grelha mensal avançada e outros gráficos de tendências continuam pendentes. Não há analytics, conta, backend, sincronização bancária ou encriptação implementada.
 

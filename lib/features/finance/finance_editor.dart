@@ -12,6 +12,7 @@ Future<void> showFinancePlan(
   DataRowMap? existing,
   DateTime? month,
   DateTime? today,
+  String? currency,
 }) => showModalBottomSheet<void>(
   context: context,
   isScrollControlled: true,
@@ -22,6 +23,7 @@ Future<void> showFinancePlan(
     existing: existing,
     month: month,
     today: today,
+    currency: currency,
   ),
 );
 
@@ -31,9 +33,11 @@ class FinancePlanEditor extends ConsumerStatefulWidget {
     this.existing,
     this.month,
     this.today,
+    this.currency,
     super.key,
   });
   final String kind;
+  final String? currency;
   final DataRowMap? existing;
   final DateTime? month, today;
   @override
@@ -45,7 +49,7 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
   late final TextEditingController title, category, amount;
   late DateTime month, start;
   DateTime? end;
-  late String frequency, kind;
+  late String frequency, kind, currency;
   late bool active;
   bool busy = false;
   String? error;
@@ -75,6 +79,15 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
     frequency = old['frequency'] as String? ?? 'monthly';
     kind = old['kind'] as String? ?? 'expense';
     active = old['active'] != 0;
+    currency =
+        old['currency'] as String? ??
+        widget.currency ??
+        ref
+                .read(dataProvider)
+                .valueOrNull?['UserPreferences']
+                ?.single['currency']
+            as String? ??
+        'MZN';
   }
 
   @override
@@ -130,7 +143,13 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
               const SizedBox(height: 20),
               if (recurring) field(title, 'Título'),
               field(category, 'Categoria'),
-              field(amount, recurring ? 'Valor em MT' : 'Limite em MT'),
+              Text('Moeda do registo: $currency'),
+              field(
+                amount,
+                recurring
+                    ? 'Valor em ${currencyUnit(currency)}'
+                    : 'Limite em ${currencyUnit(currency)}',
+              ),
               if (!recurring)
                 OutlinedButton(
                   onPressed: () async {
@@ -270,6 +289,7 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
           start: start,
           end: end,
           active: active,
+          currency: currency,
         );
       } else {
         await repo.saveBudget(
@@ -277,6 +297,7 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
           month: monthKey(month),
           category: category.text,
           limitCents: cents,
+          currency: currency,
         );
       }
       container.invalidate(dataProvider);

@@ -20,21 +20,27 @@ class TudoAkiDatabase extends GeneratedDatabase {
     }),
   );
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
   @override
   Iterable<TableInfo<Table, Object?>> get allTables => const [];
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => const [];
   @override
   MigrationStrategy get migration => MigrationStrategy(
-    onCreate: (_) =>
-        _applySchema([...schemaV1, ...schemaV2, ...schemaV3, ...schemaV4]),
+    onCreate: (_) => _applySchema([
+      ...schemaV1,
+      ...schemaV2,
+      ...schemaV3,
+      ...schemaV4,
+      ...schemaV5,
+    ]),
     onUpgrade: (_, from, to) async {
-      if (from >= 1 && from < 4 && to == 4) {
+      if (from >= 1 && from < 5 && to == 5) {
         await _applySchema([
           if (from < 2) ...schemaV2,
           if (from < 3) ...schemaV3,
-          ...schemaV4,
+          if (from < 4) ...schemaV4,
+          ...schemaV5,
         ]);
         return;
       }
@@ -108,6 +114,17 @@ class TudoAkiRepository {
     }
     if (data.keys.any((key) => !RegExp(r'^[a-z_]+$').hasMatch(key))) {
       throw ArgumentError('Campo inválido');
+    }
+    data = Map.of(data);
+    if (db.schemaVersion >= 5 &&
+        id == null &&
+        const [
+          'FinancialTransactions',
+          'SavingsGoals',
+          'Budgets',
+          'RecurringTransactions',
+        ].contains(table)) {
+      data['currency'] ??= (await all('UserPreferences')).single['currency'];
     }
     final fields = data.keys.toList();
     if (id == null) {

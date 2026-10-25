@@ -136,6 +136,45 @@ const schemaV4 = <String>[
   'CREATE UNIQUE INDEX financial_recurring_day ON FinancialTransactions(recurring_id,recurring_day) WHERE recurring_id IS NOT NULL',
 ];
 
+// Every historical amount was entered in MZN, regardless of the unused preference.
+const schemaV5 = <String>[
+  "ALTER TABLE FinancialTransactions ADD COLUMN currency TEXT NOT NULL DEFAULT 'MZN' CHECK(currency IN ('MZN','USD','EUR','ZAR'))",
+  "ALTER TABLE SavingsGoals ADD COLUMN currency TEXT NOT NULL DEFAULT 'MZN' CHECK(currency IN ('MZN','USD','EUR','ZAR'))",
+  "ALTER TABLE RecurringTransactions ADD COLUMN currency TEXT NOT NULL DEFAULT 'MZN' CHECK(currency IN ('MZN','USD','EUR','ZAR'))",
+  """CREATE TABLE Budgets_new (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    month TEXT NOT NULL CHECK(length(month) = 7 AND substr(month,5,1) = '-' AND CAST(substr(month,6,2) AS INTEGER) BETWEEN 1 AND 12),
+    category TEXT NOT NULL CHECK(length(trim(category)) > 0), category_key TEXT NOT NULL,
+    limit_cents INTEGER NOT NULL CHECK(limit_cents > 0),
+    currency TEXT NOT NULL DEFAULT 'MZN' CHECK(currency IN ('MZN','USD','EUR','ZAR')),
+    UNIQUE(month,category_key,currency))""",
+  "INSERT INTO Budgets_new(id,month,category,category_key,limit_cents) SELECT id,month,category,category_key,limit_cents FROM Budgets",
+  'DROP TABLE Budgets',
+  'ALTER TABLE Budgets_new RENAME TO Budgets',
+  "UPDATE UserPreferences SET currency='MZN' WHERE currency NOT IN ('MZN','USD','EUR','ZAR')",
+  """CREATE TRIGGER preference_currency_insert BEFORE INSERT ON UserPreferences
+    WHEN NEW.currency NOT IN ('MZN','USD','EUR','ZAR')
+    BEGIN SELECT RAISE(ABORT, 'Unsupported currency'); END""",
+  """CREATE TRIGGER preference_currency_update BEFORE UPDATE OF currency ON UserPreferences
+    WHEN NEW.currency NOT IN ('MZN','USD','EUR','ZAR')
+    BEGIN SELECT RAISE(ABORT, 'Unsupported currency'); END""",
+
+  """CREATE TRIGGER financial_currency_immutable BEFORE UPDATE OF currency ON FinancialTransactions
+    WHEN NEW.currency != OLD.currency BEGIN SELECT RAISE(ABORT, 'Currency is immutable'); END""",
+  """CREATE TRIGGER savings_currency_immutable BEFORE UPDATE OF currency ON SavingsGoals
+    WHEN NEW.currency != OLD.currency BEGIN SELECT RAISE(ABORT, 'Currency is immutable'); END""",
+  """CREATE TRIGGER recurring_currency_immutable BEFORE UPDATE OF currency ON RecurringTransactions
+    WHEN NEW.currency != OLD.currency BEGIN SELECT RAISE(ABORT, 'Currency is immutable'); END""",
+  """CREATE TRIGGER budget_currency_immutable BEFORE UPDATE OF currency ON Budgets
+    WHEN NEW.currency != OLD.currency BEGIN SELECT RAISE(ABORT, 'Currency is immutable'); END""",
+  """CREATE TRIGGER saving_currency_insert BEFORE INSERT ON FinancialTransactions
+    WHEN NEW.savings_id IS NOT NULL AND NEW.currency != (SELECT currency FROM SavingsGoals WHERE id=NEW.savings_id)
+    BEGIN SELECT RAISE(ABORT, 'Savings currency mismatch'); END""",
+  """CREATE TRIGGER saving_currency_update BEFORE UPDATE OF savings_id,currency ON FinancialTransactions
+    WHEN NEW.savings_id IS NOT NULL AND NEW.currency != (SELECT currency FROM SavingsGoals WHERE id=NEW.savings_id)
+    BEGIN SELECT RAISE(ABORT, 'Savings currency mismatch'); END""",
+];
+
 const exportTables = [
   'UserPreferences',
   'Goals',
