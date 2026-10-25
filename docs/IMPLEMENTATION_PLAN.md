@@ -1,6 +1,6 @@
 # Plano incremental
 
-**Âmbito actual (0.8.0):** ligar a nova interface aos dados reais e integrar os módulos anteriores com três separadores e divulgação progressiva. O pedido actual substitui a limitação anterior ao esqueleto.
+**Âmbito actual (0.9.0):** acrescentar o planeamento semanal móvel à interface funcional, mantendo três separadores e divulgação progressiva. O pedido actual substitui a limitação anterior ao esqueleto.
 1. Fundação: documentos, Flutter/Android, tema, router, esquema v1, repositório.
 2. Núcleo: tarefas/metas/eventos/agenda/Hoje e armazenamento real.
 3. Organização: hábitos, disciplinas, horários, avaliações, estudo com foco e revisões implementados no escopo actual; validar também num dispositivo.
@@ -30,3 +30,6 @@ Preferência para novos registos e consulta por moeda; preservação de MZN no h
 
 ## Incremento 0.8.0 — integração harmónica
 Núcleo funcional na interface nova, formulários compactos, detalhes de metas e acesso Mais aos módulos de hábitos, estudos, finanças, progresso, revisões e definições. Preservar esquema/dados e verificar navegação, persistência real, regras e acessibilidade. Continuam pendentes os itens explicitamente futuros e a validação física Android.
+
+## Incremento 0.9.0 — planear ao domingo
+Entrada em Mais, semana seguinte por defeito ao domingo, sete dias em cartões, tipo de criação no topo e formulários compactos. Permitir tarefas sem hora, reutilizar pendentes e reflectir tudo na agenda, sem duplicar entidades. Validar limites de datas, ausência de falsos conflitos, persistência e layouts em 360 px/200% de texto.

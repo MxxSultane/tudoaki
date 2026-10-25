@@ -1,6 +1,18 @@
 # Progresso — Tudo Aki
 
-## Entrega actual — integração funcional 0.8.0
+## Entrega actual — planeamento semanal 0.9.0
+- **Mais → Planear semana**, fora da navegação principal. Tipo Tarefas/Eventos no topo, cartões dos sete dias e uma única acção principal que adiciona ao dia seleccionado. Contagens e detalhes recolhidos para caber no telemóvel.
+- Domingo sugere a segunda-feira seguinte; nos restantes dias abre a segunda-feira da semana actual. Navegação civil entre semanas e selector de data, preservando o dia da semana e respeitando 2000–2100.
+- Eventos herdam o dia escolhido e duração inicial de uma hora; início/fim podem ser ajustados. Uma falha no formulário genérico, que ignorava initialDate nos eventos, foi reproduzida e corrigida.
+- Tarefas podem ter apenas dia, com hora opcional. O formato YYYY-MM-DD em Tasks.due distingue Sem hora de uma tarefa marcada para 00:00. Edição, agenda, conflitos e exportação preservam a distinção; lembretes só ficam disponíveis com hora definida.
+- Escolher pendente programa tarefas existentes sem duplicar IDs ou perder associações. Eventos, tarefas e compromissos académicos já existentes são lidos directamente da agenda. Guardar persiste imediatamente; cancelar e navegar não criam registos ou XP.
+- Reutilização de formulários, repositório e tema; Cubit próprio para semana/dia/tipo. Sem novos pacotes, tabelas ou migrações; esquema v5 preservado.
+
+
+Verificação 0.9.0 concluída: **69 testes aprovados**, incluindo oito testes novos (regras, reabertura/exportação e fluxos do planeador), análise sem problemas, formatação limpa e verificação SQL aprovada. Layout claro/escuro revisto visualmente e testado em 360 px com texto a 200%. APK debug 0.9.0+10 compilado; assinatura v2 e identidade confirmadas. SHA-256: `5d00688d84debf2ae717df9c622d52363d291520f0a7bb733a4f665581314b69`. Validação física Android continua pendente.
+
+
+## Histórico — integração funcional 0.8.0
 O pedido mais recente autoriza ligar o esqueleto aos dados reais e recuperar as áreas do produto original. Mantêm-se três separadores, temas e tipografia do guia; o limite anterior a um esqueleto já não é o âmbito actual.
 
 - **Agenda:** dados reais, datas seleccionáveis, modos Dia/Semana/Mês em lista, mistura cronológica de eventos/tarefas/estudo/aulas/avaliações, recorrências e conflitos. “O meu dia” recolhe prioridades, rotinas, próximo compromisso e metas. Tarefas sem data ficam numa secção recolhida.

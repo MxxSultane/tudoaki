@@ -43,7 +43,10 @@ void showQuickCreate(BuildContext context) => showModalBottomSheet<void>(
 );
 String dateLabel(String? value) => value == null
     ? 'Sem data'
-    : DateFormat('dd MMM, HH:mm', 'pt').format(DateTime.parse(value));
+    : DateFormat(
+        isDateOnly(value) ? 'dd MMM' : 'dd MMM, HH:mm',
+        'pt',
+      ).format(DateTime.parse(value));
 
 class TudoAkiScreen extends ConsumerStatefulWidget {
   const TudoAkiScreen({

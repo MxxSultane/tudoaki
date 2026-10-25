@@ -33,3 +33,6 @@ MZN/USD/EUR/ZAR configuráveis para novos registos, com duas casas decimais. Cad
 
 ## Integração — versão 0.8.0
 O pedido actual recupera as funcionalidades na nova interface: três separadores com dados reais, criação/edição/conclusão, detalhe de metas e acesso Mais aos módulos pessoais. Não voltar a introduzir cinco separadores ou dados de exemplo. Preservar os dados de instalações anteriores e mostrar imediatamente o registo criado. Formulários devem preservar campos avançados quando ocultos.
+
+## Planeamento semanal — versão 0.9.0
+Função secundária em Mais, adaptada ao telemóvel, com escolha de tipo e um dia de cada vez. Domingo sugere a próxima semana. O plano resulta dos eventos/tarefas reais, com gravação por formulário e inclusão dos registos existentes. Tarefas aceitam dia sem hora; pendentes podem ser programadas sem cópia. Não acrescentar separadores, notificações de domingo ou dependências.

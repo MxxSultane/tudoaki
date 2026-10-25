@@ -20,3 +20,6 @@ Um único botão principal **+** nos três separadores. As folhas usam Guardar; 
 Listas agrupadas, com separação por espaço e divisores discretos. Em texto ampliado, os títulos das entradas podem ocupar mais de uma linha para evitar cortes; a faixa de dias permite deslocação horizontal. Alvos de toque de pelo menos 44 px. O tema segue o sistema por defeito; a preferência existente pode ser alterada em Mais → Definições.
 
 A navegação principal mantém Agenda/Metas/Tarefas. “Mais” abre um directório discreto de áreas; detalhes são empilhados com Voltar, sem duplicar a barra inferior. Métricas, acções de metas e formulários avançados ficam em detalhes/folhas. Após guardar, a navegação torna o registo visível sem banners de sucesso. Input e botões têm raios 12/14, bordas de 1 px e texto com contraste adequado também em foco.
+
+## Planeamento semanal
+O planeador abre em Mais e usa uma lista de sete cartões, com um dia expandido de cada vez. O tipo de criação fica no topo, sem filtrar ou esconder os compromissos do outro tipo. O rodapé mantém visíveis o dia escolhido e a única acção principal. Dias sem compromissos são identificados por texto, sem badges. Seleccionar outro dia aproxima o cartão com animação funcional de 250 ms/easeOutCubic. Tarefas não exigem hora; o formulário e os campos avançados reutilizam os componentes existentes.

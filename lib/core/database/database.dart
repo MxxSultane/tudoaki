@@ -64,6 +64,8 @@ class TudoAkiDatabase extends GeneratedDatabase {
 
 typedef DataRowMap = Map<String, dynamic>;
 typedef WorkspaceSnapshot = Map<String, List<DataRowMap>>;
+bool isDateOnly(String? value) =>
+    value != null && RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(value);
 String dayKey(DateTime date) =>
     '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
 double goalProgress(num initial, num target, num current) => target <= initial

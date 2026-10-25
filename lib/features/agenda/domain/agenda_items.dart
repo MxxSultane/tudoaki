@@ -12,6 +12,7 @@ class AgendaItem {
   final DateTime start;
   final DateTime? end;
   final bool task;
+  bool get allDay => task && isDateOnly(row['due'] as String?);
 }
 
 List<AgendaItem> agendaItemsForDay(WorkspaceSnapshot data, DateTime day) {
@@ -45,7 +46,7 @@ List<AgendaItem> agendaItemsForDay(WorkspaceSnapshot data, DateTime day) {
 bool agendaConflict(AgendaItem item, List<AgendaItem> items) => items.any((
   other,
 ) {
-  if (identical(item, other)) return false;
+  if (identical(item, other) || item.allDay || other.allDay) return false;
   if (item.task && item.row['completed'] == 1 ||
       other.task && other.row['completed'] == 1) {
     return false;

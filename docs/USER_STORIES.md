@@ -29,3 +29,8 @@
 26. Na interface de três separadores, o + permite guardar eventos, tarefas e metas reais. Ao guardar, vejo a área correcta; cancelar não grava. Campos avançados ficam ocultos até pedir Mais opções e não perdem os valores ao editar.
 27. Abro Mais e entro em Hábitos, Estudos, Finanças, Progresso, Revisões ou Definições. Voltar devolve-me à navegação principal, sem novos separadores nem FAB duplicado.
 28. Reabro uma base existente e encontro metas, tarefas, eventos e resultados na interface nova. Concluir uma tarefa atribui XP uma vez e não altera a métrica da meta.
+
+29. Ao domingo, abro Mais → Planear semana e vejo a próxima segunda a domingo. Noutros dias posso planear a semana actual; setas/data permitem escolher outra semana.
+30. Escolho Tarefas ou Eventos no topo e um dia. Guardar cria um registo real no dia escolhido; cancelar não cria nada. Vejo os compromissos existentes, incluindo os académicos, sem duplicação ao navegar.
+31. Escolho uma tarefa pendente sem data para a programar. O ID, as associações e o estado mantêm-se; não recebo XP apenas por planear.
+32. Planeio uma tarefa sem hora e ela não surge como um compromisso à meia-noite. Posso definir uma hora; a precisão é preservada ao editar, reabrir e exportar. Conflitos e lembretes respeitam essa distinção.

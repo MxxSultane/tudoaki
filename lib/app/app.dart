@@ -18,6 +18,8 @@ import '../features/agenda/presentation/today_screen.dart';
 import '../features/goals/presentation/goals_screen.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
 import 'brand.dart';
+import '../features/weekly_planner/domain/weekly_planner_cubit.dart';
+import '../features/weekly_planner/presentation/weekly_planner_screen.dart';
 
 class TudoAkiApp extends ConsumerStatefulWidget {
   const TudoAkiApp({super.key});
@@ -58,6 +60,16 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
         path: '/areas',
         builder: (_, _) =>
             const AreaScaffold(title: 'Mais', child: AreasScreen()),
+      ),
+      GoRoute(
+        path: '/weekly-planner',
+        builder: (_, _) => BlocProvider(
+          create: (_) => WeeklyPlannerCubit(ref.read(workspaceClockProvider)()),
+          child: const AreaScaffold(
+            title: 'Planear semana',
+            child: WeeklyPlannerScreen(),
+          ),
+        ),
       ),
       GoRoute(
         path: '/progress',

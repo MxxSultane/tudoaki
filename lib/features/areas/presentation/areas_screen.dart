@@ -11,6 +11,7 @@ class AreasScreen extends StatelessWidget {
       InsetGroup(
         children: [
           for (final area in const [
+            ('/weekly-planner', 'Planear semana', 'Eventos e tarefas por dia'),
             ('/habits', 'Hábitos', 'Rotinas e bem-estar'),
             ('/academics', 'Estudos', 'Disciplinas, prazos e foco'),
             ('/finance', 'Finanças', 'Movimentos e poupanças'),

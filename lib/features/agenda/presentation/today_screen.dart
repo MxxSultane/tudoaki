@@ -130,7 +130,7 @@ class TodayScreen extends ConsumerWidget {
                                       ),
                                       task: item.row,
                                       subtitle:
-                                          '${DateFormat.Hm().format(item.start)}${agendaConflict(item, items) ? ' · Conflito de horário' : ''}',
+                                          '${item.allDay ? 'Sem hora' : DateFormat.Hm().format(item.start)}${agendaConflict(item, items) ? ' · Conflito de horário' : ''}',
                                     )
                                   : ListTile(
                                       contentPadding: EdgeInsets.zero,

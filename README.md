@@ -4,7 +4,7 @@
 
 Aplicação Flutter offline para agenda, metas, tarefas e áreas pessoais. Identificador técnico: `tudo_aki`. Temas claro/escuro, Inter e Newsreader locais, cartões planos e três separadores.
 
-## Versão 0.8.0 — interface funcional
+## Versão 0.9.0 — planeamento semanal
 A nova interface está ligada à base de dados real. Não há listas de demonstração na aplicação. Os dados guardados nas versões anteriores são recuperados automaticamente.
 
 | Entrada | O que permite fazer |
@@ -17,8 +17,19 @@ O **+** abre **Evento / Tarefa / Meta**, com formulários reais. “Mais opçõe
 
 Em **Agenda → O meu dia**, consulte o próximo compromisso, três prioridades (incluindo tarefas em atraso), rotinas e metas. O painel começa recolhido para manter a agenda calma. As tarefas organizam acções; o resultado de uma meta continua a ser registado separadamente.
 
+## Planear semana
+Em **Mais → Planear semana**, organiza a semana num ecrã próprio:
+
+1. Escolhe **Tarefas** ou **Eventos** no topo e toca num dos sete dias.
+2. Usa **Adicionar tarefa** ou **Adicionar evento**. As tarefas precisam apenas de título e dia; **Definir hora** é opcional. Os eventos começam com uma hora de duração, ajustável no formulário.
+3. Toca em **Guardar**. O registo fica imediatamente na agenda e o planeador mostra o dia escolhido.
+
+Ao domingo, a abertura sugere a semana seguinte (segunda a domingo). Nos restantes dias, abre a semana actual. As setas e a data permitem consultar outras semanas. Os compromissos e tarefas existentes, incluindo aulas e estudo, aparecem no seu dia.
+
+**Escolher pendente** permite programar uma tarefa ainda sem data, preservando o seu registo e associações. Tocar num item permite editar; eventos recorrentes indicam que a alteração abrange a série. Tarefas sem hora aparecem como **Sem hora**, sem gerar falsos conflitos à meia-noite. A funcionalidade está sempre disponível, sem alertas automáticos ao domingo.
+
 ## Mais áreas
-A acção discreta **Mais**, nos três separadores, abre:
+A acção discreta **Mais**, nos três separadores, abre o planeador semanal e:
 
 - **Hábitos:** frequência, plano quando/então, registo diário, pausa e bem-estar.
 - **Estudos:** disciplinas, horários, avaliações, trabalhos e foco com pausa/retoma persistidas.
@@ -30,7 +41,9 @@ A acção discreta **Mais**, nos três separadores, abre:
 Estas áreas abrem em páginas de detalhe com botão Voltar, sem acrescentar separadores nem repetir o botão +. As acções secundárias são discretas. O esquema v5, o ID Android de instalação e o ficheiro SQLite foram mantidos para preservar dados.
 
 ## Pacotes
-- Novo nesta versão: `flutter_bloc` **9.1.1**, para Cubits de selecção da agenda e filtros de metas/tarefas, conforme o guia. Riverpod mantém os repositórios e snapshots partilhados já existentes.
+Sem novos pacotes em 0.9.0.
+
+- Acrescentado em 0.8.0: `flutter_bloc` **9.1.1**, para Cubits de selecção da agenda e filtros de metas/tarefas, conforme o guia. Riverpod mantém os repositórios e snapshots partilhados já existentes.
 - `google_fonts` **6.3.3**, acrescentado em 0.7.0, usa Inter e Newsreader incluídas no APK. Sem pedidos de fontes durante a utilização; licenças OFL em `assets/fonts/`.
 
 ## Abrir no Android Studio
@@ -63,7 +76,7 @@ flutter test
 flutter build apk --debug
 ```
 
-**Verificado nesta versão:** 61 testes aprovados, análise sem problemas e APK debug compilado com assinatura verificada.
+**Verificado nesta versão:** 69 testes aprovados, análise sem problemas e APK debug compilado com assinatura verificada.
 
 Os testes cobrem dados, migrações e fluxos reais da interface, incluindo reabrir um ficheiro SQLite com meta/tarefa/evento e recuperar o progresso. Os temas são verificados em 360 px com texto até 200%.
 

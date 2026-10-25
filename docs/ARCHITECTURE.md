@@ -1,6 +1,14 @@
 # Arquitectura — Tudo Aki
 
-## Entrada actual — integração 0.8.0
+## Planeador semanal — 0.9.0
+`features/weekly_planner/` contém o Cubit de semana/dia/tipo e a página. A rota /weekly-planner é aberta pelo directório Mais, fora do shell. O início da semana usa aritmética civil: domingo na primeira abertura aponta para a segunda seguinte, enquanto a escolha explícita de uma data mostra a semana que a contém. Não há agendador de domingo ou nova permissão.
+
+O planeador é uma vista dos registos reais de Tasks, CalendarEvents e dos modelos de leitura académicos; não cria cópias nem uma tabela de planos. Cada formulário reutilizado grava através do repositório e invalida o snapshot partilhado. A escolha de pendentes usa o ID existente. Apenas o estado de navegação fica no Cubit.
+
+Tasks.due admite NULL (sem dia), YYYY-MM-DD (dia sem hora) e timestamp ISO (dia/hora). isDateOnly identifica a precisão sem confundir uma hora explícita 00:00 com um dia sem hora. AgendaItem.allDay exclui tarefas sem hora dos conflitos de blocos; as vistas mostram Sem hora. O editor preserva a precisão e permite acrescentar/remover hora no fluxo de planeamento. Lembretes exigem hora. Este contrato usa a coluna TEXT já existente e mantém o esquema v5.
+
+
+## Entrada principal — desde 0.8.0
 `main.dart` restaura ProviderScope. TudoAkiApp usa GoRouter com um shell de três separadores e páginas adicionais empilhadas fora do shell. `WorkspaceData` fornece estados de carregamento/erro e snapshots partilhados. `WorkspacePage` mantém título, acção Mais e margens consistentes. Criação retorna o ID guardado e selecciona a área/filtro/dia que permite ver o resultado.
 
 Riverpod continua responsável por repositório, notificações, preferências e invalidação do snapshot. `flutter_bloc` acrescenta um Cubit por funcionalidade principal para selecções efémeras: AgendaSelection (data/modo), GoalsCubit e TasksCubit (filtros). Não duplicamos entidades persistidas nos Cubits nem migramos os módulos existentes para outro armazenamento. Este compromisso aplica o guia sem reescrever regras já testadas.

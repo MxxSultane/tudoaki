@@ -80,7 +80,9 @@ class _TaskRowState extends ConsumerState<TaskRow> {
             (task['due'] == null
                 ? 'Sem data'
                 : DateFormat(
-                    'dd MMM · HH:mm',
+                    isDateOnly(task['due'] as String?)
+                        ? 'dd MMM · \'sem hora\''
+                        : 'dd MMM · HH:mm',
                     'pt',
                   ).format(DateTime.parse(task['due'] as String))),
         style: Theme.of(context).textTheme.bodySmall,

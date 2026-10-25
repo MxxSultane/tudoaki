@@ -17,6 +17,8 @@ Future<int?> showEditor(
   DateTime? initialDate,
   String? currency,
   bool compact = false,
+  bool dayOnlyTask = false,
+  bool requireTaskDate = false,
 }) => showModalBottomSheet<int>(
   context: context,
   isScrollControlled: true,
@@ -32,6 +34,8 @@ Future<int?> showEditor(
     initialDate: initialDate,
     currency: currency,
     compact: compact,
+    dayOnlyTask: dayOnlyTask,
+    requireTaskDate: requireTaskDate,
   ),
 );
 
@@ -46,10 +50,12 @@ class Editor extends ConsumerStatefulWidget {
     this.initialDate,
     this.currency,
     this.compact = false,
+    this.dayOnlyTask = false,
+    this.requireTaskDate = false,
     super.key,
   });
   final String kind;
-  final bool compact;
+  final bool compact, dayOnlyTask, requireTaskDate;
   final String? currency;
   final DataRowMap? existing;
   final int? goalId;
@@ -70,6 +76,7 @@ class _EditorState extends ConsumerState<Editor> {
   late bool important, paused;
   bool busy = false, remind = false;
   late bool advanced;
+  late bool dayOnlyTask, flexibleTime;
   String? error;
   DateTime? due;
   late DateTime start, end;
@@ -85,6 +92,10 @@ class _EditorState extends ConsumerState<Editor> {
   void initState() {
     super.initState();
     advanced = !widget.compact;
+    dayOnlyTask =
+        isDateOnly(original['due'] as String?) ||
+        original['due'] == null && widget.dayOnlyTask;
+    flexibleTime = dayOnlyTask || widget.dayOnlyTask;
     category = original['category'] as String? ?? 'Pessoal';
     parentGoalId = original['parent_id'] as int? ?? widget.parentGoalId;
     final parent = ref
@@ -121,7 +132,7 @@ class _EditorState extends ConsumerState<Editor> {
         ? null
         : DateTime.parse(original['due'] as String);
     start = original['start'] == null
-        ? DateTime.now().add(const Duration(hours: 1))
+        ? widget.initialDate ?? DateTime.now().add(const Duration(hours: 1))
         : DateTime.parse(original['start'] as String);
     end = original['end'] == null
         ? start.add(const Duration(hours: 1))
@@ -233,7 +244,7 @@ class _EditorState extends ConsumerState<Editor> {
       onChanged: (v) => setState(() => change(v)),
     ),
   );
-  Future<DateTime?> pick(DateTime initial) async {
+  Future<DateTime?> pick(DateTime initial, {bool includeTime = true}) async {
     final day = await showDatePicker(
       context: context,
       initialDate: initial,
@@ -242,6 +253,15 @@ class _EditorState extends ConsumerState<Editor> {
     );
     if (day == null || !mounted) {
       return null;
+    }
+    if (!includeTime) {
+      return DateTime(
+        day.year,
+        day.month,
+        day.day,
+        initial.hour,
+        initial.minute,
+      );
     }
     final time = await showTimePicker(
       context: context,
@@ -258,6 +278,7 @@ class _EditorState extends ConsumerState<Editor> {
     DateTime? date,
     void Function(DateTime?) change, {
     bool clear = false,
+    bool includeTime = true,
   }) => Row(
     children: [
       Expanded(
@@ -265,6 +286,7 @@ class _EditorState extends ConsumerState<Editor> {
           onPressed: () async {
             final result = await pick(
               date ?? DateTime.now().add(const Duration(hours: 1)),
+              includeTime: includeTime,
             );
             if (result != null && mounted) {
               setState(() => change(result));
@@ -272,7 +294,7 @@ class _EditorState extends ConsumerState<Editor> {
           },
           icon: const Icon(Icons.event),
           label: Text(
-            '$label: ${date == null ? 'Escolher' : DateFormat('dd/MM/yyyy HH:mm').format(date)}',
+            '$label: ${date == null ? 'Escolher' : DateFormat(includeTime ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy').format(date)}',
           ),
         ),
       ),
@@ -312,7 +334,54 @@ class _EditorState extends ConsumerState<Editor> {
               if (widget.kind != 'Revisão')
                 text('title', 'Título', required: true),
               if (widget.kind == 'Tarefa') ...[
-                dateButton('Quando', due, (v) => due = v, clear: true),
+                dateButton(
+                  'Quando',
+                  due,
+                  (v) => due = v,
+                  clear: !widget.requireTaskDate,
+                  includeTime: !flexibleTime,
+                ),
+                if (flexibleTime && due != null)
+                  Wrap(
+                    spacing: 8,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          final time = await showTimePicker(
+                            context: context,
+                            initialTime: dayOnlyTask
+                                ? const TimeOfDay(hour: 9, minute: 0)
+                                : TimeOfDay.fromDateTime(due!),
+                          );
+                          if (time != null && mounted) {
+                            setState(() {
+                              due = DateTime(
+                                due!.year,
+                                due!.month,
+                                due!.day,
+                                time.hour,
+                                time.minute,
+                              );
+                              dayOnlyTask = false;
+                            });
+                          }
+                        },
+                        child: Text(
+                          dayOnlyTask
+                              ? 'Definir hora'
+                              : 'Hora: ${DateFormat.Hm().format(due!)}',
+                        ),
+                      ),
+                      if (!dayOnlyTask)
+                        TextButton(
+                          onPressed: () => setState(() {
+                            dayOnlyTask = true;
+                            remind = false;
+                          }),
+                          child: const Text('Remover hora'),
+                        ),
+                    ],
+                  ),
                 const SizedBox(height: 12),
                 if (advanced) ...[
                   choice('Prioridade', '$priority', {
@@ -348,7 +417,7 @@ class _EditorState extends ConsumerState<Editor> {
                       'Android · horário de Maputo · entrega aproximada. Sem acesso exacto a alarmes.',
                     ),
                     value: remind,
-                    onChanged: due == null
+                    onChanged: due == null || dayOnlyTask
                         ? null
                         : (v) => setState(() => remind = v),
                   ),
@@ -425,7 +494,9 @@ class _EditorState extends ConsumerState<Editor> {
                     'daily': 'Todos os dias',
                     'weekly': 'Todas as semanas',
                   }, (v) => recurrence = v),
-                if (advanced)
+                if (advanced ||
+                    original['recurrence'] != null &&
+                        original['recurrence'] != 'none')
                   const Text(
                     'Editar um evento recorrente altera toda a série.',
                   ),
@@ -596,11 +667,18 @@ class _EditorState extends ConsumerState<Editor> {
       }
       switch (widget.kind) {
         case 'Tarefa':
+          if (widget.requireTaskDate && due == null) {
+            throw const FormatException('Escolhe o dia da tarefa.');
+          }
           row.addAll({
-            'due': due?.toIso8601String(),
+            'due': due == null
+                ? null
+                : dayOnlyTask
+                ? dayKey(due!)
+                : due!.toIso8601String(),
             'priority': priority,
             'important': important ? 1 : 0,
-            'reminder': remind && due != null ? 1 : 0,
+            'reminder': remind && due != null && !dayOnlyTask ? 1 : 0,
             'goal_id': goalId,
             'subject_id': subjectId,
           });
