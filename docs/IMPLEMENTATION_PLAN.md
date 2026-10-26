@@ -1,6 +1,6 @@
 # Plano incremental
 
-**Âmbito actual (0.9.0):** acrescentar o planeamento semanal móvel à interface funcional, mantendo três separadores e divulgação progressiva. O pedido actual substitui a limitação anterior ao esqueleto.
+**Âmbito actual (0.9.2):** avançar a Fase 6 com correcções nos lembretes Android e testes de ciclo de vida, preservando o planeamento semanal e a interface funcional. O pedido actual substitui a limitação anterior ao esqueleto.
 1. Fundação: documentos, Flutter/Android, tema, router, esquema v1, repositório.
 2. Núcleo: tarefas/metas/eventos/agenda/Hoje e armazenamento real.
 3. Organização: hábitos, disciplinas, horários, avaliações, estudo com foco e revisões implementados no escopo actual; validar também num dispositivo.
@@ -33,3 +33,6 @@ Núcleo funcional na interface nova, formulários compactos, detalhes de metas e
 
 ## Incremento 0.9.0 — planear ao domingo
 Entrada em Mais, semana seguinte por defeito ao domingo, sete dias em cartões, tipo de criação no topo e formulários compactos. Permitir tarefas sem hora, reutilizar pendentes e reflectir tudo na agenda, sem duplicar entidades. Validar limites de datas, ausência de falsos conflitos, persistência e layouts em 360 px/200% de texto.
+
+## Incremento 0.9.2 — fiabilidade Android
+Correcção de conversão UTC/Maputo, datas passadas e inicialização dos lembretes; aviso de agendamento falhado ao reabrir tarefas. Testes do canal nativo simulado e do ciclo de vida do foco. A validação automatizada não substitui a entrega real de notificações: seguir ANDROID_VALIDATION.md num dispositivo antes de fechar a Fase 6.

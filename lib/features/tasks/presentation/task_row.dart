@@ -24,7 +24,7 @@ class _TaskRowState extends ConsumerState<TaskRow> {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Semantics(
-        label: 'Concluir ${task['title']}',
+        label: '${done ? 'Reabrir' : 'Concluir'} ${task['title']}',
         child: Checkbox(
           value: done,
           onChanged: busy
@@ -46,11 +46,16 @@ class _TaskRowState extends ConsumerState<TaskRow> {
                         if (value) {
                           await reminders.cancel(task['id'] as int);
                         } else if (task['due'] != null) {
-                          await reminders.schedule(
+                          final scheduled = await reminders.schedule(
                             task['id'] as int,
                             task['title'] as String,
                             DateTime.parse(task['due'] as String),
                           );
+                          if (!scheduled) {
+                            throw const FormatException(
+                              'Lembrete indisponível',
+                            );
+                          }
                         }
                       } catch (_) {
                         if (context.mounted) {

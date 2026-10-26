@@ -1,5 +1,17 @@
 # Progresso — Tudo Aki
 
+## Actualização 0.9.2 — Fase 6, fiabilidade Android
+- Lembretes preservam instantes UTC e datas ISO com offset, convertendo para Maputo; datas sem offset mantêm a hora civil de Maputo. Segundos deixam de ser truncados pelo serviço.
+- Datas passadas não pedem permissão. O prazo é verificado de novo depois do diálogo de permissão. Inicialização falhada pode ser repetida e chamadas simultâneas partilham a inicialização em curso.
+- Ao reabrir uma tarefa, resultado falso do agendamento gera o mesmo aviso que uma falha nativa, preservando a alteração SQLite. Rótulo acessível passa a Reabrir nas tarefas concluídas. Converter uma tarefa para apenas dia não tenta agendar um lembrete.
+- Onze testes novos: oito do canal de notificações Android simulado, dois de reabertura de tarefa com falha/recusa e um de pausa/retoma do ciclo de vida. O foco recupera o prazo após uma hora em segundo plano e só atribui XP após confirmação.
+- **80 testes aprovados**, análise sem problemas e verificação SQL aprovada. Sem novos pacotes, tabelas ou migrações; identidade de instalação preservada.
+
+APK debug 0.9.2+12 compilado; assinatura v2 verificada, versão e ID de instalação conferidos com aapt. SHA-256: `71a87e7d2d2c679dc6e23d13c610fcbe0be2af64bcfd90a98d0e2c96bc124bd5`.
+
+A Fase 6 permanece em curso. Não há dispositivo/emulador Android ligado neste ambiente: entrega física, reinício do telefone, actualização e restrições de bateria ainda não foram executados. [Guião de validação](ANDROID_VALIDATION.md) preparado com passos e resultados esperados. Não foi adicionado um alarme de fim ao foco.
+
+
 ## Actualização 0.9.1 — ícone
 Calendário preto com argola e visto verde-petróleo sobre fundo claro, usando a geometria do logótipo fornecido. Ícone vectorial Android 7, camadas adaptativas Android 8+ e máscara monocromática Android 13+. A zona segura foi verificada; o arranque nativo reutiliza a nova arte. Sem novos pacotes ou alterações aos dados.
 

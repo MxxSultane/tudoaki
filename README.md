@@ -4,7 +4,12 @@
 
 Aplicação Flutter offline para agenda, metas, tarefas e áreas pessoais. Identificador técnico: `tudo_aki`. Temas claro/escuro, Inter e Newsreader locais, cartões planos e três separadores.
 
-## Versão 0.9.1 — ícone actualizado
+## Versão 0.9.2 — fiabilidade Android
+Lembretes preservam datas UTC e a hora civil de Maputo, não pedem permissão para datas passadas e permitem repetir uma inicialização falhada. Ao reabrir uma tarefa, uma falha no lembrete é indicada sem perder a alteração guardada. O foco foi testado ao regressar do segundo plano, sem atribuição automática de XP.
+
+Sem novos pacotes ou migrações. A entrega real de notificações, reinício do telefone e actualização por cima de uma instalação anterior continuam a exigir um dispositivo: [guião Android](docs/ANDROID_VALIDATION.md).
+
+## Ícone — desde 0.9.1
 O launcher Android usa o calendário preto com argola e visto em verde-petróleo, sobre fundo claro, conforme a imagem fornecida. Inclui variantes para Android 7, ícone adaptativo e ícone temático Android 13+. Sem novos pacotes.
 
 ## Planeamento semanal — desde 0.9.0
@@ -44,7 +49,7 @@ A acção discreta **Mais**, nos três separadores, abre o planeador semanal e:
 Estas áreas abrem em páginas de detalhe com botão Voltar, sem acrescentar separadores nem repetir o botão +. As acções secundárias são discretas. O esquema v5, o ID Android de instalação e o ficheiro SQLite foram mantidos para preservar dados.
 
 ## Pacotes
-Sem novos pacotes em 0.9.0.
+Sem novos pacotes em 0.9.0–0.9.2.
 
 - Acrescentado em 0.8.0: `flutter_bloc` **9.1.1**, para Cubits de selecção da agenda e filtros de metas/tarefas, conforme o guia. Riverpod mantém os repositórios e snapshots partilhados já existentes.
 - `google_fonts` **6.3.3**, acrescentado em 0.7.0, usa Inter e Newsreader incluídas no APK. Sem pedidos de fontes durante a utilização; licenças OFL em `assets/fonts/`.
@@ -79,7 +84,7 @@ flutter test
 flutter build apk --debug
 ```
 
-**Verificação:** a bateria funcional mais recente tem 69 testes aprovados e análise sem problemas. O APK 0.9.1 foi recompilado e a assinatura verificada após a actualização dos ícones.
+**Verificação:** 80 testes aprovados, análise sem problemas e verificação SQL v1 → v5 aprovada. Incluem conversão UTC/Maputo, permissões recusadas, falhas nativas e retoma do foco. APK debug 0.9.2 compilado e assinatura verificada.
 
 Os testes cobrem dados, migrações e fluxos reais da interface, incluindo reabrir um ficheiro SQLite com meta/tarefa/evento e recuperar o progresso. Os temas são verificados em 360 px com texto até 200%.
 

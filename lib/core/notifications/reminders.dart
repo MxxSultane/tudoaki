@@ -4,8 +4,11 @@ import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
 class Reminders {
+  Reminders({DateTime Function()? clock}) : _clock = clock ?? DateTime.now;
+  final DateTime Function() _clock;
   final plugin = FlutterLocalNotificationsPlugin();
   bool _ready = false;
+  Future<bool>? _initializing;
   bool get supported =>
       !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
   Future<bool> initialize() async {
@@ -15,21 +18,52 @@ class Reminders {
     if (_ready) {
       return true;
     }
+    final pending = _initializing;
+    if (pending != null) return pending;
+    final initialization = _initialize();
+    _initializing = initialization;
+    try {
+      return await initialization;
+    } finally {
+      _initializing = null;
+    }
+  }
+
+  Future<bool> _initialize() async {
     tzdata.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Africa/Maputo'));
-    await plugin.initialize(
-      const InitializationSettings(
-        android: AndroidInitializationSettings('ic_notification'),
-      ),
-    );
-    _ready = true;
-    return true;
+    _ready =
+        await plugin.initialize(
+          const InitializationSettings(
+            android: AndroidInitializationSettings('ic_notification'),
+          ),
+        ) ==
+        true;
+    return _ready;
   }
+
+  // Dates without an offset are civil Maputo time. UTC dates already denote
+  // an instant and must not have their components reinterpreted as local time.
+  tz.TZDateTime _scheduledTime(DateTime date) => date.isUtc
+      ? tz.TZDateTime.from(date, tz.local)
+      : tz.TZDateTime(
+          tz.local,
+          date.year,
+          date.month,
+          date.day,
+          date.hour,
+          date.minute,
+          date.second,
+          date.millisecond,
+          date.microsecond,
+        );
 
   Future<bool> schedule(int id, String title, DateTime date) async {
     if (!await initialize()) {
       return false;
     }
+    final time = _scheduledTime(date);
+    if (!time.isAfter(tz.TZDateTime.from(_clock(), tz.local))) return false;
     final android = plugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
@@ -37,21 +71,12 @@ class Reminders {
     if (await android?.requestNotificationsPermission() != true) {
       return false;
     }
-    final time = tz.TZDateTime(
-      tz.local,
-      date.year,
-      date.month,
-      date.day,
-      date.hour,
-      date.minute,
-    );
-    if (!time.isAfter(tz.TZDateTime.now(tz.local))) {
-      return false;
-    }
+    // The permission dialog can remain open until the due time has passed.
+    if (!time.isAfter(tz.TZDateTime.from(_clock(), tz.local))) return false;
     await plugin.zonedSchedule(
       id,
       title,
-      'Está na hora da sua acção planeada.',
+      'Está na hora da tua acção planeada.',
       time,
       const NotificationDetails(
         android: AndroidNotificationDetails(

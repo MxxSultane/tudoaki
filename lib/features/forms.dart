@@ -773,6 +773,7 @@ class _EditorState extends ConsumerState<Editor> {
           final reminders = container.read(remindersProvider);
           await reminders.cancel(savedId);
           if (remind &&
+              !dayOnlyTask &&
               original['completed'] != 1 &&
               due != null &&
               !await reminders.schedule(

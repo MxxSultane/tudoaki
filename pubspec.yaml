@@ -1,7 +1,7 @@
 name: tudo_aki
 description: tudoAki — agenda, metas, tarefas e áreas pessoais offline.
 publish_to: none
-version: 0.9.1+11
+version: 0.9.2+12
 environment:
   sdk: '>=3.8.0 <4.0.0'
 dependencies:

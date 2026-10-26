@@ -283,11 +283,14 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
                 if (value) {
                   await service.cancel(t['id'] as int);
                 } else if (t['due'] != null) {
-                  await service.schedule(
+                  final scheduled = await service.schedule(
                     t['id'] as int,
                     t['title'] as String,
                     DateTime.parse(t['due'] as String),
                   );
+                  if (!scheduled) {
+                    throw const FormatException('Lembrete indisponível');
+                  }
                 }
               } catch (_) {
                 if (mounted) {
