@@ -1,5 +1,8 @@
 # tudoAki
 
+## Validação — Fase 1.1
+Preparação local tentou Flutter 3.35.7 e instalou JDK 21; o proxy bloqueou o download de Dart com HTTP 403. Nenhum teste foi executado. Acrescentado workflow [Flutter validation](.github/workflows/flutter-validation.yml) com versões fixas, sem publicação/deploy; execução remota ainda não confirmada. Ver [resultados e logs](docs/PHASE11_REPORT.md). Fase 2 não iniciada.
+
 ## Preparação da versão 2.0 — Fase 1
 Branch isolado; apenas contratos e testes adicionais. A produção mantém 0.9.2+12, três separadores e esquema v5. Direcção futura: Hoje / Planear / Metas / Mais, com Percurso acessível fora da navegação obrigatória. Ver [contratos](docs/V2_CONTRACTS.md), [proposta de restauro](docs/RESTORE_PLAN.md) e [relatório da fase](docs/PHASE1_REPORT.md). Os testes novos ainda não foram executados: Flutter/Dart não estão disponíveis neste ambiente.
 

@@ -1,5 +1,9 @@
 # Progresso — Tudo Aki
 
+## Fase 1.1 — validação bloqueada por rede
+Fontes Flutter 3.35.7 conferidas e Temurin JDK 21.0.13 instalado; bootstrap Dart bloqueado por HTTP 403 no proxy. Zero testes executados nesta fase. Workflow GitHub Actions preparado como alternativa, sem execução observada e sem publicação. Código de produção e lockfile inalterados. [Relatório completo](PHASE11_REPORT.md). Não avançar para Fase 2 até validar.
+
+
 ## Tudo aki 2.0 — Fase 1
 Contratos e testes adicionais num branch isolado, sem alterar produção. Flutter/Dart indisponíveis no ambiente actual: os três comandos de referência falharam antes das alterações com command not found. Os 80 testes aprovados abaixo pertencem à entrega anterior e não foram revalidados agora. [Relatório exacto desta fase](PHASE1_REPORT.md). Fase 2 não iniciada.
 

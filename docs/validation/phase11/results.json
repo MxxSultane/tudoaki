@@ -1,0 +1,32 @@
+[
+  {
+    "command": "flutter --version",
+    "exitCode": 1,
+    "log": "version.txt"
+  },
+  {
+    "command": "flutter pub get",
+    "exitCode": 1,
+    "log": "pub-get.txt"
+  },
+  {
+    "command": "dart format --output=none --set-exit-if-changed lib test",
+    "exitCode": 1,
+    "log": "format.txt"
+  },
+  {
+    "command": "flutter analyze",
+    "exitCode": 1,
+    "log": "analyze.txt"
+  },
+  {
+    "command": "flutter test",
+    "exitCode": 1,
+    "log": "test.txt"
+  },
+  {
+    "command": "flutter build apk --debug",
+    "status": "skipped",
+    "reason": "Android SDK absent; Flutter bootstrap blocked by HTTP 403"
+  }
+]

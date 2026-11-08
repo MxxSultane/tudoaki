@@ -1,0 +1,96 @@
+name: Flutter validation
+
+on:
+  push:
+    branches: [main, prep/tudo-aki-2-fase-1]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      FLUTTER_SUPPRESS_ANALYTICS: 'true'
+      DART_SUPPRESS_ANALYTICS: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar SQLite nativo
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsqlite3-dev
+      - name: Obter Flutter 3.35.7 na revisão do projecto
+        shell: bash
+        run: |
+          git clone --depth 1 --branch 3.35.7 https://github.com/flutter/flutter.git "$RUNNER_TEMP/flutter"
+          test "$(git -C "$RUNNER_TEMP/flutter" rev-parse HEAD)" = adc901062556672b4138e18a4dc62a4be8f4b3c2
+          echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
+      - name: Conferir Flutter e Dart
+        run: |
+          flutter --version
+          dart --version 2>&1 | tee dart-version.txt
+          grep -F 'Dart SDK version: 3.9.2 ' dart-version.txt
+      - name: Resolver dependências sem actualizar o lockfile
+        run: |
+          flutter pub get --enforce-lockfile
+          git diff --exit-code -- pubspec.yaml pubspec.lock
+      - name: Formatação, análise e testes
+        shell: bash
+        run: |
+          mkdir -p validation
+          # Run all three checks even when an earlier check fails; aggregate
+          # their exit codes below so that failures cannot become a green job.
+          set +e
+          dart format --output=none --set-exit-if-changed lib test > validation/format.txt 2>&1
+          format_status=$?
+          flutter analyze > validation/analyze.txt 2>&1
+          analyze_status=$?
+          flutter test --machine > validation/tests.jsonl 2> validation/test-stderr.txt
+          test_status=$?
+          git diff --exit-code -- pubspec.yaml pubspec.lock > validation/lockfile.txt
+          lock_status=$?
+          cat validation/format.txt validation/analyze.txt validation/test-stderr.txt
+          printf 'format=%s analyze=%s test=%s lock=%s\n' "$format_status" "$analyze_status" "$test_status" "$lock_status" | tee validation/exit-codes.txt
+          python3 - <<'PY'
+          import collections, json, os, pathlib
+          starts, done, errors = {}, {}, []
+          for line in pathlib.Path('validation/tests.jsonl').read_text().splitlines():
+              try:
+                  event = json.loads(line)
+              except ValueError:
+                  print(line)
+                  continue
+              if event.get('type') == 'testStart':
+                  starts[event['test']['id']] = event['test']
+              elif event.get('type') == 'testDone':
+                  done[event['testID']] = event
+              elif event.get('type') == 'error':
+                  errors.append(event)
+                  print(event.get('error', ''))
+                  print(event.get('stackTrace', ''))
+          counts = collections.Counter()
+          for test_id, result in done.items():
+              if result.get('hidden', False) or starts.get(test_id, {}).get('hidden', False):
+                  continue
+              counts['skipped' if result.get('skipped') else result['result']] += 1
+          summary = f"Testes terminados: {sum(counts.values())}; aprovados: {counts['success']}; falhados: {counts['failure'] + counts['error']}; ignorados: {counts['skipped']}. Eventos de erro (incluem carregamento): {len(errors)}."
+          print(summary)
+          pathlib.Path('validation/summary.txt').write_text(summary + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
+              output.write('## Validação Flutter 3.35.7 / Dart 3.9.2\n\n' + summary + '\n\nConsultar exit-codes.txt e os logs; ausência de testes não equivale a sucesso.\n')
+          PY
+          summary_status=$?
+          if (( format_status || analyze_status || test_status || lock_status || summary_status )); then
+            exit 1
+          fi
+      - name: Guardar apenas logs de validação
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-validation-logs
+          path: validation/
+          if-no-files-found: ignore
+          retention-days: 14
