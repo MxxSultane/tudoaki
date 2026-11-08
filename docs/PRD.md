@@ -1,4 +1,8 @@
 # Requisitos e prioridades
+
+## Direcção 2.0 — contrato, não implementação
+Organizador completo e intuitivo, sem tutoriais para as acções principais. Navegação prevista Hoje/Planear/Metas/Mais, tarefas com só título obrigatório, planeamento manual/opcional de amanhã/outro dia/semana e reagendamento sem duplicação. Data planeada e prazo são conceitos distintos; esquema v5 inalterado. Percurso com linha temporal ramificada e constelações, sem depender só de XP nem penalizar ausência. Todas as áreas existentes preservadas. [Contrato completo](V2_CONTRACTS.md). As secções seguintes registam requisitos anteriores; cinco áreas não descrevem a navegação de produção actual.
+
 ## Must (MVP)
 Arranque sem conta; cinco áreas Hoje/Agenda/Metas/Progresso/Perfil; tarefas com edição, prioridade, prazo e associação a meta; eventos; metas com métricas e acções; hábitos e histórico; SQLite offline; lembretes locais mediante permissão Android; estados vazios; eliminação de dados; testes.
 ## Should

@@ -1,5 +1,20 @@
 # tudoAki — sistema visual actual
 
+## Contrato visual futuro 2.0 — não aplicado
+| Token de referência | Cor |
+| --- | --- |
+| Sage | #9ECB8F |
+| Mineral | #ABAFB0 |
+| Verde profundo | #456C50 |
+| Grafite | #202B29 |
+| Fundo claro | #F7F8F5 |
+| Superfície suave | #E8EDE6 |
+
+Mapear para funções semânticas antes de implementar. Contraste AA: 4,5:1 texto normal, 3:1 texto grande e elementos essenciais. Sage/branco 1,84:1 e Mineral/branco 2,21:1: não servem para texto normal. Não há ainda paleta escura 2.0 aprovada; validar pares reais e estados de foco/erro/desactivado.
+
+Premium com personalidade, tipografia cuidada, hierarquia, espaço e efeitos moderados. Percurso usa linha temporal ramificada, constelações, marcos e capítulos, com alternativa textual e movimento reduzido. Estes conceitos não são autorização para redesenhar nesta fase. As cores/tipografia/componentes actuais abaixo continuam em produção.
+
+
 O [AGENTS.md](../AGENTS.md) fornecido rege o esqueleto 0.7.0. O pedido actual (0.8.0) liga a interface aos dados e áreas reais; não há exemplos na aplicação.
 
 | Papel | Claro | Escuro |

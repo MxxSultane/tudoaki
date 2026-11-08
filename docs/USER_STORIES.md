@@ -1,4 +1,12 @@
 # Histórias e aceitação
+
+## Aceitação futura 2.0
+- Criar tarefa em painel inferior só com título; opções restantes facultativas, resultado imediatamente visível.
+- Planear amanhã, qualquer dia ou semana manualmente; reagendar o mesmo ID; consultar a mesma tarefa em Hoje/Planear/Tarefas.
+- Associar tarefas a metas opcionalmente; corrigir/desfazer quando aplicável, sem alterar automaticamente a métrica.
+- Consultar Percurso em linha temporal/constelações acessíveis, com histórico além de XP e sem penalizar descanso.
+Estes critérios não são funcionalidades já entregues. [Contratos](V2_CONTRACTS.md); comportamento actual protegido pelos testes existentes e novos testes de caracterização ainda não executados.
+
 1. Como utilizador, crio uma meta com valor inicial, alvo e unidade. O alvo deve superar o inicial; o progresso deriva da métrica, limitado visualmente a 0–100%.
 2. Crio uma tarefa com prazo e meta. Posso editar, concluir e reabrir; o histórico de XP não duplica.
 3. Consulto a agenda do dia/semana/mês. Eventos recorrentes aparecem nas datas válidas; sobreposições são sinalizadas.

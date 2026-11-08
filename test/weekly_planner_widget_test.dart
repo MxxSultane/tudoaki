@@ -189,4 +189,47 @@ void main() {
       }
     },
   );
+
+  testWidgets('planning and rescheduling preserve linked pending task identity', (
+    tester,
+  ) async {
+    final db = TudoAkiDatabase.memory();
+    addTearDown(db.close);
+    final repo = TudoAkiRepository(db);
+    final goal = await repo.save('Goals', {
+      'title': 'Aprender',
+      'target': 12,
+      'created': '2026-10-25T16:00:00',
+    });
+    final subject = await repo.save('Subjects', {'title': 'História'});
+    final id = await repo.save('Tasks', {
+      'title': 'Ler fontes',
+      'created': '2026-10-25T16:00:00',
+      'goal_id': goal,
+      'subject_id': subject,
+      'priority': 2,
+      'important': 1,
+    });
+    final before = (await repo.all('Tasks')).single;
+    await open(tester, repo);
+    await tap(tester, find.byKey(const ValueKey('plan-day-1')));
+    await tap(tester, find.text('Escolher pendente'));
+    await tap(tester, find.widgetWithText(ListTile, 'Ler fontes'));
+    await save(tester);
+    expect((await repo.all('Tasks')).single, {...before, 'due': '2026-10-27'});
+    await tap(tester, find.text('Ler fontes'));
+    await tap(tester, find.text('Quando: 27/10/2026'));
+    await tap(tester, find.text('28').last);
+    await tap(tester, find.text('OK'));
+    await save(tester);
+    final row = (await repo.all('Tasks')).single;
+    expect(row, {...before, 'due': '2026-10-28'});
+    expect(row['id'], id);
+    expect(await repo.all('ExperienceEvents'), isEmpty);
+    expect(await repo.all('Achievements'), isEmpty);
+    await tap(tester, find.byTooltip('Semana seguinte'));
+    await tap(tester, find.byTooltip('Semana anterior'));
+    expect((await repo.all('Tasks')).single, row);
+    expect(tester.takeException(), isNull);
+  });
 }

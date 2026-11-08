@@ -1,5 +1,9 @@
 # Tudo Aki — visão do produto
 
+## Direcção aprovada — Tudo aki 2.0
+Organizador completo de vida pessoal: intuitivo, agradável, premium e utilizável nas tarefas principais sem tutoriais. Preservar funções e dados, com Hoje/Planear/Metas/Mais e Percurso como experiência especial. Planeamento manual e opcional. Sage & Graphite com personalidade, acessibilidade e detalhes cuidados. [Contratos da evolução](V2_CONTRACTS.md). Esta direcção ainda não redesenha a produção.
+
+
 **Slogan provisório:** A tua vida, organizada num só lugar.
 
 **Identificador Flutter/Dart:** `tudo_aki`.

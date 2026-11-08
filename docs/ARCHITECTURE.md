@@ -1,5 +1,9 @@
 # Arquitectura — Tudo Aki
 
+## Preparação 2.0 — Fase 1
+Produção 0.9.2+12 / 9283217 preservada: Riverpod + Cubits, GoRouter, SQL explícito Drift v5, mz.lifeos.lifeos e lifeos.sqlite. Não há nova entidade de planeamento, restauro ou histórico nesta fase. Hoje/Planear/Metas/Mais é navegação futura; preservar tarefas como fonte única. Distinguir conceptualmente planeamento e prazo sem reinterpretar Tasks.due. [Contratos](V2_CONTRACTS.md), [restauro futuro](RESTORE_PLAN.md), [resultados](PHASE1_REPORT.md).
+
+
 ## Planeador semanal — 0.9.0
 `features/weekly_planner/` contém o Cubit de semana/dia/tipo e a página. A rota /weekly-planner é aberta pelo directório Mais, fora do shell. O início da semana usa aritmética civil: domingo na primeira abertura aponta para a segunda seguinte, enquanto a escolha explícita de uma data mostra a semana que a contém. Não há agendador de domingo ou nova permissão.
 

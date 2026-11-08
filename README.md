@@ -1,5 +1,9 @@
 # tudoAki
 
+## Preparação da versão 2.0 — Fase 1
+Branch isolado; apenas contratos e testes adicionais. A produção mantém 0.9.2+12, três separadores e esquema v5. Direcção futura: Hoje / Planear / Metas / Mais, com Percurso acessível fora da navegação obrigatória. Ver [contratos](docs/V2_CONTRACTS.md), [proposta de restauro](docs/RESTORE_PLAN.md) e [relatório da fase](docs/PHASE1_REPORT.md). Os testes novos ainda não foram executados: Flutter/Dart não estão disponíveis neste ambiente.
+
+
 **A tua vida, organizada num só lugar.**
 
 Aplicação Flutter offline para agenda, metas, tarefas e áreas pessoais. Identificador técnico: `tudo_aki`. Temas claro/escuro, Inter e Newsreader locais, cartões planos e três separadores.

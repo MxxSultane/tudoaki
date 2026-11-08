@@ -1,5 +1,9 @@
 # Progresso — Tudo Aki
 
+## Tudo aki 2.0 — Fase 1
+Contratos e testes adicionais num branch isolado, sem alterar produção. Flutter/Dart indisponíveis no ambiente actual: os três comandos de referência falharam antes das alterações com command not found. Os 80 testes aprovados abaixo pertencem à entrega anterior e não foram revalidados agora. [Relatório exacto desta fase](PHASE1_REPORT.md). Fase 2 não iniciada.
+
+
 ## Actualização 0.9.2 — Fase 6, fiabilidade Android
 - Lembretes preservam instantes UTC e datas ISO com offset, convertendo para Maputo; datas sem offset mantêm a hora civil de Maputo. Segundos deixam de ser truncados pelo serviço.
 - Datas passadas não pedem permissão. O prazo é verificado de novo depois do diálogo de permissão. Inicialização falhada pode ser repetida e chamadas simultâneas partilham a inicialização em curso.

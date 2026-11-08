@@ -1,5 +1,9 @@
 # Plano incremental
 
+## Tudo aki 2.0 — sequência de aprovação
+Fase 0: auditorias técnica e de primeira utilização. Fase 1 actual: contratos, protecção e caracterização, sem mudar produção. Fase 2 proposta: extracção interna de áreas activas e coordenação de operações, mantendo comportamento e dados; depende de aprovação explícita e execução dos testes pendentes. Navegação, tema e Percurso pertencem a fases seguintes aprovadas separadamente. Não avançar automaticamente. [Relatório](PHASE1_REPORT.md). O plano 0.x abaixo é histórico.
+
+
 **Âmbito actual (0.9.2):** avançar a Fase 6 com correcções nos lembretes Android e testes de ciclo de vida, preservando o planeamento semanal e a interface funcional. O pedido actual substitui a limitação anterior ao esqueleto.
 1. Fundação: documentos, Flutter/Android, tema, router, esquema v1, repositório.
 2. Núcleo: tarefas/metas/eventos/agenda/Hoje e armazenamento real.
