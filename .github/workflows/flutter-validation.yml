@@ -37,6 +37,8 @@ jobs:
         run: |
           flutter pub get --enforce-lockfile
           git diff --exit-code -- pubspec.yaml pubspec.lock
+      - name: Testar processamento dos resultados
+        run: python3 -m unittest discover -s tool -p 'test_summarize_flutter_tests.py' -v
       - name: Formatação, análise e testes
         shell: bash
         run: |
@@ -54,35 +56,9 @@ jobs:
           lock_status=$?
           cat validation/format.txt validation/analyze.txt validation/test-stderr.txt
           printf 'format=%s analyze=%s test=%s lock=%s\n' "$format_status" "$analyze_status" "$test_status" "$lock_status" | tee validation/exit-codes.txt
-          python3 - <<'PY'
-          import collections, json, os, pathlib
-          starts, done, errors = {}, {}, []
-          for line in pathlib.Path('validation/tests.jsonl').read_text().splitlines():
-              try:
-                  event = json.loads(line)
-              except ValueError:
-                  print(line)
-                  continue
-              if event.get('type') == 'testStart':
-                  starts[event['test']['id']] = event['test']
-              elif event.get('type') == 'testDone':
-                  done[event['testID']] = event
-              elif event.get('type') == 'error':
-                  errors.append(event)
-                  print(event.get('error', ''))
-                  print(event.get('stackTrace', ''))
-          counts = collections.Counter()
-          for test_id, result in done.items():
-              if result.get('hidden', False) or starts.get(test_id, {}).get('hidden', False):
-                  continue
-              counts['skipped' if result.get('skipped') else result['result']] += 1
-          summary = f"Testes terminados: {sum(counts.values())}; aprovados: {counts['success']}; falhados: {counts['failure'] + counts['error']}; ignorados: {counts['skipped']}. Eventos de erro (incluem carregamento): {len(errors)}."
-          print(summary)
-          pathlib.Path('validation/summary.txt').write_text(summary + '\n')
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
-              output.write('## Validação Flutter 3.35.7 / Dart 3.9.2\n\n' + summary + '\n\nConsultar exit-codes.txt e os logs; ausência de testes não equivale a sucesso.\n')
-          PY
+          python3 tool/summarize_flutter_tests.py validation/tests.jsonl validation/summary.json --step-summary "$GITHUB_STEP_SUMMARY"
           summary_status=$?
+          printf 'summary=%s\n' "$summary_status" >> validation/exit-codes.txt
           if (( format_status || analyze_status || test_status || lock_status || summary_status )); then
             exit 1
           fi

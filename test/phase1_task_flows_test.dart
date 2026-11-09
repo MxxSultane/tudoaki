@@ -58,39 +58,42 @@ Future<void> openTasks(
 }
 
 void main() {
-  testWidgets('title-only creation appears immediately and cancel writes nothing',
-      (tester) async {
-    final db = TudoAkiDatabase.memory();
-    addTearDown(db.close);
-    final repo = TudoAkiRepository(db);
-    await openTasks(tester, repo, RecordingReminders());
-    await tap(tester, find.byType(FloatingActionButton));
-    await tap(tester, find.widgetWithText(ListTile, 'Tarefa'));
-    await tester.enterText(
-      find.widgetWithText(TextFormField, 'Título'),
-      'Comprar pão',
-    );
-    await tap(tester, find.widgetWithText(FilledButton, 'Guardar'));
-    final row = (await repo.all('Tasks')).single;
-    expect(row['due'], isNull);
-    expect(row['reminder'], 0);
-    expect(row['goal_id'], isNull);
-    expect(row['subject_id'], isNull);
-    expect(find.text('Comprar pão'), findsOneWidget);
-    await tap(tester, find.text('Comprar pão'));
-    await tester.enterText(
-      find.widgetWithText(TextFormField, 'Título'),
-      'Não guardar',
-    );
-    Navigator.of(tester.element(find.byType(TextFormField).first)).pop();
-    await tester.pumpAndSettle();
-    expect((await repo.all('Tasks')).single, row);
-    expect(await repo.all('ExperienceEvents'), isEmpty);
-    expect(tester.takeException(), isNull);
-  });
+  testWidgets(
+    'title-only creation appears immediately and cancel writes nothing',
+    (tester) async {
+      final db = TudoAkiDatabase.memory();
+      addTearDown(db.close);
+      final repo = TudoAkiRepository(db);
+      await openTasks(tester, repo, RecordingReminders());
+      await tap(tester, find.byType(FloatingActionButton));
+      await tap(tester, find.widgetWithText(ListTile, 'Tarefa'));
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Título'),
+        'Comprar pão',
+      );
+      await tap(tester, find.widgetWithText(FilledButton, 'Guardar'));
+      final row = (await repo.all('Tasks')).single;
+      expect(row['due'], isNull);
+      expect(row['reminder'], 0);
+      expect(row['goal_id'], isNull);
+      expect(row['subject_id'], isNull);
+      expect(find.text('Comprar pão'), findsOneWidget);
+      await tap(tester, find.text('Comprar pão'));
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Título'),
+        'Não guardar',
+      );
+      Navigator.of(tester.element(find.byType(TextFormField).first)).pop();
+      await tester.pumpAndSettle();
+      expect((await repo.all('Tasks')).single, row);
+      expect(await repo.all('ExperienceEvents'), isEmpty);
+      expect(tester.takeException(), isNull);
+    },
+  );
 
-  testWidgets('compact edits and completion keep links and reminder identity',
-      (tester) async {
+  testWidgets('compact edits and completion keep links and reminder identity', (
+    tester,
+  ) async {
     final db = TudoAkiDatabase.memory();
     addTearDown(db.close);
     final repo = TudoAkiRepository(db);
@@ -119,28 +122,41 @@ void main() {
       'Rever capítulo',
     );
     await tap(tester, find.widgetWithText(FilledButton, 'Guardar'));
-    expect((await repo.all('Tasks')).single,
-        {...before, 'title': 'Rever capítulo'});
+    expect((await repo.all('Tasks')).single, {
+      ...before,
+      'title': 'Rever capítulo',
+    });
     expect(reminders.cancelled, [id]);
-    expect(reminders.scheduled.single,
-        (id: id, title: 'Rever capítulo', date: DateTime(2090, 1, 2, 9, 30)));
-    await tap(tester, find.descendant(
-      of: find.byType(TaskRow),
-      matching: find.byType(Checkbox),
+    expect(reminders.scheduled.single, (
+      id: id,
+      title: 'Rever capítulo',
+      date: DateTime(2090, 1, 2, 9, 30),
     ));
+    await tap(
+      tester,
+      find.descendant(
+        of: find.byType(TaskRow),
+        matching: find.byType(Checkbox),
+      ),
+    );
     expect(reminders.cancelled, [id, id]);
     await tap(tester, find.text('Concluídas'));
     expect(find.text('Rever capítulo'), findsOneWidget);
-    await tap(tester, find.descendant(
-      of: find.byType(TaskRow),
-      matching: find.byType(Checkbox),
-    ));
+    await tap(
+      tester,
+      find.descendant(
+        of: find.byType(TaskRow),
+        matching: find.byType(Checkbox),
+      ),
+    );
     expect(reminders.scheduled, hasLength(2));
     expect(reminders.scheduled.last, reminders.scheduled.first);
     await tap(tester, find.text('Pendentes'));
     expect(find.text('Rever capítulo'), findsOneWidget);
-    expect((await repo.all('Tasks')).single,
-        {...before, 'title': 'Rever capítulo'});
+    expect((await repo.all('Tasks')).single, {
+      ...before,
+      'title': 'Rever capítulo',
+    });
     expect((await repo.all('ExperienceEvents')).single['points'], 10);
     expect((await repo.all('Achievements')).single['code'], 'first_task');
     expect((await repo.all('Goals')).single['current'], 0);
