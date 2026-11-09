@@ -1,5 +1,11 @@
 # Arquitectura — Tudo Aki
 
+## Fase 2A — extracção dos módulos activos
+Hábitos, Revisões e Definições passam para features/habits/presentation/habits_screen.dart, features/reviews/presentation/reviews_screen.dart e features/settings/presentation/settings_screen.dart. As rotas /habits, /reviews e /profile mantêm nomes, títulos e AreaScaffold, agora com os widgets próprios. TudoAkiScreen mantém delegação para as três secções para compatibilidade com chamadas/testes antigos.
+
+LegacySectionPage em core/widgets preserva a composição anterior (carregamento, erro/repetição, cabeçalho opcional, lista e margens) e a execução/invalidação das operações. buildHabitCards é reutilizado pelo Hoje antigo; não há cópia da lógica de registo diário. Os formulários continuam em forms.dart. Agenda, Metas, Progresso, Estudos e Finanças antigos permanecem no âmbito anterior. Não há nova navegação, design ou esquema nesta extracção. [Relatório e limites de validação](PHASE2A_REPORT.md).
+
+
 ## Preparação 2.0 — Fase 1
 Produção 0.9.2+12 / 9283217 preservada: Riverpod + Cubits, GoRouter, SQL explícito Drift v5, mz.lifeos.lifeos e lifeos.sqlite. Não há nova entidade de planeamento, restauro ou histórico nesta fase. Hoje/Planear/Metas/Mais é navegação futura; preservar tarefas como fonte única. Distinguir conceptualmente planeamento e prazo sem reinterpretar Tasks.due. [Contratos](V2_CONTRACTS.md), [restauro futuro](RESTORE_PLAN.md), [resultados](PHASE1_REPORT.md).
 

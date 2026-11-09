@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:share_plus/share_plus.dart';
 import '../app/providers.dart';
 import '../app/brand.dart';
 import '../core/database/database.dart';
@@ -12,8 +11,10 @@ import 'academics/academic_rules.dart';
 import 'academics/academic_editor.dart';
 import 'academics/academics_panel.dart';
 import 'finance/finance_panel.dart';
-import 'finance/finance_rules.dart';
 import 'progress/progress_panel.dart';
+import 'habits/presentation/habits_screen.dart';
+import 'reviews/presentation/reviews_screen.dart';
+import 'settings/presentation/settings_screen.dart';
 
 void showQuickCreate(BuildContext context) => showModalBottomSheet<void>(
   context: context,
@@ -108,50 +109,58 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
     ),
   );
   @override
-  Widget build(BuildContext context) => ref
-      .watch(dataProvider)
-      .when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('Não foi possível abrir os dados locais.'),
-              TextButton(
-                onPressed: () => ref.invalidate(dataProvider),
-                child: const Text('Tentar novamente'),
-              ),
-            ],
-          ),
-        ),
-        data: (data) {
-          final prefs = data['UserPreferences']!.first;
-          return ListView(
-            padding: const EdgeInsets.fromLTRB(20, 24, 20, 110),
-            children: [
-              if (!widget.embedded) ...[
-                TudoAkiBrandHeader(showSlogan: widget.section == 'Hoje'),
-                const SizedBox(height: 8),
-                Text(
-                  widget.section == 'Hoje'
-                      ? 'Um passo de cada vez.'
-                      : widget.section,
-                  style: Theme.of(context).textTheme.headlineMedium,
+  Widget build(BuildContext context) {
+    switch (widget.section) {
+      case 'Hábitos':
+        return HabitsScreen(embedded: widget.embedded);
+      case 'Revisões':
+        return ReviewsScreen(embedded: widget.embedded);
+      case 'Perfil':
+        return SettingsScreen(embedded: widget.embedded);
+    }
+    return ref
+        .watch(dataProvider)
+        .when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Não foi possível abrir os dados locais.'),
+                TextButton(
+                  onPressed: () => ref.invalidate(dataProvider),
+                  child: const Text('Tentar novamente'),
                 ),
               ],
-              if (widget.section == 'Hoje') ...today(data, prefs),
-              if (widget.section == 'Agenda') ...agenda(data),
-              if (widget.section == 'Metas') ...goals(data),
-              if (widget.section == 'Progresso') ...progress(data, prefs),
-              if (widget.section == 'Perfil') ...profile(prefs),
-              if (widget.section == 'Hábitos') ...habits(data),
-              if (widget.section == 'Finanças') ...finance(data),
-              if (widget.section == 'Estudos') ...academics(data),
-              if (widget.section == 'Revisões') ...reviews(data),
-            ],
-          );
-        },
-      );
+            ),
+          ),
+          data: (data) {
+            final prefs = data['UserPreferences']!.first;
+            return ListView(
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 110),
+              children: [
+                if (!widget.embedded) ...[
+                  TudoAkiBrandHeader(showSlogan: widget.section == 'Hoje'),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.section == 'Hoje'
+                        ? 'Um passo de cada vez.'
+                        : widget.section,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
+                if (widget.section == 'Hoje') ...today(data, prefs),
+                if (widget.section == 'Agenda') ...agenda(data),
+                if (widget.section == 'Metas') ...goals(data),
+                if (widget.section == 'Progresso') ...progress(data, prefs),
+                if (widget.section == 'Finanças') ...finance(data),
+                if (widget.section == 'Estudos') ...academics(data),
+              ],
+            );
+          },
+        );
+  }
+
   List<Widget> today(Map<String, List<DataRowMap>> data, DataRowMap prefs) {
     final now = DateTime.now();
     final tasks = data['Tasks']!.where((t) => t['completed'] == 0).toList()
@@ -253,7 +262,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
           child: const Text('Ver todos'),
         ),
       ),
-      ...habitCards(data, todayOnly: true),
+      ...buildHabitCards(context, data, repo, act, todayOnly: true),
       if (data['Habits']!.isEmpty)
         empty('Uma rotina pode começar pequena.', 'Hábito'),
       heading('Metas em movimento'),
@@ -569,62 +578,6 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
     }
   }
 
-  List<Widget> habitCards(
-    Map<String, List<DataRowMap>> data, {
-    bool todayOnly = false,
-  }) {
-    final today = DateTime.now();
-    return data['Habits']!
-        .where(
-          (h) =>
-              !todayOnly ||
-              h['paused'] == 0 &&
-                  (h['weekdays'] as String)
-                      .split(',')
-                      .contains('${today.weekday}'),
-        )
-        .map((h) {
-          final done = data['HabitCompletions']!.any(
-            (c) => c['habit_id'] == h['id'] && c['day'] == dayKey(today),
-          );
-          final count = data['HabitCompletions']!
-              .where((c) => c['habit_id'] == h['id'])
-              .length;
-          return Card(
-            child: ListTile(
-              leading: Checkbox(
-                value: done,
-                onChanged: h['paused'] == 1
-                    ? null
-                    : (_) => act(() => repo.toggleHabit(h['id'] as int, today)),
-              ),
-              title: Text(h['title'] as String),
-              subtitle: Text(
-                '${h['cue']}\n$count dias registados${h['paused'] == 1 ? ' · Em pausa' : ''}',
-              ),
-              isThreeLine: true,
-              trailing: IconButton(
-                tooltip: 'Editar hábito',
-                icon: const Icon(Icons.edit_outlined),
-                onPressed: () => showEditor(context, 'Hábito', existing: h),
-              ),
-            ),
-          );
-        })
-        .toList();
-  }
-
-  List<Widget> habits(Map<String, List<DataRowMap>> data) => [
-    const Padding(
-      padding: EdgeInsets.symmetric(vertical: 12),
-      child: Text(
-        'Consistência com flexibilidade. Pode pausar e retomar quando precisar.',
-      ),
-    ),
-    if (data['Habits']!.isEmpty)
-      empty('Comece com uma rotina pequena.', 'Hábito'),
-    ...habitCards(data),
-  ];
   List<Widget> progress(Map<String, List<DataRowMap>> data, DataRowMap prefs) {
     final done = data['Tasks']!.where((t) => t['completed'] == 1).length;
     final active = data['Goals']!.where((g) => g['status'] == 'active').length;
@@ -704,160 +657,11 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
     ];
   }
 
-  List<Widget> profile(DataRowMap prefs) => [
-    if (!widget.embedded) ...[
-      heading('Organize as suas áreas'),
-      for (final item in {
-        '/habits': ('Hábitos e bem-estar', Icons.spa_outlined),
-        '/academics': ('Estudos', Icons.school_outlined),
-        '/finance': ('Finanças', Icons.account_balance_wallet_outlined),
-        '/reviews': ('Revisões', Icons.rate_review_outlined),
-      }.entries)
-        Card(
-          child: ListTile(
-            leading: Icon(item.value.$2),
-            title: Text(item.value.$1),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.go(item.key),
-          ),
-        ),
-    ],
-    heading('Preferências'),
-    DropdownButtonFormField<String>(
-      key: ValueKey('theme-${prefs['theme']}'),
-      initialValue: prefs['theme'] as String,
-      decoration: const InputDecoration(labelText: 'Aparência'),
-      items: const [
-        DropdownMenuItem(value: 'system', child: Text('Seguir sistema')),
-        DropdownMenuItem(value: 'light', child: Text('Claro')),
-        DropdownMenuItem(value: 'dark', child: Text('Escuro')),
-      ],
-      onChanged: (value) => act(() async {
-        await repo.save('UserPreferences', {'theme': value}, id: 1);
-      }),
-    ),
-    const SizedBox(height: 16),
-    DropdownButtonFormField<String>(
-      key: ValueKey('default-currency-${prefs['currency']}'),
-      initialValue: prefs['currency'] as String,
-      isExpanded: true,
-      decoration: const InputDecoration(labelText: 'Moeda para novos registos'),
-      items: [
-        for (final entry in currencyLabels.entries)
-          DropdownMenuItem(
-            value: entry.key,
-            child: Text(
-              entry.value,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-      ],
-      onChanged: (value) => act(() async {
-        if (value != null) {
-          await repo.save('UserPreferences', {'currency': value}, id: 1);
-        }
-      }),
-    ),
-    const Text(
-      'Aplica-se a novos registos. Os valores existentes mantêm a moeda original. Sem conversão cambial.',
-    ),
-    SwitchListTile(
-      title: const Text('Gamificação'),
-      subtitle: const Text('XP opcional, sem penalizações.'),
-      value: prefs['gamification'] == 1,
-      onChanged: (value) => act(() async {
-        await repo.save('UserPreferences', {
-          'gamification': value ? 1 : 0,
-        }, id: 1);
-      }),
-    ),
-    heading('Os seus dados'),
-    const Text(
-      'Guardados localmente neste dispositivo. A aplicação não implementa encriptação. Sem conta nem analytics externos.',
-    ),
-    ListTile(
-      leading: const Icon(Icons.ios_share),
-      title: const Text('Exportar dados JSON'),
-      onTap: () => act(() async {
-        final json = await repo.exportJson();
-        await SharePlus.instance.share(
-          ShareParams(
-            text: json,
-            subject: '${TudoAkiBrand.name} — exportação de dados',
-          ),
-        );
-      }),
-    ),
-    ListTile(
-      leading: const Icon(Icons.delete_outline),
-      title: const Text('Apagar todos os dados'),
-      onTap: () async {
-        final confirmed = await showDialog<bool>(
-          context: context,
-          builder: (c) => AlertDialog(
-            title: const Text('Apagar todos os dados?'),
-            content: const Text(
-              'Esta acção não pode ser desfeita. Exporte primeiro se quiser guardar uma cópia.',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(c, false),
-                child: const Text('Cancelar'),
-              ),
-              FilledButton(
-                onPressed: () => Navigator.pop(c, true),
-                child: const Text('Apagar'),
-              ),
-            ],
-          ),
-        );
-        if (confirmed == true) {
-          await act(() async {
-            await ref.read(remindersProvider).cancelAll();
-            await repo.erase();
-          });
-        }
-      },
-    ),
-  ];
   List<Widget> finance(Map<String, List<DataRowMap>> data) => [
     const FinancePanel(),
   ];
   List<Widget> academics(Map<String, List<DataRowMap>> data) => [
     AcademicsPanel(taskBuilder: (task) => taskCard(task, data)),
-  ];
-  List<Widget> reviews(Map<String, List<DataRowMap>> data) => [
-    heading(
-      'Olhar para trás',
-      action: TextButton(
-        onPressed: () => showEditor(context, 'Revisão'),
-        child: const Text('Nova'),
-      ),
-    ),
-    if (data['PeriodicReviews']!.isEmpty)
-      empty(
-        'Uma breve reflexão pode ajudar a escolher o próximo passo.',
-        'Revisão',
-      ),
-    ...data['PeriodicReviews']!.reversed.map(
-      (r) => Card(
-        child: ExpansionTile(
-          title: Text('${r['period']} · ${r['day']}'),
-          childrenPadding: const EdgeInsets.all(16),
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Realizações\n${r['achieved']}'),
-            const SizedBox(height: 12),
-            Text('Pendentes\n${r['pending']}'),
-            const SizedBox(height: 12),
-            Text('Obstáculos\n${r['obstacles']}'),
-            const SizedBox(height: 12),
-            Text('Próximas prioridades\n${r['next']}'),
-          ],
-        ),
-      ),
-    ),
   ];
 }
 

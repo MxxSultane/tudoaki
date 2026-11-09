@@ -8,6 +8,9 @@ import '../core/widgets/workspace_page.dart';
 import '../features/forms.dart';
 import '../features/progress/progress_screen.dart';
 import '../features/screens.dart';
+import '../features/habits/presentation/habits_screen.dart';
+import '../features/reviews/presentation/reviews_screen.dart';
+import '../features/settings/presentation/settings_screen.dart';
 import '../features/agenda/domain/agenda_cubit.dart';
 import '../features/goals/domain/goals_cubit.dart';
 import '../features/tasks/domain/tasks_cubit.dart';
@@ -87,7 +90,12 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
           path: area.key,
           builder: (_, _) => AreaScaffold(
             title: area.value.$1,
-            child: TudoAkiScreen(section: area.value.$2, embedded: true),
+            child: switch (area.key) {
+              '/habits' => const HabitsScreen(embedded: true),
+              '/reviews' => const ReviewsScreen(embedded: true),
+              '/profile' => const SettingsScreen(embedded: true),
+              _ => TudoAkiScreen(section: area.value.$2, embedded: true),
+            },
           ),
         ),
     ],
