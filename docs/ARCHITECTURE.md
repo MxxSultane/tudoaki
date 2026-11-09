@@ -1,5 +1,11 @@
 # Arquitectura — Tudo Aki
 
+## Fase 2B — coordenação das operações de tarefas
+TaskOperations, em features/tasks/domain/task_operations.dart, coordena o repositório existente, Reminders e a actualização de dataProvider através de taskOperationsProvider. Não mantém tarefas em memória nem cria persistência paralela. create/edit/reschedule/setCompleted/delete preservam IDs, valores due e relações não alteradas; taskDone do repositório continua responsável pelo XP.
+
+O editor mantém validação/serialização/campos e passa apenas a gravar/eliminar tarefas pelo serviço; as outras entidades continuam no fluxo anterior. TaskRow e o cartão antigo delegam conclusão/reabertura, mantendo mensagens e feedback táctil. O serviço devolve a falha de lembrete separada da gravação; falhas SQLite propagam-se. Eliminar continua a cancelar antes de apagar. Os wrappers de acção antigos mantêm a invalidação na conclusão (refreshConsumers=false); os restantes usos do serviço invalidam directamente. [Mapa, testes e limitações](PHASE2B_REPORT.md).
+
+
 ## Fase 2A — extracção dos módulos activos
 Hábitos, Revisões e Definições passam para features/habits/presentation/habits_screen.dart, features/reviews/presentation/reviews_screen.dart e features/settings/presentation/settings_screen.dart. As rotas /habits, /reviews e /profile mantêm nomes, títulos e AreaScaffold, agora com os widgets próprios. TudoAkiScreen mantém delegação para as três secções para compatibilidade com chamadas/testes antigos.
 

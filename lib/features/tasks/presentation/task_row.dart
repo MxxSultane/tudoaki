@@ -36,38 +36,24 @@ class _TaskRowState extends ConsumerState<TaskRow> {
                     listen: false,
                   );
                   await applyWorkspace(context, ref, () async {
-                    await container
-                        .read(repositoryProvider)
-                        .taskDone(task['id'] as int, value!);
-                    HapticFeedback.selectionClick();
-                    if (task['reminder'] == 1) {
-                      try {
-                        final reminders = container.read(remindersProvider);
-                        if (value) {
-                          await reminders.cancel(task['id'] as int);
-                        } else if (task['due'] != null) {
-                          final scheduled = await reminders.schedule(
-                            task['id'] as int,
-                            task['title'] as String,
-                            DateTime.parse(task['due'] as String),
-                          );
-                          if (!scheduled) {
-                            throw const FormatException(
-                              'Lembrete indisponível',
-                            );
-                          }
-                        }
-                      } catch (_) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Tarefa guardada; verifica o lembrete.',
-                              ),
-                            ),
-                          );
-                        }
-                      }
+                    final failure = await container
+                        .read(taskOperationsProvider)
+                        .setCompleted(
+                          task,
+                          value!,
+                          onPersisted: () {
+                            HapticFeedback.selectionClick();
+                          },
+                          refreshConsumers: false,
+                        );
+                    if (failure != null && context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Tarefa guardada; verifica o lembrete.',
+                          ),
+                        ),
+                      );
                     }
                   });
                   if (mounted) setState(() => busy = false);

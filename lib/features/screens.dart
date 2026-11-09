@@ -285,33 +285,17 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
         leading: Checkbox(
           value: done,
           onChanged: (value) => act(() async {
-            await repo.taskDone(t['id'] as int, value!);
-            if (t['reminder'] == 1) {
-              try {
-                final service = ref.read(remindersProvider);
-                if (value) {
-                  await service.cancel(t['id'] as int);
-                } else if (t['due'] != null) {
-                  final scheduled = await service.schedule(
-                    t['id'] as int,
-                    t['title'] as String,
-                    DateTime.parse(t['due'] as String),
-                  );
-                  if (!scheduled) {
-                    throw const FormatException('Lembrete indisponível');
-                  }
-                }
-              } catch (_) {
-                if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Tarefa actualizada; não foi possível actualizar o lembrete.',
-                      ),
-                    ),
-                  );
-                }
-              }
+            final failure = await ref
+                .read(taskOperationsProvider)
+                .setCompleted(t, value!, refreshConsumers: false);
+            if (failure != null && mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Tarefa actualizada; não foi possível actualizar o lembrete.',
+                  ),
+                ),
+              );
             }
           }),
         ),

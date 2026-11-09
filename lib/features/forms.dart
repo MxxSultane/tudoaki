@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../app/providers.dart';
 import '../core/database/database.dart';
 import 'goals/goal_tree.dart';
+import 'tasks/domain/task_operations.dart';
 import 'finance/finance_rules.dart';
 
 Future<int?> showEditor(
@@ -764,32 +765,33 @@ class _EditorState extends ConsumerState<Editor> {
             'next': value('next'),
           });
       }
-      final savedId = await container
-          .read(repositoryProvider)
-          .save(table, row, id: id);
+      final int savedId;
       String? warning;
-      if (widget.kind == 'Tarefa' && (remind || original['reminder'] == 1)) {
-        try {
-          final reminders = container.read(remindersProvider);
-          await reminders.cancel(savedId);
-          if (remind &&
-              !dayOnlyTask &&
-              original['completed'] != 1 &&
-              due != null &&
-              !await reminders.schedule(
-                savedId,
-                row['title'] as String,
-                due!,
-              )) {
-            warning =
-                'Tarefa guardada. Lembrete indisponível: verifique a permissão, a data futura e o suporte Android.';
-          }
-        } catch (_) {
-          warning =
-              'Tarefa guardada, mas não foi possível configurar o lembrete.';
-        }
+      if (widget.kind == 'Tarefa') {
+        final operations = container.read(taskOperationsProvider);
+        final reconcile = remind || original['reminder'] == 1;
+        final result = id == null
+            ? await operations.create(row, reconcileReminders: reconcile)
+            : await operations.edit(
+                id,
+                row,
+                previous: original,
+                reconcileReminders: reconcile,
+              );
+        savedId = result.id;
+        warning = switch (result.reminderFailure) {
+          TaskReminderFailure.unavailable =>
+            'Tarefa guardada. Lembrete indisponível: verifique a permissão, a data futura e o suporte Android.',
+          TaskReminderFailure.failed =>
+            'Tarefa guardada, mas não foi possível configurar o lembrete.',
+          null => null,
+        };
+      } else {
+        savedId = await container
+            .read(repositoryProvider)
+            .save(table, row, id: id);
+        container.invalidate(dataProvider);
       }
-      container.invalidate(dataProvider);
       if (!mounted) {
         return;
       }
@@ -850,13 +852,14 @@ class _EditorState extends ConsumerState<Editor> {
     final container = ProviderScope.containerOf(context, listen: false);
     setState(() => busy = true);
     try {
-      if (widget.kind == 'Tarefa' && original['reminder'] == 1) {
-        await container.read(remindersProvider).cancel(original['id'] as int);
+      if (widget.kind == 'Tarefa') {
+        await container.read(taskOperationsProvider).delete(original);
+      } else {
+        await container
+            .read(repositoryProvider)
+            .delete(table, original['id'] as int);
+        container.invalidate(dataProvider);
       }
-      await container
-          .read(repositoryProvider)
-          .delete(table, original['id'] as int);
-      container.invalidate(dataProvider);
       if (mounted) {
         Navigator.pop(context);
       }
