@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// The approved 2.0 identity, scoped to Hoje and its existing calendar.
+/// The approved 2.0 identity, scoped to Hoje, its calendar and Planear.
 /// Other areas keep their current theme during the incremental transition.
 abstract final class TodayColors {
   static const sage = Color(0xFF9ECB8F);
@@ -28,7 +28,12 @@ ThemeData buildTodayTheme(ThemeData base) {
       .copyWith(bodySmall: base.textTheme.bodySmall?.copyWith(color: muted));
   return base.copyWith(
     scaffoldBackgroundColor: background,
+    appBarTheme: base.appBarTheme.copyWith(
+      backgroundColor: background,
+      foregroundColor: ink,
+    ),
     textTheme: text,
+    cardTheme: base.cardTheme.copyWith(color: surface),
     dividerColor: dark ? const Color(0xFF3E4A43) : TodayColors.soft,
     colorScheme: base.colorScheme.copyWith(
       primary: TodayColors.sage,

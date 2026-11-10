@@ -10,7 +10,8 @@ import '../../../core/widgets/workspace_page.dart';
 import '../../academics/academic_editor.dart';
 import '../../agenda/domain/agenda_items.dart';
 import '../../forms.dart';
-import '../../tasks/presentation/task_row.dart';
+import '../../planning/presentation/planner_task_tile.dart';
+import '../../planning/domain/planning_items.dart';
 import '../domain/weekly_planner_cubit.dart';
 
 class WeeklyPlannerScreen extends ConsumerStatefulWidget {
@@ -22,6 +23,7 @@ class WeeklyPlannerScreen extends ConsumerStatefulWidget {
 
 class _WeeklyPlannerScreenState extends ConsumerState<WeeklyPlannerScreen> {
   bool editing = false;
+  String? status;
   final dayKeys = List.generate(7, (_) => GlobalKey());
 
   Future<void> edit(WeeklySelection selection, {DataRowMap? task}) async {
@@ -110,9 +112,14 @@ class _WeeklyPlannerScreenState extends ConsumerState<WeeklyPlannerScreen> {
     final conflict = agendaConflict(item, items);
     final time = item.allDay ? 'Sem hora' : DateFormat.Hm().format(item.start);
     if (item.task) {
-      return TaskRow(
+      return PlannerTaskTile(
         key: ValueKey('weekly-task-${item.row['id']}'),
         task: item.row,
+        onWritten: (result, message) {
+          if (mounted) {
+            setState(() => status = plannerFeedback(result, message));
+          }
+        },
         subtitle: '$time${conflict ? ' · Conflito de horário' : ''}',
       );
     }
@@ -238,7 +245,7 @@ class _WeeklyPlannerScreenState extends ConsumerState<WeeklyPlannerScreen> {
                           selection.monday.month,
                           selection.monday.day + index,
                         );
-                        final items = agendaItemsForDay(data, day);
+                        final items = planningItemsForDay(data, day);
                         final tasks = items.where((i) => i.task).length;
                         final events = items.length - tasks;
                         final selected = selection.dayIndex == index;
@@ -334,6 +341,8 @@ class _WeeklyPlannerScreenState extends ConsumerState<WeeklyPlannerScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  if (status != null)
+                    Semantics(liveRegion: true, child: Text(status!)),
                   Text(
                     DateFormat('EEEE, d MMM', 'pt').format(selection.day),
                     textAlign: TextAlign.center,

@@ -25,7 +25,8 @@ import '../features/goals/presentation/goals_screen.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
 import 'brand.dart';
 import '../features/weekly_planner/domain/weekly_planner_cubit.dart';
-import '../features/weekly_planner/presentation/weekly_planner_screen.dart';
+import '../features/planning/presentation/planning_screen.dart';
+import '../features/planning/domain/planning_view.dart';
 
 class TudoAkiApp extends ConsumerStatefulWidget {
   const TudoAkiApp({super.key});
@@ -78,11 +79,19 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
       ),
       GoRoute(
         path: AppRoutes.weeklyPlanner,
-        builder: (_, _) => BlocProvider(
-          create: (_) => WeeklyPlannerCubit(ref.read(workspaceClockProvider)()),
-          child: const AreaScaffold(
-            title: 'Planear semana',
-            child: WeeklyPlannerScreen(),
+        builder: (context, state) => Theme(
+          data: buildTodayTheme(Theme.of(context)),
+          child: BlocProvider(
+            create: (_) =>
+                WeeklyPlannerCubit(ref.read(workspaceClockProvider)()),
+            child: AreaScaffold(
+              title: 'Planear',
+              child: PlanningScreen(
+                initialView: state.extra is PlanningView
+                    ? state.extra as PlanningView
+                    : PlanningView.week,
+              ),
+            ),
           ),
         ),
       ),

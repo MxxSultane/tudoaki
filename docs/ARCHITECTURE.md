@@ -1,5 +1,12 @@
 # Arquitectura — Tudo Aki
 
+## Fase 3D — Planear em /weekly-planner
+PlanningScreen integra Hoje/Amanhã/Semana/Sem data na rota existente. Semana continua a ser a entrada normal, reutilizando WeeklyPlannerCubit/WeeklyPlannerScreen e a regra de domingo. Hoje oferece também Planear amanhã, com PlanningView.tomorrow em extra interno tipado; /plan continua sem builder e a barra principal mantém três destinos.
+
+As vistas novas usam showQuickTaskSheet, TaskRow, os editores e TaskOperations existentes. TaskScheduleSheet só altera dia/hora por reschedule; PlannerTaskTile acrescenta esse acesso e retirada explícita da data, também na semana. Nenhum modelo persistente ou regra de XP nova. planningItemsForDay reutiliza ocorrências da agenda e projecta Tasks no dia civil local, coerente com o novo Hoje, sem reescrever timestamps. scheduledTaskDue conserva texto inalterado e precisão/horário nas mudanças explícitas.
+
+PlanningScreen guarda apenas selecção efémera; datas relativas acompanham o relógio injectável, enquanto data explícita e semana consultada são conservadas. O tema 3C é reutilizado no route de planeamento. A criação semanal antiga e a escolha semanal de pendentes mantêm o formulário anterior por compatibilidade. [Mapa, testes, capturas e limites](PHASE3D_REPORT.md).
+
 ## Fase 3C — resumo Hoje e calendário preservado
 TodayScreen mantém a rota / e o AgendaCubit. No dia actual/modo Dia apresenta TodayContent, uma projecção só de leitura do snapshot: compromissos em curso/futuros, tarefas pendentes do dia, datas anteriores, hábitos e conclusões por completed_at. Hora passada no próprio dia não transforma uma tarefa em pendente anterior. O relógio existente é injectável; um observador de ciclo de vida e um temporizador nos limites dos minutos (incluindo meia-noite) actualizam a data civil sem reagendar registos.
 

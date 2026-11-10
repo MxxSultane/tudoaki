@@ -12,6 +12,7 @@ import '../../academics/academic_editor.dart';
 import '../../forms.dart';
 import '../../tasks/domain/task_operations.dart';
 import '../../tasks/domain/tasks_cubit.dart';
+import '../../planning/domain/planning_view.dart';
 import '../../tasks/presentation/quick_task_sheet.dart';
 import '../../tasks/presentation/task_row.dart';
 import '../domain/agenda_cubit.dart';
@@ -357,6 +358,13 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
         Wrap(
           spacing: 16,
           children: [
+            TextButton(
+              onPressed: () => context.push(
+                AppRoutes.weeklyPlanner,
+                extra: PlanningView.tomorrow,
+              ),
+              child: const Text('Planear amanhã'),
+            ),
             TextButton.icon(
               onPressed: () => context.push(AppRoutes.weeklyPlanner),
               icon: const Icon(Icons.calendar_view_week_outlined, size: 20),
