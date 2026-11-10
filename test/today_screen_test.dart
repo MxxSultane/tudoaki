@@ -339,6 +339,23 @@ void main() {
     },
   );
 
+  testWidgets('upcoming blocks refresh as time passes while Hoje stays open', (
+    tester,
+  ) async {
+    now = DateTime(2026, 11, 10, 10, 59, 59);
+    await todayEvent(repo, 'A terminar', now, 10);
+    await todayEvent(repo, 'A começar', now, 11);
+    await bootToday(tester, repo);
+    expect(find.text('A terminar'), findsOneWidget);
+    now = DateTime(2026, 11, 10, 11, 0, 1);
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pumpAndSettle();
+    expect(find.text('A terminar'), findsNothing);
+    expect(find.text('A começar'), findsOneWidget);
+    expect(tester.widget<TudoAkiShell>(find.byType(TudoAkiShell)).path, '/');
+    expect(await repo.all('CalendarEvents'), hasLength(2));
+  });
+
   testWidgets('midnight timer refreshes an open Hoje without a new route', (
     tester,
   ) async {

@@ -31,7 +31,7 @@ Não existe encaminhamento contextual de amanhã aprovado/implementado. Nesta fa
 
 Adicionar tarefa abre directamente showQuickTaskSheet da Fase 3B, com dia civil de hoje, foco/teclado e data removível. Guarda por TaskOperations e actualiza o snapshot. Confirmação inline acessível; sem data/outro dia tem acesso a Ver tarefas, sem redireccionamento automático. A área de origem é conservada. Guardar e adicionar outra mantém o comportamento 3B. O + global e o selector Evento/Tarefa/Meta permanecem, para conservar a criação existente e uma única acção principal. Não foi criado outro formulário.
 
-Relógio: utiliza workspaceClockProvider, temporizador até à próxima meia-noite civil e actualização ao retomar a aplicação. Ao consultar explicitamente outro dia/modo, essa selecção é conservada; actualizar o relógio não reagenda tarefas nem escreve dados.
+Relógio: utiliza workspaceClockProvider, temporizador até ao próximo minuto (incluindo a meia-noite civil) e actualização ao retomar a aplicação. O temporizador é cancelado em pausa/ocultação; os próximos compromissos avançam também enquanto Hoje permanece aberto. Ao consultar explicitamente outro dia/modo, essa selecção é conservada; actualizar o relógio não reagenda tarefas nem escreve dados.
 
 Visual: tema semântico Sage/Graphite limitado ao shell da Agenda/Hoje e às suas folhas; restantes áreas conservam o tema anterior. Inter/Newsreader locais, listas abertas, margens 20, ritmo 8, alvos 48, sem gradientes ou sombras. Pares de texto/controlos testados nos dois temas; Mineral fica reservado a detalhe/separação. Texto a 200% usa quebras e deslocação, sem alturas fixas nas listas.
 
@@ -45,7 +45,7 @@ Visual: tema semântico Sage/Graphite limitado ao shell da Agenda/Hoje e às sua
 | lib/app/app.dart | Aplica apenas esse tema ao shell quando o caminho é /; rotas, barra, índices e callbacks mantidos. |
 | lib/features/tasks/presentation/task_row.dart | Opção visual showSubtitle, true por defeito; apenas Hoje oculta legendas redundantes. Operações inalteradas. |
 | test/today_content_test.dart | Seis testes de projecções, ordenação, datas, ocorrências, hábitos e contraste. |
-| test/today_screen_test.dart | Dezasseis testes de comportamento real e adaptação de layout. |
+| test/today_screen_test.dart | Dezassete testes de comportamento real e adaptação de layout. |
 | test/support/today_fixture.dart | SQLite sintético, lembretes simulados e relógio determinístico dos testes. |
 | tool/capture_today.dart | Utilitário reproduzível de capturas reais do Flutter, fora da suite normal. |
 | docs/ux/previews/phase3c/*.png | Quatro capturas: vazio/preenchido em claro/escuro. |
@@ -62,12 +62,12 @@ Ferramentas: Flutter 3.35.7, revisão adc901062556672b4138e18a4dc62a4be8f4b3c2, 
 | flutter --version | Versões acima confirmadas. |
 | dart format --output=none --set-exit-if-changed lib test tool/capture_today.dart | Código 0: 81 ficheiros, zero alterações. |
 | flutter analyze --no-pub | Código 0: sem problemas. |
-| flutter test --no-pub --reporter expanded | Código 0: **144 aprovados, 0 falhados**, duração observada 65 segundos. Inclui os 122 anteriores e 22 novos. |
-| flutter test --no-pub tool/capture_today.dart --reporter expanded | Código 0: quatro renderizações/capturas, separadas da contagem de 144 testes da suite. |
+| flutter test --no-pub --reporter expanded | Código 0: **145 aprovados, 0 falhados**, duração observada 74 segundos. Inclui os 122 anteriores e 23 novos. |
+| flutter test --no-pub tool/capture_today.dart --reporter expanded | Código 0: quatro renderizações/capturas, separadas da contagem de 145 testes da suite. |
 | git diff --check; YAML e bash -n dos passos | Aprovados. |
 | Diff das áreas protegidas e dos testes anteriores | Sem alterações. pubspec.yaml/pubspec.lock e dependências preservados. |
 
-Cobertura nova: vazio; tarefas/compromissos; ordem cronológica e importância; UTC para dia local; hora passada hoje; pendentes anteriores; concluídas por completed_at; título/foco/data contextual/sem data; continuação e ausência de duplicação; concluir/reabrir/editar com ID, associações e XP preservados; hábitos/XP; planeador e estudo; erro de leitura/repetição e erro de conclusão; meia-noite aberta e retoma; editores académicos por origem; 50 tarefas; 360 px, 200% de texto, teclado simulado e ambos os temas. Os testes usam apenas SQLite em memória.
+Cobertura nova: vazio; tarefas/compromissos; ordem cronológica e importância; UTC para dia local; hora passada hoje; pendentes anteriores; concluídas por completed_at; título/foco/data contextual/sem data; continuação e ausência de duplicação; concluir/reabrir/editar com ID, associações e XP preservados; hábitos/XP; planeador e estudo; erro de leitura/repetição e erro de conclusão; passagem de hora sem sair, meia-noite aberta e retoma; editores académicos por origem; 50 tarefas; 360 px, 200% de texto, teclado simulado e ambos os temas. Os testes usam apenas SQLite em memória.
 
 As primeiras execuções dos novos testes revelaram a falta de inicialização do binding para fontes e pressupostos de visibilidade em listas progressivas; os helpers foram corrigidos para percorrer realmente a lista e inicializar o Flutter. Não se enfraqueceram critérios nem se alteraram testes antigos. Os 14 testes anteriores de aplicação/navegação/planeamento passaram também na verificação inicial.
 
@@ -82,7 +82,7 @@ Geradas por Flutter/RepaintBoundary a 390 × 844, PNG a 2×, fontes locais e Mat
 Reproduzir: source tool/env.sh; flutter test --no-pub tool/capture_today.dart. Os hábitos/concluídas e ligações mais abaixo continuam acessíveis por deslocação; a captura preenchida mostra o primeiro enquadramento.
 
 ## GitHub Actions
-Pendente de execução observada no branch desta fase. Não apresentar aprovação remota antecipadamente.
+A primeira execução [42787974438](https://github.com/MxxSultane/tudoaki/actions/runs/42787974438), commit 74cefe9fbda898c3fc6987ba754ae8bb656870a1, terminou verde (SUCCESS observado). Após essa execução foi acrescentada a actualização ao minuto dos próximos compromissos e o teste correspondente, ambos validados localmente. A execução remota desse ajuste final continua pendente; não apresentar aprovação antecipada do estado final.
 
 ## Limitações e preservação
 - Planear amanhã específico continua adiado: só Planear semana existente é anunciado. /plan não está registada; não há quatro separadores, Planear 2.0, Percurso ou restauro.
@@ -91,4 +91,4 @@ Pendente de execução observada no branch desta fase. Não apresentar aprovaç�
 - O relógio local do dispositivo é a referência de Hoje. O serviço de notificações mantém a política Maputo existente; fusos globais/DST e entrega real de lembretes não foram certificados nesta fase.
 - Teclado nativo, TalkBack/VoiceOver, desempenho físico e compreensão por novos utilizadores precisam de avaliação num dispositivo. Layout/contraste automatizados e capturas reais de widget não substituem essa avaliação. Não foi gerado APK: o Android SDK não está preparado neste ambiente e o pedido de validação desta fase é análise/testes.
 - Sem merge automático e sem iniciar a fase seguinte; revisão/aprovação do responsável do produto permanece necessária.
-
+- A tentativa de abrir PR em rascunho pela API GitHub recebeu Forbidden. O branch remoto e a comparação permanecem disponíveis para revisão; não houve merge.

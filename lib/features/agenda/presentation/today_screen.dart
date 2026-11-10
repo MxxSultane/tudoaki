@@ -27,7 +27,7 @@ class TodayScreen extends ConsumerStatefulWidget {
 class _TodayScreenState extends ConsumerState<TodayScreen>
     with WidgetsBindingObserver {
   late DateTime _now;
-  Timer? _midnight;
+  Timer? _clockTick;
   bool _browse = false;
   TaskWriteResult? _saved;
 
@@ -36,36 +36,50 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _now = ref.read(workspaceClockProvider)();
-    _scheduleMidnight();
+    _scheduleClock();
   }
 
-  void _scheduleMidnight() {
-    _midnight?.cancel();
-    final next = DateTime(_now.year, _now.month, _now.day + 1);
-    _midnight = Timer(next.difference(_now), _refreshDay);
+  void _scheduleClock() {
+    _clockTick?.cancel();
+    // Minute boundaries also refresh upcoming blocks while the app stays open.
+    final next = DateTime(
+      _now.year,
+      _now.month,
+      _now.day,
+      _now.hour,
+      _now.minute + 1,
+    );
+    _clockTick = Timer(next.difference(_now), _refreshClock);
   }
 
-  void _refreshDay() {
+  void _refreshClock() {
     if (!mounted) return;
     final now = ref.read(workspaceClockProvider)();
     final cubit = context.read<AgendaCubit>();
-    if (!_browse &&
+    if (dayKey(now) != dayKey(_now) &&
+        !_browse &&
         cubit.state.mode == 'Dia' &&
         dayKey(cubit.state.day) == dayKey(_now)) {
       cubit.select(now);
     }
     setState(() => _now = now);
-    _scheduleMidnight();
+    _scheduleClock();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) _refreshDay();
+    if (state == AppLifecycleState.resumed) {
+      _refreshClock();
+    } else if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.detached) {
+      _clockTick?.cancel();
+    }
   }
 
   @override
   void dispose() {
-    _midnight?.cancel();
+    _clockTick?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -82,7 +96,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
     cubit.select(ref.read(workspaceClockProvider)());
     cubit.mode('Dia');
     setState(() => _browse = false);
-    _refreshDay();
+    _refreshClock();
   }
 
   @override
