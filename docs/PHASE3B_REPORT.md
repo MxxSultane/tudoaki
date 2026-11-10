@@ -41,7 +41,9 @@ Resultados locais após correcção:
 - flutter test --no-pub --reporter expanded: código 0, **122 aprovados, 0 falhados**, incluindo os 16 casos novos e todos os antigos. Duração observada 53 segundos.
 - git diff --check, sintaxe YAML/shell e preservação das áreas protegidas aprovados.
 
-CI da correcção: **ainda pendente de resultado observado**. Não declarar a fase validada até uma nova execução verde. A contagem acima é da suite local, não uma contagem remota inventada.
+CI da correcção: **verde, observado** no commit 0286282b9a4a4ec34e2e68e83f38eedd8b499cae, execução [42782812032](https://github.com/MxxSultane/tudoaki/actions/runs/42782812032). A execução pública terminou com conclusão SUCCESS. A contagem de 122 acima é da suite local; não foi inferida uma contagem remota sem acesso aos logs.
+
+Revisão visual adicional: capturas do formulário renderizado pelo Flutter nos temas claro e escuro, a 360 × 800, verificadas manualmente. Confirmaram hierarquia, título, dia sem data, associação herdada, opções progressivas e as duas acções de gravação. O teste temporário usado apenas para gerar capturas foi retirado; os testes de regressão de layout permanecem nos dois ficheiros novos. As capturas não incluem um teclado nativo e não certificam comportamento físico.
 
 ## Preservação e limites
 Sem alterações em esquema SQLite v5/lifeos.sqlite, identificador Android, dependências, TaskOperations, XP/conquistas, finanças, navegação, rotas, Design System, Hoje/Planear, planeador semanal ou forms.dart. Não activa /plan nem remove formulários antigos. Não há acesso a bases reais ou migrações de produção.
