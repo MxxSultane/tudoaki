@@ -33,15 +33,16 @@ class FailingQuickRepository extends TudoAkiRepository {
   bool fail = true;
   @override
   Future<int> save(String table, DataRowMap data, {int? id}) {
-    if (table == 'Tasks' && fail)
+    if (table == 'Tasks' && fail) {
       return Future.error(StateError('disk failure'));
+    }
     return super.save(table, data, id: id);
   }
 }
 
 class GatedQuickOperations extends TaskOperations {
-  GatedQuickOperations(TudoAkiRepository repo, Reminders reminders)
-    : super(repo, reminders, refresh: () {});
+  GatedQuickOperations(super.repository, super.reminders)
+    : super(refresh: () {});
   final gate = Completer<void>();
   int calls = 0;
   @override

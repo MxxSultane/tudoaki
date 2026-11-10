@@ -189,8 +189,9 @@ class _QuickTaskSheetState extends ConsumerState<QuickTaskSheet> {
         if (mounted) _titleFocus.requestFocus();
       });
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error = 'Não foi possível guardar. Tenta novamente.');
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }

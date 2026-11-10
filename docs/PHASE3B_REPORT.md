@@ -29,9 +29,19 @@ Catorze casos de componente: foco/teclado e título, data contextual sem hora im
 Dois casos de integração pelo ponto real em Estudos: sucesso e lembrete recusado; verificam subject_id, rota /academics, confirmação, tarefa visível e editor completo preservado. Bases SQLite em memória, serviço TaskOperations real, lembretes simulados; teste de duplo envio usa apenas um bloqueio de espera em torno do serviço. Testes antigos inalterados.
 
 ## Validação e CI
-Formatação oficial Dart 3.9.2 aplicada; verificação lib/test com 74 ficheiros, zero alterações, código 0. Há aviso de flutter_lints não resolvido porque não existem dependências locais. flutter analyze --no-pub e flutter test --no-pub tentados, mas o bootstrap parou com HTTP 403 de storage.googleapis.com antes de analisar/carregar testes. Não foram executados testes Flutter localmente.
+A preparação inicial continuou bloqueada por HTTP 403 de storage.googleapis.com. A primeira execução remota, [42781011054](https://github.com/MxxSultane/tudoaki/actions/runs/42781011054), falhou no passo agregado. O estado foi observado na página pública; os logs exigiam login e a API continuou a responder Forbidden.
 
-Estado inicial da CI desta implementação: **pendente de execução observada**, não validado. A API GitHub continua a responder Forbidden; a página pública Actions permite observar estados. Registar o run e os resultados observados antes de declarar a fase validada.
+Foi possível preparar Flutter local com a cache da imagem pública cirruslabs/flutter:3.35.7 em GHCR, sem executar o contentor nem alterar fontes do projecto. Digests das camadas conferidos antes de extrair; fontes Flutter locais na revisão oficial adc901062556672b4138e18a4dc62a4be8f4b3c2. flutter --version confirmou Flutter 3.35.7 e Dart 3.9.2. Este procedimento é preparação de ferramentas fora do repositório, não uma alteração de dependências da app.
+
+flutter pub get --enforce-lockfile passou, sem alterar pubspec.yaml ou pubspec.lock. A reprodução local inicial encontrou três avisos: dois if sem chavetas e use_super_parameters num construtor de teste. Os 16 testes novos já passavam; só se corrigiram os três pontos de estilo, sem mudar critérios.
+
+Resultados locais após correcção:
+- dart format --output=none --set-exit-if-changed lib test: código 0, 74 ficheiros e zero alterações.
+- flutter analyze --no-pub: código 0, sem problemas.
+- flutter test --no-pub --reporter expanded: código 0, **122 aprovados, 0 falhados**, incluindo os 16 casos novos e todos os antigos. Duração observada 53 segundos.
+- git diff --check, sintaxe YAML/shell e preservação das áreas protegidas aprovados.
+
+CI da correcção: **ainda pendente de resultado observado**. Não declarar a fase validada até uma nova execução verde. A contagem acima é da suite local, não uma contagem remota inventada.
 
 ## Preservação e limites
 Sem alterações em esquema SQLite v5/lifeos.sqlite, identificador Android, dependências, TaskOperations, XP/conquistas, finanças, navegação, rotas, Design System, Hoje/Planear, planeador semanal ou forms.dart. Não activa /plan nem remove formulários antigos. Não há acesso a bases reais ou migrações de produção.
