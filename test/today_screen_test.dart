@@ -117,6 +117,16 @@ void main() {
     'removing contextual date saves once and offers real access to undated tasks',
     (tester) async {
       await bootToday(tester, repo);
+      // Exercise the existing retained filter: the new link must reveal pending work.
+      await tapToday(
+        tester,
+        find.widgetWithText(NavigationDestination, 'Tarefas'),
+      );
+      await tapToday(tester, find.text('Concluídas'));
+      await tapToday(
+        tester,
+        find.widgetWithText(NavigationDestination, 'Agenda'),
+      );
       await tapToday(tester, find.text('Adicionar tarefa'));
       await tester.enterText(
         find.widgetWithText(TextFormField, 'Título'),

@@ -11,6 +11,7 @@ import '../../../core/widgets/workspace_page.dart';
 import '../../academics/academic_editor.dart';
 import '../../forms.dart';
 import '../../tasks/domain/task_operations.dart';
+import '../../tasks/domain/tasks_cubit.dart';
 import '../../tasks/presentation/quick_task_sheet.dart';
 import '../../tasks/presentation/task_row.dart';
 import '../domain/agenda_cubit.dart';
@@ -89,6 +90,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
     final now = ref.read(workspaceClockProvider)();
     final result = await showQuickTaskSheet(context, initialDate: now);
     if (result != null && mounted) setState(() => _saved = result);
+  }
+
+  void _openTasks() {
+    context.read<TasksCubit>().completed(false);
+    context.go(AppRoutes.tasks);
   }
 
   void _showToday() {
@@ -290,7 +296,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
                 ),
                 if (outside)
                   TextButton(
-                    onPressed: () => context.go(AppRoutes.tasks),
+                    onPressed: _openTasks,
                     child: const Text('Ver tarefas'),
                   ),
               ],
@@ -357,7 +363,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
               label: const Text('Planear semana'),
             ),
             TextButton(
-              onPressed: () => context.go(AppRoutes.tasks),
+              onPressed: _openTasks,
               child: Text(
                 content.undatedCount == 0
                     ? 'Ver todas as tarefas'
