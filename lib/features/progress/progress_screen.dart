@@ -1,3 +1,4 @@
+import '../../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/widgets/workspace_page.dart';
@@ -45,7 +46,7 @@ class ProgressScreen extends StatelessWidget {
           ProgressPanel(data: data, gamification: enabled),
           const SizedBox(height: 16),
           TextButton(
-            onPressed: () => context.push('/reviews'),
+            onPressed: () => context.push(AppRoutes.reviews),
             child: const Text('Fazer uma revisão'),
           ),
         ],

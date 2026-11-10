@@ -1,3 +1,5 @@
+import 'navigation/app_destinations.dart';
+import 'navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -45,13 +47,22 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
           child: TudoAkiShell(path: state.uri.path, child: child),
         ),
         routes: [
-          GoRoute(path: '/', builder: (_, _) => const TodayScreen()),
-          GoRoute(path: '/goals', builder: (_, _) => const GoalsScreen()),
-          GoRoute(path: '/tasks', builder: (_, _) => const TasksScreen()),
+          GoRoute(
+            path: AppRoutes.agenda,
+            builder: (_, _) => const TodayScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.goals,
+            builder: (_, _) => const GoalsScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.tasks,
+            builder: (_, _) => const TasksScreen(),
+          ),
         ],
       ),
       GoRoute(
-        path: '/goal/:id',
+        path: AppRoutes.goalPattern,
         builder: (_, state) => AreaScaffold(
           title: 'Meta',
           child: GoalDetail(
@@ -60,12 +71,12 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
         ),
       ),
       GoRoute(
-        path: '/areas',
+        path: AppRoutes.areas,
         builder: (_, _) =>
             const AreaScaffold(title: 'Mais', child: AreasScreen()),
       ),
       GoRoute(
-        path: '/weekly-planner',
+        path: AppRoutes.weeklyPlanner,
         builder: (_, _) => BlocProvider(
           create: (_) => WeeklyPlannerCubit(ref.read(workspaceClockProvider)()),
           child: const AreaScaffold(
@@ -75,25 +86,25 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
         ),
       ),
       GoRoute(
-        path: '/progress',
+        path: AppRoutes.progress,
         builder: (_, _) =>
             const AreaScaffold(title: 'Progresso', child: ProgressScreen()),
       ),
       for (final area in const {
-        '/habits': ('Hábitos', 'Hábitos'),
-        '/academics': ('Estudos', 'Estudos'),
-        '/finance': ('Finanças', 'Finanças'),
-        '/reviews': ('Revisões', 'Revisões'),
-        '/profile': ('Definições', 'Perfil'),
+        AppRoutes.habits: ('Hábitos', 'Hábitos'),
+        AppRoutes.academics: ('Estudos', 'Estudos'),
+        AppRoutes.finance: ('Finanças', 'Finanças'),
+        AppRoutes.reviews: ('Revisões', 'Revisões'),
+        AppRoutes.settings: ('Definições', 'Perfil'),
       }.entries)
         GoRoute(
           path: area.key,
           builder: (_, _) => AreaScaffold(
             title: area.value.$1,
             child: switch (area.key) {
-              '/habits' => const HabitsScreen(embedded: true),
-              '/reviews' => const ReviewsScreen(embedded: true),
-              '/profile' => const SettingsScreen(embedded: true),
+              AppRoutes.habits => const HabitsScreen(embedded: true),
+              AppRoutes.reviews => const ReviewsScreen(embedded: true),
+              AppRoutes.settings => const SettingsScreen(embedded: true),
               _ => TudoAkiScreen(section: area.value.$2, embedded: true),
             },
           ),
@@ -132,7 +143,7 @@ class TudoAkiShell extends StatelessWidget {
   const TudoAkiShell({required this.path, required this.child, super.key});
   final String path;
   final Widget child;
-  static const paths = ['/', '/goals', '/tasks'];
+  static final paths = AppNavigation.currentPaths;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -152,19 +163,12 @@ class TudoAkiShell extends StatelessWidget {
         animationDuration: const Duration(milliseconds: 250),
         selectedIndex: paths.indexOf(path),
         onDestinationSelected: (index) => context.go(paths[index]),
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.calendar_today_outlined),
-            label: 'Agenda',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.flag_outlined),
-            label: 'Metas',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.checklist_outlined),
-            label: 'Tarefas',
-          ),
+        destinations: [
+          for (final destination in AppNavigation.currentDestinations)
+            NavigationDestination(
+              icon: Icon(destination.icon),
+              label: destination.title,
+            ),
         ],
       ),
     ),
@@ -172,7 +176,9 @@ class TudoAkiShell extends StatelessWidget {
       tooltip: 'Criar',
       onPressed: () => showWorkspaceCreateSheet(
         context,
-        date: path == '/' ? context.read<AgendaCubit>().state.day : null,
+        date: path == AppRoutes.agenda
+            ? context.read<AgendaCubit>().state.day
+            : null,
       ),
       child: const Icon(Icons.add),
     ),
@@ -256,9 +262,9 @@ Future<void> showWorkspaceCreateSheet(
       if (kind == 'Tarefa') context.read<TasksCubit>().completed(false);
       if (kind == 'Meta') context.read<GoalsCubit>().completed(false);
       context.go(switch (kind) {
-        'Meta' => '/goals',
-        'Tarefa' => '/tasks',
-        _ => '/',
+        'Meta' => AppRoutes.goals,
+        'Tarefa' => AppRoutes.tasks,
+        _ => AppRoutes.agenda,
       });
     }
   }

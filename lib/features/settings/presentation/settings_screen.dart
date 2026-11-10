@@ -1,3 +1,4 @@
+import '../../../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../app/providers.dart';
 import '../../../core/widgets/legacy_section_page.dart';
@@ -21,10 +22,13 @@ class SettingsScreen extends StatelessWidget {
         if (!embedded) ...[
           legacyHeading(context, 'Organize as suas áreas'),
           for (final item in {
-            '/habits': ('Hábitos e bem-estar', Icons.spa_outlined),
-            '/academics': ('Estudos', Icons.school_outlined),
-            '/finance': ('Finanças', Icons.account_balance_wallet_outlined),
-            '/reviews': ('Revisões', Icons.rate_review_outlined),
+            AppRoutes.habits: ('Hábitos e bem-estar', Icons.spa_outlined),
+            AppRoutes.academics: ('Estudos', Icons.school_outlined),
+            AppRoutes.finance: (
+              'Finanças',
+              Icons.account_balance_wallet_outlined,
+            ),
+            AppRoutes.reviews: ('Revisões', Icons.rate_review_outlined),
           }.entries)
             Card(
               child: ListTile(

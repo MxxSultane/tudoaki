@@ -1,3 +1,4 @@
+import '../../../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -125,7 +126,7 @@ class _WeeklyPlannerScreenState extends ConsumerState<WeeklyPlannerScreen> {
       onTap: () {
         final kind = item.row['academic_kind'] as String?;
         if (kind == 'Estudo') {
-          context.push('/academics');
+          context.push(AppRoutes.academics);
         } else if (kind != null) {
           showAcademicEditor(
             context,

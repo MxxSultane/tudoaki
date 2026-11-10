@@ -1,3 +1,4 @@
+import '../../../app/navigation/app_routes.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -146,7 +147,7 @@ class TodayScreen extends ConsumerWidget {
                                             item.row['academic_kind']
                                                 as String?;
                                         if (kind == 'Estudo') {
-                                          context.push('/academics');
+                                          context.push(AppRoutes.academics);
                                         } else if (kind != null) {
                                           showAcademicEditor(
                                             context,

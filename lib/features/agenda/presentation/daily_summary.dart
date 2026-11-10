@@ -1,3 +1,4 @@
+import '../../../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -70,7 +71,7 @@ class DailySummary extends ConsumerWidget {
         ),
         if (habits.isEmpty)
           TextButton(
-            onPressed: () => context.push('/habits'),
+            onPressed: () => context.push(AppRoutes.habits),
             child: const Text('Definir uma rotina'),
           ),
         for (final habit in habits)
@@ -98,13 +99,13 @@ class DailySummary extends ConsumerWidget {
             subtitle: Text(
               '${goal['current']} / ${goal['target']} ${goal['unit']}',
             ),
-            onTap: () => context.push('/goal/${goal['id']}'),
+            onTap: () => context.push(AppRoutes.goalDetail(goal['id'])),
           ),
         if (data['StudySessions']!.any(
           (s) => s['focus_started_at'] != null && s['completed'] == 0,
         ))
           TextButton(
-            onPressed: () => context.push('/academics'),
+            onPressed: () => context.push(AppRoutes.academics),
             child: const Text('Retomar estudo'),
           ),
         const SizedBox(height: 16),

@@ -1,5 +1,11 @@
 # Arquitectura — Tudo Aki
 
+## Fase 2C — contratos de navegação sem activação visual
+app/navigation/app_routes.dart centraliza os caminhos públicos existentes e a construção de /goal/:id. AppDestination em app_destinations.dart fornece identidade, caminho, título e ícone; AppNavigation.currentDestinations mantém Agenda/Metas/Tarefas, consumidos pelo shell. Os metadados futureDestinations (Hoje/Planear/Metas/Mais) ficam isolados, sem builders nem router adicional. /plan é apenas intenção futura, não uma rota registada.
+
+O único GoRouter continua em TudoAkiApp, com a mesma rota inicial implícita, um ShellRoute e as mesmas páginas secundárias. Mais e as áreas continuam empilhados fora do shell. go/push/pop, Cubits, resultados dos editores e fallback Voltar mantidos. Os consumidores passam a referir AppRoutes em vez de literais. [Mapa completo, contratos e validação](PHASE2C_REPORT.md).
+
+
 ## Fase 2B — coordenação das operações de tarefas
 TaskOperations, em features/tasks/domain/task_operations.dart, coordena o repositório existente, Reminders e a actualização de dataProvider através de taskOperationsProvider. Não mantém tarefas em memória nem cria persistência paralela. create/edit/reschedule/setCompleted/delete preservam IDs, valores due e relações não alteradas; taskDone do repositório continua responsável pelo XP.
 

@@ -1,3 +1,4 @@
+import '../../../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -51,7 +52,8 @@ class GoalsScreen extends StatelessWidget {
                   for (final goal in goals)
                     InkWell(
                       borderRadius: BorderRadius.circular(12),
-                      onTap: () => context.push('/goal/${goal['id']}'),
+                      onTap: () =>
+                          context.push(AppRoutes.goalDetail(goal['id'])),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Column(

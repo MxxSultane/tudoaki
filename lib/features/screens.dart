@@ -1,3 +1,4 @@
+import '../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -194,7 +195,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
                   : 'Foco em curso',
             ),
             subtitle: Text(session['title'] as String),
-            onTap: () => context.go('/academics'),
+            onTap: () => context.go(AppRoutes.academics),
           ),
         ),
 
@@ -241,7 +242,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
             subtitle: Text(
               'Próximo compromisso · ${DateFormat.Hm().format(events.first.$2!)}',
             ),
-            onTap: () => context.go('/agenda'),
+            onTap: () => context.go(AppRoutes.legacyAgenda),
           ),
         ),
       heading('Prioridades de hoje'),
@@ -258,7 +259,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
       heading(
         'Hábitos de hoje',
         action: TextButton(
-          onPressed: () => context.go('/habits'),
+          onPressed: () => context.go(AppRoutes.habits),
           child: const Text('Ver todos'),
         ),
       ),
@@ -449,7 +450,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
                 onTap: () {
                   final kind = event['academic_kind'] as String?;
                   if (kind == 'Estudo') {
-                    context.go('/academics');
+                    context.go(AppRoutes.academics);
                   } else if (kind != null) {
                     showAcademicEditor(
                       context,
@@ -634,7 +635,7 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
             ),
           ),
       TextButton.icon(
-        onPressed: () => context.push('/reviews'),
+        onPressed: () => context.push(AppRoutes.reviews),
         icon: const Icon(Icons.rate_review_outlined),
         label: const Text('Fazer uma revisão'),
       ),

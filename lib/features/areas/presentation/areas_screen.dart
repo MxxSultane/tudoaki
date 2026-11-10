@@ -1,3 +1,4 @@
+import '../../../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/widgets/skeleton_page.dart';
@@ -11,13 +12,17 @@ class AreasScreen extends StatelessWidget {
       InsetGroup(
         children: [
           for (final area in const [
-            ('/weekly-planner', 'Planear semana', 'Eventos e tarefas por dia'),
-            ('/habits', 'Hábitos', 'Rotinas e bem-estar'),
-            ('/academics', 'Estudos', 'Disciplinas, prazos e foco'),
-            ('/finance', 'Finanças', 'Movimentos e poupanças'),
-            ('/progress', 'Progresso', 'Resultados e conquistas'),
-            ('/reviews', 'Revisões', 'Reflectir e ajustar'),
-            ('/profile', 'Definições', 'Aparência, moeda e dados'),
+            (
+              AppRoutes.weeklyPlanner,
+              'Planear semana',
+              'Eventos e tarefas por dia',
+            ),
+            (AppRoutes.habits, 'Hábitos', 'Rotinas e bem-estar'),
+            (AppRoutes.academics, 'Estudos', 'Disciplinas, prazos e foco'),
+            (AppRoutes.finance, 'Finanças', 'Movimentos e poupanças'),
+            (AppRoutes.progress, 'Progresso', 'Resultados e conquistas'),
+            (AppRoutes.reviews, 'Revisões', 'Reflectir e ajustar'),
+            (AppRoutes.settings, 'Definições', 'Aparência, moeda e dados'),
           ])
             ListTile(
               contentPadding: EdgeInsets.zero,
@@ -54,7 +59,7 @@ class AreaScaffold extends StatelessWidget {
           if (context.canPop()) {
             context.pop();
           } else {
-            context.go('/');
+            context.go(AppRoutes.agenda);
           }
         },
       ),
