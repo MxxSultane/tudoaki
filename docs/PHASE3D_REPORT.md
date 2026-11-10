@@ -86,7 +86,11 @@ Flutter/RepaintBoundary, 390 × 844, PNG a 2×, fontes e MaterialIcons locais, r
 | Sem data | [Captura](ux/previews/phase3d/planning-undated-light.png) | [Captura](ux/previews/phase3d/planning-undated-dark.png) |
 
 ## GitHub Actions
-Pendente de execução observada neste branch. Não declarar aprovação remota antecipadamente.
+**Verde, observado** no commit de implementação 1add6071c675257e9b21d232985a84b4b6b2b444: execução [42796970887](https://github.com/MxxSultane/tudoaki/actions/runs/42796970887), estado COMPLETED e conclusão SUCCESS. O workflow mantém Flutter 3.35.7/Dart 3.9.2, resolução com --enforce-lockfile, formatação, análise, testes e verificação do lockfile; não há publicação/deploy.
+
+A contagem de 176 testes e os 86 segundos acima são resultados locais executados, não uma contagem remota inferida. Os logs da execução exigem login; a observação foi feita na página pública do GitHub Actions. O commit que regista este resultado só altera este relatório, mantendo o mesmo código validado.
+
+A tentativa de abrir PR em rascunho pela API GraphQL recebeu Forbidden. As alterações estão no branch remoto feat/fase-3d-novo-planear; [comparar com a base da Fase 3C](https://github.com/MxxSultane/tudoaki/compare/feat/fase-3c-novo-hoje...feat/fase-3d-novo-planear). Não houve merge.
 
 ## Compatibilidade, limitações e riscos
 - Esquema SQLite v5/lifeos.sqlite, Android ID, dependências/lockfile, TaskOperations, notificações, XP/conquistas, finanças, forms.dart e contratos AppRoutes/AppDestination inalterados. Os três separadores principais e todas as áreas secundárias continuam. Não houve migrações nem acesso a dados reais.
