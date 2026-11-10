@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import '../../app/providers.dart';
 import '../../core/database/database.dart';
 import '../forms.dart';
+import '../tasks/presentation/quick_task_sheet.dart';
+import '../tasks/domain/task_operations.dart';
 import 'academic_editor.dart';
 import 'academic_rules.dart';
 import 'focus_timer.dart';
@@ -17,6 +19,19 @@ class AcademicsPanel extends ConsumerStatefulWidget {
 
 class _AcademicsPanelState extends ConsumerState<AcademicsPanel> {
   int? selectedStudy;
+  int? _taskSubject;
+  TaskWriteResult? _createdTask;
+
+  Future<void> _createTask(int subjectId) async {
+    final result = await showQuickTaskSheet(context, subjectId: subjectId);
+    if (result != null && mounted) {
+      setState(() {
+        _taskSubject = subjectId;
+        _createdTask = result;
+      });
+    }
+  }
+
   Future<void> run(Future<void> Function() operation) async {
     final container = ProviderScope.containerOf(context, listen: false);
     try {
@@ -316,15 +331,21 @@ class _AcademicsPanelState extends ConsumerState<AcademicsPanel> {
                       child: const Text('Adicionar estudo'),
                     ),
                     TextButton(
-                      onPressed: () => showEditor(
-                        context,
-                        'Tarefa',
-                        subjectId: subject['id'] as int,
-                      ),
+                      onPressed: () => _createTask(subject['id'] as int),
                       child: const Text('Adicionar trabalho'),
                     ),
                   ],
                 ),
+                if (_taskSubject == subject['id'] && _createdTask != null)
+                  Semantics(
+                    liveRegion: true,
+                    child: Text(
+                      _createdTask!.reminderFailure == null
+                          ? 'Tarefa guardada.'
+                          : 'Tarefa guardada; lembrete indisponível.',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
                 ...data['Tasks']!
                     .where((t) => t['subject_id'] == subject['id'])
                     .map(widget.taskBuilder),
