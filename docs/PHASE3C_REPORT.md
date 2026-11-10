@@ -29,7 +29,7 @@ Não existe encaminhamento contextual de amanhã aprovado/implementado. Nesta fa
 7. Concluídas hoje: recolhido, baseado em completed_at local, independentemente de due. Cada ID aparece numa única lista do resumo. Reabrir conserva as regras idempotentes de XP existentes.
 8. Planear semana, lista global Tarefas/Sem data e Retomar estudo condicional. Metas permanecem no separador próprio, em vez de duplicar dois cartões no resumo.
 
-Adicionar tarefa abre directamente showQuickTaskSheet da Fase 3B, com dia civil de hoje, foco/teclado e data removível. Guarda por TaskOperations e actualiza o snapshot. Confirmação inline acessível; sem data/outro dia tem acesso a Ver tarefas, sem redireccionamento automático. A área de origem é conservada. Guardar e adicionar outra mantém o comportamento 3B. O + global e o selector Evento/Tarefa/Meta permanecem, para conservar a criação existente e uma única acção principal. Não foi criado outro formulário.
+Adicionar tarefa abre directamente showQuickTaskSheet da Fase 3B, com dia civil de hoje, foco/teclado e data removível. Guarda por TaskOperations e actualiza o snapshot. Confirmação inline acessível junto de Adicionar tarefa, antes da lista (também visível com 50 tarefas); sem data/outro dia tem acesso a Ver tarefas, sem redireccionamento automático. A área de origem é conservada. Guardar e adicionar outra mantém o comportamento 3B. O + global e o selector Evento/Tarefa/Meta permanecem, para conservar a criação existente e uma única acção principal. Não foi criado outro formulário.
 
 Relógio: utiliza workspaceClockProvider, temporizador até ao próximo minuto (incluindo a meia-noite civil) e actualização ao retomar a aplicação. O temporizador é cancelado em pausa/ocultação; os próximos compromissos avançam também enquanto Hoje permanece aberto. Ao consultar explicitamente outro dia/modo, essa selecção é conservada; actualizar o relógio não reagenda tarefas nem escreve dados.
 
@@ -62,7 +62,7 @@ Ferramentas: Flutter 3.35.7, revisão adc901062556672b4138e18a4dc62a4be8f4b3c2, 
 | flutter --version | Versões acima confirmadas. |
 | dart format --output=none --set-exit-if-changed lib test tool/capture_today.dart | Código 0: 81 ficheiros, zero alterações. |
 | flutter analyze --no-pub | Código 0: sem problemas. |
-| flutter test --no-pub --reporter expanded | Código 0: **145 aprovados, 0 falhados**, duração observada 74 segundos. Inclui os 122 anteriores e 23 novos. |
+| flutter test --no-pub --reporter expanded | Código 0: **145 aprovados, 0 falhados**, duração observada 71 segundos. Inclui os 122 anteriores e 23 novos. |
 | flutter test --no-pub tool/capture_today.dart --reporter expanded | Código 0: quatro renderizações/capturas, separadas da contagem de 145 testes da suite. |
 | git diff --check; YAML e bash -n dos passos | Aprovados. |
 | Diff das áreas protegidas e dos testes anteriores | Sem alterações. pubspec.yaml/pubspec.lock e dependências preservados. |
@@ -82,7 +82,7 @@ Geradas por Flutter/RepaintBoundary a 390 × 844, PNG a 2×, fontes locais e Mat
 Reproduzir: source tool/env.sh; flutter test --no-pub tool/capture_today.dart. Os hábitos/concluídas e ligações mais abaixo continuam acessíveis por deslocação; a captura preenchida mostra o primeiro enquadramento.
 
 ## GitHub Actions
-A primeira execução [42787974438](https://github.com/MxxSultane/tudoaki/actions/runs/42787974438), commit 74cefe9fbda898c3fc6987ba754ae8bb656870a1, terminou verde (SUCCESS observado). Após essa execução foi acrescentada a actualização ao minuto dos próximos compromissos e o teste correspondente, ambos validados localmente. A execução remota desse ajuste final continua pendente; não apresentar aprovação antecipada do estado final.
+As execuções 42787974438 (primeira implementação, commit 74cefe9) e 42789027697 (relógio ao minuto, commit 84b8ef0) ficaram verdes; os passos públicos de formatação/análise/testes e preservação do lockfile foram observados com sucesso. Após a última execução foi reposicionada a confirmação junto da criação e reforçado o teste com 50 tarefas. Esse estado passou novamente em 145 testes locais; a CI da última alteração ainda aguarda resultado observado.
 
 ## Limitações e preservação
 - Planear amanhã específico continua adiado: só Planear semana existente é anunciado. /plan não está registada; não há quatro separadores, Planear 2.0, Percurso ou restauro.

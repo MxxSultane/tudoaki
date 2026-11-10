@@ -409,7 +409,7 @@ void main() {
   );
 
   testWidgets(
-    'all fifty tasks remain reachable without a fixed priorities limit',
+    'all fifty tasks remain reachable and creation confirms at the entry',
     (tester) async {
       for (var i = 1; i <= 50; i++) {
         await todayTask(repo, 'Acção $i', dayKey(now));
@@ -418,6 +418,15 @@ void main() {
       await revealToday(tester, find.text('Acção 50'));
       expect(find.text('Acção 50'), findsOneWidget);
       expect(await repo.all('Tasks'), hasLength(50));
+      await tapToday(tester, find.text('Adicionar tarefa'));
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Título'),
+        'Nova entre muitas',
+      );
+      await tapToday(tester, find.widgetWithText(FilledButton, 'Guardar'));
+      expect(find.text('Tarefa guardada.').hitTestable(), findsOneWidget);
+      expect(await repo.all('Tasks'), hasLength(51));
+      expect(tester.widget<TudoAkiShell>(find.byType(TudoAkiShell)).path, '/');
       expect(tester.takeException(), isNull);
     },
   );

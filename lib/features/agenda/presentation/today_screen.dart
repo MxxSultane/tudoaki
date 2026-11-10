@@ -271,14 +271,6 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
             label: const Text('Adicionar tarefa'),
           ),
         ),
-        if (content.pending.isEmpty)
-          Text(
-            content.completedToday.isEmpty
-                ? 'O dia está em aberto. Adiciona uma tarefa quando quiseres.'
-                : 'As tarefas de hoje estão feitas.',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        for (final task in content.pending) _task(task),
         if (_saved != null)
           Semantics(
             liveRegion: true,
@@ -304,6 +296,14 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
               ],
             ),
           ),
+        if (content.pending.isEmpty)
+          Text(
+            content.completedToday.isEmpty
+                ? 'O dia está em aberto. Adiciona uma tarefa quando quiseres.'
+                : 'As tarefas de hoje estão feitas.',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        for (final task in content.pending) _task(task),
         if (content.previous.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 24),
