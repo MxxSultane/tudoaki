@@ -19,6 +19,7 @@ import '../features/tasks/domain/tasks_cubit.dart';
 import '../features/goals/presentation/goal_detail.dart';
 import '../features/areas/presentation/areas_screen.dart';
 import '../core/theme/app_theme.dart';
+import '../core/theme/today_theme.dart';
 import '../features/agenda/presentation/today_screen.dart';
 import '../features/goals/presentation/goals_screen.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
@@ -146,41 +147,50 @@ class TudoAkiShell extends StatelessWidget {
   static final paths = AppNavigation.currentPaths;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 720),
-          child: child,
+  Widget build(BuildContext context) => Theme(
+    data: path == AppRoutes.agenda
+        ? buildTodayTheme(Theme.of(context))
+        : Theme.of(context),
+    child: Builder(
+      builder: (context) => Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 720),
+              child: child,
+            ),
+          ),
+        ),
+        bottomNavigationBar: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(color: Theme.of(context).dividerColor),
+            ),
+          ),
+          child: NavigationBar(
+            animationDuration: const Duration(milliseconds: 250),
+            selectedIndex: paths.indexOf(path),
+            onDestinationSelected: (index) => context.go(paths[index]),
+            destinations: [
+              for (final destination in AppNavigation.currentDestinations)
+                NavigationDestination(
+                  icon: Icon(destination.icon),
+                  label: destination.title,
+                ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          tooltip: 'Criar',
+          onPressed: () => showWorkspaceCreateSheet(
+            context,
+            date: path == AppRoutes.agenda
+                ? context.read<AgendaCubit>().state.day
+                : null,
+          ),
+          child: const Icon(Icons.add),
         ),
       ),
-    ),
-    bottomNavigationBar: DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
-      ),
-      child: NavigationBar(
-        animationDuration: const Duration(milliseconds: 250),
-        selectedIndex: paths.indexOf(path),
-        onDestinationSelected: (index) => context.go(paths[index]),
-        destinations: [
-          for (final destination in AppNavigation.currentDestinations)
-            NavigationDestination(
-              icon: Icon(destination.icon),
-              label: destination.title,
-            ),
-        ],
-      ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      tooltip: 'Criar',
-      onPressed: () => showWorkspaceCreateSheet(
-        context,
-        date: path == AppRoutes.agenda
-            ? context.read<AgendaCubit>().state.day
-            : null,
-      ),
-      child: const Icon(Icons.add),
     ),
   );
 }

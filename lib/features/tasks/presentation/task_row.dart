@@ -8,9 +8,15 @@ import '../../../core/widgets/workspace_page.dart';
 import '../../forms.dart';
 
 class TaskRow extends ConsumerStatefulWidget {
-  const TaskRow({required this.task, this.subtitle, super.key});
+  const TaskRow({
+    required this.task,
+    this.subtitle,
+    this.showSubtitle = true,
+    super.key,
+  });
   final DataRowMap task;
   final String? subtitle;
+  final bool showSubtitle;
   @override
   ConsumerState<TaskRow> createState() => _TaskRowState();
 }
@@ -66,18 +72,20 @@ class _TaskRowState extends ConsumerState<TaskRow> {
           decoration: done ? TextDecoration.lineThrough : null,
         ),
       ),
-      subtitle: Text(
-        widget.subtitle ??
-            (task['due'] == null
-                ? 'Sem data'
-                : DateFormat(
-                    isDateOnly(task['due'] as String?)
-                        ? 'dd MMM · \'sem hora\''
-                        : 'dd MMM · HH:mm',
-                    'pt',
-                  ).format(DateTime.parse(task['due'] as String))),
-        style: Theme.of(context).textTheme.bodySmall,
-      ),
+      subtitle: !widget.showSubtitle
+          ? null
+          : Text(
+              widget.subtitle ??
+                  (task['due'] == null
+                      ? 'Sem data'
+                      : DateFormat(
+                          isDateOnly(task['due'] as String?)
+                              ? 'dd MMM · \'sem hora\''
+                              : 'dd MMM · HH:mm',
+                          'pt',
+                        ).format(DateTime.parse(task['due'] as String))),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
       onTap: () => showEditor(context, 'Tarefa', existing: task, compact: true),
     );
   }

@@ -1,5 +1,10 @@
 # Arquitectura — Tudo Aki
 
+## Fase 3C — resumo Hoje e calendário preservado
+TodayScreen mantém a rota / e o AgendaCubit. No dia actual/modo Dia apresenta TodayContent, uma projecção só de leitura do snapshot: compromissos em curso/futuros, tarefas pendentes do dia, datas anteriores, hábitos e conclusões por completed_at. Hora passada no próprio dia não transforma uma tarefa em pendente anterior. O relógio existente é injectável; um observador de ciclo de vida e um temporizador de meia-noite actualizam a data civil sem reagendar registos.
+
+AgendaBrowser conserva a consulta Dia/Semana/Mês, selector/faixa de dias, conflitos e editores por origem. Ver dia completo abre essa consulta sem nova rota; os modos continuam acessíveis em Hoje. showQuickTaskSheet é reutilizado em Adicionar tarefa com o dia contextual. O + global continua com Evento/Tarefa/Meta. TaskRow preserva operações/edição e ganha apenas a opção visual showSubtitle, activa por defeito nas vistas existentes. O tema 2.0 fica limitado ao shell da Agenda/Hoje. [Inventário, decisões e validação](PHASE3C_REPORT.md).
+
 ## Fase 2C — contratos de navegação sem activação visual
 app/navigation/app_routes.dart centraliza os caminhos públicos existentes e a construção de /goal/:id. AppDestination em app_destinations.dart fornece identidade, caminho, título e ícone; AppNavigation.currentDestinations mantém Agenda/Metas/Tarefas, consumidos pelo shell. Os metadados futureDestinations (Hoje/Planear/Metas/Mais) ficam isolados, sem builders nem router adicional. /plan é apenas intenção futura, não uma rota registada.
 

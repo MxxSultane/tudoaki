@@ -1,6 +1,6 @@
 # tudoAki — sistema visual actual
 
-## Contrato visual futuro 2.0 — não aplicado
+## Identidade 2.0 — aplicada apenas a Hoje/Agenda na Fase 3C
 | Token de referência | Cor |
 | --- | --- |
 | Sage | #9ECB8F |
@@ -10,9 +10,13 @@
 | Fundo claro | #F7F8F5 |
 | Superfície suave | #E8EDE6 |
 
-Mapear para funções semânticas antes de implementar. Contraste AA: 4,5:1 texto normal, 3:1 texto grande e elementos essenciais. Sage/branco 1,84:1 e Mineral/branco 2,21:1: não servem para texto normal. Não há ainda paleta escura 2.0 aprovada; validar pares reais e estados de foco/erro/desactivado.
+O tema de core/theme/today_theme.dart mapeia estes tokens para funções semânticas no shell da Agenda/Hoje e nas folhas que este abre; outras áreas mantêm o tema actual abaixo. Sage usa grafite como texto das acções preenchidas; texto activo e caixas de conclusão usam verde profundo no claro. Mineral é apenas separação/detalhe, nunca texto informativo ou fronteira essencial. Contraste AA verificado nos testes: 4,5:1 texto normal e 3:1 controlos essenciais.
 
-Premium com personalidade, tipografia cuidada, hierarquia, espaço e efeitos moderados. Percurso usa linha temporal ramificada, constelações, marcos e capítulos, com alternativa textual e movimento reduzido. Estes conceitos não são autorização para redesenhar nesta fase. As cores/tipografia/componentes actuais abaixo continuam em produção.
+No escuro, o fundo é #18201D, superfície #202B29, texto #F2F5EF, texto secundário #BCC6BE e acções Sage com grafite. No claro, texto secundário #5D6965 e fronteiras essenciais #66736D; no escuro, fronteiras #8E9D92. Os estados desactivados dos botões mantêm distinção visual e semântica. Esta paleta escura é a implementação limitada da Fase 3C, sem migração global de identidade.
+
+Hoje usa listas abertas, Inter/Newsreader locais, margens 20, ritmo 8 e controlos com alvos de 48 px. Sem cartões de métricas, gradientes ou sombras fortes. Compromissos têm horas; tarefas flexíveis não repetem Sem hora; data original fica visível nos pendentes anteriores. Hábitos e concluídas mantêm consulta compacta. Adicionar tarefa é um atalho secundário directo; o + global permanece a única acção principal, conservando Evento/Tarefa/Meta. As capturas reais e limitações estão em [PHASE3C_REPORT.md](PHASE3C_REPORT.md).
+
+Percurso com linhas temporais e constelações continua futuro, sem implementação nesta fase. As cores e componentes abaixo permanecem em produção nas restantes áreas.
 
 
 O [AGENTS.md](../AGENTS.md) fornecido rege o esqueleto 0.7.0. O pedido actual (0.8.0) liga a interface aos dados e áreas reais; não há exemplos na aplicação.
