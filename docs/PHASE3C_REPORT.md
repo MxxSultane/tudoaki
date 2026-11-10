@@ -82,7 +82,9 @@ Geradas por Flutter/RepaintBoundary a 390 × 844, PNG a 2×, fontes locais e Mat
 Reproduzir: source tool/env.sh; flutter test --no-pub tool/capture_today.dart. Os hábitos/concluídas e ligações mais abaixo continuam acessíveis por deslocação; a captura preenchida mostra o primeiro enquadramento.
 
 ## GitHub Actions
-As execuções 42787974438 (primeira implementação, commit 74cefe9) e 42789027697 (relógio ao minuto, commit 84b8ef0) ficaram verdes; os passos públicos de formatação/análise/testes e preservação do lockfile foram observados com sucesso. Após a última execução foi reposicionada a confirmação junto da criação e reforçado o teste com 50 tarefas. Esse estado passou novamente em 145 testes locais; foi ainda verificado o acesso a tarefas pendentes após conservar o filtro Concluídas de uma visita anterior. Os dois casos de contexto passam e a suite final tem 145 aprovações. A CI da implementação completa ainda aguarda resultado observado.
+**Verde, observado** na implementação completa do commit 0a3e85171605771a35bb127116b2c71ba6ef6f9e: execução [42790581660](https://github.com/MxxSultane/tudoaki/actions/runs/42790581660), estado COMPLETED e conclusão SUCCESS. O workflow mantém Flutter 3.35.7/Dart 3.9.2, resolução com --enforce-lockfile, formatação, análise, testes e verificação de pubspec.yaml/pubspec.lock. As execuções anteriores desta fase também terminaram verdes.
+
+Os 145 testes e a duração de 74 segundos acima são resultados locais efectivamente executados; não se inventou uma contagem remota a partir do estado global. Os logs remotos exigem login e a API GraphQL respondeu Forbidden. O resultado foi observado na página pública do GitHub Actions. O commit que regista esta observação altera apenas este relatório, mantendo o mesmo código validado.
 
 ## Limitações e preservação
 - Planear amanhã específico continua adiado: só Planear semana existente é anunciado. /plan não está registada; não há quatro separadores, Planear 2.0, Percurso ou restauro.
