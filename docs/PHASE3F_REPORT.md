@@ -92,7 +92,8 @@ Flutter **3.35.7**, revisão **adc901062556672b4138e18a4dc62a4be8f4b3c2**; Dart 
 | `git diff --check` e comparação das áreas protegidas | Aprovados na preparação; repetir antes do commit |
 | `flutter doctor -v` | Código 0, mas diagnóstico Android toolchain falhou por SDK ausente; não equivale a ambiente saudável |
 | `flutter devices` | Código 0; apenas Linux desktop, nenhum Android |
-| `flutter build apk --debug --no-pub` | **Código 1**: `[!] No Android SDK found. Try setting the ANDROID_HOME environment variable.` |
+| `flutter build apk --debug --no-pub` local | **Código 1**: `[!] No Android SDK found. Try setting the ANDROID_HOME environment variable.` |
+| Mesmo build no runner GitHub Actions | **Aprovado**, execução 42982260786; APK debug existente e não vazio, sem publicação |
 
 Logs locais completos encontram-se em `/workspace/3f-*.log`, fora do código de produção. Para reproduzir num ambiente preparado:
 
@@ -116,7 +117,7 @@ O workflow **Flutter validation** foi mantido; só se acrescentou `qa/fase-3f-in
 
 O novo **Android debug validation** usa Ubuntu 24.04, Java 21, Flutter 3.35.7/revisão exacta e Dart 3.9.2. Prepara os componentes do projecto: CLI 19.0/checksum existente, APIs 34/35/36, Build Tools 35.0.0, NDK 27.0.12077973 e CMake 3.22.1. Reutiliza Gradle 8.12, AGP 8.9.1 e Kotlin 2.1.0 sem actualizar o projecto. Limites de memória/workers ficam num GRADLE_USER_HOME temporário. Compila com `flutter build apk --debug --no-pub`, verifica o APK não vazio e confere a ausência de alterações em Android e dependências. O `pipefail` preserva falhas do build. **Só logs são carregados como artefacto; não se publica APK nem se altera distribuição.**
 
-Resultados remotos e SHA final: pendentes de execução observada após push. Nenhuma aprovação remota é declarada antecipadamente.
+Resultado remoto observado no commit de código **62ebb523089b6993f26d3e917714e8319b308d79**: **Flutter validation aprovado**, execução [42982260573](https://github.com/MxxSultane/tudoaki/actions/runs/42982260573), estado COMPLETED/conclusão SUCCESS. A contagem 187 acima vem da execução local, não foi inferida dos logs remotos. **Android debug validation aprovado**, execução [42982260786](https://github.com/MxxSultane/tudoaki/actions/runs/42982260786), estado COMPLETED/conclusão SUCCESS observado em 11/11/2026. A preparação Android e resolução/preservação terminaram com sucesso; o passo de compilação executou o build debug e a verificação do APK não vazio. Não foram consultados logs privados nem inferidas contagens remotas. O commit documental de entrega conserva integralmente código, testes, workflows e capturas deste SHA; as execuções do HEAD são consultáveis em [Actions do branch](https://github.com/MxxSultane/tudoaki/actions?query=branch%3Aqa%2Ffase-3f-integracao).
 
 ## 8. Revisão visual executada
 
@@ -171,4 +172,6 @@ Todos os dados usados são sintéticos, em SQLite em memória; não se abriu a b
 
 ## 11. Recomendação
 
-A recomendação final depende da suite completa e das duas execuções remotas no commit final. Não declarar pronta para distribuição. A etapa seguinte deve começar apenas com aprovação, mantendo pendências de dados e validação Android visíveis, sem misturar a harmonização visual com alterações temporais/restauro. Não foi iniciado qualquer trabalho dessa etapa.
+**A regressão automatizada está aprovada no commit de código indicado:** 187/187 testes, análise e formatação aprovadas, ambas as CIs verdes e compilação Android debug concluída. Não foi encontrada regressão funcional nova que exija corrigir produção. Recomenda-se entregar a Fase 3F para revisão humana e decisão de produto; uma fase seguinte pode ser autorizada mantendo explícitas as pendências P1 de dados e de validação nativa.
+
+Não se recomenda declarar pronta para distribuição: ainda faltam instalação/actualização compatível, notificações, teclado/gestos e acessibilidade em Android real ou emulador. As duas pendências visuais P2 e o contrato de descarte do Editor completo devem ter uma correcção de acessibilidade aprovada; os riscos temporais/concorrência/restauro exigem fases próprias e testes antes de alterar regras. Não houve merge nem início da etapa seguinte.
