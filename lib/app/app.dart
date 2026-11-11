@@ -43,6 +43,7 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
     (_) => ShellPopupObserver(modalGuard),
   );
   late final router = GoRouter(
+    observers: [ShellPopupObserver(modalGuard)],
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (_, state, shell) => TudoAkiShell(
@@ -265,10 +266,11 @@ class TudoAkiShell extends StatelessWidget {
                       navigationShell?.currentIndex ??
                       (!paths.contains(path) ? 3 : paths.indexOf(path)),
                   onDestinationSelected: (index) {
+                    if (modalGuard?.active.value == true) return;
                     if (navigationShell != null) {
                       navigationShell!.goBranch(
                         index,
-                        initialLocation: index == 3 && path == AppRoutes.tasks,
+                        initialLocation: index == 3,
                       );
                     } else {
                       context.go(paths[index]);

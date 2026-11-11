@@ -52,6 +52,9 @@ void main() {
       await tester.tapAt(
         tester.getCenter(find.widgetWithText(NavigationDestination, 'Hoje')),
       );
+      tester
+          .widget<NavigationBar>(find.byType(NavigationBar))
+          .onDestinationSelected!(0);
       await tester.pump(const Duration(seconds: 2));
       expect(find.text('Rascunho conservado'), findsOneWidget);
       await tapPlanning(tester, find.widgetWithText(FilledButton, 'Guardar'));
@@ -122,6 +125,15 @@ void main() {
         tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex,
         3,
       );
+      await tapPlanning(
+        tester,
+        find.widgetWithText(NavigationDestination, 'Hoje'),
+      );
+      await tapPlanning(
+        tester,
+        find.widgetWithText(NavigationDestination, 'Mais'),
+      );
+      expect(find.byType(AreasScreen), findsOneWidget);
       expect(
         router.configuration.findMatch(Uri.parse('/agenda')).isError,
         isTrue,

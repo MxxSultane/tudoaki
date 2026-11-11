@@ -27,10 +27,10 @@ Flutter 3.35.7 / Dart 3.9.2, ferramentas preservadas. Resultados locais observad
 - flutter test --no-pub tool/capture_navigation.dart: código 0, duas renderizações reais, fora da contagem da suite normal.
 - git diff --check e comparação das áreas protegidas: aprovados.
 
-Os testes detectaram e protegeram dois casos de integração: barra/FAB disponíveis durante folhas de ramo e prioridade de Voltar sobre páginas empilhadas. Ambos corrigidos na camada de navegação, sem mudar regras de negócio. CI pendente de resultado observado. Sem merge ou Fase 3F.
+Os testes detectaram e protegeram dois casos de integração: barra/FAB disponíveis durante folhas de ramo e prioridade de Voltar sobre páginas empilhadas. Ambos corrigidos na camada de navegação, sem mudar regras de negócio. Primeira CI verde observada: [42970061469](https://github.com/MxxSultane/tudoaki/actions/runs/42970061469), commit e2c0fd2. O estado final acrescenta o regresso determinístico a Mais e a protecção modal por teclado/navegador raiz; passou novamente em 180 testes locais e aguarda CI própria. Sem merge ou Fase 3F.
 
 ## Implementação e compatibilidade
-A barra segue Sage/Graphite com os quatro ícones/rótulos sempre visíveis. StatefulShellRoute conserva os estados vivos; repetir um separador não repõe Planear. Mais em /tasks regressa ao directório, sem empilhar cópias. /tasks pertence ao navigator de Mais, mantendo filtros e formulário completo. Mais também oferece Agenda completa em /calendar, reutilizando AgendaBrowser e a criação existente. Nenhum builder foi criado para /agenda.
+A barra segue Sage/Graphite com os quatro ícones/rótulos sempre visíveis. StatefulShellRoute conserva os estados vivos; repetir um separador não repõe Planear. Tocar Mais abre sempre o directório, incluindo após consultar Tarefas e alternar para outro separador; não empilha cópias. /tasks pertence ao navigator de Mais, mantendo filtros e formulário completo. Mais também oferece Agenda completa em /calendar, reutilizando AgendaBrowser e a criação existente. Nenhum builder foi criado para /agenda.
 
 PlanningRequest dá identidade a cada pedido explícito de Amanhã/Semana; PlanningScreen usa didUpdateWidget para aplicar só um pedido novo, sem perder a vista ao alternar separadores. /plan abre Hoje na primeira visita; /weekly-planner mantém Semana e o extra PlanningView legado. Não há query parameters novos nem segundo planeador. Todas as tarefas continuam a referir os mesmos IDs SQLite.
 
@@ -71,3 +71,5 @@ Capturas reais Flutter/RepaintBoundary com SQLite sintético, 390 × 844, PNG 2�
 SQLite v5, lifeos.sqlite, Android ID, dependências/lockfile, TaskOperations, XP, notificações, finanças e forms.dart mantidos. Sem migração, restauro, Percurso, IA ou novas funções de metas. Dados de teste apenas sintéticos. /agenda continua defeito legado; limites de calendário/concorrência registados em 3D não foram corrigidos.
 
 Teclado físico, TalkBack/VoiceOver, comportamento específico dos fabricantes Android, entrega de lembretes e desempenho físico continuam não verificados. Testes de handlePopRoute e área segura são simulações Flutter. Não foi produzido APK: Android SDK não preparado. Sem merge; 3F exige revisão/aprovação.
+
+A abertura de PR em rascunho foi tentada e recebeu Forbidden da API GraphQL. O branch remoto está disponível para revisão; sem merge.
