@@ -68,7 +68,7 @@ A revisão visual reproduziu pendências anteriores à 3E: sobreposição pontua
 
 Os três casos passaram na primeira execução dirigida. SQLite é real em memória; somente o serviço de plataforma de lembretes é simulado. Não é validação da entrega de notificações.
 
-`phase3f_modal_test.dart` contém quatro casos: dois ciclos de folha limpa/Voltar sem escrita; folha suja com confirmação root, continuar e descartar; DatePicker sobre folha, falha SQLite e repetição explícita; chooser/Editor completo root com picker, falha e recuperação. Tentam mudar de separador pelo callback real com modais abertos e verificam o ramo, o rascunho, o FAB e a libertação posterior. Só a confirmação explícita descarta o rascunho da folha rápida. Nenhum guard foi desactivado.
+`phase3f_modal_test.dart` contém quatro casos: dois ciclos de folha limpa/Voltar sem escrita; folha suja com confirmação root, continuar e descartar; DatePicker sobre folha, falha de gravação injectada no repositório e repetição explícita; chooser/Editor completo root com picker, falha e recuperação. Tentam mudar de separador pelo callback real com modais abertos e verificam o ramo, o rascunho, o FAB e a libertação posterior. Só a confirmação explícita descarta o rascunho da folha rápida. Nenhum guard foi desactivado.
 
 Todos os testes anteriores estão preservados byte a byte em relação a efd8ad7. A cobertura nova é complementar; não se alteraram expectativas antigas para aceitar regressões. Os casos de renderização são diagnósticos separados, não engrossam a contagem da suite em `test/`.
 
@@ -168,7 +168,7 @@ Não existem SDK/adb/emulador nos caminhos preparados, `/dev/kvm` ou dispositivo
 
 **Não executado:** instalação Android, testes físicos/emulador, gestos do SO, TalkBack, IME real, permissões/entrega de lembretes, reinício, suspensão, actualização sobre assinatura anterior, dados de um telefone, release/iOS/web e ensaio prolongado de desempenho. Uma compilação debug aprovada, se observada na CI, comprova apenas compilação.
 
-Todos os dados usados são sintéticos, em SQLite em memória; não se abriu a base local de um utilizador. Não houve migração, restauro ou reinterpretação de datas. O risco adicional desta entrega para dados persistidos é baixo por não modificar produção. Os riscos anteriores de concorrência/temporalidade/ausência de restauro permanecem; Git e screenshots não são backup da base do telefone.
+Os novos testes 3F e as capturas usam SQLite em memória com dados sintéticos; a suite herdada também usa bases temporárias em disco para testar reabertura. Não se abriu a base local de um utilizador. As falhas de gravação/leitura são injectadas no repositório de teste; não se provocou corrupção ou avaria do motor SQLite. Não houve migração, restauro ou reinterpretação de datas. O risco adicional desta entrega para dados persistidos é baixo por não modificar produção. Os riscos anteriores de concorrência/temporalidade/ausência de restauro permanecem; Git e screenshots não são backup da base do telefone.
 
 ## 11. Recomendação
 
