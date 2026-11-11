@@ -1,0 +1,82 @@
+name: Android debug validation
+
+on:
+  push:
+    branches: [qa/fase-3f-integracao]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  debug-apk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      FLUTTER_SUPPRESS_ANALYTICS: 'true'
+      DART_SUPPRESS_ANALYTICS: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Obter Flutter na revisão do projecto
+        shell: bash
+        run: |
+          git clone --depth 1 --branch 3.35.7 https://github.com/flutter/flutter.git "$RUNNER_TEMP/flutter"
+          test "$(git -C "$RUNNER_TEMP/flutter" rev-parse HEAD)" = adc901062556672b4138e18a4dc62a4be8f4b3c2
+          echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
+      - name: Preparar ferramentas Android documentadas
+        shell: bash
+        run: |
+          test -n "$ANDROID_HOME"
+          mkdir -p "$RUNNER_TEMP/tudoaki-android-cli" "$RUNNER_TEMP/tudoaki-gradle"
+          curl --fail --location --retry 3 https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip -o "$RUNNER_TEMP/android-cli.zip"
+          echo "5fdcc763663eefb86a5b8879697aa6088b041e70  $RUNNER_TEMP/android-cli.zip" | sha1sum --check
+          unzip -q "$RUNNER_TEMP/android-cli.zip" -d "$RUNNER_TEMP/tudoaki-android-cli"
+          sdk_cli="$RUNNER_TEMP/tudoaki-android-cli/cmdline-tools/bin/sdkmanager"
+          python3 -c 'print("y\n" * 100)' > "$RUNNER_TEMP/android-license-answers.txt"
+          "$sdk_cli" --sdk_root="$ANDROID_HOME" --licenses < "$RUNNER_TEMP/android-license-answers.txt" > "$RUNNER_TEMP/android-licenses.txt"
+          "$sdk_cli" --sdk_root="$ANDROID_HOME" 'platform-tools' 'platforms;android-34' 'platforms;android-35' 'platforms;android-36' 'build-tools;35.0.0' 'ndk;27.0.12077973' 'cmake;3.22.1'
+          "$sdk_cli" --sdk_root="$ANDROID_HOME" --list_installed
+          # User-home resource limits only; no project Gradle/signing changes.
+          printf '%s\n' 'org.gradle.workers.max=2' 'org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g -XX:ReservedCodeCacheSize=256m -XX:+HeapDumpOnOutOfMemoryError' > "$RUNNER_TEMP/tudoaki-gradle/gradle.properties"
+          echo "GRADLE_USER_HOME=$RUNNER_TEMP/tudoaki-gradle" >> "$GITHUB_ENV"
+      - name: Conferir versões e resolver sem actualizar dependências
+        shell: bash
+        run: |
+          java -version
+          flutter --version
+          dart --version 2>&1 | tee "$RUNNER_TEMP/dart-version.txt"
+          grep -F 'Dart SDK version: 3.9.2 ' "$RUNNER_TEMP/dart-version.txt"
+          flutter pub get --enforce-lockfile
+          git diff --exit-code -- pubspec.yaml pubspec.lock android
+      - name: Compilar APK debug sem publicação
+        id: apk
+        shell: bash
+        run: |
+          mkdir -p validation-android
+          flutter build apk --debug --no-pub 2>&1 | tee validation-android/build.txt
+          test -s build/app/outputs/flutter-apk/app-debug.apk
+      - name: Confirmar preservação do projecto
+        if: always()
+        run: git diff --exit-code -- pubspec.yaml pubspec.lock android
+      - name: Registar âmbito da validação
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo '## Android debug'
+            echo 'Resultado da compilação: ${{ steps.apk.outcome }}.'
+            echo 'Compilar não certifica instalação, teclado, gestos, notificações ou testes físicos.'
+            echo 'Não é uma compilação release, distribuição ou publicação automática.'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Guardar apenas logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-debug-validation-logs
+          path: validation-android/
+          if-no-files-found: ignore
+          retention-days: 14
