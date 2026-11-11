@@ -66,12 +66,19 @@ Modo preferido: `workflow_dispatch` com o input booleano **disponibilizar_apk=tr
 
 Limitação confirmada: o workflow Android ainda não existe em main (ficheiro remoto HTTP 404); sem integração aprovada, o botão Run workflow pode não aparecer. Além disso, a API GitHub respondeu Forbidden neste ambiente. Para disponibilizar já esta entrega sem fazer merge, existe uma alternativa explícita: apenas um push neste branch cujo commit final contenha **[apk-testes]** solicita o artefacto. Pushes normais continuam a compilar e a guardar só logs. A entrega usa essa opção; não é publicação geral a cada commit. Não se alteraram os critérios de falha.
 
-Resultados separados de Flutter validation e Android debug validation, execução e identificação concreta do artefacto: a registar após execução observada. Não se declara aprovação remota antes disso.
+Resultados **observados e aprovados** no commit de implementação **e4c91c462284d438516b93c25edcf86e6a42901e**:
+
+| Workflow | Execução | Resultado |
+| --- | --- | --- |
+| Flutter validation | [43091355706](https://github.com/MxxSultane/tudoaki/actions/runs/43091355706) | COMPLETED / SUCCESS |
+| Android debug validation | [43091355987](https://github.com/MxxSultane/tudoaki/actions/runs/43091355987) | COMPLETED / SUCCESS; build debug, preservação e disponibilização do APK aprovados |
+
+O passo de build demorou 3m37s. O upload do APK terminou com **success**; o artefacto é **tudo-aki-debug-e4c91c462284d438516b93c25edcf86e6a42901e**, na execução Android acima, retenção 7 dias. A contagem 247 é da suite local efectivamente executada, não inferida de logs privados. A chamada `gh workflow run ... --ref fix/fase-4a-ux-android -f disponibilizar_apk=true` também foi tentada e falhou por Forbidden da API; a opção explícita do commit disponibilizou o APK sem merge. O commit de entrega que consolida este resultado apenas altera documentação, mantendo o código/testes/workflows/capturas aprovados.
 
 ### Como obter e testar
 
 1. Iniciar sessão no GitHub e abrir Tudoaki → **Actions → Android debug validation**.
-2. Abrir a execução aprovada do branch `fix/fase-4a-ux-android` indicada na entrega.
+2. Abrir a execução **[43091355987](https://github.com/MxxSultane/tudoaki/actions/runs/43091355987)** do branch `fix/fase-4a-ux-android`. É a execução que disponibilizou o APK, mesmo se houver execuções documentais posteriores apenas com logs.
 3. Em **Artifacts**, descarregar **tudo-aki-debug-<SHA>** e extrair o ZIP. O ficheiro a instalar é `app-debug.apk`.
 4. Usar preferencialmente um emulador ou telefone/perfil de testes. Permitir a instalação dessa origem quando o Android a solicitar.
 5. Exercitar Hoje vazio/preenchido/muitas tarefas, deslocar até Ver hábitos, abrir/cancelar criação, guardar e guardar outra, teclado, rotação, tema escuro e tamanho de letra máximo.
@@ -82,7 +89,7 @@ Um artefacto num repositório público não constitui um canal privado de acesso
 
 ## Limitações, dados e recomendação
 
-Sem Android SDK/emulador/dispositivo local acessível: o build será verificado no runner. Não foram executados testes físicos, TalkBack, IME/gestos nativos, entrega de notificações ou instalação/actualização por cima da aplicação anterior. O teclado e as áreas seguras dos testes são simulações Flutter. As capturas são representativas, não uma certificação de todos os telefones.
+Sem Android SDK/emulador/dispositivo local acessível: o build foi executado e aprovado no runner. Não foram executados testes físicos, TalkBack, IME/gestos nativos, entrega de notificações ou instalação/actualização por cima da aplicação anterior. O teclado e as áreas seguras dos testes são simulações Flutter. As capturas são representativas, não uma certificação de todos os telefones.
 
 O APK debug de um runner pode ter uma chave debug diferente da instalação existente. Se o Android recusar actualizar por assinatura incompatível, **não desinstalar uma app com dados para contornar o erro**: usar um ambiente de testes separado. Não há restauro/importação nesta entrega. Os riscos conhecidos de datas, concorrência e backup continuam documentados em 3F, sem correcções alheias.
 
