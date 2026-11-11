@@ -226,6 +226,23 @@ void main() {
             await tester.pumpAndSettle();
           }
         }
+        if (const bool.fromEnvironment('QUALITY_SCROLL_HABITS') &&
+            baseScenario == 'hoje-filled') {
+          final habits = find.widgetWithText(TextButton, 'Ver hábitos');
+          await tester.scrollUntilVisible(
+            habits,
+            250,
+            scrollable: find
+                .descendant(
+                  of: find.byType(TodayScreen),
+                  matching: find.byType(Scrollable),
+                )
+                .first,
+          );
+          await tester.ensureVisible(habits);
+          await tester.pumpAndSettle();
+          expect(habits.hitTestable(), findsOneWidget);
+        }
         final boundary = tester.renderObject<RenderRepaintBoundary>(
           find.byKey(capture),
         );
@@ -234,8 +251,12 @@ void main() {
           final bytes = (await image.toByteData(
             format: ui.ImageByteFormat.png,
           ))!;
-          final folder = Directory('docs/ux/previews/phase3f')
-            ..createSync(recursive: true);
+          final folder = Directory(
+            const String.fromEnvironment(
+              'QUALITY_OUTPUT',
+              defaultValue: 'docs/ux/previews/phase3f',
+            ),
+          )..createSync(recursive: true);
           await File(
             '${folder.path}/$name.png',
           ).writeAsBytes(bytes.buffer.asUint8List());

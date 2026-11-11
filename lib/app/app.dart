@@ -58,7 +58,26 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
             routes: [
               GoRoute(
                 path: AppRoutes.agenda,
-                builder: (_, _) => const TodayScreen(),
+                builder: (context, _) => TodayScreen(
+                  createAction: ValueListenableBuilder<bool>(
+                    valueListenable: modalGuard.active,
+                    builder: (context, blocked, _) => SizedBox(
+                      width: 56,
+                      height: 56,
+                      child: blocked
+                          ? null
+                          : FloatingActionButton(
+                              heroTag: null,
+                              tooltip: 'Criar',
+                              onPressed: () => showWorkspaceCreateSheet(
+                                context,
+                                date: context.read<AgendaCubit>().state.day,
+                              ),
+                              child: const Icon(Icons.add),
+                            ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -289,7 +308,9 @@ class TudoAkiShell extends StatelessWidget {
             ),
           ),
           floatingActionButton:
-              path == AppRoutes.plan || path == AppRoutes.areas
+              path == AppRoutes.agenda ||
+                  path == AppRoutes.plan ||
+                  path == AppRoutes.areas
               ? null
               : ValueListenableBuilder<bool>(
                   valueListenable:

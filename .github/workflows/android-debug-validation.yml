@@ -2,8 +2,13 @@ name: Android debug validation
 
 on:
   push:
-    branches: [qa/fase-3f-integracao]
+    branches: [qa/fase-3f-integracao, fix/fase-4a-ux-android]
   workflow_dispatch:
+    inputs:
+      disponibilizar_apk:
+        description: Disponibilizar APK debug para testes internos (7 dias)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -62,6 +67,14 @@ jobs:
       - name: Confirmar preservação do projecto
         if: always()
         run: git diff --exit-code -- pubspec.yaml pubspec.lock android
+      - name: Disponibilizar APK para testes internos
+        if: ${{ success() && ((github.event_name == 'workflow_dispatch' && inputs.disponibilizar_apk) || (github.event_name == 'push' && github.ref == 'refs/heads/fix/fase-4a-ux-android' && contains(github.event.head_commit.message, '[apk-testes]'))) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tudo-aki-debug-${{ github.sha }}
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
+          retention-days: 7
       - name: Registar âmbito da validação
         if: always()
         shell: bash

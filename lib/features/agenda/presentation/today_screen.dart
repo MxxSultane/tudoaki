@@ -21,7 +21,8 @@ import '../domain/today_content.dart';
 import 'agenda_browser.dart';
 
 class TodayScreen extends ConsumerStatefulWidget {
-  const TodayScreen({super.key});
+  const TodayScreen({this.createAction, super.key});
+  final Widget? createAction;
   @override
   ConsumerState<TodayScreen> createState() => _TodayScreenState();
 }
@@ -116,13 +117,24 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton.icon(
-                    onPressed: _showToday,
-                    icon: const Icon(Icons.arrow_back, size: 18),
-                    label: const Text('Voltar a Hoje'),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton.icon(
+                          onPressed: _showToday,
+                          icon: const Icon(Icons.arrow_back, size: 18),
+                          label: const Text('Voltar a Hoje'),
+                        ),
+                      ),
+                    ),
+                    if (widget.createAction != null)
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: widget.createAction!,
+                      ),
+                  ],
                 ),
                 const Expanded(child: AgendaBrowser()),
               ],
@@ -202,7 +214,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
         (savedDate == null || dayKey(savedDate) != dayKey(_now));
     return ListView(
       key: const PageStorageKey('today-overview'),
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 112),
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
       children: [
         Wrap(
           alignment: WrapAlignment.spaceBetween,
@@ -215,6 +227,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
+            if (widget.createAction != null) widget.createAction!,
           ],
         ),
         Text(

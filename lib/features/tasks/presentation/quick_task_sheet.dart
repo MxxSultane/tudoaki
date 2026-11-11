@@ -247,203 +247,264 @@ class _QuickTaskSheetState extends ConsumerState<QuickTaskSheet> {
           ),
           child: Form(
             key: _form,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Semantics(
-                          header: true,
-                          child: Text(
-                            'Nova tarefa',
-                            style: Theme.of(context).textTheme.titleLarge,
+            child: LayoutBuilder(
+              builder: (context, bounds) {
+                final fields = Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Semantics(
+                            header: true,
+                            child: Text(
+                              'Nova tarefa',
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
                           ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: _busy ? null : _close,
-                        child: const Text('Cancelar'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _title,
-                    focusNode: _titleFocus,
-                    autofocus: true,
-                    readOnly: _busy,
-                    textCapitalization: TextCapitalization.sentences,
-                    textInputAction: TextInputAction.done,
-                    decoration: const InputDecoration(
-                      labelText: 'Título',
-                      hintText: 'O que queres fazer?',
-                    ),
-                    validator: (value) => value == null || value.trim().isEmpty
-                        ? 'Escreve um título.'
-                        : null,
-                    onChanged: (_) => setState(() {}),
-                    onEditingComplete: () {},
-                    onFieldSubmitted: (_) => _save(),
-                  ),
-                  const SizedBox(height: 16),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      OutlinedButton(
-                        onPressed: _busy ? null : _chooseDay,
-                        child: Text(
-                          'Dia: ${_day == null ? 'Sem data' : DateFormat('d MMM yyyy', 'pt').format(_day!)}',
-                        ),
-                      ),
-                      if (_day != null)
                         TextButton(
-                          onPressed: _busy
-                              ? null
-                              : () => setState(() {
-                                  _day = null;
-                                  _time = null;
-                                  _remind = false;
-                                }),
-                          child: const Text('Retirar dia'),
+                          onPressed: _busy ? null : _close,
+                          child: const Text('Cancelar'),
                         ),
-                    ],
-                  ),
-                  if (_goal != null)
-                    Text(
-                      'Meta: ${_associationLabel(goals, _goal!, 'Meta associada')}',
-                      style: Theme.of(context).textTheme.bodySmall,
+                      ],
                     ),
-                  if (_subject != null)
-                    Text(
-                      'Disciplina: ${_associationLabel(subjects, _subject!, 'Disciplina associada')}',
-                      style: Theme.of(context).textTheme.bodySmall,
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _title,
+                      focusNode: _titleFocus,
+                      autofocus: true,
+                      readOnly: _busy,
+                      textCapitalization: TextCapitalization.sentences,
+                      textInputAction: TextInputAction.done,
+                      decoration: const InputDecoration(
+                        labelText: 'Título',
+                        hintText: 'O que queres fazer?',
+                      ),
+                      validator: (value) =>
+                          value == null || value.trim().isEmpty
+                          ? 'Escreve um título.'
+                          : null,
+                      onChanged: (_) => setState(() {}),
+                      onEditingComplete: () {},
+                      onFieldSubmitted: (_) => _save(),
                     ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton(
-                      onPressed: _busy
-                          ? null
-                          : () => setState(() => _advanced = !_advanced),
-                      child: Text(_advanced ? 'Menos opções' : 'Mais opções'),
-                    ),
-                  ),
-                  if (_advanced) ...[
+                    const SizedBox(height: 16),
                     Wrap(
                       spacing: 8,
+                      runSpacing: 8,
                       children: [
-                        TextButton(
-                          onPressed: _busy || _day == null ? null : _chooseTime,
+                        OutlinedButton(
+                          onPressed: _busy ? null : _chooseDay,
                           child: Text(
-                            _time == null
-                                ? 'Definir hora'
-                                : 'Hora: ${_time!.format(context)}',
+                            'Dia: ${_day == null ? 'Sem data' : DateFormat('d MMM yyyy', 'pt').format(_day!)}',
                           ),
                         ),
-                        if (_time != null)
+                        if (_day != null)
                           TextButton(
                             onPressed: _busy
                                 ? null
                                 : () => setState(() {
+                                    _day = null;
                                     _time = null;
                                     _remind = false;
                                   }),
-                            child: const Text('Retirar hora'),
+                            child: const Text('Retirar dia'),
                           ),
                       ],
                     ),
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('Lembrete local'),
-                      subtitle: const Text(
-                        'Exige dia e hora. Entrega aproximada no Android.',
+                    if (_goal != null)
+                      Text(
+                        'Meta: ${_associationLabel(goals, _goal!, 'Meta associada')}',
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
-                      value: _remind,
-                      onChanged: _busy || _day == null || _time == null
-                          ? null
-                          : (value) => setState(() => _remind = value),
-                    ),
-                    const SizedBox(height: 16),
-                    DropdownButtonFormField<int>(
-                      key: ValueKey('quick-priority-$_priority'),
-                      initialValue: _priority,
-                      decoration: const InputDecoration(
-                        labelText: 'Prioridade',
+                    if (_subject != null)
+                      Text(
+                        'Disciplina: ${_associationLabel(subjects, _subject!, 'Disciplina associada')}',
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
-                      items: const [
-                        DropdownMenuItem(value: 0, child: Text('Baixa')),
-                        DropdownMenuItem(value: 1, child: Text('Normal')),
-                        DropdownMenuItem(value: 2, child: Text('Alta')),
-                      ],
-                      onChanged: _busy
-                          ? null
-                          : (value) => setState(() => _priority = value!),
-                    ),
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('Importante'),
-                      value: _important,
-                      onChanged: _busy
-                          ? null
-                          : (value) => setState(() => _important = value),
-                    ),
-                    if (data.isLoading)
-                      const LinearProgressIndicator(
-                        semanticsLabel: 'A carregar associações',
-                      ),
-                    if (data.hasError)
-                      TextButton(
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
                         onPressed: _busy
                             ? null
-                            : () => ref.invalidate(dataProvider),
-                        child: const Text(
-                          'Repetir carregamento das associações',
+                            : () => setState(() => _advanced = !_advanced),
+                        child: Text(_advanced ? 'Menos opções' : 'Mais opções'),
+                      ),
+                    ),
+                    if (_advanced) ...[
+                      Wrap(
+                        spacing: 8,
+                        children: [
+                          TextButton(
+                            onPressed: _busy || _day == null
+                                ? null
+                                : _chooseTime,
+                            child: Text(
+                              _time == null
+                                  ? 'Definir hora'
+                                  : 'Hora: ${_time!.format(context)}',
+                            ),
+                          ),
+                          if (_time != null)
+                            TextButton(
+                              onPressed: _busy
+                                  ? null
+                                  : () => setState(() {
+                                      _time = null;
+                                      _remind = false;
+                                    }),
+                              child: const Text('Retirar hora'),
+                            ),
+                        ],
+                      ),
+                      SwitchListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('Lembrete local'),
+                        subtitle: const Text(
+                          'Exige dia e hora. Entrega aproximada no Android.',
+                        ),
+                        value: _remind,
+                        onChanged: _busy || _day == null || _time == null
+                            ? null
+                            : (value) => setState(() => _remind = value),
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownButtonFormField<int>(
+                        key: ValueKey('quick-priority-$_priority'),
+                        initialValue: _priority,
+                        decoration: const InputDecoration(
+                          labelText: 'Prioridade',
+                        ),
+                        items: const [
+                          DropdownMenuItem(value: 0, child: Text('Baixa')),
+                          DropdownMenuItem(value: 1, child: Text('Normal')),
+                          DropdownMenuItem(value: 2, child: Text('Alta')),
+                        ],
+                        onChanged: _busy
+                            ? null
+                            : (value) => setState(() => _priority = value!),
+                      ),
+                      SwitchListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('Importante'),
+                        value: _important,
+                        onChanged: _busy
+                            ? null
+                            : (value) => setState(() => _important = value),
+                      ),
+                      if (data.isLoading)
+                        const LinearProgressIndicator(
+                          semanticsLabel: 'A carregar associações',
+                        ),
+                      if (data.hasError)
+                        TextButton(
+                          onPressed: _busy
+                              ? null
+                              : () => ref.invalidate(dataProvider),
+                          child: const Text(
+                            'Repetir carregamento das associações',
+                          ),
+                        ),
+                      _relation(
+                        'Meta associada',
+                        _goal,
+                        goals,
+                        (value) => _goal = value,
+                      ),
+                      const SizedBox(height: 16),
+                      _relation(
+                        'Disciplina',
+                        _subject,
+                        subjects,
+                        (value) => _subject = value,
+                      ),
+                    ],
+                    if (_error != null)
+                      Semantics(
+                        liveRegion: true,
+                        child: Text(
+                          _error!,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
                         ),
                       ),
-                    _relation(
-                      'Meta associada',
-                      _goal,
-                      goals,
-                      (value) => _goal = value,
-                    ),
-                    const SizedBox(height: 16),
-                    _relation(
-                      'Disciplina',
-                      _subject,
-                      subjects,
-                      (value) => _subject = value,
-                    ),
+                    if (_confirmation != null)
+                      Semantics(liveRegion: true, child: Text(_confirmation!)),
                   ],
-                  if (_error != null)
-                    Semantics(
-                      liveRegion: true,
-                      child: Text(
-                        _error!,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
+                );
+                final footer = LayoutBuilder(
+                  builder: (context, constraints) {
+                    final actions = <Widget>[
+                      FilledButton(
+                        onPressed: _busy || _title.text.trim().isEmpty
+                            ? null
+                            : () => _save(),
+                        child: Text(_busy ? 'A guardar…' : 'Guardar'),
+                      ),
+                      TextButton(
+                        onPressed: _busy || _title.text.trim().isEmpty
+                            ? null
+                            : () => _save(another: true),
+                        style: TextButton.styleFrom(
+                          minimumSize: const Size(48, 48),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        child: const Text(
+                          'Guardar e adicionar outra',
+                          maxLines: 3,
+                          softWrap: true,
+                          textAlign: TextAlign.center,
                         ),
                       ),
+                    ];
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: constraints.maxWidth >= 600
+                          ? Row(
+                              children: [
+                                Expanded(child: actions[0]),
+                                const SizedBox(width: 8),
+                                Expanded(child: actions[1]),
+                              ],
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: actions,
+                            ),
+                    );
+                  },
+                );
+                // Very short windows (including keyboard/route transitions) need
+                // a single scroll surface rather than an overflowing fixed bar.
+                final actionLine = MediaQuery.textScalerOf(context).scale(20);
+                final minimumHeight = bounds.maxWidth >= 600
+                    ? actionLine * 2 + 32
+                    : actionLine * 2 + 80;
+                if (bounds.maxHeight < minimumHeight) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [fields, footer],
                     ),
-                  if (_confirmation != null)
-                    Semantics(liveRegion: true, child: Text(_confirmation!)),
-                  const SizedBox(height: 16),
-                  FilledButton(
-                    onPressed: _busy || _title.text.trim().isEmpty
-                        ? null
-                        : () => _save(),
-                    child: Text(_busy ? 'A guardar…' : 'Guardar'),
-                  ),
-                  TextButton(
-                    onPressed: _busy || _title.text.trim().isEmpty
-                        ? null
-                        : () => _save(another: true),
-                    child: const Text('Guardar e adicionar outra'),
-                  ),
-                ],
-              ),
+                  );
+                }
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Flexible(child: SingleChildScrollView(child: fields)),
+                    footer,
+                  ],
+                );
+              },
             ),
           ),
         ),
