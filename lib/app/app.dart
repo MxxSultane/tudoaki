@@ -1,5 +1,6 @@
 import 'navigation/app_destinations.dart';
 import 'navigation/app_routes.dart';
+import 'navigation/modal_navigation_guard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +22,7 @@ import '../features/areas/presentation/areas_screen.dart';
 import '../core/theme/app_theme.dart';
 import '../core/theme/today_theme.dart';
 import '../features/agenda/presentation/today_screen.dart';
+import '../features/agenda/presentation/agenda_browser.dart';
 import '../features/goals/presentation/goals_screen.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
 import 'brand.dart';
@@ -35,33 +37,86 @@ class TudoAkiApp extends ConsumerStatefulWidget {
 }
 
 class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
+  final modalGuard = ModalNavigationGuard();
+  late final popupObservers = List.generate(
+    4,
+    (_) => ShellPopupObserver(modalGuard),
+  );
   late final router = GoRouter(
     routes: [
-      ShellRoute(
-        builder: (_, state, child) => MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (_) => AgendaCubit(ref.read(workspaceClockProvider)()),
-            ),
-            BlocProvider(create: (_) => GoalsCubit()),
-            BlocProvider(create: (_) => TasksCubit()),
-          ],
-          child: TudoAkiShell(path: state.uri.path, child: child),
+      StatefulShellRoute.indexedStack(
+        builder: (_, state, shell) => TudoAkiShell(
+          path: state.uri.path,
+          navigationShell: shell,
+          modalGuard: modalGuard,
+          child: shell,
         ),
-        routes: [
-          GoRoute(
-            path: AppRoutes.agenda,
-            builder: (_, _) => const TodayScreen(),
+        branches: [
+          StatefulShellBranch(
+            observers: [popupObservers[0]],
+            routes: [
+              GoRoute(
+                path: AppRoutes.agenda,
+                builder: (_, _) => const TodayScreen(),
+              ),
+            ],
           ),
-          GoRoute(
-            path: AppRoutes.goals,
-            builder: (_, _) => const GoalsScreen(),
+          StatefulShellBranch(
+            observers: [popupObservers[1]],
+            routes: [
+              GoRoute(
+                path: AppRoutes.plan,
+                builder: (_, state) => BlocProvider(
+                  create: (_) =>
+                      WeeklyPlannerCubit(ref.read(workspaceClockProvider)()),
+                  child: PlanningScreen(
+                    initialView: PlanningView.today,
+                    request: state.extra is PlanningRequest
+                        ? state.extra as PlanningRequest
+                        : null,
+                  ),
+                ),
+              ),
+            ],
           ),
-          GoRoute(
-            path: AppRoutes.tasks,
-            builder: (_, _) => const TasksScreen(),
+          StatefulShellBranch(
+            observers: [popupObservers[2]],
+            routes: [
+              GoRoute(
+                path: AppRoutes.goals,
+                builder: (_, _) => const GoalsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            observers: [popupObservers[3]],
+            routes: [
+              GoRoute(
+                path: AppRoutes.areas,
+                builder: (_, _) => const AreasScreen(),
+              ),
+              GoRoute(
+                path: AppRoutes.tasks,
+                builder: (_, _) => const TasksScreen(),
+              ),
+            ],
           ),
         ],
+      ),
+      GoRoute(
+        path: AppRoutes.calendar,
+        builder: (context, _) => AreaScaffold(
+          title: 'Agenda',
+          floatingActionButton: FloatingActionButton(
+            tooltip: 'Criar',
+            onPressed: () => showWorkspaceCreateSheet(
+              context,
+              date: context.read<AgendaCubit>().state.day,
+            ),
+            child: const Icon(Icons.add),
+          ),
+          child: const AgendaBrowser(),
+        ),
       ),
       GoRoute(
         path: AppRoutes.goalPattern,
@@ -71,11 +126,6 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
             id: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
           ),
         ),
-      ),
-      GoRoute(
-        path: AppRoutes.areas,
-        builder: (_, _) =>
-            const AreaScaffold(title: 'Mais', child: AreasScreen()),
       ),
       GoRoute(
         path: AppRoutes.weeklyPlanner,
@@ -125,79 +175,137 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
   @override
   void dispose() {
     router.dispose();
+    modalGuard.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => MaterialApp.router(
-    title: TudoAkiBrand.name,
-    debugShowCheckedModeBanner: false,
-    routerConfig: router,
-    theme: buildTheme(Brightness.light),
-    darkTheme: buildTheme(Brightness.dark),
-    themeMode: switch (ref
-        .watch(dataProvider)
-        .valueOrNull?['UserPreferences']
-        ?.first['theme']) {
-      'light' => ThemeMode.light,
-      'dark' => ThemeMode.dark,
-      _ => ThemeMode.system,
-    },
-    locale: const Locale('pt', 'PT'),
-    supportedLocales: const [Locale('pt', 'PT')],
-    localizationsDelegates: GlobalMaterialLocalizations.delegates,
+  Widget build(BuildContext context) => MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (_) => AgendaCubit(ref.read(workspaceClockProvider)()),
+      ),
+      BlocProvider(create: (_) => GoalsCubit()),
+      BlocProvider(create: (_) => TasksCubit()),
+    ],
+    child: MaterialApp.router(
+      title: TudoAkiBrand.name,
+      debugShowCheckedModeBanner: false,
+      routerConfig: router,
+      theme: buildTheme(Brightness.light),
+      darkTheme: buildTheme(Brightness.dark),
+      themeMode: switch (ref
+          .watch(dataProvider)
+          .valueOrNull?['UserPreferences']
+          ?.first['theme']) {
+        'light' => ThemeMode.light,
+        'dark' => ThemeMode.dark,
+        _ => ThemeMode.system,
+      },
+      locale: const Locale('pt', 'PT'),
+      supportedLocales: const [Locale('pt', 'PT')],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+    ),
   );
 }
 
 class TudoAkiShell extends StatelessWidget {
-  const TudoAkiShell({required this.path, required this.child, super.key});
+  const TudoAkiShell({
+    required this.path,
+    required this.child,
+    this.navigationShell,
+    this.modalGuard,
+    super.key,
+  });
   final String path;
   final Widget child;
+  final StatefulNavigationShell? navigationShell;
+  final ModalNavigationGuard? modalGuard;
   static final paths = AppNavigation.currentPaths;
 
   @override
   Widget build(BuildContext context) => Theme(
-    data: path == AppRoutes.agenda
-        ? buildTodayTheme(Theme.of(context))
-        : Theme.of(context),
+    data: buildTodayTheme(Theme.of(context)),
     child: Builder(
-      builder: (context) => Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 720),
-              child: child,
+      builder: (context) => BackButtonListener(
+        onBackButtonPressed: () async {
+          if (modalGuard?.active.value == true ||
+              GoRouter.of(context).canPop()) {
+            return false;
+          }
+          if (navigationShell != null && navigationShell!.currentIndex != 0) {
+            navigationShell!.goBranch(0);
+            return true;
+          }
+          return false;
+        },
+        child: Scaffold(
+          body: SafeArea(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 720),
+                child: child,
+              ),
             ),
           ),
-        ),
-        bottomNavigationBar: DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(color: Theme.of(context).dividerColor),
+          bottomNavigationBar: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Theme.of(context).dividerColor),
+              ),
             ),
-          ),
-          child: NavigationBar(
-            animationDuration: const Duration(milliseconds: 250),
-            selectedIndex: paths.indexOf(path),
-            onDestinationSelected: (index) => context.go(paths[index]),
-            destinations: [
-              for (final destination in AppNavigation.currentDestinations)
-                NavigationDestination(
-                  icon: Icon(destination.icon),
-                  label: destination.title,
+            child: ValueListenableBuilder<bool>(
+              valueListenable:
+                  modalGuard?.active ?? const AlwaysStoppedAnimation(false),
+              builder: (context, blocked, child) => AbsorbPointer(
+                absorbing: blocked,
+                child: NavigationBar(
+                  animationDuration: const Duration(milliseconds: 250),
+                  selectedIndex:
+                      navigationShell?.currentIndex ??
+                      (!paths.contains(path) ? 3 : paths.indexOf(path)),
+                  onDestinationSelected: (index) {
+                    if (navigationShell != null) {
+                      navigationShell!.goBranch(
+                        index,
+                        initialLocation: index == 3 && path == AppRoutes.tasks,
+                      );
+                    } else {
+                      context.go(paths[index]);
+                    }
+                  },
+                  labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+                  destinations: [
+                    for (final destination in AppNavigation.currentDestinations)
+                      NavigationDestination(
+                        icon: Icon(destination.icon),
+                        label: destination.title,
+                      ),
+                  ],
                 ),
-            ],
+              ),
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          tooltip: 'Criar',
-          onPressed: () => showWorkspaceCreateSheet(
-            context,
-            date: path == AppRoutes.agenda
-                ? context.read<AgendaCubit>().state.day
-                : null,
-          ),
-          child: const Icon(Icons.add),
+          floatingActionButton:
+              path == AppRoutes.plan || path == AppRoutes.areas
+              ? null
+              : ValueListenableBuilder<bool>(
+                  valueListenable:
+                      modalGuard?.active ?? const AlwaysStoppedAnimation(false),
+                  builder: (context, blocked, _) => Visibility(
+                    visible: !blocked,
+                    child: FloatingActionButton(
+                      tooltip: 'Criar',
+                      onPressed: () => showWorkspaceCreateSheet(
+                        context,
+                        date: path == AppRoutes.agenda
+                            ? context.read<AgendaCubit>().state.day
+                            : null,
+                      ),
+                      child: const Icon(Icons.add),
+                    ),
+                  ),
+                ),
         ),
       ),
     ),

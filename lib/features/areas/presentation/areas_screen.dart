@@ -12,6 +12,8 @@ class AreasScreen extends StatelessWidget {
       InsetGroup(
         children: [
           for (final area in const [
+            (AppRoutes.tasks, 'Tarefas', 'Lista completa'),
+            (AppRoutes.calendar, 'Agenda completa', 'Dia, semana e mês'),
             (
               AppRoutes.weeklyPlanner,
               'Planear semana',
@@ -45,11 +47,18 @@ class AreasScreen extends StatelessWidget {
 }
 
 class AreaScaffold extends StatelessWidget {
-  const AreaScaffold({required this.title, required this.child, super.key});
+  const AreaScaffold({
+    required this.title,
+    required this.child,
+    this.floatingActionButton,
+    super.key,
+  });
   final String title;
   final Widget child;
+  final Widget? floatingActionButton;
   @override
   Widget build(BuildContext context) => Scaffold(
+    floatingActionButton: floatingActionButton,
     appBar: AppBar(
       title: Text(title),
       leading: IconButton(

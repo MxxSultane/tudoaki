@@ -34,8 +34,8 @@ void main() {
       await bootPlanning(tester, repo, navigate: false);
       await tapPlanning(tester, find.text('Planear amanhã'));
       expect(
-        GoRouterState.of(tester.element(find.byType(AreaScaffold))).uri.path,
-        '/weekly-planner',
+        GoRouterState.of(tester.element(find.byType(PlanningScreen))).uri.path,
+        '/plan',
       );
       expect(find.byType(PlanningScreen), findsOneWidget);
       expect(find.byType(WeeklyPlannerScreen), findsNothing);
@@ -45,17 +45,20 @@ void main() {
         ),
         findsOneWidget,
       );
-      final router = GoRouter.of(tester.element(find.byType(AreaScaffold)));
-      expect(await router.routerDelegate.popRoute(), isTrue);
+      final router = GoRouter.of(tester.element(find.byType(PlanningScreen)));
+      router.go('/');
       await tester.pumpAndSettle();
       expect(tester.widget<TudoAkiShell>(find.byType(TudoAkiShell)).path, '/');
       await tapPlanning(tester, find.text('Planear semana'));
       expect(find.byType(WeeklyPlannerScreen), findsOneWidget);
-      await tapPlanning(tester, find.byTooltip('Voltar'));
-      expect(find.byType(NavigationDestination), findsNWidgets(3));
+      await tapPlanning(
+        tester,
+        find.widgetWithText(NavigationDestination, 'Hoje'),
+      );
+      expect(find.byType(NavigationDestination), findsNWidgets(4));
       expect(
         router.configuration.findMatch(Uri.parse('/plan')).isError,
-        isTrue,
+        isFalse,
       );
     },
   );

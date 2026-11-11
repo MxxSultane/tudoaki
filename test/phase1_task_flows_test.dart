@@ -1,3 +1,4 @@
+import 'support/navigation_access.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -53,8 +54,8 @@ Future<void> openTasks(
   await tester.runAsync(() => GoogleFonts.pendingFonts());
   await tester.pumpAndSettle();
   // Characterizes the current shell only; the 2.0 shell is not implemented.
-  expect(find.byType(NavigationDestination), findsNWidgets(3));
-  await tap(tester, find.widgetWithText(NavigationDestination, 'Tarefas'));
+  expect(find.byType(NavigationDestination), findsNWidgets(4));
+  await openGlobalTasks(tester);
 }
 
 void main() {

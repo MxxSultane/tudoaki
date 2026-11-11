@@ -1,3 +1,4 @@
+import 'support/navigation_access.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -27,11 +28,14 @@ void main() {
     'empty Hoje is useful and retains current creation and navigation',
     (tester) async {
       await bootToday(tester, repo);
-      expect(find.text('Hoje'), findsOneWidget);
+      expect(
+        find.widgetWithText(NavigationDestination, 'Hoje'),
+        findsOneWidget,
+      );
       expect(find.text('terça-feira, 10 de novembro'), findsOneWidget);
       expect(find.text('Sem compromissos para hoje.'), findsOneWidget);
       expect(find.text('Adicionar tarefa'), findsOneWidget);
-      expect(find.byType(NavigationDestination), findsNWidgets(3));
+      expect(find.byType(NavigationDestination), findsNWidgets(4));
       expect(find.byType(FloatingActionButton), findsOneWidget);
       expect(find.textContaining('De dias anteriores'), findsNothing);
       expect(find.textContaining('Concluídas hoje'), findsNothing);
@@ -118,14 +122,11 @@ void main() {
     (tester) async {
       await bootToday(tester, repo);
       // Exercise the existing retained filter: the new link must reveal pending work.
-      await tapToday(
-        tester,
-        find.widgetWithText(NavigationDestination, 'Tarefas'),
-      );
+      await openGlobalTasks(tester);
       await tapToday(tester, find.text('Concluídas'));
       await tapToday(
         tester,
-        find.widgetWithText(NavigationDestination, 'Agenda'),
+        find.widgetWithText(NavigationDestination, 'Hoje'),
       );
       await tapToday(tester, find.text('Adicionar tarefa'));
       await tester.enterText(
@@ -283,14 +284,17 @@ void main() {
       await bootToday(tester, repo);
       await tapToday(tester, find.text('Planear semana'));
       expect(find.byType(WeeklyPlannerScreen), findsOneWidget);
-      await tapToday(tester, find.byTooltip('Voltar'));
+      await tapToday(
+        tester,
+        find.widgetWithText(NavigationDestination, 'Hoje'),
+      );
       await tapToday(tester, find.text('Retomar estudo'));
       expect(find.text('Foco guardado'), findsOneWidget);
       await tapToday(tester, find.byTooltip('Voltar'));
       final router = GoRouter.of(tester.element(find.byType(TudoAkiShell)));
       expect(
         router.configuration.findMatch(Uri.parse('/plan')).isError,
-        isTrue,
+        isFalse,
       );
       expect(await repo.all('Tasks'), isEmpty);
       expect(await repo.all('StudySessions'), before);
@@ -481,7 +485,10 @@ void main() {
         await tapToday(tester, find.text('Ver hábitos'));
         await tapToday(tester, find.byTooltip('Voltar'));
         await tapToday(tester, find.text('Planear semana'));
-        await tapToday(tester, find.byTooltip('Voltar'));
+        await tapToday(
+          tester,
+          find.widgetWithText(NavigationDestination, 'Hoje'),
+        );
         expect(await repo.all('Tasks'), hasLength(2));
         expect(tester.takeException(), isNull);
       },

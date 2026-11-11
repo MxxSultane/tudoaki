@@ -215,10 +215,6 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
-            TextButton(
-              onPressed: () => context.push(AppRoutes.areas),
-              child: const Text('Mais'),
-            ),
           ],
         ),
         Text(
@@ -359,14 +355,17 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
           spacing: 16,
           children: [
             TextButton(
-              onPressed: () => context.push(
-                AppRoutes.weeklyPlanner,
-                extra: PlanningView.tomorrow,
+              onPressed: () => context.go(
+                AppRoutes.plan,
+                extra: PlanningRequest(PlanningView.tomorrow),
               ),
               child: const Text('Planear amanhã'),
             ),
             TextButton.icon(
-              onPressed: () => context.push(AppRoutes.weeklyPlanner),
+              onPressed: () => context.go(
+                AppRoutes.plan,
+                extra: PlanningRequest(PlanningView.week),
+              ),
               icon: const Icon(Icons.calendar_view_week_outlined, size: 20),
               label: const Text('Planear semana'),
             ),

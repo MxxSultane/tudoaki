@@ -20,8 +20,13 @@ import 'planner_task_tile.dart';
 import 'task_schedule_sheet.dart';
 
 class PlanningScreen extends ConsumerStatefulWidget {
-  const PlanningScreen({this.initialView = PlanningView.week, super.key});
+  const PlanningScreen({
+    this.initialView = PlanningView.week,
+    this.request,
+    super.key,
+  });
   final PlanningView initialView;
+  final PlanningRequest? request;
   @override
   ConsumerState<PlanningScreen> createState() => _PlanningScreenState();
 }
@@ -47,10 +52,18 @@ class _PlanningScreenState extends ConsumerState<PlanningScreen>
   @override
   void initState() {
     super.initState();
-    _view = widget.initialView;
+    _view = widget.request?.view ?? widget.initialView;
     _now = ref.read(workspaceClockProvider)();
     WidgetsBinding.instance.addObserver(this);
     _scheduleClock();
+  }
+
+  @override
+  void didUpdateWidget(covariant PlanningScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.request != null && widget.request != oldWidget.request) {
+      _select(widget.request!.view);
+    }
   }
 
   void _scheduleClock() {
@@ -466,6 +479,13 @@ class _PlanningScreenState extends ConsumerState<PlanningScreen>
                 ),
               ),
           ],
+        ),
+      ),
+      Align(
+        alignment: Alignment.centerLeft,
+        child: TextButton(
+          onPressed: () => context.push(AppRoutes.tasks),
+          child: const Text('Todas as tarefas'),
         ),
       ),
       Expanded(

@@ -2,6 +2,8 @@
 abstract final class AppRoutes {
   static const agenda = '/';
   static const goals = '/goals';
+  static const plan = '/plan';
+  static const calendar = '/calendar';
   static const tasks = '/tasks';
   static const goalPattern = '/goal/:id';
   static const areas = '/areas';

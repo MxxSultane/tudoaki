@@ -128,7 +128,7 @@ void main() {
       expect(await repo.all('CalendarEvents'), hasLength(1));
       expect(await repo.all('ExperienceEvents'), isEmpty);
       await tap(tester, find.byTooltip('Voltar'));
-      await tap(tester, find.byTooltip('Voltar'));
+      await tap(tester, find.widgetWithText(NavigationDestination, 'Hoje'));
       await tap(tester, find.widgetWithText(TextButton, 'Semana'));
       await tap(tester, find.byTooltip('Período seguinte'));
       expect(find.text('Preparar relatório'), findsOneWidget);

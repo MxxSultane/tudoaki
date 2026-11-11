@@ -60,7 +60,12 @@ class WorkspacePage extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ),
-          if (more)
+          if (more &&
+              ![
+                AppRoutes.agenda,
+                AppRoutes.goals,
+                AppRoutes.tasks,
+              ].contains(GoRouterState.of(context).uri.path))
             TextButton(
               onPressed: () => context.push(AppRoutes.areas),
               child: const Text('Mais'),

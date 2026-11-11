@@ -2,7 +2,7 @@ name: Flutter validation
 
 on:
   push:
-    branches: [main, prep/tudo-aki-2-fase-1, refactor/fase-2a-modulos-antigos, refactor/fase-2b-tarefas, refactor/fase-2c-navegacao, feat/fase-3b-criacao-rapida, feat/fase-3c-novo-hoje, feat/fase-3d-novo-planear]
+    branches: [main, prep/tudo-aki-2-fase-1, refactor/fase-2a-modulos-antigos, refactor/fase-2b-tarefas, refactor/fase-2c-navegacao, feat/fase-3b-criacao-rapida, feat/fase-3c-novo-hoje, feat/fase-3d-novo-planear, feat/fase-3e-navegacao-2]
   pull_request:
   workflow_dispatch:
 

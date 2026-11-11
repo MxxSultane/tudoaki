@@ -1,3 +1,4 @@
+import 'support/navigation_access.dart';
 import 'dart:math' as math;
 import 'dart:io';
 import 'package:drift/native.dart';
@@ -55,8 +56,11 @@ void main() {
         directory.deleteSync(recursive: true);
       });
       await start(tester, repo);
-      expect(find.byType(NavigationDestination), findsNWidgets(3));
-      expect(find.text('Hoje'), findsOneWidget);
+      expect(find.byType(NavigationDestination), findsNWidgets(4));
+      expect(
+        find.widgetWithText(NavigationDestination, 'Hoje'),
+        findsOneWidget,
+      );
       expect(find.text('Reunião de equipa'), findsNothing);
       await create(tester, 'Meta');
       await tester.enterText(
@@ -89,7 +93,7 @@ void main() {
       );
       expect((await repo.all('Tasks')).single['due'], isNotNull);
       await tap(tester, find.byTooltip('Voltar'));
-      await tap(tester, find.widgetWithText(NavigationDestination, 'Tarefas'));
+      await openGlobalTasks(tester);
       final row = find.ancestor(
         of: find.text('Ler um capítulo'),
         matching: find.byType(ListTile),
@@ -119,7 +123,7 @@ void main() {
       expect((await repo.all('Goals')).single['current'], 3);
       await tap(tester, find.byTooltip('Voltar'));
 
-      await tap(tester, find.widgetWithText(NavigationDestination, 'Agenda'));
+      await tap(tester, find.widgetWithText(NavigationDestination, 'Hoje'));
       await create(tester, 'Evento');
       await tester.enterText(
         find.widgetWithText(TextFormField, 'Título'),
@@ -148,7 +152,7 @@ void main() {
       expect(find.text('Encontro semanal'), findsOneWidget);
       await tap(tester, find.widgetWithText(NavigationDestination, 'Metas'));
       expect(find.text('Ler doze livros'), findsOneWidget);
-      await tap(tester, find.widgetWithText(NavigationDestination, 'Tarefas'));
+      await openGlobalTasks(tester);
       await tap(tester, find.text('Concluídas'));
       expect(find.text('Capítulo lido'), findsOneWidget);
       expect((await repo.all('Goals')).single['current'], 3);
@@ -165,7 +169,7 @@ void main() {
   );
 
   testWidgets(
-    'all personal areas are reachable through More and return to three tabs',
+    'all personal areas are reachable through More and return to four tabs',
     (tester) async {
       final db = TudoAkiDatabase.memory();
       addTearDown(db.close);
@@ -189,9 +193,12 @@ void main() {
         expect(tester.takeException(), isNull);
         await tap(tester, find.byTooltip('Voltar'));
       }
-      await tap(tester, find.byTooltip('Voltar'));
-      expect(find.byType(NavigationDestination), findsNWidgets(3));
-      expect(find.text('Hoje'), findsOneWidget);
+      await tap(tester, find.widgetWithText(NavigationDestination, 'Hoje'));
+      expect(find.byType(NavigationDestination), findsNWidgets(4));
+      expect(
+        find.widgetWithText(NavigationDestination, 'Hoje'),
+        findsOneWidget,
+      );
     },
   );
 
@@ -229,7 +236,14 @@ void main() {
           Navigator.of(tester.element(find.byType(TextFormField).first)).pop();
           await tester.pumpAndSettle();
           for (final tab in ['Metas', 'Tarefas']) {
-            await tap(tester, find.widgetWithText(NavigationDestination, tab));
+            if (tab == 'Tarefas') {
+              await openGlobalTasks(tester);
+            } else {
+              await tap(
+                tester,
+                find.widgetWithText(NavigationDestination, tab),
+              );
+            }
             expect(tester.takeException(), isNull);
           }
           await tester.pumpWidget(const SizedBox.shrink());

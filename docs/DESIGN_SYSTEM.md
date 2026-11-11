@@ -1,5 +1,9 @@
 # tudoAki — sistema visual actual
 
+## Fase 3E — barra principal
+Hoje / Planear / Metas / Mais substituem a barra antiga descrita historicamente abaixo. Sage/Graphite reutiliza o tema 3C; ícones e rótulos sempre visíveis, selecção com ícone/cor/peso e semântica nativa. Áreas de toque e SafeArea mantidas. Barra bloqueada e FAB oculto durante folhas dos ramos. Sem redesenho dos conteúdos de Hoje/Planear/Metas. [Relatório e capturas](PHASE3E_REPORT.md).
+
+
 ## Identidade 2.0 — Hoje/Agenda (3C) e Planear (3D)
 | Token de referência | Cor |
 | --- | --- |

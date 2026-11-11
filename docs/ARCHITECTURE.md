@@ -1,5 +1,9 @@
 # Arquitectura — Tudo Aki
 
+## Fase 3E — navegação activada
+StatefulShellRoute.indexedStack mantém Hoje /, Planear /plan, Metas /goals e Mais /areas. /tasks integra o ramo Mais; restantes áreas e /weekly-planner continuam secundárias. Cubits partilhados acima do router; PlanningRequest aplica intenções efémeras sem recriar o planeador. ModalNavigationGuard impede mudanças de separador durante formulários. /calendar reutiliza AgendaBrowser; /agenda permanece não registada. [Mapa e validação](PHASE3E_REPORT.md).
+
+
 ## Fase 3D — Planear em /weekly-planner
 PlanningScreen integra Hoje/Amanhã/Semana/Sem data na rota existente. Semana continua a ser a entrada normal, reutilizando WeeklyPlannerCubit/WeeklyPlannerScreen e a regra de domingo. Hoje oferece também Planear amanhã, com PlanningView.tomorrow em extra interno tipado; /plan continua sem builder e a barra principal mantém três destinos.
 
