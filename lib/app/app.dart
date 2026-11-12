@@ -319,12 +319,25 @@ class TudoAkiShell extends StatelessWidget {
                     visible: !blocked,
                     child: FloatingActionButton(
                       tooltip: 'Criar',
-                      onPressed: () => showWorkspaceCreateSheet(
-                        context,
-                        date: path == AppRoutes.agenda
-                            ? context.read<AgendaCubit>().state.day
-                            : null,
-                      ),
+                      onPressed: () async {
+                        if (path == AppRoutes.goals) {
+                          final saved = await showEditor(
+                            context,
+                            'Meta',
+                            compact: true,
+                          );
+                          if (saved != null && context.mounted) {
+                            context.read<GoalsCubit>().completed(false);
+                          }
+                          return;
+                        }
+                        await showWorkspaceCreateSheet(
+                          context,
+                          date: path == AppRoutes.agenda
+                              ? context.read<AgendaCubit>().state.day
+                              : null,
+                        );
+                      },
                       child: const Icon(Icons.add),
                     ),
                   ),

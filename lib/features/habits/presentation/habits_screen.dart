@@ -20,6 +20,15 @@ class HabitsScreen extends StatelessWidget {
       ),
       if (data['Habits']!.isEmpty)
         legacyEmpty(context, 'Comece com uma rotina pequena.', 'Hábito'),
+      if (data['Habits']!.isNotEmpty)
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: () => showEditor(context, 'Hábito'),
+            icon: const Icon(Icons.add),
+            label: const Text('Criar hábito'),
+          ),
+        ),
       ...buildHabitCards(context, data, ref.read(repositoryProvider), act),
     ],
   );

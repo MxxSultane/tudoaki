@@ -43,9 +43,11 @@ const _scenarios = [
   'plan-week',
   'plan-undated',
   'goals',
+  'goals-create',
   'more',
   'tasks',
   'quick',
+  'quick-empty',
   'editor',
   'habits',
   'academics',
@@ -185,12 +187,14 @@ void main() {
             initialDate: now,
           );
           await tester.pumpAndSettle();
-          await tester.enterText(
-            find.widgetWithText(TextFormField, 'Título'),
-            scaled
-                ? 'Preparar uma apresentação com um título extenso'
-                : 'Uma pequena acção',
-          );
+          if (scenario != 'quick-empty') {
+            await tester.enterText(
+              find.widgetWithText(TextFormField, 'Título'),
+              scaled
+                  ? 'Preparar uma apresentação com um título extenso'
+                  : 'Uma pequena acção',
+            );
+          }
           if (scaled) {
             tester.view.viewInsets = const FakeViewPadding(bottom: 280);
           }
@@ -210,6 +214,7 @@ void main() {
         } else {
           final route = {
             'goals': '/goals',
+            'goals-create': '/goals',
             'more': '/areas',
             'more-200': '/areas',
             'tasks': '/tasks',
@@ -224,6 +229,16 @@ void main() {
           if (route != null) {
             router.go(route);
             await tester.pumpAndSettle();
+            if (scenario == 'goals-create') {
+              if (const bool.fromEnvironment('QUALITY_GOAL_SELECTOR')) {
+                showWorkspaceCreateSheet(
+                  tester.element(find.byType(TudoAkiShell)),
+                );
+              } else {
+                await tester.tap(find.byType(FloatingActionButton));
+              }
+              await tester.pumpAndSettle();
+            }
           }
         }
         if (const bool.fromEnvironment('QUALITY_SCROLL_HABITS') &&

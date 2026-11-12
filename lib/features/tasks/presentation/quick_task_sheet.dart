@@ -444,24 +444,25 @@ class _QuickTaskSheetState extends ConsumerState<QuickTaskSheet> {
                             : () => _save(),
                         child: Text(_busy ? 'A guardar…' : 'Guardar'),
                       ),
-                      TextButton(
-                        onPressed: _busy || _title.text.trim().isEmpty
-                            ? null
-                            : () => _save(another: true),
-                        style: TextButton.styleFrom(
-                          minimumSize: const Size(48, 48),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
+                      if (_title.text.trim().isNotEmpty || _advanced)
+                        TextButton(
+                          onPressed: _busy || _title.text.trim().isEmpty
+                              ? null
+                              : () => _save(another: true),
+                          style: TextButton.styleFrom(
+                            minimumSize: const Size(48, 48),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
+                          child: const Text(
+                            'Guardar e adicionar outra',
+                            maxLines: 3,
+                            softWrap: true,
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        child: const Text(
-                          'Guardar e adicionar outra',
-                          maxLines: 3,
-                          softWrap: true,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
                     ];
                     return Padding(
                       padding: const EdgeInsets.only(top: 8),
@@ -469,8 +470,10 @@ class _QuickTaskSheetState extends ConsumerState<QuickTaskSheet> {
                           ? Row(
                               children: [
                                 Expanded(child: actions[0]),
-                                const SizedBox(width: 8),
-                                Expanded(child: actions[1]),
+                                if (actions.length > 1) ...[
+                                  const SizedBox(width: 8),
+                                  Expanded(child: actions[1]),
+                                ],
                               ],
                             )
                           : Column(
