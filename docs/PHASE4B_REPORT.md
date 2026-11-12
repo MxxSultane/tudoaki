@@ -83,7 +83,18 @@ Comandos: `source tool/env.sh`; `export XDG_CONFIG_HOME=/workspace/.tools/config
 
 Capturas: `flutter test --no-pub tool/capture_quality.dart --dart-define=QUALITY_OUTPUT=docs/ux/previews/phase4b/after --name 'quick-empty|quick-light|quick-dark|quick-keyboard-200|habits-light|habits-dark|goals-light|academics-light|finance-light|progress-light|goals-create'`. O selector anterior usa `--dart-define=QUALITY_GOAL_SELECTOR=true --name goals-create` e saída before; as restantes imagens before foram geradas com a base original correspondente. Não sobrescrever capturas históricas.
 
-APK local ainda em compilação no momento do commit de implementação. Actions será observado depois do push; os resultados serão consolidados neste relatório num commit documental. Não se declara CI verde antecipadamente.
+O primeiro build local falhou após 381,8 s: «Gradle build daemon disappeared unexpectedly». O cgroup de 8 GiB registou oom=1/oom_kill=1 e o daemon usava o limite -Xmx8G do projecto. Repetição com limite de 3 GiB/1 GiB de metaspace, dois workers e compilador Kotlin no processo, apenas no GRADLE_USER_HOME local; android/gradle.properties preservado. Repetição local **aprovada**, código 0, 103,3 s; APK não vazio em build/app/outputs/flutter-apk/app-debug.apk. Não houve novo oom_kill. Sem distribuição do APK. O manifesto do APK foi inspeccionado com aapt: `mz.lifeos.lifeos`, versão 0.9.2+12, preservados. APK SHA-256 local: `605ffe49236436aea350bb2381acb31fb0ea6acd1de187649f4a1d7bb3258439`.
+
+### GitHub Actions
+
+Implementação publicada no commit `038c0ce285c94e59dfa7178e88671d4507c1b54f`, no branch autorizado, sem merge. `gh auth status` falhou neste ambiente; o push Git funcionou e a API foi consultada pelo conector GitHub, com os resultados observados directamente. Não foi preciso alterar credenciais nem workflows para contornar falhas.
+
+| Workflow | Execução | Resultado |
+| --- | --- | --- |
+| Flutter validation | [43290473342](https://github.com/MxxSultane/tudoaki/actions/runs/43290473342) | COMPLETED / SUCCESS |
+| Android debug validation | [43290473515](https://github.com/MxxSultane/tudoaki/actions/runs/43290473515) | COMPLETED / SUCCESS; compilação e preservação aprovadas |
+
+A contagem 254 é local, obtida do JSON machine e do processador, não inferida da CI. O commit documental de entrega apenas consolida estes resultados, preservando o código, testes, capturas e workflows validados. Não se pediu disponibilização de APK nem se alterou o critério de upload anterior.
 
 ## Preservação, riscos e limitações
 
