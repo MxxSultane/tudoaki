@@ -1,0 +1,24 @@
+{
+  "contexts": 23,
+  "combinations": 12,
+  "contextChecks": 276,
+  "png": 48,
+  "overflows": 0,
+  "undersizedTargets": 0,
+  "pageErrors": 0,
+  "focus": {
+    "width": "2px",
+    "style": "solid"
+  },
+  "categoryC": 3,
+  "simulation": "OK",
+  "scope": "conceptual HTML prototype only; not Flutter",
+  "source_base": "79470b80b683dcd2fa60cf2bf16531f884c87e8a",
+  "spec_base": "71dc8f4f2b9ceffce34b79f28641585d947fe567",
+  "app_tests_run": false,
+  "native_validation_pending": true,
+  "local_markdown_links_checked": 130,
+  "png_headers_checked": 48,
+  "html_ids_unique": true,
+  "html_links_fonts_checked": true
+}

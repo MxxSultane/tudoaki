@@ -1,5 +1,9 @@
 # Critérios de aceitação, limites e ordem recomendada
 
+## Gate da adenda global
+
+Antes de autorizar código, rever [GLOBAL_PROTOTYPES.md](GLOBAL_PROTOTYPES.md), a classificação [A/B/C por ecrã](GLOBAL_IDENTITY.md) e a [matriz de foco/toque](GLOBAL_COMPONENTS.md). Exigir cobertura visual clara/escura de Hoje, Planear, Tarefas, Agenda, Hábitos, Mais, áreas secundárias, formulários, diálogos e estados. Nenhuma mudança C pode ser aplicada aos fluxos aprovados por arrastamento. A verificação específica da adenda fica em GLOBAL_PROTOTYPES; as contagens da primeira entrega abaixo mantêm o seu alcance histórico.
+
 ## Revisão da especificação 4C.1
 
 | Critério | Evidência documental | Estado nesta entrega |
@@ -42,8 +46,8 @@ A especificação pode ser revista como pacote de design. A recomendação para 
 
 1. **Revisão de design e compreensão**: avaliar os seis contextos com pessoas novas, incluindo baixa visão/leitor de ecrã; confirmar terminologia e descoberta de capacidades. Resolver escolhas de metas/prazo e discriminar preferências de requisitos.
 2. **Contrato técnico de metas em separado**: definir discriminador aditivo, envelope, operações de conclusão/reabertura, histórico, migração e exportação/restauro; aprovar antes de título-only durável. Sem conversão automática de legado.
-3. **Fundamentos visuais/acessibilidade**: tokens, foco, alvos e estados em componentes isolados, com testes de contraste/widget e validação nativa; sem aplicar globalmente à Agenda/Tarefas.
-4. **Piloto restrito de superfície plana**: um ecrã secundário e regressão de retorno/semântica, seguido de criação de tarefa com preservação integral 4B. Corrigir defeitos medidos antes de expandir efeitos.
+3. **Fundamentos visuais/acessibilidade**: tokens, foco, alvos e estados em componentes isolados, com testes de contraste/widget e validação nativa; preparar a adopção A nos fluxos aprovados sem mudar a sua estrutura por arrastamento.
+4. **Adopção A global, em incrementos**: pilotar uma superfície plana e expandir os mesmos componentes a Hoje, Planear, Tarefas, Agenda, Hábitos, Mais, Revisões, Definições, navegação e modais, com regressão de cada fluxo. Preservar integralmente 4B; não iniciar B/C em simultâneo para ocultar regressões. Corrigir defeitos medidos antes de expandir efeitos.
 5. **Metas e formulário novo**: só após o contrato técnico; três modos, legado, hierarquia e histórico. Validar com dados sintéticos e testes de reabertura.
 6. **Estudos**: reorganizar entregas/disciplinas e retoma; preservar todos os editores e rotinas.
 7. **Finanças**: tratamento próprio com igualdade de totais e acesso às funções, superfície plana. Não aproveitar a mudança para alterar cálculos.

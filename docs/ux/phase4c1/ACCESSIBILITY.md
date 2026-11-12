@@ -1,5 +1,9 @@
 # Foco, toque, semântica e adaptação
 
+## Cobertura em toda a aplicação
+
+O inventário abaixo aplica-se a todas as rotas, não só aos módulos em redesenho. [GLOBAL_COMPONENTS.md](GLOBAL_COMPONENTS.md) explicita ordem de foco e alvos de Agenda, Planear, Hoje, Tarefas, Hábitos, barra inferior, todos os editores e diálogos. [GLOBAL_CONTRAST.md](GLOBAL_CONTRAST.md) liga estes componentes à matriz calculada.
+
 ## Referência e unidades
 
 WCAG 2.2 AA: 1.4.3 texto 4,5:1 / grande 3:1, 1.4.11 gráficos/controlos relevantes 3:1, 1.4.4 ampliação, 1.4.10 reflow, 2.1.1 teclado, 2.4.3 ordem, 2.4.7 foco visível, 2.4.11 foco não totalmente encoberto (mínimo), 2.5.8 tamanho de alvo, 4.1.2 nome/função/valor e 4.1.3 mensagens de estado. Referência reforçada: 2.4.13 (AAA), não exigência AA. Consultar [WCAG 2.2](https://www.w3.org/TR/WCAG22/). Para uma app nativa, usar também a orientação [WCAG2ICT](https://www.w3.org/TR/wcag2ict-22/); não chamar a uma simples conversão de dp uma certificação Web.

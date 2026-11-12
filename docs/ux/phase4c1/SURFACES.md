@@ -1,5 +1,9 @@
 # Claymorphism subtil e glassmorphism controlado
 
+## Aplicação global
+
+A [matriz de superfícies por ecrã](GLOBAL_IDENTITY.md) preserva Hoje/Planear/Tarefas/Agenda planos, Hábitos clay no contentor existente e navegação/formulários/diálogos sempre planos. Glass fica restrito à experiência especial de Progresso. A identidade é partilhada mesmo onde não há relevo ou transparência.
+
 ## Escolha de superfície
 
 | Uso | Superfície | Limite |

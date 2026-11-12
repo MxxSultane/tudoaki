@@ -15,6 +15,10 @@ Validação do próprio HEAD 79470b8 observada pela API GitHub nesta fase:
 
 Os **254 testes** são o resultado local registado na 4B; não se declara uma nova execução Flutter nesta fase documental. As correcções da base são invariantes. Não se modificam lib/, android/, testes existentes, rotas, modelos, SQLite, dependências, serviços, dados ou XP.
 
+## Adenda — identidade global
+
+A identidade abrange **toda a aplicação**, com propostas A (visual), B (simplificação) e C (redesenho profundo) por contexto. Começar por [GLOBAL_IDENTITY.md](GLOBAL_IDENTITY.md), [GLOBAL_PROTOTYPES.md](GLOBAL_PROTOTYPES.md), [prancha global](global.html), [componentes/foco/toque](GLOBAL_COMPONENTS.md) e [contraste global](GLOBAL_CONTRAST.md). Hoje, Planear, Tarefas e Agenda conservam os fluxos aprovados; Estudos, Finanças e Progresso são os candidatos a C. A aprovação de design não autoriza alterações de código.
+
 ## Entrega e percurso de leitura
 
 | Pedido | Documento |

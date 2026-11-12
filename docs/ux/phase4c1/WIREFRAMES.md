@@ -1,5 +1,9 @@
 # Wireframes — propostas conceptuais
 
+## Adenda: avaliar a aplicação inteira
+
+Os seis contextos desta primeira entrega permanecem como referência. Usar agora [GLOBAL_PROTOTYPES.md](GLOBAL_PROTOTYPES.md) e [global.html](global.html) para avaliação conjunta, incluindo os fluxos aprovados, áreas secundárias, navegação, formulários e estados. Os resultados de verificação abaixo descrevem a primeira entrega; a validação da adenda tem registo próprio.
+
 **Não são capturas Flutter. Nenhum ecrã foi implementado na app.** Dados fictícios, sem gravação, XP ou navegação de produção. A prancha HTML serve para rever hierarquia, estados expandidos e pares de cor; os SVGs permitem revisão directa no repositório.
 
 [Abrir prancha HTML](wireframes.html) (descarregar/abrir localmente ou servir a raiz do repositório). Seleccionar Claro/Escuro, largura 320/360/390 CSS px e texto 100/200%. Os controlos de revisão não fazem parte da interface proposta da app. Os seis contextos aparecem lado a lado quando houver espaço; dentro de cada um a estrutura é de uma coluna.

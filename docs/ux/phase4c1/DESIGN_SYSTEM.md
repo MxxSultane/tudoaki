@@ -1,5 +1,9 @@
 # Design System 2.0 — proposta normativa
 
+## Âmbito global da identidade
+
+Esta especificação abrange toda a aplicação. A [adenda global](GLOBAL_IDENTITY.md) define A/B/C por ecrã, incluindo os fluxos aprovados; os [componentes globais](GLOBAL_COMPONENTS.md) aplicam a mesma identidade a navegação, calendários, formulários e diálogos. O [conjunto global de protótipos](GLOBAL_PROTOTYPES.md) é a referência de avaliação conjunta. Não se limita aos quatro módulos inicialmente auditados.
+
 Esta especificação acrescenta uma direcção futura ao [sistema actual](../../DESIGN_SYSTEM.md), sem o substituir em produção. A matriz e tokens JSON são a fonte das cores propostas; o código Flutter actual continua a ser a fonte do comportamento existente.
 
 ## Princípios e tokens

@@ -1,5 +1,9 @@
 # Auditoria UX actual — complemento da Fase 4B
 
+## Inspecção global complementar
+
+A auditoria inicial abaixo é complementada pela matriz de [GLOBAL_IDENTITY.md](GLOBAL_IDENTITY.md), com Hoje, Planear, Tarefas, Agenda, Hábitos, Mais, Revisões, Definições, navegação e estados partilhados. Essa matriz regista observação, categoria de intervenção e invariantes sem repetir a investigação 4B.
+
 Base 79470b8. Reutiliza-se a investigação de [PHASE4B_REPORT.md](../../PHASE4B_REPORT.md), sem repetir reprodução de defeitos já corrigidos. Revistas as seis capturas indicadas abaixo e os componentes activos. As restantes variantes de 3F/4B são referências existentes; não se afirma que tenham sido todas novamente inspeccionadas nesta fase.
 
 | Contexto / fonte real | Principal e secundário | Redundância / hierarquia actual | Acção e complexidade | Proposta / componente | Acessibilidade e dependências / risco |

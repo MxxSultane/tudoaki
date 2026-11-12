@@ -1,5 +1,9 @@
 # Matriz de compatibilidade e rastreabilidade
 
+## Compatibilidade global
+
+A [matriz global A/B/C](GLOBAL_IDENTITY.md) acrescenta cobertura por ecrã. Actualização A em Hoje/Planear/Tarefas/Agenda não autoriza alterar fluxo, filtros, datas, ordenação ou serviços. [GLOBAL_COMPONENTS.md](GLOBAL_COMPONENTS.md) cobre os contratos dos modais e componentes partilhados. A adenda continua apenas documental.
+
 Nenhuma linha desta tabela foi implementada nesta fase. «Visual futuro» significa necessidade de autorização e validação, não liberdade para alterar regras.
 
 | Proposta | Fonte actual / dados | Preservar | Impacto / bloqueio | Aceitação futura |
