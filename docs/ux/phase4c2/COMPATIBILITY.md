@@ -1,0 +1,26 @@
+# Compatibilidade — decisão de design e gate de dados
+
+Nenhuma proposta desta matriz foi implementada. A preservação Git é necessária, mas não equivale a restauro dos dados de um telefone. A base de código continua 79470b8; a revisão documental parte de ae0de84.
+
+| Contexto | Proposta / categoria | Capacidades e dados preservados | Limite / gate | Regresso esperado |
+| --- | --- | --- | --- | --- |
+| Tema e componentes globais | A — mesma identidade em todas as rotas | Preferência sistema/claro/escuro, fontes, Android ID, rotas e estado dos ramos | Adaptar tema existente, sem nova biblioteca ou migração de estado | Mesmo contexto, filtros e dados ao mudar tema/voltar |
+| Hoje/Planear/Agenda/Tarefas | A — aspecto e acessibilidade | Ordem aprovada, calendário, fontes académicas, filtros/ordenação, dias/horas, menus e criação | Não activar B/C por arrastamento; Tasks.due mantém os três formatos e significado histórico | Mesmo ID, due, created, associações, lembretes e estado de conclusão |
+| Criação rápida de tarefa | A — sem reconstrução | Guardar/Guardar outra, IME, bloqueio duplo envio/fecho, confirmação de rascunho, contexto herdado, avisos de lembrete | TaskOperations e seus resultados permanecem fonte única; não criar store/serviço alternativo | Origem e confirmação inline 3B/4A/4B preservadas |
+| Hábitos e acessos em Mais | A — componentes globais | Criar vários hábitos em vazio/preenchido, edição, pausa, dias/associações e XP diário único; nove entradas de Mais | Não retirar acesso de criação ou transformar rotina em streak obrigatório | Criado visível e persistido; regresso não perde estado |
+| Metas numéricas antigas | A/B de apresentação | ID, created, horizonte, categoria, descrição, parent_id, due exacto, initial/current/target/unit/status, GoalProgress, etapas e relações | Não inferir tipo por unit/target; não esconder um valor real sob um novo visual binário | Abrir/cancelar não escreve; editar só campos confirmados |
+| Novas metas binárias | B, visualizada como proposta | Nome, prazo opcional e confirmação explícita de alcançar/reabrir, sem % | v5 não tem discriminador; operação, histórico e armazenamento precisam de contrato técnico autorizado | Não reutilizar 0/1 do legado para adivinhar o tipo |
+| Novas metas por etapas | B, visualizada como proposta | GoalMilestones real; contagem de etapas; tarefas/submetas continuam independentes | Concluir última etapa oferece confirmação da meta, não muda automaticamente Goals.current/status/XP | Reabrir/eliminar etapa informa eventual divergência, sem perda de reconhecimento |
+| Prazo de meta em dias | B — input progressivo | NULL sem prazo, data absoluta e precisão antiga se não tocada | Inteiro positivo, 1=amanhã, limite 3650/2100 e viragem de dia são propostas a aprovar; não criar lembrete implícito | Editar nome não reinicia contagem de dias |
+| Estudos | C — entregas/disciplinas/sessão relevante | Subjects, Assessments, StudySessions, tarefas ligadas e horários; editores por origem; foco e limites de XP | Não chamar deadline ao dia de tarefa; não duplicar ocorrências na Agenda | Retoma não conclui nem atribui XP automaticamente |
+| Finanças | C — resumo/registo/movimentos | Precisão em cêntimos/BigInt, moeda por registo, mês/categoria, poupança/orçamentos/recorrências e confirmação de vencimentos | Não somar moedas, converter câmbio, mudar fórmula, reclassificar contribution como expense ou esconder funções | Mesmos totais por período/moeda antes/depois; abrir não gera transacções |
+| Progresso | C — actividade/metas primeiro | Fontes reais e respectivas limitações, activityWeek, gamificação, quatro conquistas e XP existentes | Mapa é opcional e decorativo; não cria título/evento histórico nem um indicador de produtividade novo | Mesma lista/resultado com animações/transparência desligadas |
+| Revisões/Definições/diálogos | A — estilo consistente | Campos de revisão, tema/moeda/gamificação, exportação/apagar, avisos e consequências | Não aplicar confirmação de rascunho universal ao Editor legado nem prometer restauro/encriptação | Cancelar mantém dados; modal superior tem prioridade no Voltar |
+
+## Decisão técnica específica de Metas
+
+A revisão **não aprova automaticamente** adicionar tracking_mode. A solução recomendada para estudo técnico é um discriminador explícito/aditivo, nullable para legado numérico, preservando todos os campos. Não usar convenção secreta em unit, target, nome ou percentagem para identificar o modo. Uma criação binária pode ter um envelope interno 0/1 compatível com restrições numéricas, mas só com modo explícito e operações/histórico definidos; isso não autoriza fabricar eventos GoalProgress ou converter dados existentes.
+
+Se a autorização de 4C.3 continuar limitada a visual e SQLite v5 intacto, implementar apenas A e a apresentação das metas numéricas existentes. **Não activar Criar apenas com nome/binário/etapas enquanto o armazenamento durável não tiver contrato aprovado.** Os protótipos exibem a experiência futura solicitada, com esse bloqueio assinalado fora do ecrã.
+
+Antes de qualquer migração futura: fixtures v5 sintéticas, preservação de IDs/FKs/triggers, reabertura, exportação/round-trip compatível e política de recuperação. O plano de restauro histórico continua proposta, não uma funcionalidade disponível. Não abrir nem migrar dados reais nesta revisão.

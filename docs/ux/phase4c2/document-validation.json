@@ -1,0 +1,298 @@
+{
+  "status": "passed",
+  "markdownFiles": 10,
+  "localLinksChecked": 122,
+  "sourceArtifactsUnchanged": 83,
+  "jsonSyntax": "passed",
+  "pythonSyntax": "passed",
+  "javascriptSyntax": "passed",
+  "htmlIdsUnique": true,
+  "localFontPaths": "passed",
+  "protectedPathsUnchanged": true,
+  "base": "ae0de841fe4a0be487ec2a246000770790df2689",
+  "png": [
+    {
+      "file": "agenda-dark.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "agenda-light.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "estudos-empty-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "estudos-empty-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "estudos-filled-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "estudos-filled-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "estudos-focus-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "estudos-focus-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "financas-empty-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "financas-empty-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "financas-filled-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "financas-filled-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "hoje-empty-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "hoje-empty-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "hoje-filled-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "hoje-filled-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "meta-binary-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "meta-binary-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "meta-form-dark.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "meta-form-light.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "meta-numeric-200-keyboard-dark.png",
+      "width": 640,
+      "height": 1778
+    },
+    {
+      "file": "meta-numeric-200-keyboard-light.png",
+      "width": 640,
+      "height": 1778
+    },
+    {
+      "file": "meta-numeric-dark.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "meta-numeric-light.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "meta-steps-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "meta-steps-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "metas-empty-dark.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "metas-empty-light.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "metas-filled-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "metas-filled-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "overview-dark.png",
+      "width": 1952,
+      "height": 1807
+    },
+    {
+      "file": "overview-light.png",
+      "width": 1952,
+      "height": 1807
+    },
+    {
+      "file": "planear-empty-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "planear-empty-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "planear-filled-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "planear-filled-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "planear-semana-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "planear-semana-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "progresso-empty-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "progresso-empty-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "progresso-filled-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "progresso-filled-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "progresso-map-dark.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "progresso-map-light.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "states-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "states-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "tarefas-dark.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "tarefas-light.png",
+      "width": 720,
+      "height": 1778
+    },
+    {
+      "file": "task-advanced-200-keyboard-dark.png",
+      "width": 640,
+      "height": 1776
+    },
+    {
+      "file": "task-advanced-200-keyboard-light.png",
+      "width": 640,
+      "height": 1776
+    },
+    {
+      "file": "task-advanced-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "task-advanced-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "task-empty-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "task-empty-light.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "task-filled-dark.png",
+      "width": 720,
+      "height": 1776
+    },
+    {
+      "file": "task-filled-light.png",
+      "width": 720,
+      "height": 1776
+    }
+  ],
+  "appTestsRun": false,
+  "participants": 0,
+  "nativeValidationPending": true
+}

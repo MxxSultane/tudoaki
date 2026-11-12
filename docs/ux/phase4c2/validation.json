@@ -1,0 +1,58 @@
+{
+  "scope": "conceptual browser prototype; not Flutter; no participant research",
+  "cases": 25,
+  "combinations": 12,
+  "viewportChecks": 300,
+  "png": 56,
+  "caseSelector": true,
+  "layoutViolations": [],
+  "pageErrors": [],
+  "focusChecks": [
+    {
+      "theme": "light",
+      "scale": "1",
+      "width": "2px",
+      "style": "solid",
+      "within": true
+    },
+    {
+      "theme": "light",
+      "scale": "2",
+      "width": "2px",
+      "style": "solid",
+      "within": true
+    },
+    {
+      "theme": "dark",
+      "scale": "1",
+      "width": "2px",
+      "style": "solid",
+      "within": true
+    },
+    {
+      "theme": "dark",
+      "scale": "2",
+      "width": "2px",
+      "style": "solid",
+      "within": true
+    }
+  ],
+  "visibleFormFocusTargets": 13,
+  "solidFallback": {
+    "bg": "rgb(32, 43, 41)",
+    "blur": "none"
+  },
+  "reducedMotion": {
+    "animation": "0s",
+    "transition": "0s"
+  },
+  "chromiumAccessibleNames": true,
+  "baseline4c1": {
+    "todayDocumentHeight": 1255.1875,
+    "financeSelects": 0,
+    "goalInputs": 5
+  },
+  "appTestsRun": false,
+  "participants": 0,
+  "nativeValidationPending": true
+}

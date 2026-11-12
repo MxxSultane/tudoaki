@@ -1,0 +1,500 @@
+[
+  {
+    "path": "docs/ux/phase4c1/ACCEPTANCE.md",
+    "kind": "text",
+    "bytes": 8000,
+    "sha256": "225d601f246c4cdcf2b5fa8411906ffcbdd8b5b2a0903e2daa06de56da5107e1"
+  },
+  {
+    "path": "docs/ux/phase4c1/ACCESSIBILITY.md",
+    "kind": "text",
+    "bytes": 8222,
+    "sha256": "d7c7bac5cb19b241cffdb8235fd9ad6416f26231b0501a0876aee5f032610e16"
+  },
+  {
+    "path": "docs/ux/phase4c1/AUDIT.md",
+    "kind": "text",
+    "bytes": 5974,
+    "sha256": "9eb14fd9fa6457be74d703fe8da8b24a32c68d138dacc50328e9d32509bdb893"
+  },
+  {
+    "path": "docs/ux/phase4c1/COMPATIBILITY.md",
+    "kind": "text",
+    "bytes": 5856,
+    "sha256": "76a369d8e81aee166df782718c5a93725b1469a072b19b290929d43ea61b163d"
+  },
+  {
+    "path": "docs/ux/phase4c1/CONTRAST_MATRIX.md",
+    "kind": "text",
+    "bytes": 11188,
+    "sha256": "50616c74a56b79957dd5796e93581eb0590bc1b830ea49033fbb2ad90eb705e0"
+  },
+  {
+    "path": "docs/ux/phase4c1/DESIGN_SYSTEM.md",
+    "kind": "text",
+    "bytes": 9226,
+    "sha256": "5423ab00c85bff908e8365f6c4a849e146f0dc8e605ca693f9c3190cbb86144b"
+  },
+  {
+    "path": "docs/ux/phase4c1/FORMS.md",
+    "kind": "text",
+    "bytes": 5327,
+    "sha256": "22d47e5f90ea2f636589bd7e28a4933c3dd9e1254764a83d56e65effc5a2f6dd"
+  },
+  {
+    "path": "docs/ux/phase4c1/GLOBAL_COMPONENTS.md",
+    "kind": "text",
+    "bytes": 8656,
+    "sha256": "13ed249998be3400a517ca2503c81066c0afdc680e165aa3007005ab8bab110e"
+  },
+  {
+    "path": "docs/ux/phase4c1/GLOBAL_CONTRAST.md",
+    "kind": "text",
+    "bytes": 4697,
+    "sha256": "0884df2a5d0e0df85dfee6714952ccd2bd9d6c8bcd44b817e6200e009b16213a"
+  },
+  {
+    "path": "docs/ux/phase4c1/GLOBAL_IDENTITY.md",
+    "kind": "text",
+    "bytes": 14018,
+    "sha256": "dcae31e8b137dff6a241929cc520a44ca3059e01abb766cd60cdb513e31c451f"
+  },
+  {
+    "path": "docs/ux/phase4c1/GLOBAL_PROTOTYPES.md",
+    "kind": "text",
+    "bytes": 10000,
+    "sha256": "e2776f7df4d8144163f8cc7768c1604139b8027bf0b93e43ce24fd0eab2ac2a1"
+  },
+  {
+    "path": "docs/ux/phase4c1/GOALS.md",
+    "kind": "text",
+    "bytes": 6984,
+    "sha256": "4a9d51ddf8b4e395129ba8162f715d5928a13d8f02343411001a0b8ffe72be05"
+  },
+  {
+    "path": "docs/ux/phase4c1/MODULES.md",
+    "kind": "text",
+    "bytes": 6143,
+    "sha256": "4c6275f2f1fba083bb286a67c1df79b859e791eb8db472787078a16426226836"
+  },
+  {
+    "path": "docs/ux/phase4c1/README.md",
+    "kind": "text",
+    "bytes": 4740,
+    "sha256": "00b3b958c032de880dc3b954de2bc89de5f9499fcad795be3f8bd119e68282a3"
+  },
+  {
+    "path": "docs/ux/phase4c1/SURFACES.md",
+    "kind": "text",
+    "bytes": 4022,
+    "sha256": "d8e52cced3c3947c1d8eb465f316be9209f1fcbc3039409288623af27cf62ce0"
+  },
+  {
+    "path": "docs/ux/phase4c1/WIREFRAMES.md",
+    "kind": "text",
+    "bytes": 5308,
+    "sha256": "53128308d41ff587deed10027caf68fed7b167d9cfe7eb4c2d551d93d6a293b4"
+  },
+  {
+    "path": "docs/ux/phase4c1/contrast-all-pairs.csv",
+    "kind": "text",
+    "bytes": 47435,
+    "sha256": "853bfa076926ba6191f52537d7f73f6e545dc3c174c088655245c2ae4fd7f3ca"
+  },
+  {
+    "path": "docs/ux/phase4c1/contrast-approved.json",
+    "kind": "text",
+    "bytes": 21579,
+    "sha256": "5d7cae30ad70148172e367aad7b3790f6e134d44fb036503d2746ca322d3dbdb"
+  },
+  {
+    "path": "docs/ux/phase4c1/contrast_calculator.py",
+    "kind": "text",
+    "bytes": 9211,
+    "sha256": "c84ffd666dd3d99a9ff0385e7181c7c9f1061bcfc8a6ab68bc17a2046e948ddf"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/agenda-dia-dark.png",
+    "kind": "image_metadata",
+    "bytes": 124101,
+    "sha256": "b4adfaacd83b64f95869db6d16f1b1e6d43f27fb04a75b5e8f5562675d1850e5"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/agenda-dia-light.png",
+    "kind": "image_metadata",
+    "bytes": 122392,
+    "sha256": "c09a012352c7037f9e93414c161995ee623d70be4023c5694c07d3ea55052f65"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/agenda-mes-dark.png",
+    "kind": "image_metadata",
+    "bytes": 125283,
+    "sha256": "2a56ecaa413bebab789dac0d2f679e311506627caa39d0fd3e3f840161efbb7c"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/agenda-mes-light.png",
+    "kind": "image_metadata",
+    "bytes": 123712,
+    "sha256": "a6782b61cf4e40d62af8e6c1a6d6f56509d357baad76ddd3821bcea00df8b0b0"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/criar-dark.png",
+    "kind": "image_metadata",
+    "bytes": 41824,
+    "sha256": "ad0350e52b5265a653b684483ee637606d06a659f06cc7fbe3b8d6661c0e479c"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/criar-light.png",
+    "kind": "image_metadata",
+    "bytes": 41270,
+    "sha256": "ae2a862942995dd712978bb2aa63e2038d7b136082133c8ca35cfdcea04984aa"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/definicoes-dark.png",
+    "kind": "image_metadata",
+    "bytes": 155411,
+    "sha256": "494105539c67c0347f9aae32cc6c1c689cfdb438baa2fe1142b45c7818e70ca5"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/definicoes-light.png",
+    "kind": "image_metadata",
+    "bytes": 153961,
+    "sha256": "15335a45dceab22e13acb76db308946ae1a83851335c31851830fa7c52d67786"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/dialogo-descartar-dark.png",
+    "kind": "image_metadata",
+    "bytes": 67592,
+    "sha256": "9dbce3838540c9c1ab0b8878d61837e8c8ba7889fd55707bd0ee1289bdec8814"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/dialogo-descartar-light.png",
+    "kind": "image_metadata",
+    "bytes": 66763,
+    "sha256": "bd41c8ac461f418b157981796c8fb5cf9134da9bc6ba4640281507254aab425a"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/dialogo-eliminar-dark.png",
+    "kind": "image_metadata",
+    "bytes": 87243,
+    "sha256": "14213a79483bb44639dfa33eda139fc5ed82d91e8c42ea7f7098a9dc18738905"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/dialogo-eliminar-light.png",
+    "kind": "image_metadata",
+    "bytes": 85530,
+    "sha256": "85fc72fc4c979df305dcd685dacd7b2ae262fe60422d33447c472042852d16a3"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/estados-dark.png",
+    "kind": "image_metadata",
+    "bytes": 124361,
+    "sha256": "8cb2a0d81b0aac56eb3c43562062afa669e75ae20e824956df1c554ddc184f5e"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/estados-light.png",
+    "kind": "image_metadata",
+    "bytes": 123588,
+    "sha256": "9a46c1b92ebb1cebbbee1ddbc7c0c6d3aeba59262fb3cd055ca714d67cdbc198"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/estudos-dark.png",
+    "kind": "image_metadata",
+    "bytes": 142230,
+    "sha256": "e22854164c416c166f39df891aea9f95b0b9ea45fe0b30414653b9f95a3fc50a"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/estudos-light.png",
+    "kind": "image_metadata",
+    "bytes": 139968,
+    "sha256": "5a0401b774f983e8b35e9a328598345fab11e2cc3433bb0429090df6ce8da0a8"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/evento-dark.png",
+    "kind": "image_metadata",
+    "bytes": 73149,
+    "sha256": "28dd3eb88ee010e1ac34efff14cd5317ecb6cd89b3699dfdb3baa01253ee4cb5"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/evento-light.png",
+    "kind": "image_metadata",
+    "bytes": 72625,
+    "sha256": "2321cfaf74dc276a257dfc257ba8dfe279a06914408e5eb6229fdca4ba67bb85"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/financas-dark.png",
+    "kind": "image_metadata",
+    "bytes": 148778,
+    "sha256": "9846090e8110d55260dbe8a9c48ab212f696a3af8741560f6d8c0927272ca324"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/financas-light.png",
+    "kind": "image_metadata",
+    "bytes": 145953,
+    "sha256": "3bb9edee1d334c4bfb55d773d4de020163e2b74dae88d65e05622c8c443a9d6c"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/habitos-dark.png",
+    "kind": "image_metadata",
+    "bytes": 89990,
+    "sha256": "f57a4e37de0b183ebf26810ca0b293229f70f3f600bb52c73aedcb4652ead058"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/habitos-light.png",
+    "kind": "image_metadata",
+    "bytes": 89560,
+    "sha256": "946a85142544b3a5566e5b2b2fe8667267ab18de0ef7ac46ea48088fc437c72e"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/hoje-dark.png",
+    "kind": "image_metadata",
+    "bytes": 155210,
+    "sha256": "646608191ea0f499ca133f0c1798185279f8e1aac0d67730bce6771d1df80079"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/hoje-light.png",
+    "kind": "image_metadata",
+    "bytes": 153944,
+    "sha256": "d2b6503ed8ac386c80040936ff17de1fc7017aa6a54e32030bdfb8e491403877"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/mais-dark.png",
+    "kind": "image_metadata",
+    "bytes": 129445,
+    "sha256": "8aed22fa98c95e2fec1cd1bd6097ef15553cca74af6f2e1c511cfc138bacbf45"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/mais-light.png",
+    "kind": "image_metadata",
+    "bytes": 126920,
+    "sha256": "3d18fe4205bbbf5b56092ba3ba3a6556bcd86866d9fa0a151b40b04df6ca3db7"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/meta-dark.png",
+    "kind": "image_metadata",
+    "bytes": 104008,
+    "sha256": "9e32bee88cfdf3c2b5d313cff080fda51d898395103cfb7ab56a331bbbccc457"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/meta-light.png",
+    "kind": "image_metadata",
+    "bytes": 102433,
+    "sha256": "df3be3e17522389f2ebedb8fe8cbb2d769d213952f43c2fa602a4eaf41f56205"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/metas-dark.png",
+    "kind": "image_metadata",
+    "bytes": 119274,
+    "sha256": "c2062d4d3d3b2bd1f8b71e5a0f046af6f006b0c8a8f44b5b43535814e981991a"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/metas-light.png",
+    "kind": "image_metadata",
+    "bytes": 117011,
+    "sha256": "71477f2fd375959e213187055389fb45f8e37ba36ad49d699caf0eb6677961d6"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/overview-dark.png",
+    "kind": "image_metadata",
+    "bytes": 364612,
+    "sha256": "16a3406896221682e2346260bc56f441748bbbfe23eb6536b1179e9fd7158341"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/overview-light.png",
+    "kind": "image_metadata",
+    "bytes": 361544,
+    "sha256": "1fd6ff09bd93003ea53b3aabc5ebc78bdc1e73bb5c5e5155660d5350617082e6"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/planear-dia-dark.png",
+    "kind": "image_metadata",
+    "bytes": 102629,
+    "sha256": "2b2c679b003635a4b45091844f940592860c1312b45c7640666ce881617bc87f"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/planear-dia-light.png",
+    "kind": "image_metadata",
+    "bytes": 102081,
+    "sha256": "5a671546def375551157fb6e126a82b13df1b51ee10710728380b9da9c8dd461"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/planear-sem-data-dark.png",
+    "kind": "image_metadata",
+    "bytes": 78293,
+    "sha256": "0bdc20e41bb00cdbd3753687f2562416babc8f28ef7ec70fbbb47cd304e9b162"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/planear-sem-data-light.png",
+    "kind": "image_metadata",
+    "bytes": 77828,
+    "sha256": "2e0a48d886d18b64a1fb357387d2d971782640f85fa26aa691f7704e93608459"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/planear-semana-dark.png",
+    "kind": "image_metadata",
+    "bytes": 165792,
+    "sha256": "d5ec7178bfbf120cfce8fa27045087b04bc2c53a1af15231648bb4dc9b12abb1"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/planear-semana-light.png",
+    "kind": "image_metadata",
+    "bytes": 163465,
+    "sha256": "ee77f445038c570cfafbd06e71ba5973e57af176bcf200c9318d482318f1573a"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/progresso-dark.png",
+    "kind": "image_metadata",
+    "bytes": 166818,
+    "sha256": "7ae587449f3352c391adc591a2f0b9bb045963607784457e00ecd715ed24c00b"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/progresso-light.png",
+    "kind": "image_metadata",
+    "bytes": 163627,
+    "sha256": "886642827adfc7c651bc282d8da44556b098045b6430c536618aa00995b59411"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/reagendar-dark.png",
+    "kind": "image_metadata",
+    "bytes": 79555,
+    "sha256": "785f26c3bce62e025b710dd80951298e49223e0c5dd51c8cf6e1eb9c4a36aa7c"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/reagendar-light.png",
+    "kind": "image_metadata",
+    "bytes": 79122,
+    "sha256": "c93b85146667201465928004d18c920c18eccf187eaf043fd82fdc113b4e438c"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/revisoes-dark.png",
+    "kind": "image_metadata",
+    "bytes": 46275,
+    "sha256": "19f211956c084e52c893062425315b3e2e45262664b9234b02b434256bf2abf3"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/revisoes-light.png",
+    "kind": "image_metadata",
+    "bytes": 45624,
+    "sha256": "94452489297224b0629edd24d61c713f3a58406cf40bd68c4053e0fff3ac8ec1"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/tarefa-dark.png",
+    "kind": "image_metadata",
+    "bytes": 92945,
+    "sha256": "303a69264bc6439d12a5cfe8e01f818d72db7c16e60214781d01e46a77da3883"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/tarefa-light.png",
+    "kind": "image_metadata",
+    "bytes": 91535,
+    "sha256": "56425f10c18ffa42e71b00b57e35ec5b502e009c15f2a0a89d5cf7dc1a4f1cba"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/tarefas-dark.png",
+    "kind": "image_metadata",
+    "bytes": 89819,
+    "sha256": "78bdb73b6ec718f38a7a3a53ac5452a0011b350eef01adbd21cc384a4a829907"
+  },
+  {
+    "path": "docs/ux/phase4c1/global/tarefas-light.png",
+    "kind": "image_metadata",
+    "bytes": 88453,
+    "sha256": "1177dd27914dabd38e63ef9f385c75bd7385412f0bb7a17230a0ae3ac2fbca21"
+  },
+  {
+    "path": "docs/ux/phase4c1/global-validation.json",
+    "kind": "text",
+    "bytes": 614,
+    "sha256": "67bdc05b901d5fd419fd9bbaf389eaa34b7c3ac48ec7702ede88426de356a9f6"
+  },
+  {
+    "path": "docs/ux/phase4c1/global.html",
+    "kind": "text",
+    "bytes": 66123,
+    "sha256": "37ead739f8a122d9156a4a3430a4e25deb909003af9cd2886649cb2e9e60887b"
+  },
+  {
+    "path": "docs/ux/phase4c1/tokens.json",
+    "kind": "text",
+    "bytes": 992,
+    "sha256": "0e633bdf4ce69491c20862b8b14003e8364739e39088c0482385153834bdc5e1"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/estudos-dark.svg",
+    "kind": "svg_structure",
+    "bytes": 3636,
+    "sha256": "1d0d1a184710369a8d6b7dc979152d2d3b5a909b0c470cfd24022de3b9dedb80"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/estudos-light.svg",
+    "kind": "svg_structure",
+    "bytes": 3637,
+    "sha256": "47469ea45bf1d6ee10d0e8deb226bf4a6c194e549dfeb19061c7e4d0e2d177fc"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/financas-dark.svg",
+    "kind": "svg_structure",
+    "bytes": 3533,
+    "sha256": "9fdc5780eed38225af77cf25041433c7ed08e15f04c851c29c45a536275dcba2"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/financas-light.svg",
+    "kind": "svg_structure",
+    "bytes": 3534,
+    "sha256": "e3c320e1a86586492b478f1e056c624a98504e9578b85dc5690c51d476fa9005"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/meta-dark.svg",
+    "kind": "svg_structure",
+    "bytes": 3066,
+    "sha256": "db783801a9ffcc2e35acea4d3588cf98a28998f2a5053465ac0f8229d0289452"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/meta-light.svg",
+    "kind": "svg_structure",
+    "bytes": 3067,
+    "sha256": "b1ad31e5a48e811d6a4ea1ed80038500edf0abe0ce920b43814b8ce7d21ddde6"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/metas-dark.svg",
+    "kind": "svg_structure",
+    "bytes": 3068,
+    "sha256": "89c485844c1eecfaa70124326791572a7bdebb0b177e7110e9442417e1036cbb"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/metas-light.svg",
+    "kind": "svg_structure",
+    "bytes": 3069,
+    "sha256": "aef3f76c3e2cd12cc7a2146b42f5497e9390e4ab04ee156a42d9f20c63331da0"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/progresso-dark.svg",
+    "kind": "svg_structure",
+    "bytes": 4121,
+    "sha256": "236deab59f8d00f059db07bce28a5b6efa1d16fd7f77910af3c30a147d389d5f"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/progresso-light.svg",
+    "kind": "svg_structure",
+    "bytes": 4122,
+    "sha256": "3f114113e491f3957c6a3c40d310e064ebbc8c5b4f7e310fe47468d7c14849e7"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/tarefa-dark.svg",
+    "kind": "svg_structure",
+    "bytes": 2593,
+    "sha256": "fa46efcd4ec7ce9f32b9321cd4b38f14904b7e76bfe683e8936ca7f7b7b50177"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes/tarefa-light.svg",
+    "kind": "svg_structure",
+    "bytes": 2594,
+    "sha256": "62cc42780d198d80a19d8413dafff6b4dfe9f1a34d77095ab11ddd8f325b2245"
+  },
+  {
+    "path": "docs/ux/phase4c1/wireframes.html",
+    "kind": "text",
+    "bytes": 13808,
+    "sha256": "9ae7bcdff6f0cd8e1a2da878d9a68ab4eaa1e6bbd7c01c3dace974bba536f18d"
+  }
+]

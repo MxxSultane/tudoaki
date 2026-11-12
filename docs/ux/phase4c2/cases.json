@@ -1,0 +1,102 @@
+[
+  {
+    "slug": "hoje-filled",
+    "title": "Hoje — preenchido conceptual"
+  },
+  {
+    "slug": "hoje-empty",
+    "title": "Hoje — vazio conceptual"
+  },
+  {
+    "slug": "planear-filled",
+    "title": "Planear — preenchido conceptual"
+  },
+  {
+    "slug": "planear-empty",
+    "title": "Planear — vazio conceptual"
+  },
+  {
+    "slug": "planear-semana",
+    "title": "Planear — Semana conceptual"
+  },
+  {
+    "slug": "metas-filled",
+    "title": "Metas — três acompanhamentos conceptual"
+  },
+  {
+    "slug": "metas-empty",
+    "title": "Metas — vazio conceptual"
+  },
+  {
+    "slug": "meta-form",
+    "title": "Criar meta conceptual"
+  },
+  {
+    "slug": "meta-numeric",
+    "title": "Criar meta — opções conceptual"
+  },
+  {
+    "slug": "task-empty",
+    "title": "Criar tarefa conceptual"
+  },
+  {
+    "slug": "task-filled",
+    "title": "Criar tarefa conceptual"
+  },
+  {
+    "slug": "task-advanced",
+    "title": "Criar tarefa — opções conceptual"
+  },
+  {
+    "slug": "meta-binary",
+    "title": "Meta binária — proposta conceptual"
+  },
+  {
+    "slug": "meta-steps",
+    "title": "Meta por etapas — proposta conceptual"
+  },
+  {
+    "slug": "estudos-filled",
+    "title": "Estudos — preenchido conceptual"
+  },
+  {
+    "slug": "estudos-empty",
+    "title": "Estudos — vazio conceptual"
+  },
+  {
+    "slug": "estudos-focus",
+    "title": "Estudos — foco activo conceptual"
+  },
+  {
+    "slug": "financas-filled",
+    "title": "Finanças — com movimentos conceptual"
+  },
+  {
+    "slug": "financas-empty",
+    "title": "Finanças — vazio conceptual"
+  },
+  {
+    "slug": "progresso-filled",
+    "title": "Progresso — preenchido conceptual"
+  },
+  {
+    "slug": "progresso-empty",
+    "title": "Progresso — vazio conceptual"
+  },
+  {
+    "slug": "progresso-map",
+    "title": "Progresso — visual opcional conceptual"
+  },
+  {
+    "slug": "agenda",
+    "title": "Agenda — referência conceptual"
+  },
+  {
+    "slug": "tarefas",
+    "title": "Tarefas — referência conceptual"
+  },
+  {
+    "slug": "states",
+    "title": "Estados e foco conceptual"
+  }
+]

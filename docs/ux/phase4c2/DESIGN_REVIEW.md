@@ -1,0 +1,43 @@
+# Revisão crítica da 4C.1
+
+Direcção Visual e Premium mantida como orientação. As decisões abaixo são recomendações da revisão especializada, **não aprovação do utilizador para implementação**. Fontes: os 16 documentos Markdown e sete artefactos técnicos da 4C.1, código activo e capturas reais 3F/4A/4B. [Inventário e hashes](review-sources.json). A 4C.1 fica intacta como histórico.
+
+## Problemas, decisão e evidência
+
+| ID / prioridade | Problema nas propostas | Consequência | Decisão proposta na 4C.2 | Evidência / gate futuro |
+| --- | --- | --- | --- | --- |
+| R01 — P1 | PNGs longos da 4C.1 eram documentos de conteúdo, não viewports de telefone | As verificações de overflow/alvo não provavam visibilidade da acção principal ou coexistência com a barra | Maquetas com frame de 800 CSS px e scroll interno; rodapé e navegação fora da lista; FAB com espaço final e limite da barra | Comparação medida em validation.json; validar SafeArea/IME reais em 4C.3 |
+| R02 — P1 | Recortes de conjunto podiam ocultar partes de controlos ou comprimir conteúdo | Um resumo visual podia ser interpretado como ecrã completo | Imagens individuais de altura delimitada são a referência; pranchas de conjunto claramente derivadas dessas imagens, sem redistribuir a hierarquia | PROTOTYPES; não prometer o mesmo encaixe nativo sem Flutter |
+| R03 — P1 | A maior parte dos módulos só tinha exemplo preenchido | Sem avaliação de descoberta, contexto ou redundância quando não há dados | Vazio e preenchido para Hoje, Planear, Metas, Estudos, Finanças e Progresso; formulários em branco/com rascunho/opções | 25 casos, com dados e estados identificados |
+| R04 — P1 | «Com números» na criação de meta tinha escolha de modo mas não campos completos | Não permitia verificar a redução de complexidade ou a validação do modo numérico | Mostrar unidade, inicial e alvo só nesse modo; binário não pede números; etapas usam contagem, nunca % | Protótipo explorável; persistência do modo continua bloqueada por decisão técnica |
+| R05 — P1 | Data de exemplo podia parecer preenchida mesmo com campo vazio | A pessoa podia entender que uma meta sem prazo tinha prazo implícito | Campo vazio = «Sem prazo»; pré-visualização absoluta apenas quando preenchido; fixture fixa de 12/11/2026 | 30 dias → 12/12/2026; erro explícito para 0/negativo/decimal; limites ainda sujeitos a aprovação |
+| R06 — P1 | Finanças combinava mês/moeda num texto tocável e escondia a decomposição real | Não demonstrava filtros nem contribuição para poupança | Selector de moeda e controlo de mês separados; saldo, receitas/despesas, composição com contribuições e movimentos reais do modelo | Fixture: 12.000 − 3.500 − 1.000 = 7.500 MT; sem cambial ou saldo bancário inventado |
+| R07 — P1 | Estudos tratava o dia de algumas tarefas como «prazo» sem distinguir a origem | Reinterpretação indevida de Tasks.due, que mantém significado histórico ambíguo | Identificar «Dia da tarefa» e «Avaliação» com data própria; não acrescentar deadline fictício | Mesmo Tasks.due e editor de origem; política temporal fora desta fase |
+| R08 — P2 | Introduções, sombras, caixas e botões contornados podiam competir com informação útil | A aparência premium podia aumentar a carga visual | Plano por defeito; clay num destaque/contextor de disciplina, sem cartões aninhados; listas sem sombras; acções textuais secundárias | Revisão visual; testar percepção sem tutorial, sem alegar preferência dos participantes |
+| R09 — P2 | Display de 34 aplicado indiscriminadamente, inclusive a contextos transitórios | Títulos ocupavam demasiada altura e afastavam campos/acções | Newsreader 34/40 em títulos principais; Inter 22/29 em cabeçalho de folha/área e diálogo; corpo 16/24; nomes de item 18/25 | Texto 200% sem redução automática; altura intrínseca e scroll |
+| R10 — P2 | Muito espaço uniforme podia levar a acções fora do primeiro viewport | Menos informação útil mesmo sem overflow | Ritmo 8/16/24; margens 20 (16 em ecrã estreito), grupos com 12–16; preservar ordem de Hoje/Planear/Agenda/Tarefas | Imagens delimitadas e medição de rodapés/FAB, não mudança de fluxo |
+| R11 — P1 | Graphite sobre Sage passava para texto, mas Sage/branco só tem 1,84:1 | Esse resultado não demonstra uma fronteira funcional que dependa do preenchimento | Explicitar primaryBorder: Forest no claro, Graphite interior no escuro; sem sombra adicional; foco separado | CONTRAST: contorno/Sage 3,24:1 claro e 7,92:1 escuro; não chamar automaticamente ao desenho anterior uma violação WCAG sem analisar o papel da fronteira |
+| R12 — P2 | Protótipo do glass mostrava sobretudo uma cor opaca composta | Não permitia comparar transparência real com alternativa sólida | Exemplo opcional com layer 90% em fundo fixo surfaceSoft e controlo de revisão sólido; blur não usado como prova de contraste | Cálculo composto nos dois fundos/temas; fallback inspeccionável; desempenho nativo pendente |
+| R13 — P1 | Mapa decorativo podia preceder a informação principal de Progresso | Elemento especial afastava actividade/metas e sugeria um percurso completo não disponível | Actividade e metas primeiro; mapa atrás de «Ver representação visual», opcional, baseado nos mesmos dias da lista | Sem XP novo; sem títulos históricos fabricados; mapa não é um novo serviço ou timeline completa |
+| R14 — P1 | A 4C.1 verificou foco num controlo, não um percurso modal completo | Não provava retenção/retorno do foco ou navegação por teclado | Ensaio de formulário com teclado simulado, diálogo Web com acção segura, ciclo de Tab/Shift+Tab, Esc e retorno ao disparador | Falha intermédia do protótipo detectada/corrigida; não prova equivalência do FocusScope Flutter |
+| R15 — P1 | «Compreensão imediata» não tinha participantes observados | Havia risco de transformar intenção de design numa conclusão de pesquisa | Separar avaliação heurística, ensaios de browser e pesquisa com pessoas | UX_REVIEW e RESEARCH_PLAN; participantes nesta fase = 0 |
+| R16 — P1 | A proposta de metas sem métrica não era uma simples alteração visual sobre v5 | Adopção descuidada podia converter metas antigas ou esconder valores | Modos explícitos para novas metas, legado numérico preservado; nenhuma inferência por alvo/unidade | Gate técnico de modo/histórico/migração separado, sem implementar nesta fase |
+
+P1 = resolver/decidir antes de implementar o incremento afectado; P2 = melhoria de clareza a validar na revisão. Não são classificações de falhas novas da aplicação de produção.
+
+## Contrato visual revisto
+
+Paleta original preservada: Sage, Forest, Mineral, Graphite e fundos existentes. **primaryBorder é um papel semântico novo, não uma nova cor de marca.** Os candidatos calculados não se tornam aprovados por aparecerem numa matriz.
+
+Inter para interface e campos; Newsreader como marca de títulos principais. A informação que decide uma acção (nome, moeda, sinal, dia, origem ou erro) não fica apenas em legenda minúscula. Metadados secundários 13/19 são permitidos, mas datas/valores essenciais podem usar corpo 16. Nomes longos quebram linha; nunca reduzir fonte para fazer caber um botão.
+
+Raios propostos mantidos (12 campos, 14 botões, 16 grupos, 20 clay, 24 folhas). Sem novos níveis de sombra; centro do clay opaco, arestas decorativas suaves. Não envolver o resumo financeiro em clay nem usar glass por trás de campos ou navegação. A relação entre selecção e foco usa visto/forma, texto/estado e anel; uma borda de erro não apaga o foco.
+
+Uma acção principal por intenção: Hoje conserva + no cabeçalho e o atalho já existente; Planear conserva rodapé contextual; Metas conserva FAB directo; Estudos tem Planear estudo ou Retomar quando há foco activo; Finanças tem Registar movimento; Progresso não precisa de um CTA obrigatório só para preencher espaço. Opções secundárias mantêm nomes e acesso.
+
+## O que fica recomendado, revisto ou adiado
+
+- **Manter para revisão humana:** identidade global, superfícies planas operacionais, fontes locais, paleta/temas, alvos ≥48 dp, anel 2 dp e fluxo aprovado de Hoje/Planear/Agenda/Tarefas.
+- **Rever conforme os protótipos 4C.2:** densidade, títulos, vazio/preenchido, campos numéricos progressivos, composição financeira, foco modal e contorno do botão Sage.
+- **Adiar a decisão de execução:** persistência dos modos de meta, limite 3650 dias, semântica de concluir/reabrir metas por etapas, eventual remoção do título duplicado de Agenda (B pontual), mapa opcional e extensão de pesquisa.
+- **Não recomendar:** clay/glass indiscriminado, métricas de vida/produtividade inventadas, XP como fonte única do percurso, reconstruir QuickTaskSheet/TaskOperations para mudar o aspecto, alterar ordenação ou cálculo financeiro como parte do design.
