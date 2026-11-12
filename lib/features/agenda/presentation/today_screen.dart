@@ -1,4 +1,7 @@
 import 'dart:async';
+import '../../../core/theme/premium_theme.dart';
+import '../../../core/theme/premium_tokens.dart';
+import '../../../core/widgets/premium_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -140,12 +143,17 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
               ],
             );
           }
-          return WorkspaceData(builder: (data) => _overview(context, data));
+          return PremiumScope(
+            child: Builder(
+              builder: (context) =>
+                  WorkspaceData(builder: (data) => _overview(context, data)),
+            ),
+          );
         },
       );
 
   Widget _heading(String title, {Widget? action}) => Padding(
-    padding: const EdgeInsets.only(top: 32, bottom: 8),
+    padding: const EdgeInsets.only(top: 24, bottom: 8),
     child: Wrap(
       alignment: WrapAlignment.spaceBetween,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -214,7 +222,12 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
         (savedDate == null || dayKey(savedDate) != dayKey(_now));
     return ListView(
       key: const PageStorageKey('today-overview'),
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
+      padding: EdgeInsets.fromLTRB(
+        MediaQuery.sizeOf(context).width < 360 ? 16 : 20,
+        24,
+        MediaQuery.sizeOf(context).width < 360 ? 16 : 20,
+        24,
+      ),
       children: [
         Wrap(
           alignment: WrapAlignment.spaceBetween,
@@ -232,7 +245,9 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
         ),
         Text(
           DateFormat("EEEE, d 'de' MMMM", 'pt').format(_now),
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: PremiumTokens.of(context).muted,
+          ),
         ),
         if (content.completedToday.isNotEmpty)
           Padding(
@@ -248,19 +263,10 @@ class _TodayScreenState extends ConsumerState<TodayScreen>
           spacing: 16,
           children: [
             for (final mode in ['Dia', 'Semana', 'Mês'])
-              Semantics(
+              PremiumFilter(
+                label: mode,
                 selected: mode == 'Dia',
-                child: TextButton(
-                  onPressed: () => context.read<AgendaCubit>().mode(mode),
-                  child: Text(
-                    mode,
-                    style: TextStyle(
-                      fontWeight: mode == 'Dia'
-                          ? FontWeight.w700
-                          : FontWeight.w400,
-                    ),
-                  ),
-                ),
+                onPressed: () => context.read<AgendaCubit>().mode(mode),
               ),
           ],
         ),
@@ -421,23 +427,25 @@ class _TodayHabit extends ConsumerStatefulWidget {
 class _TodayHabitState extends ConsumerState<_TodayHabit> {
   bool _busy = false;
   @override
-  Widget build(BuildContext context) => CheckboxListTile(
-    contentPadding: EdgeInsets.zero,
-    controlAffinity: ListTileControlAffinity.leading,
-    title: Text(widget.habit['title'] as String),
-    value: widget.done,
-    onChanged: _busy
-        ? null
-        : (_) async {
-            setState(() => _busy = true);
-            await applyWorkspace(
-              context,
-              ref,
-              () => ref
-                  .read(repositoryProvider)
-                  .toggleHabit(widget.habit['id'] as int, widget.today),
-            );
-            if (mounted) setState(() => _busy = false);
-          },
+  Widget build(BuildContext context) => PremiumFocusOutline(
+    child: CheckboxListTile(
+      contentPadding: EdgeInsets.zero,
+      controlAffinity: ListTileControlAffinity.leading,
+      title: Text(widget.habit['title'] as String),
+      value: widget.done,
+      onChanged: _busy
+          ? null
+          : (_) async {
+              setState(() => _busy = true);
+              await applyWorkspace(
+                context,
+                ref,
+                () => ref
+                    .read(repositoryProvider)
+                    .toggleHabit(widget.habit['id'] as int, widget.today),
+              );
+              if (mounted) setState(() => _busy = false);
+            },
+    ),
   );
 }

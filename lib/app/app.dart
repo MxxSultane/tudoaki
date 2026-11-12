@@ -21,6 +21,8 @@ import '../features/goals/presentation/goal_detail.dart';
 import '../features/areas/presentation/areas_screen.dart';
 import '../core/theme/app_theme.dart';
 import '../core/theme/today_theme.dart';
+import '../core/theme/premium_theme.dart';
+import '../core/widgets/premium_components.dart';
 import '../features/agenda/presentation/today_screen.dart';
 import '../features/agenda/presentation/agenda_browser.dart';
 import '../features/goals/presentation/goals_screen.dart';
@@ -61,20 +63,24 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
                 builder: (context, _) => TodayScreen(
                   createAction: ValueListenableBuilder<bool>(
                     valueListenable: modalGuard.active,
-                    builder: (context, blocked, _) => SizedBox(
-                      width: 56,
-                      height: 56,
-                      child: blocked
-                          ? null
-                          : FloatingActionButton(
-                              heroTag: null,
-                              tooltip: 'Criar',
-                              onPressed: () => showWorkspaceCreateSheet(
-                                context,
-                                date: context.read<AgendaCubit>().state.day,
-                              ),
-                              child: const Icon(Icons.add),
-                            ),
+                    builder: (context, blocked, _) => PremiumScope(
+                      child: PremiumFocusOutline(
+                        child: SizedBox(
+                          width: 56,
+                          height: 56,
+                          child: blocked
+                              ? null
+                              : FloatingActionButton(
+                                  heroTag: null,
+                                  tooltip: 'Criar',
+                                  onPressed: () => showWorkspaceCreateSheet(
+                                    context,
+                                    date: context.read<AgendaCubit>().state.day,
+                                  ),
+                                  child: const Icon(Icons.add),
+                                ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -317,34 +323,38 @@ class TudoAkiShell extends StatelessWidget {
                       modalGuard?.active ?? const AlwaysStoppedAnimation(false),
                   builder: (context, blocked, _) => Visibility(
                     visible: !blocked,
-                    child: FloatingActionButton(
-                      tooltip: 'Criar',
-                      onPressed: () async {
-                        if (path == AppRoutes.goals) {
-                          final saved = await showEditor(
-                            context,
-                            'Meta',
-                            compact: true,
-                          );
-                          if (saved != null && context.mounted) {
-                            context.read<GoalsCubit>().completed(false);
-                          }
-                          return;
-                        }
-                        await showWorkspaceCreateSheet(
-                          context,
-                          date: path == AppRoutes.agenda
-                              ? context.read<AgendaCubit>().state.day
-                              : null,
-                        );
-                      },
-                      child: const Icon(Icons.add),
-                    ),
+                    child: path == AppRoutes.goals
+                        ? PremiumScope(
+                            child: PremiumFocusOutline(
+                              child: _createFab(context),
+                            ),
+                          )
+                        : _createFab(context),
                   ),
                 ),
         ),
       ),
     ),
+  );
+
+  Widget _createFab(BuildContext context) => FloatingActionButton(
+    tooltip: 'Criar',
+    onPressed: () async {
+      if (path == AppRoutes.goals) {
+        final saved = await showEditor(context, 'Meta', compact: true);
+        if (saved != null && context.mounted) {
+          context.read<GoalsCubit>().completed(false);
+        }
+        return;
+      }
+      await showWorkspaceCreateSheet(
+        context,
+        date: path == AppRoutes.agenda
+            ? context.read<AgendaCubit>().state.day
+            : null,
+      );
+    },
+    child: const Icon(Icons.add),
   );
 }
 
@@ -352,6 +362,7 @@ Future<void> showWorkspaceCreateSheet(
   BuildContext context, {
   DateTime? date,
 }) async {
+  context = PremiumScope.legacyContextOf(context);
   final kind = await showModalBottomSheet<String>(
     context: context,
     useSafeArea: true,

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../core/theme/premium_theme.dart';
+import '../../../core/theme/premium_tokens.dart';
+import '../../../core/widgets/premium_components.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +30,7 @@ class _TaskRowState extends ConsumerState<TaskRow> {
   Widget build(BuildContext context) {
     final task = widget.task;
     final done = task['completed'] == 1;
-    return ListTile(
+    final tile = ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Semantics(
         label: '${done ? 'Reabrir' : 'Concluir'} ${task['title']}',
@@ -86,7 +89,23 @@ class _TaskRowState extends ConsumerState<TaskRow> {
                         ).format(DateTime.parse(task['due'] as String))),
               style: Theme.of(context).textTheme.bodySmall,
             ),
-      onTap: () => showEditor(context, 'Tarefa', existing: task, compact: true),
+      onTap: () => showEditor(
+        PremiumScope.legacyContextOf(context),
+        'Tarefa',
+        existing: task,
+        compact: true,
+      ),
+    );
+    if (!PremiumTokens.active(context)) return tile;
+    return PremiumFocusOutline(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: PremiumTokens.of(context).soft),
+          ),
+        ),
+        child: tile,
+      ),
     );
   }
 }

@@ -1,0 +1,301 @@
+{
+  "method": "sRGB WCAG; getters verified by premium_design_system_test.dart against phase4c2/tokens.json; actual Flutter computeLuminance tested",
+  "uses": [
+    {
+      "theme": "light",
+      "foreground": "text",
+      "background": "background",
+      "ratio": 13.690417405092072,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "textMuted",
+      "background": "background",
+      "ratio": 5.362118235045044,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "action",
+      "background": "background",
+      "ratio": 5.606387159738613,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "error",
+      "background": "background",
+      "ratio": 6.986198020344655,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "outline",
+      "background": "background",
+      "ratio": 4.648409151519185,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "focus",
+      "background": "background",
+      "ratio": 5.606387159738613,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "text",
+      "background": "surface",
+      "ratio": 14.593618924508368,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "textMuted",
+      "background": "surface",
+      "ratio": 5.715874676056196,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "action",
+      "background": "surface",
+      "ratio": 5.976258818964176,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "error",
+      "background": "surface",
+      "ratio": 7.447100305513218,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "outline",
+      "background": "surface",
+      "ratio": 4.955079874864635,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "focus",
+      "background": "surface",
+      "ratio": 5.976258818964176,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "text",
+      "background": "surfaceSoft",
+      "ratio": 12.291628375335488,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "textMuted",
+      "background": "surfaceSoft",
+      "ratio": 4.814255307166089,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "action",
+      "background": "surfaceSoft",
+      "ratio": 5.033566578483458,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "error",
+      "background": "surfaceSoft",
+      "ratio": 6.272398224369804,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "outline",
+      "background": "surfaceSoft",
+      "ratio": 4.173467918204654,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "focus",
+      "background": "surfaceSoft",
+      "ratio": 5.033566578483458,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "onAccent",
+      "background": "accent",
+      "ratio": 7.91726659002532,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "primaryBorder",
+      "background": "accent",
+      "ratio": 3.242213910441904,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "error",
+      "background": "errorSurface",
+      "ratio": 6.417385999671588,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "text",
+      "background": "background",
+      "ratio": 15.106908017566683,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "textMuted",
+      "background": "background",
+      "ratio": 9.467697095016849,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "action",
+      "background": "background",
+      "ratio": 9.019133028337135,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "error",
+      "background": "background",
+      "ratio": 9.79156938225577,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "outline",
+      "background": "background",
+      "ratio": 5.848717938637246,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "focus",
+      "background": "background",
+      "ratio": 9.019133028337135,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "text",
+      "background": "surface",
+      "ratio": 13.261298813342606,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "textMuted",
+      "background": "surface",
+      "ratio": 8.311029636589893,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "action",
+      "background": "surface",
+      "ratio": 7.91726659002532,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "error",
+      "background": "surface",
+      "ratio": 8.595334483977707,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "outline",
+      "background": "surface",
+      "ratio": 5.134180744930411,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "focus",
+      "background": "surface",
+      "ratio": 7.91726659002532,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "text",
+      "background": "surfaceSoft",
+      "ratio": 11.643557979010062,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "textMuted",
+      "background": "surfaceSoft",
+      "ratio": 7.297170269743268,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "action",
+      "background": "surfaceSoft",
+      "ratio": 6.951442228531096,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "error",
+      "background": "surfaceSoft",
+      "ratio": 7.546792876161202,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "outline",
+      "background": "surfaceSoft",
+      "ratio": 4.507863974693615,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "focus",
+      "background": "surfaceSoft",
+      "ratio": 6.951442228531096,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "onAccent",
+      "background": "accent",
+      "ratio": 7.91726659002532,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "primaryBorder",
+      "background": "accent",
+      "ratio": 7.91726659002532,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "error",
+      "background": "errorSurface",
+      "ratio": 7.953785231277873,
+      "minimum": 4.5
+    }
+  ],
+  "passed": 42,
+  "integralWcagConformance": false
+}

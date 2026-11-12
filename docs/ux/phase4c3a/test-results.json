@@ -1,0 +1,31 @@
+{
+  "baselineCommit": "4832e693aa40efb372086944f8240b94ddc93aa8",
+  "baseline": {
+    "executed": 254,
+    "passed": 254,
+    "failed": 0,
+    "skipped": 0,
+    "error_events": 0,
+    "execution_errors": 0,
+    "runner_complete": true,
+    "success": true,
+    "exit_code": 0
+  },
+  "pilot": {
+    "executed": 262,
+    "passed": 262,
+    "failed": 0,
+    "skipped": 0,
+    "error_events": 0,
+    "execution_errors": 0,
+    "runner_complete": true,
+    "success": true,
+    "exit_code": 0
+  },
+  "flutter": "3.35.7",
+  "dart": "3.9.2",
+  "newTests": 8,
+  "captureTestsOutsideSuite": 108,
+  "analyze": "No issues found!",
+  "physicalAndroidValidation": false
+}

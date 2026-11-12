@@ -1,0 +1,1087 @@
+{
+  "renderer": "Flutter test engine 035316565a; RepaintBoundary.toImage(pixelRatio:2); local fonts; not HTML",
+  "base": "4832e693aa40efb372086944f8240b94ddc93aa8",
+  "clock": "2026-11-11T10:30:00",
+  "casesPerRevision": 54,
+  "pngTotal": 108,
+  "unaffectedScreensByteIdentical": 16,
+  "modalContentComparisons": [
+    {
+      "file": "goals-create-dark.png",
+      "unchangedContentFromPhysicalY": 650,
+      "note": "Background page changed; modal content is pixel identical below this line; rounded/top scrim edge excluded."
+    },
+    {
+      "file": "goals-create-light.png",
+      "unchangedContentFromPhysicalY": 650,
+      "note": "Background page changed; modal content is pixel identical below this line; rounded/top scrim edge excluded."
+    },
+    {
+      "file": "quick-empty-dark.png",
+      "unchangedContentFromPhysicalY": 835,
+      "note": "Background page changed; modal content is pixel identical below this line; rounded/top scrim edge excluded."
+    },
+    {
+      "file": "quick-empty-light.png",
+      "unchangedContentFromPhysicalY": 835,
+      "note": "Background page changed; modal content is pixel identical below this line; rounded/top scrim edge excluded."
+    }
+  ],
+  "pairs": [
+    {
+      "file": "academics-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "67de3ae8102ab5b8dc6e3930c7ef3bc45359946b3005a30254c69f9f3958085d",
+      "afterSha256": "67de3ae8102ab5b8dc6e3930c7ef3bc45359946b3005a30254c69f9f3958085d"
+    },
+    {
+      "file": "academics-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "7960fa5737430c18dfccfac2f81d39fc3b9146856b2ac566a4391eeb606eff02",
+      "afterSha256": "7960fa5737430c18dfccfac2f81d39fc3b9146856b2ac566a4391eeb606eff02"
+    },
+    {
+      "file": "calendar-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "bc47081eea4f0b0a455ea1b1b79a354117019ebaa44e66bd318588c5f9381172",
+      "afterSha256": "bc47081eea4f0b0a455ea1b1b79a354117019ebaa44e66bd318588c5f9381172"
+    },
+    {
+      "file": "calendar-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "ba1477da4a49cb570bc31c26b3e75325d801149a23e4baa483ca6e4c26ae32d9",
+      "afterSha256": "ba1477da4a49cb570bc31c26b3e75325d801149a23e4baa483ca6e4c26ae32d9"
+    },
+    {
+      "file": "finance-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "f49c017bd811546971aa4c91180eeb50b8bfe3facfd9d1fb78dfd5e60ae936ca",
+      "afterSha256": "f49c017bd811546971aa4c91180eeb50b8bfe3facfd9d1fb78dfd5e60ae936ca"
+    },
+    {
+      "file": "finance-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "5ac38f4e3e8dbdc1e9daa9eeacf91de0568b3ce0937849b5904c4044d85f5a18",
+      "afterSha256": "5ac38f4e3e8dbdc1e9daa9eeacf91de0568b3ce0937849b5904c4044d85f5a18"
+    },
+    {
+      "file": "goals-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        64,
+        608,
+        1120
+      ],
+      "beforeSha256": "27300c9f660beca9811781c5782c834373d1f680e2e4f53ebffe3e3b4fb3e020",
+      "afterSha256": "3654b3de5cfa1b73afe815df42bc1d9c3700123966345761102764d97319b185"
+    },
+    {
+      "file": "goals-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        64,
+        608,
+        1120
+      ],
+      "beforeSha256": "f63b74e621096788a61594aa0385dbeac3d074be2584431553fc3a3f3edb871d",
+      "afterSha256": "27fc56680bd951ea43c2813bcba9e3a3d8af320167854a1a8c48629750801328"
+    },
+    {
+      "file": "goals-create-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        149,
+        740,
+        649
+      ],
+      "beforeSha256": "3954d8aae8f9eb22ac53c4762da631892cddcc430187afba9b356ef083247eda",
+      "afterSha256": "2504e0b4726c13e50ff28e83696e0b497121c010f69c6bc1b8f9d1cb1f8e656c"
+    },
+    {
+      "file": "goals-create-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        149,
+        740,
+        649
+      ],
+      "beforeSha256": "ee631350de51e8d19f81e8eee19984cd51c3a6d6001f803ea2ad67866265a14e",
+      "afterSha256": "550a09be23206c308c4bf1c19151bed0c19dcbd897d1f29e820d0753f22f7050"
+    },
+    {
+      "file": "goals-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        149,
+        748,
+        1496
+      ],
+      "beforeSha256": "a141a19058afbd858824d700d3edf7c39dc1e71f33c3accc622d0ce93e4fba0e",
+      "afterSha256": "4e11e0f743d269b2ec3a9c4acd5c188ac7e514f13788ffefa4747c949666052e"
+    },
+    {
+      "file": "goals-empty-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        64,
+        608,
+        1105
+      ],
+      "beforeSha256": "b39262e0a8c61378f463f0fe58e07951b6ce1356de48608497eaa705d820e2b6",
+      "afterSha256": "ab69e1b78d57743d8f0e13e82404a5297da0df14e8099e1e83e844ed03f3b3aa"
+    },
+    {
+      "file": "goals-empty-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        64,
+        608,
+        1105
+      ],
+      "beforeSha256": "2a07cf97736e536dfc8e6242fd3dd81cd7a40a04eb7f67ce9506a2d941da2dd3",
+      "afterSha256": "5bd5104f24d2c898ba309e7a84914f077d1625de9497db69b5269502be3470db"
+    },
+    {
+      "file": "goals-empty-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        149,
+        748,
+        1496
+      ],
+      "beforeSha256": "15a53d3abcfa4347c2ac7dd049aad10d2d703f8b35e4fe3c6904cf65664a4a45",
+      "afterSha256": "8871058b10429648db3e541862503cf4dc36dc4d5a8789f41507409330143eda"
+    },
+    {
+      "file": "goals-empty-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        149,
+        748,
+        1496
+      ],
+      "beforeSha256": "7a16281d29a1742e31d2fbb9961204b0f761303e2855165940daab6b1816125d",
+      "afterSha256": "81ebb04facdf273159be290a68020e4df9a2fdafbf32638e5245b5ba9a3c3adf"
+    },
+    {
+      "file": "goals-empty-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        149,
+        608,
+        1088
+      ],
+      "beforeSha256": "574959226cf957b26922cc248df0eba68df3dc7fcf3023d30cae44c53d8ce343",
+      "afterSha256": "cc43205f046b4a77a413a00f44fa2641bf399183c2b30a331e754f57d4ee632d"
+    },
+    {
+      "file": "goals-empty-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        149,
+        608,
+        1088
+      ],
+      "beforeSha256": "bf3d8850bdd63a078bbb3800c65d2da731b44b702c6533e7f3c406293d6947e0",
+      "afterSha256": "35e22b3692fc9251cba5312d9df887728e007dca9d444d54941c6265919984a9"
+    },
+    {
+      "file": "goals-focus-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        149,
+        748,
+        1496
+      ],
+      "beforeSha256": "2d45ce0732b1c345a2a3c7ef044d931c05e6076c569239bb60a7849274363405",
+      "afterSha256": "9eca8adb8316cec5fd0a07fda73ae669429c319edc674f0e6ac338ccf092096d"
+    },
+    {
+      "file": "goals-focus-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        149,
+        748,
+        1496
+      ],
+      "beforeSha256": "bf238b63eb2141ea23f4678f3fb31c3aeb74a5579a754cc9dd30fa7ca8383c75",
+      "afterSha256": "6536b9ad57b95ecae7a31530ec2650dc1b7f3a603c02fb4f74636be4b11cd8c6"
+    },
+    {
+      "file": "goals-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        149,
+        748,
+        1496
+      ],
+      "beforeSha256": "f6be5f57418ca0326d9a06aa598fb6e44a114f142590c4e57cbf4695908ea232",
+      "afterSha256": "3af3e1c67dbd98c0fb4d57ca9786ae3b8b95152fba5d4d590a952feb87be351c"
+    },
+    {
+      "file": "goals-metric-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        0,
+        608,
+        1120
+      ],
+      "beforeSha256": "5e8cd0586dc60196616c41165df82f090144ebf81360d1900cece5da75bff969",
+      "afterSha256": "b6beaa08e4d22540b8aa210b2dfb3ddd4fcb4285cd23941191af820070a65621"
+    },
+    {
+      "file": "goals-metric-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        0,
+        608,
+        1120
+      ],
+      "beforeSha256": "9785f78260d12c25a7d68a94695fbdc6457f20e5d83a8374f9ff3057bc4f1238",
+      "afterSha256": "2eab0860cc414f6423b9eeb1dc0d1d16d6115d128f915bc2a3e08d9c31bbc511"
+    },
+    {
+      "file": "goals-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        149,
+        608,
+        1088
+      ],
+      "beforeSha256": "6d53d14c95d2d1b61c6e18c3ff7de85e62b2a6514540215963f9df8a5885d498",
+      "afterSha256": "a0fe8ae18497e523f44c1c244b6f4b095be611780d49e54a273bd9ad62bee48a"
+    },
+    {
+      "file": "goals-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        149,
+        608,
+        1088
+      ],
+      "beforeSha256": "9835137d12c3831e9416ce78f3c4f4650ae1ec6df091c4b673f9509e59e904b5",
+      "afterSha256": "24507e0746dbc4fb8d119a6905849c63dec1b660744536fd44a51fa4c7b4333c"
+    },
+    {
+      "file": "habits-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "64c6008edfc285adbaeb50c3a44916504e3172c64d2914eeba9a90762930ad27",
+      "afterSha256": "64c6008edfc285adbaeb50c3a44916504e3172c64d2914eeba9a90762930ad27"
+    },
+    {
+      "file": "habits-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "96165b7ead536a9ab90c681691cdf0cb9d324959700470c6c4abc4d855909bf3",
+      "afterSha256": "96165b7ead536a9ab90c681691cdf0cb9d324959700470c6c4abc4d855909bf3"
+    },
+    {
+      "file": "hoje-empty-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        35,
+        60,
+        600,
+        1120
+      ],
+      "beforeSha256": "7a6ba7a8b0df4fe4b588da8ead966fbbd04ba04825425b49f6bcaeffd4d5b556",
+      "afterSha256": "ebb5d0b41e14b164873ec559a2e2cd6b191507e3ff309841819465c93675b7ee"
+    },
+    {
+      "file": "hoje-empty-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        35,
+        60,
+        600,
+        1120
+      ],
+      "beforeSha256": "ee96ee2ba562339202b08680d40aefd859d4b656b6c8dfd5951ac29e3808bb95",
+      "afterSha256": "a3c49556fc7cf0ba2011a9f1701953bf1d20f88c49c7a2a81a26553512c5fd63"
+    },
+    {
+      "file": "hoje-empty-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        48,
+        740,
+        1391
+      ],
+      "beforeSha256": "20576875d09b0cf5048bc8b58afbb49b6a504fe76fbb5ac347701a6878977159",
+      "afterSha256": "ba39edf974377f1db2e1fcffff2ad552cf6d5a5335c2eb63f57f8f79bf681780"
+    },
+    {
+      "file": "hoje-empty-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        48,
+        740,
+        1391
+      ],
+      "beforeSha256": "1c6ac93f4db260b7a03414a58b47f307b7f4048f12f59bc216335060e27d5d97",
+      "afterSha256": "c99ff205a654f8501f58745205ae5aa4e26ba193c8ee68d6a8c4407c43b6882b"
+    },
+    {
+      "file": "hoje-empty-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        33,
+        48,
+        600,
+        1120
+      ],
+      "beforeSha256": "194b39e1826c20e220018627bf2e1720716f7708b74662677b22e74a6c4a8412",
+      "afterSha256": "774719bbd797acea71713074911790e460dc6a4a3a050e9a2c2dab841ab77e46"
+    },
+    {
+      "file": "hoje-empty-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        33,
+        48,
+        600,
+        1120
+      ],
+      "beforeSha256": "315fcc151662e426352fb8522aebaa2f895ce1484d703e1b43789b774cfa557f",
+      "afterSha256": "25c3b355426fa03417bf22c684db3e79816403b618981b244a3f13518969e704"
+    },
+    {
+      "file": "hoje-filled-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        34,
+        60,
+        600,
+        1103
+      ],
+      "beforeSha256": "53bbc1cfef911a6f4ca5aa1091d57816aed062fa820ab845c63c099e6d57c63a",
+      "afterSha256": "380a67a8bbe349a23745ae557fcf080992d6d75b9af0a0ef8c42b14f13d9db0a"
+    },
+    {
+      "file": "hoje-filled-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        34,
+        60,
+        600,
+        1103
+      ],
+      "beforeSha256": "3533a4f9361798e31f47dcd1a62c483112861caed3f720be71ec6c743274fe57",
+      "afterSha256": "7c19ed5b9073a31ec9c2d48a792237e01179d88cdb6d2926078a85af091b0df8"
+    },
+    {
+      "file": "hoje-filled-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        48,
+        740,
+        1528
+      ],
+      "beforeSha256": "fff8dd4984d17ee21ff660bcc9a9485bd6258518da45f50e9a94a2875bba0ae1",
+      "afterSha256": "f7405cd74b7277dd2d9a35e640b8a5e3e647600efb297fabf99c017618651309"
+    },
+    {
+      "file": "hoje-filled-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        48,
+        740,
+        1528
+      ],
+      "beforeSha256": "2aa1b445f6b05d44fb6da97e586034bf62ea0fcbf5a6d3bdd32768e565ede524",
+      "afterSha256": "95a9af439cc01969f6cf660562f0a521837a0697480b42066aafb22a12a90bc3"
+    },
+    {
+      "file": "hoje-filled-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        33,
+        48,
+        600,
+        1120
+      ],
+      "beforeSha256": "ea9e0d7948bd590c14ea0ae6c78787c4b59a96687bad5e68aef0e43156094a60",
+      "afterSha256": "1ffbc48a635dd328806a5b80e09e1c2b508fb4aa0efa1ac23a1a03447eda71a6"
+    },
+    {
+      "file": "hoje-filled-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        33,
+        48,
+        600,
+        1120
+      ],
+      "beforeSha256": "56e7f54c662e0ea4bb6c19ceedc80b8804fb7edf8aae491c89a06bd25e3d9836",
+      "afterSha256": "4d815c4c9c3adb0a18a20ebde2546e7326faa250bb12e2cf74ad14bec42094f4"
+    },
+    {
+      "file": "hoje-focus-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        48,
+        740,
+        1528
+      ],
+      "beforeSha256": "3f6c699684c8eda7cc399a85f8a189828ed9b437bb7ce07a5bf52a9eb219429b",
+      "afterSha256": "393424b35eef629f3c1f2cb356acfe6387feffaab0212a65abb3d588e0e1582f"
+    },
+    {
+      "file": "hoje-focus-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        48,
+        740,
+        1528
+      ],
+      "beforeSha256": "6a8f284dd8f9293ae9364f7df9070edadc9d550abcc727e09a07a9b1d6466497",
+      "afterSha256": "97a0db45f63900d90f14ca7f63700ee4983d2d1bab96cd22671c7fc6197db33e"
+    },
+    {
+      "file": "hoje-habits-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        32,
+        37,
+        608,
+        1120
+      ],
+      "beforeSha256": "71a378f7b0b0f34aadae8591f6308fb5db4d08e4c5e6ac5aad4561a433e0ba6a",
+      "afterSha256": "6f56f47e36b2849854f3c93acda2a8ccff6333fd74eb5aac897ae977076d41f1"
+    },
+    {
+      "file": "hoje-habits-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "textScale": 2,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        32,
+        37,
+        608,
+        1120
+      ],
+      "beforeSha256": "df6743072fe2cc3e4a307096a870ef7f149802dda268fd734538b27c86cd666d",
+      "afterSha256": "d75cdf2e67c2eff61b6f41c2e30bdbdef617d003326b0bfdaca8fd0d002a6d21"
+    },
+    {
+      "file": "hoje-habits-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        0,
+        740,
+        1446
+      ],
+      "beforeSha256": "e465f0443cd28d022a876afb622b1d8e7a88bfafd313193c3e927ce638643313",
+      "afterSha256": "d6eda0340953233e7750a8dc6b12c896101fca60df7b5200fce10db6136ce81f"
+    },
+    {
+      "file": "hoje-habits-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        40,
+        0,
+        740,
+        1446
+      ],
+      "beforeSha256": "b650016d6d0f43d1bbaab902a7b0918ff61005b8ba49f08bcd63bc1087356552",
+      "afterSha256": "e87320def8bf16a9a08785253b20859164480bc029fd6cabf5487ac5c5808c35"
+    },
+    {
+      "file": "more-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "38626f2d1a7c89773bf2d746f0785afd4ee66c51799bc056a1eb718013ec1364",
+      "afterSha256": "38626f2d1a7c89773bf2d746f0785afd4ee66c51799bc056a1eb718013ec1364"
+    },
+    {
+      "file": "more-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "f72527145f4eb33892270858333537edf6086e123939aaf6ec71788c3e530847",
+      "afterSha256": "f72527145f4eb33892270858333537edf6086e123939aaf6ec71788c3e530847"
+    },
+    {
+      "file": "plan-tomorrow-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "3e0a6b345a2e89d58de461df2eceb7e2806fc67936d5a529742ae9270e36e326",
+      "afterSha256": "3e0a6b345a2e89d58de461df2eceb7e2806fc67936d5a529742ae9270e36e326"
+    },
+    {
+      "file": "plan-tomorrow-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "93c8e998d6cf49eb900fd852c9b0dbdb76d935220bb4fd7efb97e93f22c49220",
+      "afterSha256": "93c8e998d6cf49eb900fd852c9b0dbdb76d935220bb4fd7efb97e93f22c49220"
+    },
+    {
+      "file": "progress-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "fa4685143318f88521bb072090a179dfde81014cbeac1db26b26a846e96438ce",
+      "afterSha256": "fa4685143318f88521bb072090a179dfde81014cbeac1db26b26a846e96438ce"
+    },
+    {
+      "file": "progress-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "3363df359cc5ea122e4681b45d438fc6d5fb7d94c2f4c1836066861cf5c2748c",
+      "afterSha256": "3363df359cc5ea122e4681b45d438fc6d5fb7d94c2f4c1836066861cf5c2748c"
+    },
+    {
+      "file": "quick-empty-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        72,
+        727,
+        834
+      ],
+      "beforeSha256": "770bf798f2702a484a240508fb09b14e33e6a6bc3c818aeac2b6dfe4f6f0d4e8",
+      "afterSha256": "94a17e03947613b5491237d56e73dc02f5e352c46d26288ae7fd33304d62fa22"
+    },
+    {
+      "file": "quick-empty-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": false,
+      "changedPixelBounds": [
+        41,
+        72,
+        727,
+        834
+      ],
+      "beforeSha256": "5fb0d350ae0e3efdb8a0b3652bf8a6d229ae4f07067a6a2bffc15ba843af9bc3",
+      "afterSha256": "b54996d6693baf78eaba3187c3d749395b4830b66f9c1a70f278bffd551b0c53"
+    },
+    {
+      "file": "tasks-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "163b1e9e8f347ba7b0518e26d5d0416923ff8f5e8e835c3850d83faf96c15ed7",
+      "afterSha256": "163b1e9e8f347ba7b0518e26d5d0416923ff8f5e8e835c3850d83faf96c15ed7"
+    },
+    {
+      "file": "tasks-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "textScale": 1,
+      "byteIdentical": true,
+      "changedPixelBounds": null,
+      "beforeSha256": "d88b3d6d855c831c6c2ae8203086e7e311ed1b4626b38b8e41591367e894b862",
+      "afterSha256": "d88b3d6d855c831c6c2ae8203086e7e311ed1b4626b38b8e41591367e894b862"
+    }
+  ],
+  "physicalAndroidTest": false
+}
