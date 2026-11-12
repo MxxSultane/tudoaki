@@ -94,8 +94,17 @@ Resultados finais locais e GitHub Actions: consolidados após execução, abaixo
 | Novos testes de DS/piloto | 8 aprovados, incluídos nos 262 |
 | Captura antes / depois | 54 + 54 renders aprovados, fora da suite |
 | Preservação de ficheiros protegidos | Diff sem alterações |
+| Processador de resultados Python | 9 testes aprovados |
+| check_schema.py | Aprovado, apenas dados sintéticos |
 
-GitHub Actions: validação em curso após publicação do commit de implementação; os resultados remotos serão consolidados antes da entrega final.
+Código de implementação publicado em **3f8d81e8bed60bb0915c0751937d9d6d588a2039**. Resultados observados directamente pela API GitHub:
+
+| Workflow | Execução no SHA de implementação | Resultado |
+| --- | --- | --- |
+| Flutter validation | [43309769002](https://github.com/MxxSultane/tudoaki/actions/runs/43309769002) | COMPLETED / SUCCESS |
+| Android debug validation | [43309769164](https://github.com/MxxSultane/tudoaki/actions/runs/43309769164) | COMPLETED / SUCCESS |
+
+A contagem 262 vem do JSON machine local, não é inferida da cor do workflow. O commit documental de entrega apenas consolida resultados/evidência; o código Flutter, os testes e os workflows mantêm-se exactamente iguais aos deste SHA validado.
 
 Os workflows existentes só receberam o nome do novo branch no trigger push. Nenhum comando/critério de validação, versão, lockfile ou regra de publicação de APK foi enfraquecido. Sem distribuição de APK nesta fase.
 
@@ -118,7 +127,7 @@ APK SHA-256 local: `18175c883efab24aae9d684002c8d60f14a79c4e24889015a37d737c7956
 - .github/workflows/flutter-validation.yml e android-debug-validation.yml: apenas inscrição do branch.
 - docs/PHASE4C3A_REPORT.md, docs/ux/phase4c3a e docs/ux/previews/phase4c3a: evidência desta entrega.
 
-Sem alteração de android/, pubspec.yaml/lockfile, schema/database, lifeos.sqlite, TaskOperations, modelos/Cubits/operações de metas, regras de hábitos, XP, cálculos financeiros, notificações ou navegação principal. Nenhuma operação sobre dados reais. A preservação é verificada por diff da base e por suite, não apenas declarada.
+Sem alteração de android/, pubspec.yaml/lockfile, schema/database, lifeos.sqlite, TaskOperations, modelos/Cubits/operações de metas, regras de hábitos, XP, cálculos financeiros, notificações ou navegação principal. Nenhuma operação sobre dados reais. A preservação é verificada por diff da base e por suite, não apenas declarada; [verificação documental e de preservação](ux/phase4c3a/document-validation.json).
 
 ## 11. Regressões encontradas e corrigidas
 

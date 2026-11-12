@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "base": "4832e693aa40efb372086944f8240b94ddc93aa8",
+  "implementationCommit": "3f8d81e8bed60bb0915c0751937d9d6d588a2039",
+  "localLinks": 113,
+  "protectedPathsUnchanged": [
+    "android",
+    "pubspec.yaml",
+    "pubspec.lock",
+    "lib/core/database",
+    "lib/features/tasks/domain",
+    "lib/features/habits/domain",
+    "lib/features/finance",
+    "lib/features/forms.dart",
+    "lib/features/goals/domain",
+    "lib/app/navigation"
+  ],
+  "pythonSummaryTests": 9,
+  "schemaCheck": "passed on synthetic data only; no app schema changes",
+  "apkSha256": "18175c883efab24aae9d684002c8d60f14a79c4e24889015a37d737c79565f7e",
+  "apkPackage": "mz.lifeos.lifeos",
+  "apkVersion": "0.9.2+12",
+  "physicalAndroidValidation": false,
+  "integralWcagConformanceClaimed": false,
+  "pythonSyntax": "passed",
+  "manualVisualSelection": [
+    "hoje-filled-light",
+    "goals-light",
+    "goals-dark",
+    "hoje-empty-200-dark",
+    "goals-200-light",
+    "goals-metric-200-dark",
+    "goals-focus-light"
+  ]
+}
