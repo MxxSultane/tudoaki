@@ -67,7 +67,7 @@ O repositório save faz INSERT/UPDATE dos campos recebidos, sem inventar target.
 
 ## 9. Testes, contraste e acessibilidade
 
-Nove testes novos cobrem dias civis/limites, quatro combinações claro/escuro × texto 100/200% em 320×640, teclado simulado, foco e alvos, criação explícita, meia-noite, edição/remoção de prazo, legado/reabertura e progresso no detalhe. Os testes antigos de criação foram adaptados para introduzir uma métrica real e usar Criar; mantêm verificações de relações, conclusão e reabertura. Não se conservaram defaults fictícios apenas para manter testes verdes.
+Dez testes novos cobrem dias civis/limites, quatro combinações claro/escuro × texto 100/200% em 320×640, teclado simulado, foco e alvos, criação explícita, meia-noite, edição/remoção de prazo, legado/reabertura e progresso no detalhe. Os testes antigos de criação foram adaptados para introduzir uma métrica real e usar Criar; mantêm verificações de relações, conclusão e reabertura. Não se conservaram defaults fictícios apenas para manter testes verdes.
 
 PremiumTokens/PremiumScope/componentes 4C.3A são reutilizados. Texto usa pares ≥4,5:1; outline/foco/action e cursor/handles usam os papéis funcionais ≥3:1. Os seis testes de DS existentes verificam os getters/papéis com Color.computeLuminance e texto 200%; a matriz 4C.3A/4C.2 continua a referência, sem cores funcionais novas. Campos/botões/checkbox têm mínimo 48 dp; os testes reais medem nome, prazo, alvo e Criar. Foco de campo tem anel exterior de 2 dp/intervalo 2, independente do erro. Validação foca o primeiro campo inválido e aproxima-o da área útil.
 
@@ -75,8 +75,8 @@ PremiumTokens/PremiumScope/componentes 4C.3A são reutilizados. Texto usa pares 
 | --- | --- |
 | dart format, lib/test/utilitário | Sem diferenças após formatação |
 | flutter analyze --no-pub | Sem problemas (30,2 s) |
-| Suite Flutter completa, código final congelado | **271 executados, 271 aprovados, 0 falhas, 0 ignorados, 0 erros**, runner/processador código 0; 211,3 s |
-| Novos testes | 9 aprovados, incluídos nos 271 |
+| Suite Flutter completa, código final congelado | **271/271 na ronda anterior; nova suite completa em curso** após acrescentar o teste de integridade de campos recolhidos |
+| Novos testes | 10 aprovados; nova suite completa em curso após a correcção de integridade |
 | Capturas | 56 antes + 56 depois; fora da contagem da suite |
 | Processador de resultados Python | 9 testes aprovados |
 | check_schema.py | Aprovado, apenas fixtures sintéticas |
@@ -88,7 +88,7 @@ APK SHA-256 local: `c74c9a9b1d4794e7a95fa9dc1163d1a318d8b4ed0a88f97a30709097517e
 
 Os dois workflows existentes incluem agora o branch 4C.3B no trigger push, sem enfraquecer comandos, versões, preservação ou critérios. Sem upload/distribuição de APK.
 
-Código final validado: **1bebb721de392d2154dcf34cba7706edd9f2d9fb**. Resultados observados directamente pela API GitHub:
+Implementação visual validada: **1bebb721de392d2154dcf34cba7706edd9f2d9fb**. A correcção de integridade posterior terá validação própria antes da entrega. Resultados observados directamente pela API GitHub:
 
 | Workflow | Execução | Resultado |
 | --- | --- | --- |
@@ -111,7 +111,7 @@ Não são HTML nem screenshots de telefone físico. A zona de teclado usa viewIn
 - lib/features/goals/goal_plan.dart: rótulos vazios auxiliares, sem mudar operações.
 - lib/core/theme/premium_theme.dart: barra superior e cursor/handles semânticos, dentro do tema aprovado.
 - lib/app/app.dart: âmbito premium do detalhe; caminhos/destinos/guards intactos.
-- test/phase4c3b_goals_test.dart: nove testes novos; app_test, goal_planning_widget, phase4b e phase4c3a_pilot: adaptação às escolhas/âmbito agora autorizados.
+- test/phase4c3b_goals_test.dart: dez testes novos; app_test, goal_planning_widget, phase4b e phase4c3a_pilot: adaptação às escolhas/âmbito agora autorizados.
 - tool/capture_goals.dart: utilitário diagnóstico de capturas sintéticas.
 - .github/workflows/flutter-validation.yml e android-debug-validation.yml: apenas inscrição do branch.
 - Este relatório, docs/ux/phase4c3b e docs/ux/previews/phase4c3b: contrato/evidência.
@@ -127,6 +127,8 @@ Testes antigos pressupunham defaults métricos e que a associação à meta prin
 A edição antiga reserializava due e recalculava status mesmo ao renomear; o caminho de Meta agora preserva valores não tocados. O selector de data completo e o prazo em dias foram sincronizados para não mostrarem rascunhos contraditórios. A revisão de imagem corrigiu a barra superior e os vazios do plano auxiliar. A inspecção a 200% detectou abreviação do rótulo do prazo pelo labelText nativo; os campos de Meta usam agora rótulos Text com quebra de linha. O teste verifica o RenderParagraph real sem excesso de linhas nem overflow por ellipsis, e as capturas foram repetidas.
 
 Uma execução intermédia apanhou um teste actualizado com código anterior compilado enquanto havia alterações em curso. Não foi aceite como resultado final: os testes dirigidos passaram e a suite foi repetida com código congelado. A amostragem visual de nove imagens de oito contextos fora de Metas ficou idêntica byte a byte à base ([registo](ux/phase4c3b/other-modules-validation.json)); isso não certifica todos os estados.
+
+Um teste adicional reproduziu gravação de initial/current=-Infinity após recolher o editor completo: o validator do campo deixava de participar e o CHECK SQLite aceitava o valor. A operação de Meta agora verifica parsing e finitude de inicial/alvo antes de qualquer gravação, com erro em português. O teste falhou antes da correcção e passou depois, sem gravação; a protecção não depende de o campo estar montado.
 
 Sem conformidade WCAG integral declarada. TalkBack real, IME/teclado físico, dispositivo Android, luz/desempenho e instalação/actualização/assinatura não foram certificados. A criação exige uma escolha numérica adicional enquanto o modelo v5 o exigir; essa limitação é explícita e não foi escondida sob percentagens.
 

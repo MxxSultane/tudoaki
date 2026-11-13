@@ -8,6 +8,8 @@ Goals tem target REAL NOT NULL CHECK(target > initial), initial/current REAL NOT
 
 O nome vazio não é impedido pelo NOT NULL; é validado na interface. Uma unidade vazia também não é impedida pela base, mas não explica uma métrica à pessoa. A criação nesta fase exige nome, unidade explícita e alvo finito superior ao inicial. O inicial zero é mostrado, editável e não representa uma percentagem. O armazenamento não permite uma meta apenas com nome sem preencher um alvo numérico. Não se usam convenções escondidas para contornar esse facto.
 
+O CHECK target > initial não exclui infinitos. A validação de parsing/finitude deve ocorrer na operação, mesmo quando opções avançadas estão recolhidas; o formulário 4C.3B aplica essa verificação antes de gravar.
+
 GoalProgress regista valores numéricos absolutos com recorded_at; GoalMilestones guarda etapas auxiliares independentes. Tasks e Habits têm FKs para Goals; a hierarquia usa parent_id. Concluir etapas/tarefas não deve actualizar current. updateMetric conserva a operação actual: grava valor absoluto, deriva status pelo alvo e acrescenta histórico; não atribui XP.
 
 ## Modelo futuro recomendado e decisão necessária

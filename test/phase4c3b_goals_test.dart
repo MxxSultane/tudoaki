@@ -358,4 +358,34 @@ void main() {
       await t.pumpAndSettle();
     },
   );
+  testWidgets(
+    'collapsed advanced metric still rejects non-finite initial values',
+    (t) async {
+      final db = TudoAkiDatabase.memory();
+      addTearDown(db.close);
+      final repo = TodayRepository(db, () => DateTime(2026, 11, 12));
+      await open(t, repo);
+      await t.enterText(field('Título'), 'Medida válida');
+      await press(t, find.widgetWithText(TextButton, 'Medir com números'));
+      await t.enterText(field('Métrica de sucesso (ex.: livros)'), 'livros');
+      await t.enterText(field('Valor pretendido'), '12');
+      await press(t, find.widgetWithText(TextButton, 'Editor completo'));
+      await t.enterText(field('Valor inicial'), '-Infinity');
+      await press(
+        t,
+        find.widgetWithText(TextButton, 'Recolher editor completo'),
+      );
+      await press(t, find.widgetWithText(FilledButton, 'Criar'));
+      expect(await repo.all('Goals'), isEmpty);
+      expect(
+        find.text(
+          'Introduz valores numéricos válidos para o inicial e o alvo.',
+        ),
+        findsOneWidget,
+      );
+      expect(t.takeException(), isNull);
+      await t.pumpWidget(const SizedBox.shrink());
+      await t.pumpAndSettle();
+    },
+  );
 }

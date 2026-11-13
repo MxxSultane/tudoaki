@@ -919,8 +919,18 @@ class _EditorState extends ConsumerState<Editor> {
           }
           row.addAll({'goal_id': goalId, 'due': due?.toIso8601String()});
         case 'Meta':
-          final initial = number('initial');
-          final target = number('target');
+          final initial = double.tryParse(
+            value('initial', '0').replaceAll(',', '.'),
+          );
+          final target = double.tryParse(value('target').replaceAll(',', '.'));
+          if (initial == null ||
+              target == null ||
+              !initial.isFinite ||
+              !target.isFinite) {
+            throw const FormatException(
+              'Introduz valores numéricos válidos para o inicial e o alvo.',
+            );
+          }
           if (target <= initial) {
             throw const FormatException('O alvo deve superar o valor inicial.');
           }
