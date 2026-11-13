@@ -76,7 +76,7 @@ PremiumTokens/PremiumScope/componentes 4C.3A são reutilizados. Texto usa pares 
 | dart format, lib/test/utilitário | Sem diferenças após formatação |
 | flutter analyze --no-pub | Sem problemas (18,4 s) |
 | Suite Flutter completa, código final congelado | **272 executados, 272 aprovados, 0 falhas, 0 ignorados, 0 erros**, runner/processador código 0; 182,5 s |
-| Novos testes | 10 aprovados; nova suite completa em curso após a correcção de integridade |
+| Novos testes | 10 aprovados, incluídos nos 272 |
 | Capturas | 56 antes + 56 depois; fora da contagem da suite |
 | Processador de resultados Python | 9 testes aprovados |
 | check_schema.py | Aprovado, apenas fixtures sintéticas |
@@ -88,14 +88,14 @@ APK SHA-256 local: `a39c279baee74ab1f9cc4d1f2100faac4c306b5a038b1493e482946e4d2e
 
 Os dois workflows existentes incluem agora o branch 4C.3B no trigger push, sem enfraquecer comandos, versões, preservação ou critérios. Sem upload/distribuição de APK.
 
-Implementação visual validada: **1bebb721de392d2154dcf34cba7706edd9f2d9fb**. A correcção de integridade posterior terá validação própria antes da entrega. Resultados observados directamente pela API GitHub:
+Código final da correcção de integridade: **b8b1800d8e069432153e47d780affe3b68ef9197**, validado no commit documental **fa241a8f4575e90fdc10f1d36aecfffcc386a6fc**, cujo código/testes/workflows são idênticos. Resultados observados directamente pela API GitHub:
 
 | Workflow | Execução | Resultado |
 | --- | --- | --- |
-| Flutter validation | [43471556105](https://github.com/MxxSultane/tudoaki/actions/runs/43471556105) | COMPLETED / SUCCESS |
-| Android debug validation | [43471556073](https://github.com/MxxSultane/tudoaki/actions/runs/43471556073) | COMPLETED / SUCCESS |
+| Flutter validation | [43474379059](https://github.com/MxxSultane/tudoaki/actions/runs/43474379059) | COMPLETED / SUCCESS |
+| Android debug validation | [43474379043](https://github.com/MxxSultane/tudoaki/actions/runs/43474379043) | COMPLETED / SUCCESS |
 
-A primeira implementação afdd6fa também passou os dois workflows; a validação acima inclui o ajuste final dos rótulos. A contagem 271 é obtida do runner local machine, não inferida da cor da CI. O commit documental de entrega conserva exactamente o código, testes e workflows desse SHA validado.
+A validação inclui os rótulos a 200% e a protecção de métricas recolhidas. A contagem 272 vem do runner local machine, não é inferida da cor da CI. O push de b8b1800 recebeu erro transitório do GitHub após actualizar a referência; confirmou-se o SHA remoto e o commit documental seguinte disparou as validações acima. Não se considerou o push equivalente a CI aprovada. O commit documental de entrega mantém o código validado intacto.
 
 ## 11. Capturas reais Flutter
 

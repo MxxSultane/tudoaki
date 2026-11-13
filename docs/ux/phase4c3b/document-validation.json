@@ -19,14 +19,15 @@
   "apkVersion": "0.9.2+12",
   "physicalDevice": false,
   "integralWcagClaimed": false,
-  "ciPriorToIntegrityFix": [
+  "validatedCommit": "fa241a8f4575e90fdc10f1d36aecfffcc386a6fc",
+  "ci": [
     {
-      "id": 43471556105,
+      "id": 43474379059,
       "name": "Flutter validation",
       "result": "success"
     },
     {
-      "id": 43471556073,
+      "id": 43474379043,
       "name": "Android debug validation",
       "result": "success"
     }
