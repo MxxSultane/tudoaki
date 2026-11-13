@@ -1,0 +1,42 @@
+{
+  "scope": "9 sampled light theme images / 8 contexts; identical fixed fixtures, dimensions and SHA256; not all states",
+  "base": "3b86f880e7a3ee5163bb1392d3001a76eff34c17",
+  "results": [
+    {
+      "file": "hoje-habits-light.png",
+      "identical": true
+    },
+    {
+      "file": "hoje-filled-light.png",
+      "identical": true
+    },
+    {
+      "file": "habits-light.png",
+      "identical": true
+    },
+    {
+      "file": "tasks-light.png",
+      "identical": true
+    },
+    {
+      "file": "progress-light.png",
+      "identical": true
+    },
+    {
+      "file": "plan-tomorrow-light.png",
+      "identical": true
+    },
+    {
+      "file": "calendar-light.png",
+      "identical": true
+    },
+    {
+      "file": "academics-light.png",
+      "identical": true
+    },
+    {
+      "file": "finance-light.png",
+      "identical": true
+    }
+  ]
+}

@@ -3,6 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../app/providers.dart';
 import '../core/database/database.dart';
+import '../core/theme/premium_theme.dart';
+import '../core/theme/premium_tokens.dart';
+import '../core/widgets/premium_components.dart';
+import '../core/widgets/workspace_page.dart' show workspaceClockProvider;
+import 'goals/goal_deadline.dart';
 import 'goals/goal_tree.dart';
 import 'tasks/domain/task_operations.dart';
 import 'finance/finance_rules.dart';
@@ -71,6 +76,7 @@ class Editor extends ConsumerStatefulWidget {
 class _EditorState extends ConsumerState<Editor> {
   final form = GlobalKey<FormState>();
   final fields = <String, TextEditingController>{};
+  final goalFocus = <String, FocusNode>{};
   late String currency;
   late String category, horizon, recurrence, transactionKind, period;
   late int priority;
@@ -80,6 +86,12 @@ class _EditorState extends ConsumerState<Editor> {
   late bool dayOnlyTask, flexibleTime;
   String? error;
   DateTime? due;
+  bool goalMeasure = false,
+      goalDueChanged = false,
+      changeGoalDeadline = false,
+      goalDeadlineUsesDays = false;
+  String? goalDueDraft;
+  DateTime? goalDayAnchor;
   late DateTime start, end;
   int? goalId, subjectId, savingsId, parentGoalId;
   late Set<int> weekdays;
@@ -93,6 +105,7 @@ class _EditorState extends ConsumerState<Editor> {
   void initState() {
     super.initState();
     advanced = !widget.compact;
+    goalMeasure = widget.existing != null || !widget.compact;
     dayOnlyTask =
         isDateOnly(original['due'] as String?) ||
         original['due'] == null && widget.dayOnlyTask;
@@ -131,6 +144,8 @@ class _EditorState extends ConsumerState<Editor> {
         'MZN';
     due = original['due'] == null
         ? null
+        : widget.kind == 'Meta'
+        ? DateTime.tryParse(original['due'] as String)
         : DateTime.parse(original['due'] as String);
     start = original['start'] == null
         ? widget.initialDate ?? DateTime.now().add(const Duration(hours: 1))
@@ -162,6 +177,9 @@ class _EditorState extends ConsumerState<Editor> {
 
   @override
   void dispose() {
+    for (final focus in goalFocus.values) {
+      focus.dispose();
+    }
     for (final controller in fields.values) {
       controller.dispose();
     }
@@ -177,29 +195,120 @@ class _EditorState extends ConsumerState<Editor> {
     int lines = 1,
   }) => Padding(
     padding: const EdgeInsets.only(bottom: 14),
-    child: TextFormField(
-      controller: c(key, fallback),
-      decoration: InputDecoration(labelText: label),
-      maxLines: lines,
-      keyboardType: numeric
-          ? const TextInputType.numberWithOptions(decimal: true)
-          : lines > 1
-          ? TextInputType.multiline
-          : TextInputType.text,
-      validator: (value) {
-        if (required && (value == null || value.trim().isEmpty)) {
-          return 'Preencha este campo';
-        }
-        if (numeric && value != null && value.isNotEmpty) {
-          final n = double.tryParse(value.replaceAll(',', '.'));
-          if (n == null || !n.isFinite) {
-            return 'Introduza um número válido';
+    child: goalField(
+      TextFormField(
+        controller: c(key, fallback),
+        focusNode: widget.kind == 'Meta'
+            ? goalFocus.putIfAbsent(key, FocusNode.new)
+            : null,
+        decoration: InputDecoration(labelText: label),
+        maxLines: lines,
+        keyboardType: numeric
+            ? const TextInputType.numberWithOptions(decimal: true)
+            : lines > 1
+            ? TextInputType.multiline
+            : TextInputType.text,
+        onChanged: widget.kind == 'Meta'
+            ? (_) => setState(() => error = null)
+            : null,
+        validator: (value) {
+          if (required && (value == null || value.trim().isEmpty)) {
+            return 'Preencha este campo';
           }
-        }
-        return null;
-      },
+          if (numeric && value != null && value.isNotEmpty) {
+            final n = double.tryParse(value.replaceAll(',', '.'));
+            if (n == null || !n.isFinite) {
+              return 'Introduza um número válido';
+            }
+          }
+          return null;
+        },
+      ),
     ),
   );
+  Widget goalField(Widget child) =>
+      widget.kind == 'Meta' ? PremiumFocusOutline(child: child) : child;
+  String goalValue(String key, [String fallback = '']) {
+    if (original.containsKey(key) &&
+        (!fields.containsKey(key) || fields[key]!.text == '${original[key]}')) {
+      return original[key] as String;
+    }
+    return value(key, fallback);
+  }
+
+  Widget goalDeadlineInput() => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      if (widget.existing != null) ...[
+        Text(
+          'Prazo actual: ${goalDeadlineLabel(goalDueChanged ? goalDueDraft : original['due'] as String?)}',
+        ),
+        TextButton(
+          onPressed: busy
+              ? null
+              : () => setState(() => changeGoalDeadline = !changeGoalDeadline),
+          child: const Text('Alterar prazo'),
+        ),
+      ],
+      if (widget.existing == null || changeGoalDeadline)
+        goalField(
+          TextFormField(
+            controller: c('deadline_days'),
+            focusNode: goalFocus.putIfAbsent('deadline_days', FocusNode.new),
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Prazo opcional em dias',
+              helperText: 'Vazio: sem prazo. 1 dia significa amanhã.',
+              helperMaxLines: 4,
+            ),
+            onChanged: (input) => setState(() {
+              goalDayAnchor = ref.read(workspaceClockProvider)();
+              goalDueChanged = true;
+              goalDeadlineUsesDays = true;
+              try {
+                goalDueDraft = goalDeadlineFromDays(input, goalDayAnchor!);
+                due = goalDueDraft == null
+                    ? null
+                    : DateTime.parse(goalDueDraft!);
+                error = null;
+              } on FormatException catch (e) {
+                error = e.message;
+              }
+            }),
+            validator: (_) {
+              if (!goalDueChanged) return null;
+              try {
+                goalDeadlineFromDays(
+                  c('deadline_days').text,
+                  goalDayAnchor ?? ref.read(workspaceClockProvider)(),
+                );
+                return null;
+              } on FormatException catch (e) {
+                return e.message;
+              }
+            },
+          ),
+        ),
+      const SizedBox(height: 8),
+      if (widget.existing == null || goalDueChanged)
+        Text(goalDeadlineLabel(goalDueDraft)),
+      if ((original['due'] != null && !goalDueChanged) || goalDueDraft != null)
+        TextButton(
+          onPressed: busy
+              ? null
+              : () => setState(() {
+                  goalDueChanged = true;
+                  goalDeadlineUsesDays = false;
+                  goalDueDraft = null;
+                  due = null;
+                  c('deadline_days').clear();
+                }),
+          child: const Text('Retirar prazo'),
+        ),
+      const SizedBox(height: 16),
+    ],
+  );
+
   Widget choice(
     String label,
     String value,
@@ -308,12 +417,16 @@ class _EditorState extends ConsumerState<Editor> {
     ],
   );
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) =>
+      widget.kind == 'Meta' && !PremiumTokens.active(context)
+      ? PremiumScope(child: Builder(builder: buildForm))
+      : buildForm(context);
+  Widget buildForm(BuildContext context) {
     final data = ref.watch(dataProvider).valueOrNull;
     if (data == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    return Padding(
+    final body = Padding(
       padding: EdgeInsets.fromLTRB(
         20,
         8,
@@ -329,7 +442,9 @@ class _EditorState extends ConsumerState<Editor> {
             children: [
               Text(
                 '${widget.existing == null ? 'Criar' : 'Editar'} ${widget.kind.toLowerCase()}',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: widget.kind == 'Meta'
+                    ? Theme.of(context).textTheme.titleLarge
+                    : Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 20),
               if (widget.kind != 'Revisão')
@@ -437,24 +552,58 @@ class _EditorState extends ConsumerState<Editor> {
                 ),
               ],
               if (widget.kind == 'Meta') ...[
-                choice('Horizonte', horizon, {
-                  for (final h in ['Anual', 'Trimestral', 'Mensal', 'Semanal'])
-                    h: h,
-                }, (v) => horizon = v),
-                text(
-                  'unit',
-                  'Métrica de sucesso (ex.: livros)',
-                  fallback: 'unidades',
-                  required: true,
-                ),
-                text(
-                  'target',
-                  'Valor pretendido',
-                  fallback: '1',
-                  required: true,
-                  numeric: true,
-                ),
+                goalDeadlineInput(),
+                if (widget.existing == null) ...[
+                  const Text(
+                    'Define uma unidade e um valor pretendido para acompanhar esta meta.',
+                  ),
+                  PremiumFocusOutline(
+                    child: TextButton(
+                      onPressed: busy
+                          ? null
+                          : () => setState(() => goalMeasure = !goalMeasure),
+                      child: Text(
+                        goalMeasure
+                            ? 'Medida definida abaixo'
+                            : 'Medir com números',
+                      ),
+                    ),
+                  ),
+                ],
+                if (goalMeasure) ...[
+                  text(
+                    'unit',
+                    'Métrica de sucesso (ex.: livros)',
+                    required: true,
+                  ),
+                  text(
+                    'target',
+                    'Valor pretendido',
+                    required: true,
+                    numeric: true,
+                  ),
+                  if (!advanced)
+                    Text(
+                      'Valor inicial: ${c('initial', '0').text}. Podes alterá-lo no editor completo.',
+                    ),
+                ],
                 if (advanced) ...[
+                  choice('Horizonte', horizon, {
+                    for (final h in [
+                      'Anual',
+                      'Trimestral',
+                      'Mensal',
+                      'Semanal',
+                      if (![
+                        'Anual',
+                        'Trimestral',
+                        'Mensal',
+                        'Semanal',
+                      ].contains(horizon))
+                        horizon,
+                    ])
+                      h: h,
+                  }, (v) => horizon = v),
                   relation(
                     'Meta principal (opcional)',
                     parentGoalId,
@@ -473,7 +622,23 @@ class _EditorState extends ConsumerState<Editor> {
                     required: true,
                     numeric: true,
                   ),
-                  dateButton('Prazo', due, (v) => due = v, clear: true),
+                  dateButton(
+                    'Prazo',
+                    due,
+                    (v) {
+                      due = v;
+                      goalDueChanged = true;
+                      goalDeadlineUsesDays = false;
+                      goalDueDraft = v == null
+                          ? null
+                          : widget.existing == null
+                          ? dayKey(v)
+                          : v.toIso8601String();
+                      c('deadline_days').clear();
+                    },
+                    clear: true,
+                    includeTime: widget.existing != null,
+                  ),
                   const Text(
                     'Os resultados são independentes das tarefas concluídas.',
                   ),
@@ -604,8 +769,17 @@ class _EditorState extends ConsumerState<Editor> {
               if (widget.compact &&
                   ['Tarefa', 'Meta', 'Evento'].contains(widget.kind))
                 TextButton(
-                  onPressed: () => setState(() => advanced = !advanced),
-                  child: Text(advanced ? 'Menos opções' : 'Mais opções'),
+                  onPressed: () => setState(() {
+                    advanced = !advanced;
+                    if (widget.kind == 'Meta' && advanced) goalMeasure = true;
+                  }),
+                  child: Text(
+                    widget.kind == 'Meta'
+                        ? (advanced
+                              ? 'Recolher editor completo'
+                              : 'Editor completo')
+                        : (advanced ? 'Menos opções' : 'Mais opções'),
+                  ),
                 ),
               if (error != null)
                 Padding(
@@ -620,7 +794,13 @@ class _EditorState extends ConsumerState<Editor> {
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: busy ? null : save,
-                child: Text(busy ? 'A guardar…' : 'Guardar'),
+                child: Text(
+                  busy
+                      ? 'A guardar…'
+                      : widget.kind == 'Meta' && widget.existing == null
+                      ? 'Criar'
+                      : 'Guardar',
+                ),
               ),
               if (widget.existing != null)
                 TextButton(
@@ -632,6 +812,9 @@ class _EditorState extends ConsumerState<Editor> {
         ),
       ),
     );
+    return widget.kind == 'Meta'
+        ? ColoredBox(color: Theme.of(context).colorScheme.surface, child: body)
+        : body;
   }
 
   String value(String key, [String fallback = '']) =>
@@ -651,7 +834,46 @@ class _EditorState extends ConsumerState<Editor> {
     _ => throw StateError('Tipo desconhecido'),
   };
   Future<void> save() async {
+    if (widget.kind == 'Meta' && busy) return;
+    if (widget.kind == 'Meta' && goalDeadlineUsesDays) {
+      try {
+        goalDeadlineFromDays(c('deadline_days').text, goalDayAnchor!);
+      } on FormatException catch (e) {
+        setState(() => error = e.message);
+        return;
+      }
+    }
     if (!form.currentState!.validate()) {
+      if (widget.kind == 'Meta') {
+        final invalid = ['title', 'unit', 'target', 'initial']
+            .where(
+              (key) =>
+                  goalFocus.containsKey(key) &&
+                  (c(key).text.trim().isEmpty ||
+                      (['target', 'initial'].contains(key) &&
+                          (double.tryParse(
+                                c(key).text.replaceAll(',', '.'),
+                              )?.isFinite !=
+                              true))),
+            )
+            .firstOrNull;
+        if (invalid != null) {
+          goalFocus[invalid]!.requestFocus();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final fieldContext = goalFocus[invalid]?.context;
+            if (mounted && fieldContext != null) {
+              Scrollable.ensureVisible(fieldContext);
+            }
+          });
+        }
+      }
+      return;
+    }
+    if (widget.kind == 'Meta' && !goalMeasure) {
+      setState(() {
+        goalMeasure = true;
+        error = 'Define a medida e o valor pretendido para criar esta meta.';
+      });
       return;
     }
     setState(() {
@@ -664,7 +886,9 @@ class _EditorState extends ConsumerState<Editor> {
       final id = original['id'] as int?;
       final row = <String, dynamic>{};
       if (widget.kind != 'Revisão') {
-        row['title'] = value('title');
+        row['title'] = widget.kind == 'Meta'
+            ? goalValue('title')
+            : value('title');
       }
       switch (widget.kind) {
         case 'Tarefa':
@@ -693,23 +917,23 @@ class _EditorState extends ConsumerState<Editor> {
           row.addAll({'goal_id': goalId, 'due': due?.toIso8601String()});
         case 'Meta':
           final initial = number('initial');
-          final target = number('target', '1');
+          final target = number('target');
           if (target <= initial) {
             throw const FormatException('O alvo deve superar o valor inicial.');
           }
           row.addAll({
-            'description': value('description'),
-            'category': value('category', 'Pessoal'),
+            'description': goalValue('description'),
+            'category': goalValue('category', 'Pessoal'),
             'horizon': horizon,
             'parent_id': parentGoalId,
-            'unit': value('unit', 'unidades'),
+            'unit': goalValue('unit'),
             'initial': initial,
             'target': target,
-            'due': due?.toIso8601String(),
+            'due': goalDueChanged ? goalDueDraft : original['due'],
           });
           if (id == null) {
             row.addAll({'current': initial, 'created': now.toIso8601String()});
-          } else {
+          } else if (target != original['target']) {
             row['status'] = (original['current'] as num) >= target
                 ? 'completed'
                 : 'active';
@@ -807,8 +1031,9 @@ class _EditorState extends ConsumerState<Editor> {
     } catch (_) {
       if (mounted) {
         setState(
-          () => error =
-              'Não foi possível guardar. Verifique os dados; títulos de disciplinas não podem repetir-se.',
+          () => error = widget.kind == 'Meta'
+              ? 'Não foi possível guardar a meta. Os teus dados continuam no formulário. Tenta novamente.'
+              : 'Não foi possível guardar. Verifique os dados; títulos de disciplinas não podem repetir-se.',
         );
       }
     } finally {

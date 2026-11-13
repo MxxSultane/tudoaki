@@ -9,6 +9,7 @@ import '../../../core/theme/premium_tokens.dart';
 import '../../../core/widgets/premium_components.dart';
 import '../../../core/widgets/workspace_page.dart';
 import '../domain/goals_cubit.dart';
+import '../goal_deadline.dart';
 
 class GoalsScreen extends StatelessWidget {
   const GoalsScreen({super.key});
@@ -56,7 +57,14 @@ class GoalsScreen extends StatelessWidget {
                         Text(
                           completed
                               ? 'Ainda não há metas alcançadas.'
-                              : 'Ainda não tens metas. Usa o +.',
+                              : 'Ainda sem metas activas.',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          completed
+                              ? 'Os resultados alcançados continuam disponíveis neste filtro.'
+                              : 'Usa o + para definir uma meta e o que queres medir.',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
@@ -119,6 +127,13 @@ class _GoalSummaryState extends State<_GoalSummary> {
                     Text(
                       '${goal['horizon']} · ${goal['category']}',
                       style: theme.textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      goal['due'] == null
+                          ? 'Sem prazo'
+                          : 'Até ${goalDeadlineLabel(goal['due'] as String?)}',
+                      style: theme.textTheme.bodyLarge,
                     ),
                     const SizedBox(height: 16),
                     // Keep the existing numeric model, calculation and semantics.

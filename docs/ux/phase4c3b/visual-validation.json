@@ -1,0 +1,794 @@
+{
+  "renderer": "Flutter test engine / RepaintBoundary.toImage(pixelRatio:2), local fonts; not HTML",
+  "base": "3b86f880e7a3ee5163bb1392d3001a76eff34c17",
+  "clock": "2026-11-11T10:30:00",
+  "png": 112,
+  "pairs": [
+    {
+      "file": "goals-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "3654b3de5cfa1b73afe815df42bc1d9c3700123966345761102764d97319b185",
+      "afterSha256": "3654b3de5cfa1b73afe815df42bc1d9c3700123966345761102764d97319b185"
+    },
+    {
+      "file": "goals-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "27fc56680bd951ea43c2813bcba9e3a3d8af320167854a1a8c48629750801328",
+      "afterSha256": "27fc56680bd951ea43c2813bcba9e3a3d8af320167854a1a8c48629750801328"
+    },
+    {
+      "file": "goals-create-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "06413e9b4325d0136f21599c43280187b52c5048f0c154750061a5941f33bf74",
+      "afterSha256": "ea2a36b67d15589901c2b1a55d22eb0b43229c25bb9cdbe6e922d36651932818"
+    },
+    {
+      "file": "goals-create-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "bd57b2eb6c0272f676f800785674515c5beafbd5bfe043de267445982fa6bd45",
+      "afterSha256": "7f8806febedd8e4603eb539c5b6eb788302c1a660d596797300ed2400276aa36"
+    },
+    {
+      "file": "goals-create-advanced-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "d4c8e19dd210e6e791dd4bad0e26b3f7d7b3a54a9a9995abc43132bb7a214c09",
+      "afterSha256": "1c4e65629cc02246f0fffe436813596945a33c8df65ff316587e2cda1b06ade9"
+    },
+    {
+      "file": "goals-create-advanced-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "2bea91aa3aecd7a616ad35205252e0bf4e41c9088536351a698619c10feaba36",
+      "afterSha256": "27bc2cd2294548bb678b13b795782f4feff30c6227ef00bb289b532a244eade5"
+    },
+    {
+      "file": "goals-create-advanced-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "8d92cdbf7d6e15adbb1c5de4fa2bcd7ca1f31f977cdb34d4c847a8c216bfd512",
+      "afterSha256": "304c9b6ca48be74bcc03c2466f4a92ac12d85344adebacdc35b68c172e8a9f34"
+    },
+    {
+      "file": "goals-create-advanced-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "3ada33cb2f695090d243b940d94733b0a478498326fefc00c2027460b1a55915",
+      "afterSha256": "a88abe01d808dd1bc8d1a486346cc7b4b3fe4bebce273f8ea3f92f5b4446c99b"
+    },
+    {
+      "file": "goals-create-advanced-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "729bb5690816e21045ea142d92318448ad24fa1700a032efbd85e90df7172098",
+      "afterSha256": "e939dbcfec26f70316db883a077f11eecc14dca2d2c29f7337cab976fd27a9ec"
+    },
+    {
+      "file": "goals-create-advanced-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "f1e50dc3d8f0678109944279eed128b37e2a18b39d84bd4a7ecc8db030e049e9",
+      "afterSha256": "0aa5ba725af058fc92c3c70ad673866e3cb8881f577f25587d9b422a3403fa48"
+    },
+    {
+      "file": "goals-create-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "2504e0b4726c13e50ff28e83696e0b497121c010f69c6bc1b8f9d1cb1f8e656c",
+      "afterSha256": "40d897cbc9345025880b4d922a4689d95237243d2ac19193e45d64c9f99432b4"
+    },
+    {
+      "file": "goals-create-error-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "a5d8fd9ed8c8526101bd56c214e267e9e712269ed4c96a88a12b3980411432ae",
+      "afterSha256": "b0b079e71c640c1234b1f33fec768c00e47bc808cd7c5a1e6a76cf8460b77d75"
+    },
+    {
+      "file": "goals-create-error-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "49907abadb435dc9c9a2ff004dd7e1cef3ffb5b4407343eca0533a353579932b",
+      "afterSha256": "0d4cba10e51042f111714881183eb6417d89aacdb4658966f0c757792ccf39d6"
+    },
+    {
+      "file": "goals-create-error-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "12e961f048b99a54922647221f9b28a90f38621cda4a06808c264a76503b5db9",
+      "afterSha256": "035c1142e8529bdeaca41c35b049ad81a78c847f1630aad584a28db9c5f4b03d"
+    },
+    {
+      "file": "goals-create-error-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "069a8facbc7db3ed8c041ca72c59d1c2f97bb33001c3926fdfb8b5dfc508319c",
+      "afterSha256": "223cea0b5c67c41d4ff3308e10a3ee5b0ce51ff861e2eb02350cef2b6163d4d9"
+    },
+    {
+      "file": "goals-create-error-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "6bc7f34a87fd286fff05452360ffe5f3b56aca2c5bd88b1ab99ede987ac7edec",
+      "afterSha256": "783e70ed80801299320ac7ea37d39b1afb10153d35e6ce312593e76064b8200b"
+    },
+    {
+      "file": "goals-create-error-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "39c37aa4c7c4f650f5410ecfdb26c93767e610060534bd7866448392617491ae",
+      "afterSha256": "08c92892885773f2267ab52fc5d6ebc6f1852b0d01d38227757d86460fda555f"
+    },
+    {
+      "file": "goals-create-focus-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "191b836dfe3b1843979e051036558be50fcbbdf8c42c22f1aff3f44a0bf2bff3",
+      "afterSha256": "7ade7cc1f76027f439da1b28d54613cc8f84486727c6a72a5a7fda4533c3ccdf"
+    },
+    {
+      "file": "goals-create-focus-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "91ef46c64c01c3d063a107f052ba43e8337aa0315f68f0cb62d3d0305f343ffe",
+      "afterSha256": "3b2163fda36991a2ed3591af46748f28ba7dbb357437837ece55a726690bce86"
+    },
+    {
+      "file": "goals-create-focus-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "d8790ec401a7c6f87995e73bd14aa56ffbd2f468bf81f656e79425f58eeb5bde",
+      "afterSha256": "86415ff6b0256b019b749cc8985c047a9daf9548151d871ffc5fc6cc271851b8"
+    },
+    {
+      "file": "goals-create-focus-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "877e96f6c10aa5609c6575b596d3b548452c5bb22d722e380d43e996a1a7c8ff",
+      "afterSha256": "cdf1eebca06bc10a8cd83fcc3cbdc5f26c22ed0787283c48d19a34adce350caf"
+    },
+    {
+      "file": "goals-create-focus-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "88eca01b6ba31ba7704f51471b49d0879dd7029cf48d956d3346d1e6ba4ec97f",
+      "afterSha256": "b85fe4840f9413240e175a3c545e00cadb416b5d4f4daa75e9db2a7fc7fd2737"
+    },
+    {
+      "file": "goals-create-focus-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "8c77365403dce67895de86d167d714ee3009de65203df751481e1e08288c882e",
+      "afterSha256": "9f6025faef7811e806fecf131ef2d50566fd020594141dfbade5a9486d8190a1"
+    },
+    {
+      "file": "goals-create-keyboard-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "820a4abf43dd0a7553733fc6c6c974d07d621e3de2a78d47b9b07d05473144d8",
+      "afterSha256": "9d8d46aa7761308d997efcec38be0cace8881f9034a2f5384c2c75f867a6d059"
+    },
+    {
+      "file": "goals-create-keyboard-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "9ab8ce9b9731000620eee0fdb8b8d6174cd3f688a05d14a419af8a2f70a32e72",
+      "afterSha256": "e9ef6d1a5d3dc74846567fe6bd80feb35dba2b4472d6130c733f5147cb13e3b2"
+    },
+    {
+      "file": "goals-create-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "550a09be23206c308c4bf1c19151bed0c19dcbd897d1f29e820d0753f22f7050",
+      "afterSha256": "71835c05debed50503ba224574afc92af4201730258c938e6c1ee25630c7ca1b"
+    },
+    {
+      "file": "goals-create-measure-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "074af8ea378040779039b836b763fe2a15bbae59118937ab2224d22e2b34044f",
+      "afterSha256": "dc081271c957a88d7d214f74d352f47c1ca61f50fe0cf4b75233c8d8d8f8912f"
+    },
+    {
+      "file": "goals-create-measure-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "e8d8ba1299a239c9d4a0cf8b76803367d8821125dfbcece7f37e351c0a162929",
+      "afterSha256": "a92a458cb2460a12469c2fcd3a5866d860ba86df88fb1da42721c0259a3545f8"
+    },
+    {
+      "file": "goals-create-measure-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "7976d611aa1db9d976a04b12bc55456233c93df8a69b586e7685c77c1d30b789",
+      "afterSha256": "1964245c07b7a8f87a8746a9698bb3ecd34f963a89807ce3afdd2ad6c12158ca"
+    },
+    {
+      "file": "goals-create-measure-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "1e2fe56c363894b5a642ca0701901ac4fada8a064ac4b8a5e516cd597b6a1d88",
+      "afterSha256": "35bd073f77e16a08329fc0e1a097424c2671fcd3a8d6492c1d2ae161d6d9623d"
+    },
+    {
+      "file": "goals-create-measure-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "b1d7bfac307de7f5d5908028ae342a06dfcaa7fdff67de1ea2a8cf39d9e30594",
+      "afterSha256": "6867e29dd065761aabdb868948fbb6652fa4bd9da3c3c8e08ae80b7a8d35a854"
+    },
+    {
+      "file": "goals-create-measure-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "ee249164d03a8c514f98d0405bbe7defb1178c6bd4df261e71185233ad69cae7",
+      "afterSha256": "cec5926bc6619a1cb7e8b7ffd46145e0f6b30530591d97cc8150fd5be4efb8e3"
+    },
+    {
+      "file": "goals-create-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "4d4182d0071247cbc8bab6e58f5f57b719a0258633458f45b85eed3171d36a86",
+      "afterSha256": "d9ac791d57f3866d3fc84569ab05f8a6dbdbe4957f67fbf689d53c7f3c5a87c1"
+    },
+    {
+      "file": "goals-create-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "79e69d3dc4f6da34eed042a146bf78e7a25acaf92901c9e67a1b6debc1818302",
+      "afterSha256": "904350defe5ee86aca8f54bcd252a0a232a199d05aef3acc72bc97950306404c"
+    },
+    {
+      "file": "goals-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "4e11e0f743d269b2ec3a9c4acd5c188ac7e514f13788ffefa4747c949666052e",
+      "afterSha256": "bf78f46346df2c5f2f309cb87112af89995f454c6404286b774b41dd389ac06b"
+    },
+    {
+      "file": "goals-detail-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "dd04820167f506648516b950a0c064bc44447f3e39ca1f1b00060d38287ec2a6",
+      "afterSha256": "90ebcf78eec9529d24b10a6adf9a966abd2d7b7502f765c1101a85aecaa7384c"
+    },
+    {
+      "file": "goals-detail-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "3a70267231e4fdcf9d25988499184af79e491af83f200b62b802acf45d2b8fc7",
+      "afterSha256": "038b26e3ddab912e64517ce16368e1276b3768a47735946b709e2313745af0ad"
+    },
+    {
+      "file": "goals-detail-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "c5b0c228362b38cc27e7a49998f9d5dcf73f7a38b5c8ee2a0067565d8df64cb1",
+      "afterSha256": "d20465815bb30ab551af29b17dc62f37b77cfa69b8fbfab458de9ad1993c4afb"
+    },
+    {
+      "file": "goals-detail-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "4d1f08db66ad3611b78365d5c03c8c976b5cb85c05687a8ff73294f4ccc78d2d",
+      "afterSha256": "69c59ed951a2f2a66136cdf398f6930a684b9e133e32e5d512d0abfefc490f45"
+    },
+    {
+      "file": "goals-detail-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "c2e528c907bef42a75b6fffb7817db9004ba5baddf939604215db162546b620e",
+      "afterSha256": "6185a2acee206b508c14bd895ad345e67eeafe9d21e46f8027f5601bca6459d4"
+    },
+    {
+      "file": "goals-detail-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "e51d52596fa22aa62150f222375087480a22eac2a56bf68fec55df9a7e23f2e7",
+      "afterSha256": "bc647e18f41c71d4780cd3a8a00a74818ccf31267bf7e734db738d024679861b"
+    },
+    {
+      "file": "goals-edit-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "dd1b307074b556f1f62ffa0b8dc13ba7712921eec28bab01f07746e0483d5ef3",
+      "afterSha256": "6c1d8d7c2b969952ffc8b1ab2d2bdad8da2ea3f129d47abbe93444ec35a6dc3f"
+    },
+    {
+      "file": "goals-edit-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "863462c3a9e69c65edff6598444e5aef85b6ca0e78c89ec6bdd0201f6ed531c8",
+      "afterSha256": "410c493f349b613cec960dafb41e872181b356e8e7a973cf89c6944c3721f1ef"
+    },
+    {
+      "file": "goals-edit-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "7670d797cd2191ac2d4f89b1571557ac2d7bb00dc6999b0e85e107e824705d27",
+      "afterSha256": "1a61a7c9140a320daa69f7517e37720ac0b0b6a2b7c540fe134b7daece7d6a75"
+    },
+    {
+      "file": "goals-edit-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "d43af39d1e389f491c7a372a35ae6a59c0ba644a796814d25c1001d7a12dd274",
+      "afterSha256": "eae245a280d74834b141974686c69702dabc0d54b824212f9dbb3388c81d671a"
+    },
+    {
+      "file": "goals-edit-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "97da379d2da97357b656072ae7bf1846bb2471c4d5d31f4b2456c33c9f59258c",
+      "afterSha256": "2f55f665c9a398250814fa77beb91edfdafd0ef0366832c8056c7671c3632149"
+    },
+    {
+      "file": "goals-edit-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "b4cd09a2928aadfcce9d9b362689fe1c16dfe860e35f092e24f3a5e2060ffb7f",
+      "afterSha256": "63a4fbb0fca537fc78e8b9b92e5b11f6208f5a1b8b5d19f2a6c2fc2972591ef7"
+    },
+    {
+      "file": "goals-empty-200-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "ab69e1b78d57743d8f0e13e82404a5297da0df14e8099e1e83e844ed03f3b3aa",
+      "afterSha256": "564891ad525bff880af0162c551e7f03fc9097e45c40a3adb734dd158f59b4f6"
+    },
+    {
+      "file": "goals-empty-200-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 2,
+      "beforeSha256": "5bd5104f24d2c898ba309e7a84914f077d1625de9497db69b5269502be3470db",
+      "afterSha256": "59f6e98d0b8fa16e56448c42dc8bafd93be761b0c0e495c7d48d3615fcf27b2d"
+    },
+    {
+      "file": "goals-empty-dark.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "8871058b10429648db3e541862503cf4dc36dc4d5a8789f41507409330143eda",
+      "afterSha256": "368c4348466c9096458d8f126676194fd41106365fce30b06a11d6556b49bac5"
+    },
+    {
+      "file": "goals-empty-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "81ebb04facdf273159be290a68020e4df9a2fdafbf32638e5245b5ba9a3c3adf",
+      "afterSha256": "a8c9458b860238a466a73d8e7e3616a8e97a906b04d5de1285474466378c3ae1"
+    },
+    {
+      "file": "goals-empty-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "cc43205f046b4a77a413a00f44fa2641bf399183c2b30a331e754f57d4ee632d",
+      "afterSha256": "29c2e9ebaa225b8639665f09544a2b0d2edc942e74b11f596bc86355153c787b"
+    },
+    {
+      "file": "goals-empty-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "35e22b3692fc9251cba5312d9df887728e007dca9d444d54941c6265919984a9",
+      "afterSha256": "480c22179cddba6ad114ac0729424ab5a1197b2e68d4f5441a201db192f431aa"
+    },
+    {
+      "file": "goals-light.png",
+      "physicalPixels": [
+        780,
+        1688
+      ],
+      "logicalDp": [
+        390,
+        844
+      ],
+      "scale": 1,
+      "beforeSha256": "3af3e1c67dbd98c0fb4d57ca9786ae3b8b95152fba5d4d590a952feb87be351c",
+      "afterSha256": "ebdce489f0938f67b347f26d756b883d4e587a4e3ed6512703fe7912c424e922"
+    },
+    {
+      "file": "goals-small-dark.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "a0fe8ae18497e523f44c1c244b6f4b095be611780d49e54a273bd9ad62bee48a",
+      "afterSha256": "f6e927553d5bdc292e985204f7e8094c9116f4942f191e26245155ea6c57e112"
+    },
+    {
+      "file": "goals-small-light.png",
+      "physicalPixels": [
+        640,
+        1280
+      ],
+      "logicalDp": [
+        320,
+        640
+      ],
+      "scale": 1,
+      "beforeSha256": "24507e0746dbc4fb8d119a6905849c63dec1b660744536fd44a51fa4c7b4333c",
+      "afterSha256": "c8d4f2638cb317360f0b790b08075e9d939eb565c919bc87aecc3031a7ed99fc"
+    }
+  ],
+  "nativeIme": false,
+  "physicalDevice": false
+}

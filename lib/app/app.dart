@@ -146,10 +146,12 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
       ),
       GoRoute(
         path: AppRoutes.goalPattern,
-        builder: (_, state) => AreaScaffold(
-          title: 'Meta',
-          child: GoalDetail(
-            id: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+        builder: (_, state) => PremiumScope(
+          child: AreaScaffold(
+            title: 'Meta',
+            child: GoalDetail(
+              id: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+            ),
           ),
         ),
       ),

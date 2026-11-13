@@ -57,7 +57,19 @@ void main() {
       find.widgetWithText(TextFormField, 'Título'),
       'Nova meta',
     );
-    await support.tap(tester, find.widgetWithText(FilledButton, 'Guardar'));
+    await support.tap(
+      tester,
+      find.widgetWithText(TextButton, 'Medir com números'),
+    );
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Métrica de sucesso (ex.: livros)'),
+      'livros',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Valor pretendido'),
+      '12',
+    );
+    await support.tap(tester, find.widgetWithText(FilledButton, 'Criar'));
     expect((await repo.all('Goals')).single['title'], 'Nova meta');
     expect(find.byType(TudoAkiShell), findsOneWidget);
   });

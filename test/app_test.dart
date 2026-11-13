@@ -40,8 +40,15 @@ Future<void> create(WidgetTester tester, String kind) async {
   await tap(tester, find.widgetWithText(ListTile, kind));
 }
 
-Future<void> save(WidgetTester tester) =>
-    tap(tester, find.widgetWithText(FilledButton, 'Guardar'));
+Future<void> save(WidgetTester tester) => tap(
+  tester,
+  find.widgetWithText(
+    FilledButton,
+    find.widgetWithText(FilledButton, 'Criar').evaluate().isNotEmpty
+        ? 'Criar'
+        : 'Guardar',
+  ),
+);
 
 void main() {
   testWidgets(
@@ -67,6 +74,7 @@ void main() {
         find.widgetWithText(TextFormField, 'Título'),
         'Ler doze livros',
       );
+      await tap(tester, find.widgetWithText(TextButton, 'Medir com números'));
       await tester.enterText(
         find.widgetWithText(TextFormField, 'Métrica de sucesso (ex.: livros)'),
         'livros',

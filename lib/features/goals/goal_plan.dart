@@ -52,7 +52,7 @@ class GoalPlan extends ConsumerWidget {
       tilePadding: EdgeInsets.zero,
       title: const Text('Plano desta meta'),
       subtitle: Text(
-        '${children.length} submetas · $completed/${milestones.length} etapas · $completedTasks/${tasks.length} tarefas',
+        '${children.length} submetas · ${milestones.isEmpty ? 'Sem etapas' : '$completed/${milestones.length} etapas'} · ${tasks.isEmpty ? 'Sem acções' : '$completedTasks/${tasks.length} tarefas'}',
       ),
       expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

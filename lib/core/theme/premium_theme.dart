@@ -84,6 +84,12 @@ ThemeData buildPremiumTheme(ThemeData base, {bool reduceMotion = false}) {
       t,
     ],
     scaffoldBackgroundColor: t.background,
+    appBarTheme: base.appBarTheme.copyWith(
+      backgroundColor: t.background,
+      foregroundColor: t.ink,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+    ),
     textTheme: text,
     colorScheme: base.colorScheme.copyWith(
       primary: t.accent,
@@ -189,6 +195,11 @@ ThemeData buildPremiumTheme(ThemeData base, {bool reduceMotion = false}) {
       color: t.action,
       linearTrackColor: t.surface,
       linearMinHeight: 6,
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: t.action,
+      selectionHandleColor: t.action,
+      selectionColor: t.soft,
     ),
     inputDecorationTheme: base.inputDecorationTheme.copyWith(
       filled: true,

@@ -7,6 +7,9 @@ import '../../../core/widgets/workspace_page.dart';
 import '../../forms.dart';
 import '../../tasks/presentation/task_row.dart';
 import '../goal_plan.dart';
+import '../goal_deadline.dart';
+import '../../../core/widgets/premium_components.dart';
+import '../../../core/theme/premium_theme.dart';
 
 class GoalDetail extends StatelessWidget {
   const GoalDetail({required this.id, super.key});
@@ -33,22 +36,29 @@ class GoalDetail extends StatelessWidget {
               goal['target'] as num,
               goal['current'] as num,
             ),
-            minHeight: 3,
+            minHeight: 6,
             semanticsLabel: 'Progresso da meta',
+            semanticsValue:
+                '${goal['current']} de ${goal['target']} ${goal['unit']}',
           ),
           const SizedBox(height: 16),
           Text(
             '${NumberFormat.decimalPattern('pt').format(goal['current'])} / ${NumberFormat.decimalPattern('pt').format(goal['target'])} ${goal['unit']}',
           ),
-          if (goal['due'] != null)
-            Text(
-              'Até ${DateFormat('dd/MM/yyyy').format(DateTime.parse(goal['due'] as String))}',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+          Text(
+            goal['due'] == null
+                ? 'Sem prazo'
+                : 'Até ${goalDeadlineLabel(goal['due'] as String?)}',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
           const SizedBox(height: 16),
           FilledButton(
-            onPressed: () =>
-                showEditor(context, 'Tarefa', goalId: id, compact: true),
+            onPressed: () => showEditor(
+              PremiumScope.legacyContextOf(context),
+              'Tarefa',
+              goalId: id,
+              compact: true,
+            ),
             child: const Text('Adicionar acção'),
           ),
           Wrap(
@@ -80,29 +90,33 @@ class GoalDetail extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          GoalPlan(
-            goal: goal,
-            taskBuilder: (task) => TaskRow(task: task),
+          PremiumFocusOutline(
+            child: GoalPlan(
+              goal: goal,
+              taskBuilder: (task) => TaskRow(task: task),
+            ),
           ),
           const SizedBox(height: 24),
-          ExpansionTile(
-            tilePadding: EdgeInsets.zero,
-            title: const Text('Histórico de resultados'),
-            children: [
-              for (final row
-                  in data['GoalProgress']!
-                      .where((p) => p['goal_id'] == id)
-                      .toList()
-                      .reversed)
-                ListTile(
-                  title: Text('${row['value']} ${goal['unit']}'),
-                  subtitle: Text(
-                    DateFormat(
-                      'dd/MM/yyyy · HH:mm',
-                    ).format(DateTime.parse(row['recorded_at'] as String)),
+          PremiumFocusOutline(
+            child: ExpansionTile(
+              tilePadding: EdgeInsets.zero,
+              title: const Text('Histórico de resultados'),
+              children: [
+                for (final row
+                    in data['GoalProgress']!
+                        .where((p) => p['goal_id'] == id)
+                        .toList()
+                        .reversed)
+                  ListTile(
+                    title: Text('${row['value']} ${goal['unit']}'),
+                    subtitle: Text(
+                      DateFormat(
+                        'dd/MM/yyyy · HH:mm',
+                      ).format(DateTime.parse(row['recorded_at'] as String)),
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ],
       );
@@ -146,15 +160,17 @@ class _MetricEditorState extends ConsumerState<_MetricEditor> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 24),
-            TextField(
-              controller: value,
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-                signed: true,
-              ),
-              decoration: InputDecoration(
-                labelText: 'Resultado em ${widget.goal['unit']}',
-                errorText: error,
+            PremiumFocusOutline(
+              child: TextField(
+                controller: value,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                  signed: true,
+                ),
+                decoration: InputDecoration(
+                  labelText: 'Resultado em ${widget.goal['unit']}',
+                  errorText: error,
+                ),
               ),
             ),
             const SizedBox(height: 24),

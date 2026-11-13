@@ -14,7 +14,7 @@ import 'support/today_fixture.dart';
 void main() {
   for (final dark in [false, true]) {
     testWidgets(
-      'pilot $dark: scaled Hoje/Metas retains data, targets, filters, direct form and legacy scope',
+      'pilot $dark: scaled Hoje/Metas retains data, targets, filters, direct form and scoped goal adoption',
       (tester) async {
         tester.view.physicalSize = const Size(320, 640);
         tester.view.devicePixelRatio = 1;
@@ -137,9 +137,9 @@ void main() {
         expect(tester.widget<Editor>(find.byType(Editor)).kind, 'Meta');
         expect(
           Theme.of(
-            tester.element(find.byType(Editor)),
+            tester.element(find.byType(TextFormField).first),
           ).extension<PremiumTokens>(),
-          isNull,
+          isNotNull,
         );
         // Cancel through the existing back operation; no write, conversion or XP.
         router.pop();

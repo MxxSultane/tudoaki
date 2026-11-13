@@ -53,12 +53,27 @@ void main() {
       find.descendant(of: card, matching: find.text('Criar submeta')),
     );
     expect(find.text('Mensal'), findsOneWidget);
+    await tester.ensureVisible(
+      find.widgetWithText(
+        DropdownButtonFormField<int>,
+        'Meta principal (opcional)',
+      ),
+    );
+    await tester.pumpAndSettle();
     expect(find.text('Ler doze livros').hitTestable(), findsOneWidget);
     await tester.enterText(
       find.widgetWithText(TextFormField, 'Título'),
       'Ler em Novembro',
     );
-    await tapVisible(find.widgetWithText(FilledButton, 'Guardar'));
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Métrica de sucesso (ex.: livros)'),
+      'livros',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Valor pretendido'),
+      '4',
+    );
+    await tapVisible(find.widgetWithText(FilledButton, 'Criar'));
     final child = (await repo.all(
       'Goals',
     )).firstWhere((g) => g['parent_id'] == parent);
