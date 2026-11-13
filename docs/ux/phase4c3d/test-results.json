@@ -1,0 +1,56 @@
+{
+  "base": "49e1724319988ef66890f5742de8eea84692c112",
+  "baseline": {
+    "executed": 292,
+    "passed": 292,
+    "failed": 0
+  },
+  "new_tests": 26,
+  "targeted": {
+    "executed": 31,
+    "passed": 31
+  },
+  "renderer_before": {
+    "executed": 164,
+    "passed": 138,
+    "failed": 26,
+    "png": 160,
+    "unrenderable_cases": 4
+  },
+  "renderer_after": {
+    "executed": 164,
+    "passed": 164
+  },
+  "renderer_detail": {
+    "executed": 12,
+    "passed": 12
+  },
+  "total_png": 336,
+  "matched_pairs": 160,
+  "external_identical_pairs": 20,
+  "analyze": "No issues found",
+  "android_debug": {
+    "result": "success",
+    "assemble_seconds": 20.8,
+    "artifact_committed": false,
+    "sha256_local": "59ea82ec65b726cbaa97970ad16efb8e59cb24f9ed25934ec38d56852e70eea4"
+  },
+  "full_suite": {
+    "executed": 318,
+    "passed": 318,
+    "failed": 0,
+    "skipped": 0,
+    "error_events": 0,
+    "execution_errors": 0,
+    "runner_complete": true,
+    "success": true,
+    "exit_code": 0
+  },
+  "ci": "pending push",
+  "wcag_integral_claim": false,
+  "format": "111 files; zero changes (lib/test + capture utility)",
+  "python_summary_tests": {
+    "executed": 9,
+    "passed": 9
+  }
+}

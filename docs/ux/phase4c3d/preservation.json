@@ -1,0 +1,121 @@
+{
+  "base": "49e1724319988ef66890f5742de8eea84692c112",
+  "protected_paths": [
+    {
+      "path": "android",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.yaml",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.lock",
+      "unchanged": true
+    },
+    {
+      "path": "lib/core/database",
+      "unchanged": true
+    },
+    {
+      "path": "lib/core/theme",
+      "unchanged": true
+    },
+    {
+      "path": "lib/core/widgets",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/tasks",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/academics",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/goals",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/habits",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/planning",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/agenda",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/progress",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/finance/finance_rules.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/finance/finance_repository.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/finance/finance_providers.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/app/navigation",
+      "unchanged": true
+    },
+    {
+      "path": "lib/app/providers.dart",
+      "unchanged": true
+    }
+  ],
+  "operation_methods": [
+    {
+      "file": "lib/features/forms.dart",
+      "method": "void initState()",
+      "body_identical": true,
+      "sha256": "e6be9a4864643aecdd7d7888bc95f47a64c60c84485d46ff887f70f80605b9d7"
+    },
+    {
+      "file": "lib/features/forms.dart",
+      "method": "Future<void> save()",
+      "body_identical": true,
+      "sha256": "e484dcff1d59e3bd8c15043a073213c926dda3507c43a38013fcdaf5da5fdd1a"
+    },
+    {
+      "file": "lib/features/forms.dart",
+      "method": "Future<void> remove()",
+      "body_identical": true,
+      "sha256": "528b6924f71936d2cc032e32b6de2a283b40dcb8c394fa142ab27c7a0168700b"
+    },
+    {
+      "file": "lib/features/finance/finance_editor.dart",
+      "method": "void initState()",
+      "body_identical": true,
+      "sha256": "84761a30e7fd1768cd36df7bfd66d1510167fa76f236c7fd7420af1ae368bfbe"
+    },
+    {
+      "file": "lib/features/finance/finance_editor.dart",
+      "method": "Future<void> save()",
+      "body_identical": true,
+      "sha256": "992c6a7ce0636f659db7efa6e96452654e043fa0f95bcd8dc14db2c02d17a392"
+    },
+    {
+      "file": "lib/features/finance/finance_editor.dart",
+      "method": "Future<void> remove()",
+      "body_identical": true,
+      "sha256": "62d77e8ccaefde805a12db196dc6c29735c54aec20890be17e64d1c659dafd57"
+    }
+  ],
+  "month_currency_filters_totals_budgets_query_block_identical": true,
+  "query_block_sha256": "f26d794d4613c812be9590a4cf275b96d6cce68b9f5f5f644c33eb1ad52f99da",
+  "real_database_accessed": false,
+  "migrations": false,
+  "new_dependencies": false,
+  "new_financial_operations": false
+}

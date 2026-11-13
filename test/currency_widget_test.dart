@@ -12,6 +12,25 @@ import 'package:tudo_aki/features/screens.dart';
 Future<void> tap(WidgetTester tester, Finder finder) async {
   FocusManager.instance.primaryFocus?.unfocus();
   await tester.pumpAndSettle();
+  if (finder.evaluate().isEmpty) {
+    for (final id in [
+      'finance-budgets',
+      'finance-savings',
+      'finance-recurring',
+      'finance-composition',
+    ]) {
+      final tile = find.byKey(ValueKey(id));
+      if (tile.evaluate().isEmpty) continue;
+      final header = find
+          .descendant(of: tile, matching: find.byType(ListTile))
+          .first;
+      await tester.ensureVisible(header);
+      await tester.pumpAndSettle();
+      await tester.tap(header);
+      await tester.pumpAndSettle();
+      if (finder.evaluate().isNotEmpty) break;
+    }
+  }
   await tester.ensureVisible(finder);
   await tester.pumpAndSettle();
   expect(finder.hitTestable(), findsOneWidget);
@@ -77,7 +96,14 @@ void main() {
       );
       await render(tester);
       expect(find.text('Resumo mensal · USD'), findsOneWidget);
-      expect(find.text('Despesas: 0,00 USD'), findsOneWidget);
+      await tap(tester, find.text('Ver composição'));
+      expect(
+        find.descendant(
+          of: find.byKey(const ValueKey('finance-expense')),
+          matching: find.text('0,00 USD'),
+        ),
+        findsOneWidget,
+      );
       await tap(tester, find.text('Registar movimento'));
       await tester.enterText(
         find.widgetWithText(TextFormField, 'Título'),
@@ -88,7 +114,13 @@ void main() {
         '25,40',
       );
       await tap(tester, find.widgetWithText(FilledButton, 'Guardar'));
-      expect(find.text('Despesas: 25,40 USD'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byKey(const ValueKey('finance-expense')),
+          matching: find.text('25,40 USD'),
+        ),
+        findsOneWidget,
+      );
       await tap(
         tester,
         find.widgetWithText(
@@ -97,7 +129,13 @@ void main() {
         ),
       );
       await tap(tester, find.text('Metical (MZN)').last);
-      expect(find.text('Despesas: 100,00 MT'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byKey(const ValueKey('finance-expense')),
+          matching: find.text('100,00 MT'),
+        ),
+        findsOneWidget,
+      );
       await tap(tester, find.text('Despesa antiga'));
       expect(
         find.widgetWithText(TextFormField, 'Valor em MT (ex.: 1250,50)'),
@@ -108,7 +146,13 @@ void main() {
         '110,50',
       );
       await tap(tester, find.widgetWithText(FilledButton, 'Guardar'));
-      expect(find.text('Despesas: 110,50 MT'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byKey(const ValueKey('finance-expense')),
+          matching: find.text('110,50 MT'),
+        ),
+        findsOneWidget,
+      );
       expect(
         (await repo.all('FinancialTransactions')).first['currency'],
         'MZN',
@@ -165,7 +209,14 @@ void main() {
       );
       await tap(tester, find.text('Renda USD'));
       await tap(tester, find.text('Rever vencimentos'));
-      expect(find.text('Total: 100,01 USD'), findsOneWidget);
+      expect(find.text('Total'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.text('100,01 USD'),
+        ),
+        findsNWidgets(2),
+      );
       await tap(tester, find.text('Confirmar registo'));
       final rows = await repo.all('FinancialTransactions');
       expect(rows, hasLength(2));

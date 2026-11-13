@@ -8,6 +8,9 @@ import 'finance_editor.dart';
 import 'finance_providers.dart';
 import 'finance_repository.dart';
 import 'finance_rules.dart';
+import 'finance_amount.dart';
+import '../../core/theme/premium_tokens.dart';
+import '../../core/widgets/premium_components.dart';
 
 class FinancePanel extends ConsumerStatefulWidget {
   const FinancePanel({super.key});
@@ -18,6 +21,7 @@ class FinancePanel extends ConsumerStatefulWidget {
 class _FinancePanelState extends ConsumerState<FinancePanel> {
   late DateTime month;
   int? posting;
+  bool allMovements = false;
   String? selectedCurrency;
   @override
   void initState() {
@@ -28,7 +32,10 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
 
   Widget heading(String text) => Padding(
     padding: const EdgeInsets.only(top: 20, bottom: 8),
-    child: Text(text, style: Theme.of(context).textTheme.titleLarge),
+    child: Semantics(
+      header: true,
+      child: Text(text, style: Theme.of(context).textTheme.titleLarge),
+    ),
   );
   Future<void> review(DataRowMap rule) async {
     final container = ProviderScope.containerOf(context, listen: false);
@@ -52,33 +59,41 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
         context: context,
         builder: (c) => AlertDialog(
           title: const Text('Registar movimentos?'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(preview.title),
-                Text(
-                  '${preview.kind == 'income' ? 'Receita' : 'Despesa'} · ${preview.category}',
-                ),
-                Text(
-                  'Total: ${formatMoney(BigInt.from(preview.amountCents) * BigInt.from(preview.days.length), currency: preview.currency)}',
-                ),
-                for (final day in preview.days)
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      DateFormat('dd/MM/yyyy').format(DateTime.parse(day)),
-                    ),
-                    trailing: Text(
-                      money(preview.amountCents, currency: preview.currency),
-                    ),
+          content: SizedBox(
+            width: MediaQuery.sizeOf(context).width,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(preview.title),
+                  Text(
+                    '${preview.kind == 'income' ? 'Receita' : 'Despesa'} · ${preview.category}',
                   ),
-                if (preview.days.length == recurringBatchLimit)
-                  const Text(
-                    'Este lote inclui até 24 vencimentos. Pode rever os restantes depois.',
+                  FinanceAmount(
+                    label: 'Total',
+                    cents:
+                        BigInt.from(preview.amountCents) *
+                        BigInt.from(preview.days.length),
+                    currency: preview.currency,
                   ),
-              ],
+                  for (final day in preview.days)
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(
+                        DateFormat('dd/MM/yyyy').format(DateTime.parse(day)),
+                      ),
+                      subtitle: FinanceAmount(
+                        cents: BigInt.from(preview.amountCents),
+                        currency: preview.currency,
+                      ),
+                    ),
+                  if (preview.days.length == recurringBatchLimit)
+                    const Text(
+                      'Este lote inclui até 24 vencimentos. Pode rever os restantes depois.',
+                    ),
+                ],
+              ),
             ),
           ),
           actions: [
@@ -157,30 +172,78 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
               b['category_key'] as String,
             ),
           );
+    final rules = data['RecurringTransactions']!
+        .where((row) => rowCurrency(row) == currency)
+        .toList();
+    Widget focus(Widget child) => PremiumTokens.active(context)
+        ? PremiumFocusOutline(child: child)
+        : child;
+    Widget amount(BigInt value, {String? label, Key? key}) =>
+        FinanceAmount(key: key, cents: value, currency: currency, label: label);
+    Widget disclosure(
+      String id,
+      String title,
+      String subtitle,
+      List<Widget> children,
+    ) => focus(
+      ExpansionTile(
+        key: ValueKey(id),
+        tilePadding: EdgeInsets.zero,
+        title: Text(title),
+        subtitle: Text(subtitle),
+        expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
+        children: children,
+      ),
+    );
+    final summary = Padding(
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Resumo mensal · $currency',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          amount(
+            total('income') - total('expense') - total('saving'),
+            label: 'Saldo dos movimentos',
+            key: const ValueKey('finance-result'),
+          ),
+          disclosure(
+            'finance-composition',
+            'Ver composição',
+            'Receitas, despesas e contribuições para poupança',
+            [
+              amount(
+                total('income'),
+                label: 'Receitas',
+                key: const ValueKey('finance-income'),
+              ),
+              const SizedBox(height: 8),
+              amount(
+                total('expense'),
+                label: 'Despesas',
+                key: const ValueKey('finance-expense'),
+              ),
+              const SizedBox(height: 8),
+              amount(
+                total('saving'),
+                label: 'Contribuições para poupança',
+                key: const ValueKey('finance-saving-total'),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Saldo dos movimentos = receitas − despesas − contribuições para poupança deste mês e moeda.',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        DropdownButtonFormField<String>(
-          key: ValueKey('view-currency-$currency'),
-          initialValue: currency,
-          isExpanded: true,
-          decoration: const InputDecoration(labelText: 'Moeda apresentada'),
-          items: [
-            for (final entry in currencyLabels.entries)
-              DropdownMenuItem(
-                value: entry.key,
-                child: Text(
-                  entry.value,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-          ],
-          onChanged: (value) => setState(() => selectedCurrency = value),
-        ),
-        const Text(
-          'Resumo e novos registos nesta moeda. Consulte outras moedas no selector; não há conversão cambial.',
-        ),
         Row(
           children: [
             IconButton(
@@ -221,288 +284,331 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
             ),
           ],
         ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Resumo mensal · $currency',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Text(
-                  'Receitas: ${formatMoney(total('income'), currency: currency)}',
-                ),
-                Text(
-                  'Despesas: ${formatMoney(total('expense'), currency: currency)}',
-                ),
-                Text(
-                  'Contribuições para poupança: ${formatMoney(total('saving'), currency: currency)}',
-                ),
-                Text(
-                  'Saldo dos movimentos: ${formatMoney(total('income') - total('expense') - total('saving'), currency: currency)}',
-                ),
-              ],
-            ),
+        const SizedBox(height: 8),
+        focus(
+          DropdownButtonFormField<String>(
+            key: ValueKey('view-currency-$currency'),
+            initialValue: currency,
+            selectedItemBuilder: (_) => [
+              for (final code in currencyLabels.keys) Text(code),
+            ],
+            isExpanded: true,
+            itemHeight: null,
+            decoration: const InputDecoration(labelText: 'Moeda apresentada'),
+            items: [
+              for (final entry in currencyLabels.entries)
+                DropdownMenuItem(value: entry.key, child: Text(entry.value)),
+            ],
+            onChanged: (value) => setState(() => selectedCurrency = value),
           ),
         ),
-        Wrap(
-          spacing: 8,
-          children: [
-            FilledButton(
-              onPressed: () => showEditor(
-                context,
-                'Transacção',
-                initialDate: date,
-                currency: currency,
-              ),
-              child: const Text('Registar movimento'),
-            ),
-            OutlinedButton(
-              onPressed: () =>
-                  showEditor(context, 'Poupança', currency: currency),
-              child: const Text('Criar poupança'),
-            ),
-          ],
+        const SizedBox(height: 8),
+        Text(
+          'Sem conversão cambial.',
+          style: Theme.of(context).textTheme.bodySmall,
         ),
-        Row(
-          children: [
-            Expanded(child: heading('Orçamentos por categoria')),
-            TextButton(
-              onPressed: () => showFinancePlan(
-                context,
-                'Orçamento',
-                month: month,
-                today: today,
-                currency: currency,
-              ),
-              child: const Text('Adicionar orçamento'),
+        const SizedBox(height: 16),
+        if (PremiumTokens.active(context))
+          PremiumSurface(child: summary)
+        else
+          Card(child: summary),
+        const SizedBox(height: 16),
+        focus(
+          FilledButton(
+            onPressed: () => showEditor(
+              context,
+              'Transacção',
+              initialDate: date,
+              currency: currency,
             ),
-          ],
-        ),
-        if (budgets.isEmpty)
-          const Text(
-            'Defina limites para as despesas deste mês. Os movimentos existentes não são alterados.',
+            child: const Text('Registar movimento'),
           ),
-        for (final budget in budgets)
-          Builder(
-            builder: (_) {
-              final spent = budgetSpent(budget, rows);
-              final limit = budget['limit_cents'] as int;
-              final remaining = BigInt.from(limit) - spent;
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              budget['category'] as String,
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          ),
-                          IconButton(
-                            tooltip: 'Editar orçamento',
-                            onPressed: () => showFinancePlan(
-                              context,
-                              'Orçamento',
-                              existing: budget,
-                              month: month,
-                              today: today,
-                              currency: currency,
-                            ),
-                            icon: const Icon(Icons.edit_outlined),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '${formatMoney(spent, currency: currency)} de ${money(limit, currency: currency)}',
-                      ),
-                      const SizedBox(height: 8),
-                      LinearProgressIndicator(
-                        value: moneyProgress(spent, limit),
-                        semanticsLabel: 'Despesas face ao orçamento',
-                        semanticsValue:
-                            '${spent * BigInt.from(100) ~/ BigInt.from(limit)} por cento',
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        remaining.isNegative
-                            ? 'Limite ultrapassado em ${formatMoney(-remaining, currency: currency)}'
-                            : 'Restante: ${formatMoney(remaining, currency: currency)}',
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        Row(
-          children: [
-            Expanded(child: heading('Movimentos recorrentes')),
-            TextButton(
-              onPressed: () => showFinancePlan(
-                context,
-                'Recorrência',
-                today: today,
-                currency: currency,
-              ),
-              child: const Text('Nova recorrência'),
-            ),
-          ],
         ),
-        const Text(
-          'Reveja os vencimentos antes de confirmar. Nenhum movimento é criado ao abrir esta página.',
-        ),
-        for (final rule in data['RecurringTransactions']!.where(
-          (row) => rowCurrency(row) == currency,
-        ))
-          Card(
-            child: ExpansionTile(
-              key: PageStorageKey('recurring-${rule['id']}'),
-              title: Text(rule['title'] as String),
-              subtitle: Text(
-                '${money(rule['amount_cents'] as int, currency: currency)} · ${frequencyLabels[rule['frequency']]}${rule['active'] == 0 ? ' · Em pausa' : ''}',
-              ),
-              childrenPadding: const EdgeInsets.all(12),
-              expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  '${rule['kind'] == 'income' ? 'Receita' : 'Despesa'} · ${rule['category']}',
-                ),
-                Text(
-                  'Desde ${DateFormat('dd/MM/yyyy').format(DateTime.parse(rule['start_day'] as String))}${rule['end_day'] == null ? '' : ' até ${DateFormat('dd/MM/yyyy').format(DateTime.parse(rule['end_day'] as String))}'}',
-                ),
-                Wrap(
-                  spacing: 8,
+        heading('Movimentos do mês'),
+        if (movements.isEmpty) Text('Sem movimentos neste mês em $currency.'),
+        for (final row in allMovements ? movements : movements.take(3))
+          focus(
+            Tooltip(
+              message: 'Editar movimento',
+              child: ListTile(
+                key: ValueKey('finance-movement-${row['id']}'),
+                contentPadding: EdgeInsets.zero,
+                title: Text(row['title'] as String),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    TextButton(
-                      onPressed: rule['active'] == 0 || posting != null
-                          ? null
-                          : () => review(rule),
-                      child: Text(
-                        posting == rule['id']
-                            ? 'A preparar…'
-                            : 'Rever vencimentos',
-                      ),
+                    Text(
+                      '${DateFormat('dd/MM/yyyy').format(DateTime.parse(row['day'] as String))} · ${row['category']}\n${switch (row['kind']) {
+                        'income' => 'Receita',
+                        'saving' => 'Contribuição para poupança',
+                        _ => 'Despesa',
+                      }}${row['recurring_day'] == null ? '' : ' · Recorrente'}',
                     ),
-                    TextButton(
-                      onPressed: () => showFinancePlan(
-                        context,
-                        'Recorrência',
-                        existing: rule,
-                        today: today,
-                        currency: currency,
-                      ),
-                      child: const Text('Editar regra'),
+                    FinanceAmount(
+                      cents: BigInt.from(row['amount_cents'] as int),
+                      currency: currency,
+                      sign: row['kind'] == 'income' ? '+' : '−',
                     ),
                   ],
                 ),
-                for (final occurrence
-                    in data['RecurringOccurrences']!
-                        .where((o) => o['rule_id'] == rule['id'])
-                        .toList()
-                        .reversed
-                        .take(12))
-                  ListTile(
-                    dense: true,
-                    title: Text(
-                      DateFormat(
-                        'dd/MM/yyyy',
-                      ).format(DateTime.parse(occurrence['day'] as String)),
-                    ),
-                    subtitle: Text(
-                      occurrence['transaction_id'] == null
-                          ? 'Movimento eliminado; o vencimento permanece registado.'
-                          : 'Movimento registado.',
-                    ),
-                  ),
-              ],
+                onTap: () => showEditor(context, 'Transacção', existing: row),
+              ),
             ),
           ),
-        heading('Metas de poupança'),
-        if (savings.isEmpty)
-          const Text('Crie uma meta para acompanhar as suas contribuições.'),
-        for (final goal in savings)
-          Builder(
-            builder: (_) {
-              final cents = transactionTotal(
-                rows,
-                (row) =>
-                    row['kind'] == 'saving' && row['savings_id'] == goal['id'],
-              );
-              final target = goal['target_cents'] as int;
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              goal['title'] as String,
-                              style: Theme.of(context).textTheme.titleMedium,
+        if (movements.length > 3)
+          TextButton(
+            onPressed: () => setState(() => allMovements = !allMovements),
+            child: Text(
+              allMovements
+                  ? 'Mostrar só recentes'
+                  : 'Ver todos os movimentos (${movements.length})',
+            ),
+          ),
+        const SizedBox(height: 16),
+        disclosure(
+          'finance-budgets',
+          'Orçamentos (${budgets.length})',
+          'Limites por categoria neste mês e moeda',
+          [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () => showFinancePlan(
+                  context,
+                  'Orçamento',
+                  month: month,
+                  today: today,
+                  currency: currency,
+                ),
+                child: const Text('Adicionar orçamento'),
+              ),
+            ),
+            if (budgets.isEmpty)
+              const Text('Ainda sem orçamentos neste mês e moeda.'),
+            for (final budget in budgets)
+              Builder(
+                builder: (_) {
+                  final spent = budgetSpent(budget, rows);
+                  final limit = budget['limit_cents'] as int;
+                  final remaining = BigInt.from(limit) - spent;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          budget['category'] as String,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        amount(spent, label: 'Despesas'),
+                        amount(BigInt.from(limit), label: 'Limite'),
+                        const SizedBox(height: 8),
+                        LinearProgressIndicator(
+                          value: moneyProgress(spent, limit),
+                          semanticsLabel: 'Despesas face ao orçamento',
+                          semanticsValue:
+                              '${spent * BigInt.from(100) ~/ BigInt.from(limit)} por cento',
+                        ),
+                        const SizedBox(height: 8),
+                        amount(
+                          remaining.isNegative ? -remaining : remaining,
+                          label: remaining.isNegative
+                              ? 'Limite ultrapassado em'
+                              : 'Restante',
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Tooltip(
+                            message: 'Editar orçamento',
+                            child: TextButton(
+                              onPressed: () => showFinancePlan(
+                                context,
+                                'Orçamento',
+                                existing: budget,
+                                month: month,
+                                today: today,
+                                currency: currency,
+                              ),
+                              child: const Text('Editar orçamento'),
                             ),
                           ),
-                          IconButton(
-                            tooltip: 'Editar poupança',
-                            onPressed: () =>
-                                showEditor(context, 'Poupança', existing: goal),
-                            icon: const Icon(Icons.edit_outlined),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '${formatMoney(cents, currency: currency)} / ${money(target, currency: currency)}',
-                      ),
-                      const SizedBox(height: 8),
-                      LinearProgressIndicator(
-                        value: moneyProgress(cents, target),
-                        semanticsLabel: 'Progresso da poupança',
-                        semanticsValue:
-                            '${cents * BigInt.from(100) ~/ BigInt.from(target)} por cento',
-                      ),
-                      TextButton(
-                        onPressed: () => showEditor(
-                          context,
-                          'Transacção',
-                          savingsGoalId: goal['id'] as int,
-                          initialDate: date,
                         ),
-                        child: const Text('Registar contribuição'),
+                      ],
+                    ),
+                  );
+                },
+              ),
+          ],
+        ),
+        disclosure(
+          'finance-savings',
+          'Poupanças (${savings.length})',
+          'Contribuições acumuladas em todos os meses',
+          [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () =>
+                    showEditor(context, 'Poupança', currency: currency),
+                child: const Text('Criar poupança'),
+              ),
+            ),
+            if (savings.isEmpty)
+              const Text('Ainda sem metas de poupança nesta moeda.'),
+            for (final goal in savings)
+              Builder(
+                builder: (_) {
+                  final cents = transactionTotal(
+                    rows,
+                    (row) =>
+                        row['kind'] == 'saving' &&
+                        row['savings_id'] == goal['id'],
+                  );
+                  final target = goal['target_cents'] as int;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          goal['title'] as String,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        amount(cents, label: 'Contribuições acumuladas'),
+                        amount(BigInt.from(target), label: 'Valor pretendido'),
+                        const SizedBox(height: 8),
+                        LinearProgressIndicator(
+                          value: moneyProgress(cents, target),
+                          semanticsLabel: 'Progresso da poupança',
+                          semanticsValue:
+                              '${cents * BigInt.from(100) ~/ BigInt.from(target)} por cento',
+                        ),
+                        Wrap(
+                          spacing: 8,
+                          children: [
+                            TextButton(
+                              onPressed: () => showEditor(
+                                context,
+                                'Transacção',
+                                savingsGoalId: goal['id'] as int,
+                                initialDate: date,
+                              ),
+                              child: const Text('Registar contribuição'),
+                            ),
+                            Tooltip(
+                              message: 'Editar poupança',
+                              child: TextButton(
+                                onPressed: () => showEditor(
+                                  context,
+                                  'Poupança',
+                                  existing: goal,
+                                ),
+                                child: const Text('Editar poupança'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+          ],
+        ),
+        disclosure(
+          'finance-recurring',
+          'Recorrências (${rules.length})',
+          'Revisão e confirmação antes de registar',
+          [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () => showFinancePlan(
+                  context,
+                  'Recorrência',
+                  today: today,
+                  currency: currency,
+                ),
+                child: const Text('Nova recorrência'),
+              ),
+            ),
+            const Text(
+              'Nenhum movimento é criado ao abrir. Reveja os vencimentos e confirme o registo.',
+            ),
+            if (rules.isEmpty)
+              const Text('Ainda sem recorrências nesta moeda.'),
+            for (final rule in rules)
+              focus(
+                ExpansionTile(
+                  key: PageStorageKey('recurring-${rule['id']}'),
+                  tilePadding: EdgeInsets.zero,
+                  title: Text(rule['title'] as String),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${frequencyLabels[rule['frequency']]}${rule['active'] == 0 ? ' · Em pausa' : ''}',
                       ),
+                      amount(BigInt.from(rule['amount_cents'] as int)),
                     ],
                   ),
+                  expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      '${rule['kind'] == 'income' ? 'Receita' : 'Despesa'} · ${rule['category']}',
+                    ),
+                    Text(
+                      'Desde ${DateFormat('dd/MM/yyyy').format(DateTime.parse(rule['start_day'] as String))}${rule['end_day'] == null ? '' : ' até ${DateFormat('dd/MM/yyyy').format(DateTime.parse(rule['end_day'] as String))}'}',
+                    ),
+                    Wrap(
+                      spacing: 8,
+                      children: [
+                        TextButton(
+                          onPressed: rule['active'] == 0 || posting != null
+                              ? null
+                              : () => review(rule),
+                          child: Text(
+                            posting == rule['id']
+                                ? 'A preparar…'
+                                : 'Rever vencimentos',
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () => showFinancePlan(
+                            context,
+                            'Recorrência',
+                            existing: rule,
+                            today: today,
+                            currency: currency,
+                          ),
+                          child: const Text('Editar regra'),
+                        ),
+                      ],
+                    ),
+                    for (final occurrence
+                        in data['RecurringOccurrences']!
+                            .where((o) => o['rule_id'] == rule['id'])
+                            .toList()
+                            .reversed
+                            .take(12))
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(
+                          DateFormat(
+                            'dd/MM/yyyy',
+                          ).format(DateTime.parse(occurrence['day'] as String)),
+                        ),
+                        subtitle: Text(
+                          occurrence['transaction_id'] == null
+                              ? 'Movimento eliminado; o vencimento permanece registado.'
+                              : 'Movimento registado.',
+                        ),
+                      ),
+                  ],
                 ),
-              );
-            },
-          ),
-        heading('Movimentos do mês'),
-        if (movements.isEmpty) const Text('Ainda não há movimentos neste mês.'),
-        for (final row in movements)
-          Card(
-            child: ListTile(
-              title: Text(row['title'] as String),
-              subtitle: Text(
-                '${DateFormat('dd/MM/yyyy').format(DateTime.parse(row['day'] as String))} · ${row['category']}\n${switch (row['kind']) {
-                  'income' => 'Receita',
-                  'saving' => 'Poupança',
-                  _ => 'Despesa',
-                }}${row['recurring_day'] == null ? '' : ' · Recorrente'}',
               ),
-              isThreeLine: true,
-              trailing: Text(
-                money(row['amount_cents'] as int, currency: currency),
-              ),
-              onTap: () => showEditor(context, 'Transacção', existing: row),
-            ),
-          ),
+          ],
+        ),
       ],
     );
   }

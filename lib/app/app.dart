@@ -197,7 +197,8 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
                 _ => TudoAkiScreen(section: area.value.$2, embedded: true),
               },
             );
-            return area.key == AppRoutes.academics
+            return (area.key == AppRoutes.academics ||
+                    area.key == AppRoutes.finance)
                 ? PremiumScope(child: page)
                 : page;
           },

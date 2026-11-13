@@ -1,0 +1,43 @@
+{
+  "base": "49e1724319988ef66890f5742de8eea84692c112",
+  "baseline_suite_passed": 292,
+  "stress_cases": 164,
+  "passed": 138,
+  "failed": 26,
+  "png_generated": 160,
+  "unrenderable_png": [
+    "finance-long-320-200-dark.png",
+    "finance-long-320-200-light.png",
+    "finance-long-360-200-dark.png",
+    "finance-long-360-200-light.png"
+  ],
+  "failed_stress_cases": [
+    "finance-empty-320-200-light",
+    "finance-filled-320-200-light",
+    "finance-currency-320-200-light",
+    "finance-month-empty-320-200-light",
+    "finance-long-320-200-light",
+    "finance-long-360-200-light",
+    "finance-register-320-200-light",
+    "finance-edit-320-200-light",
+    "finance-error-320-200-light",
+    "finance-budget-320-200-light",
+    "finance-saving-320-200-light",
+    "finance-recurring-320-200-light",
+    "finance-confirm-320-200-light",
+    "finance-empty-320-200-dark",
+    "finance-filled-320-200-dark",
+    "finance-currency-320-200-dark",
+    "finance-month-empty-320-200-dark",
+    "finance-long-320-200-dark",
+    "finance-long-360-200-dark",
+    "finance-register-320-200-dark",
+    "finance-edit-320-200-dark",
+    "finance-error-320-200-dark",
+    "finance-budget-320-200-dark",
+    "finance-saving-320-200-dark",
+    "finance-recurring-320-200-dark",
+    "finance-confirm-320-200-dark"
+  ],
+  "note": "Baseline suite passed. Additional capture stress exposed existing UI failures. No baseline image fabricated or repaired."
+}

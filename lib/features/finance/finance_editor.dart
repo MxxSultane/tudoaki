@@ -5,6 +5,9 @@ import '../../app/providers.dart';
 import '../../core/database/database.dart';
 import 'finance_rules.dart';
 import 'finance_repository.dart';
+import '../../core/theme/premium_theme.dart';
+import '../../core/theme/premium_tokens.dart';
+import '../../core/widgets/premium_components.dart';
 
 Future<void> showFinancePlan(
   BuildContext context,
@@ -100,11 +103,20 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
 
   Widget field(TextEditingController controller, String label) => Padding(
     padding: const EdgeInsets.only(bottom: 12),
-    child: TextFormField(
-      controller: controller,
-      decoration: InputDecoration(labelText: label),
-      validator: (value) =>
-          value == null || value.trim().isEmpty ? 'Preencha este campo' : null,
+    child: PremiumFocusOutline(
+      child: TextFormField(
+        controller: controller,
+        keyboardType: controller == amount
+            ? const TextInputType.numberWithOptions(decimal: true)
+            : TextInputType.text,
+        decoration: InputDecoration(
+          label: Text(label, softWrap: true),
+          errorMaxLines: 6,
+        ),
+        validator: (value) => value == null || value.trim().isEmpty
+            ? 'Preencha este campo'
+            : null,
+      ),
     ),
   );
   Future<DateTime?> pick(DateTime date) => showDatePicker(
@@ -114,7 +126,10 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
     lastDate: DateTime(2100),
   );
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => PremiumTokens.active(context)
+      ? buildForm(context)
+      : PremiumScope(child: Builder(builder: buildForm));
+  Widget buildForm(BuildContext context) {
     final data = ref.watch(dataProvider).valueOrNull;
     final locked =
         recurring &&
@@ -138,7 +153,14 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
             children: [
               Text(
                 '${widget.existing == null ? 'Criar' : 'Editar'} ${widget.kind.toLowerCase()}',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: busy ? null : () => Navigator.pop(context),
+                  child: const Text('Cancelar'),
+                ),
               ),
               const SizedBox(height: 20),
               if (recurring) field(title, 'Título'),
@@ -164,6 +186,8 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
                 ),
               if (recurring) ...[
                 DropdownButtonFormField<String>(
+                  isExpanded: true,
+                  itemHeight: null,
                   initialValue: kind,
                   decoration: const InputDecoration(labelText: 'Tipo'),
                   items: const [
@@ -174,6 +198,8 @@ class _FinancePlanEditorState extends ConsumerState<FinancePlanEditor> {
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
+                  isExpanded: true,
+                  itemHeight: null,
                   initialValue: frequency,
                   decoration: const InputDecoration(labelText: 'Frequência'),
                   items: [

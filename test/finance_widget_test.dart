@@ -11,6 +11,25 @@ import 'package:tudo_aki/features/screens.dart';
 Future<void> tapVisible(WidgetTester tester, Finder finder) async {
   FocusManager.instance.primaryFocus?.unfocus();
   await tester.pumpAndSettle();
+  if (finder.evaluate().isEmpty) {
+    for (final id in [
+      'finance-budgets',
+      'finance-savings',
+      'finance-recurring',
+      'finance-composition',
+    ]) {
+      final tile = find.byKey(ValueKey(id));
+      if (tile.evaluate().isEmpty) continue;
+      final header = find
+          .descendant(of: tile, matching: find.byType(ListTile))
+          .first;
+      await tester.ensureVisible(header);
+      await tester.pumpAndSettle();
+      await tester.tap(header);
+      await tester.pumpAndSettle();
+      if (finder.evaluate().isNotEmpty) break;
+    }
+  }
   await tester.ensureVisible(finder);
   await tester.pumpAndSettle();
   expect(finder.hitTestable(), findsOneWidget);
@@ -81,11 +100,25 @@ void main() {
         (await repo.all('FinancialTransactions')).single['day'],
         '2026-02-15',
       );
-      expect(find.text('250,10 MT de 1.000,50 MT'), findsOneWidget);
-      expect(find.text('Restante: 750,40 MT'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byKey(const ValueKey('finance-budgets')),
+          matching: find.text('250,10 MT'),
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('1.000,50 MT'), findsOneWidget);
+      expect(find.text('750,40 MT'), findsOneWidget);
       await tapVisible(tester, find.byTooltip('Mês seguinte'));
-      expect(find.text('Despesas: 0,00 MT'), findsOneWidget);
-      expect(find.text('Restante: 750,40 MT'), findsNothing);
+      await tapVisible(tester, find.text('Ver composição'));
+      expect(
+        find.descendant(
+          of: find.byKey(const ValueKey('finance-expense')),
+          matching: find.text('0,00 MT'),
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('750,40 MT'), findsNothing);
       await tapVisible(tester, find.byTooltip('Mês anterior'));
       await tapVisible(tester, find.byTooltip('Editar orçamento'));
       await tester.enterText(
@@ -93,7 +126,7 @@ void main() {
         '2000,50',
       );
       await tapVisible(tester, find.widgetWithText(FilledButton, 'Guardar'));
-      expect(find.text('Restante: 1.750,40 MT'), findsOneWidget);
+      expect(find.text('1.750,40 MT'), findsOneWidget);
       expect(
         (await repo.all('FinancialTransactions')).single['amount_cents'],
         25010,
@@ -132,10 +165,17 @@ void main() {
         find.widgetWithText(FilledButton, 'Confirmar registo'),
       );
       expect((await repo.all('FinancialTransactions')).length, 3);
-      expect(find.text('Despesas: 500,00 MT'), findsOneWidget);
+      await tapVisible(tester, find.text('Ver composição'));
+      expect(
+        find.descendant(
+          of: find.byKey(const ValueKey('finance-expense')),
+          matching: find.text('500,00 MT'),
+        ),
+        findsOneWidget,
+      );
       await tapVisible(tester, find.text('Rever vencimentos'));
       expect((await repo.all('FinancialTransactions')).length, 3);
-      await tapVisible(tester, find.widgetWithText(ListTile, 'Renda').last);
+      await tapVisible(tester, find.widgetWithText(ListTile, 'Renda').first);
       await tapVisible(tester, find.widgetWithText(TextButton, 'Eliminar'));
       await tapVisible(tester, find.widgetWithText(FilledButton, 'Eliminar'));
       expect((await repo.all('FinancialTransactions')).length, 2);
@@ -183,7 +223,8 @@ void main() {
         (await repo.all('FinancialTransactions')).single['kind'],
         'saving',
       );
-      expect(find.text('12.000,10 MT / 30.000,50 MT'), findsOneWidget);
+      expect(find.text('12.000,10 MT'), findsOneWidget);
+      expect(find.text('30.000,50 MT'), findsOneWidget);
       await tapVisible(tester, find.byTooltip('Editar poupança'));
       expect(find.text('30000,50'), findsOneWidget);
       await tester.enterText(

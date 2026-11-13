@@ -96,6 +96,8 @@ class _EditorState extends ConsumerState<Editor> {
   int? goalId, subjectId, savingsId, parentGoalId;
   late Set<int> weekdays;
   DataRowMap get original => widget.existing ?? {};
+  bool get financial =>
+      widget.kind == 'Transacção' || widget.kind == 'Poupança';
   TextEditingController c(String key, [String fallback = '']) =>
       fields.putIfAbsent(
         key,
@@ -202,11 +204,14 @@ class _EditorState extends ConsumerState<Editor> {
             ? goalFocus.putIfAbsent(key, FocusNode.new)
             : null,
         decoration: InputDecoration(
-          labelText: widget.kind == 'Meta' ? null : label,
-          label: widget.kind == 'Meta' ? Text(label, softWrap: true) : null,
+          labelText: widget.kind == 'Meta' || financial ? null : label,
+          label: widget.kind == 'Meta' || financial
+              ? Text(label, softWrap: true)
+              : null,
+          errorMaxLines: financial ? 6 : null,
         ),
         maxLines: lines,
-        keyboardType: numeric
+        keyboardType: (numeric || financial && key == 'amount')
             ? const TextInputType.numberWithOptions(decimal: true)
             : lines > 1
             ? TextInputType.multiline
@@ -229,8 +234,9 @@ class _EditorState extends ConsumerState<Editor> {
       ),
     ),
   );
-  Widget goalField(Widget child) =>
-      widget.kind == 'Meta' ? PremiumFocusOutline(child: child) : child;
+  Widget goalField(Widget child) => widget.kind == 'Meta' || financial
+      ? PremiumFocusOutline(child: child)
+      : child;
   String goalValue(String key, [String fallback = '']) {
     if (original.containsKey(key) &&
         (!fields.containsKey(key) || fields[key]!.text == '${original[key]}')) {
@@ -312,6 +318,8 @@ class _EditorState extends ConsumerState<Editor> {
     ],
   );
 
+  Widget financialField(Widget child) =>
+      financial ? PremiumFocusOutline(child: child) : child;
   Widget choice(
     String label,
     String value,
@@ -319,19 +327,27 @@ class _EditorState extends ConsumerState<Editor> {
     void Function(String) change,
   ) => Padding(
     padding: const EdgeInsets.only(bottom: 14),
-    child: DropdownButtonFormField<String>(
-      isExpanded: true,
-      initialValue: value,
-      decoration: InputDecoration(labelText: label),
-      items: options.entries
-          .map(
-            (e) => DropdownMenuItem(
-              value: e.key,
-              child: Text(e.value, overflow: TextOverflow.ellipsis),
-            ),
-          )
-          .toList(),
-      onChanged: (v) => setState(() => change(v!)),
+    child: financialField(
+      DropdownButtonFormField<String>(
+        isExpanded: true,
+        itemHeight: financial ? null : kMinInteractiveDimension,
+        initialValue: value,
+        decoration: InputDecoration(labelText: label),
+        items: options.entries
+            .map(
+              (e) => DropdownMenuItem(
+                value: e.key,
+                child: Text(
+                  e.value,
+                  overflow: financial
+                      ? TextOverflow.visible
+                      : TextOverflow.ellipsis,
+                ),
+              ),
+            )
+            .toList(),
+        onChanged: (v) => setState(() => change(v!)),
+      ),
     ),
   );
   Widget relation(
@@ -341,20 +357,28 @@ class _EditorState extends ConsumerState<Editor> {
     void Function(int?) change,
   ) => Padding(
     padding: const EdgeInsets.only(bottom: 14),
-    child: DropdownButtonFormField<int>(
-      isExpanded: true,
-      initialValue: value,
-      decoration: InputDecoration(labelText: label),
-      items: [
-        const DropdownMenuItem<int>(child: Text('Sem associação')),
-        ...rows.map(
-          (r) => DropdownMenuItem<int>(
-            value: r['id'] as int,
-            child: Text(r['title'] as String, overflow: TextOverflow.ellipsis),
+    child: financialField(
+      DropdownButtonFormField<int>(
+        isExpanded: true,
+        itemHeight: financial ? null : kMinInteractiveDimension,
+        initialValue: value,
+        decoration: InputDecoration(labelText: label),
+        items: [
+          const DropdownMenuItem<int>(child: Text('Sem associação')),
+          ...rows.map(
+            (r) => DropdownMenuItem<int>(
+              value: r['id'] as int,
+              child: Text(
+                r['title'] as String,
+                overflow: financial
+                    ? TextOverflow.visible
+                    : TextOverflow.ellipsis,
+              ),
+            ),
           ),
-        ),
-      ],
-      onChanged: (v) => setState(() => change(v)),
+        ],
+        onChanged: (v) => setState(() => change(v)),
+      ),
     ),
   );
   Future<DateTime?> pick(DateTime initial, {bool includeTime = true}) async {
@@ -421,7 +445,7 @@ class _EditorState extends ConsumerState<Editor> {
   );
   @override
   Widget build(BuildContext context) =>
-      widget.kind == 'Meta' && !PremiumTokens.active(context)
+      (widget.kind == 'Meta' || financial) && !PremiumTokens.active(context)
       ? PremiumScope(child: Builder(builder: buildForm))
       : buildForm(context);
   Widget buildForm(BuildContext context) {
@@ -445,10 +469,20 @@ class _EditorState extends ConsumerState<Editor> {
             children: [
               Text(
                 '${widget.existing == null ? 'Criar' : 'Editar'} ${widget.kind.toLowerCase()}',
-                style: widget.kind == 'Meta'
+                style: widget.kind == 'Meta' || financial
                     ? Theme.of(context).textTheme.titleLarge
                     : Theme.of(context).textTheme.headlineSmall,
               ),
+              if (financial) ...[
+                Text('Moeda do registo: $currency'),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: busy ? null : () => Navigator.pop(context),
+                    child: const Text('Cancelar'),
+                  ),
+                ),
+              ],
               const SizedBox(height: 20),
               if (widget.kind != 'Revisão')
                 text('title', 'Título', required: true),
@@ -702,8 +736,6 @@ class _EditorState extends ConsumerState<Editor> {
                   onChanged: (v) => setState(() => paused = v),
                 ),
               ],
-              if (widget.kind == 'Transacção' || widget.kind == 'Poupança')
-                Text('Moeda do registo: $currency'),
               if (widget.kind == 'Transacção') ...[
                 TextButton(
                   onPressed: () async {

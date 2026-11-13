@@ -13,6 +13,7 @@ import 'academics/academic_editor.dart';
 import 'academics/academics_panel.dart';
 import 'academics/academics_screen.dart';
 import 'finance/finance_panel.dart';
+import 'finance/finance_screen.dart';
 import 'progress/progress_panel.dart';
 import 'habits/presentation/habits_screen.dart';
 import 'reviews/presentation/reviews_screen.dart';
@@ -113,6 +114,8 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
   @override
   Widget build(BuildContext context) {
     switch (widget.section) {
+      case 'Finanças':
+        return FinanceScreen(embedded: widget.embedded);
       case 'Estudos':
         return AcademicsScreen(embedded: widget.embedded);
       case 'Hábitos':
