@@ -55,7 +55,7 @@ Baseline 272. Acrescentados **20 testes**: 12 combinações de tema/largura/esca
 
 A matriz verifica ordem, semântica, dimensões, foco/Tab, movimento reduzido, ausência de barras sem métrica e de superfícies premium aninhadas, e igualdade dos dados antes/depois de leitura. O percurso de foco pausa após 10 segundos, regressa duas horas depois, retoma o tempo preservado e conclui explicitamente; uma segunda conclusão não duplica XP. O trabalho é criado com subject_id e editado mantendo ID/associação/dia NULL; o teste simula espaço de teclado a 200%.
 
-Resultados finais locais e CI: ver secção 11 e [resumo estruturado](ux/phase4c3c/test-results.json). A suite existente de regras, persistência, tarefas, XP, Hoje, Planear e Metas permanece incluída. A execução intermédia detectou as 12 combinações sem o token explícito de expansão; após a correcção local, a matriz de 20 testes passou e a suite completa foi repetida. As 100 renderizações são uma execução separada, não somadas artificialmente à suite.
+**Resultado final local: 292/292 aprovados, zero falhas/ignorados/erros; dart format 107 ficheiros, zero alterações; flutter analyze sem problemas; 100/100 renderizações; nove testes Python do processamento de resultados aprovados.** CI: ver secção 11 e [resumo estruturado](ux/phase4c3c/test-results.json). A suite existente de regras, persistência, tarefas, XP, Hoje, Planear e Metas permanece incluída. A execução intermédia detectou as 12 combinações sem o token explícito de expansão; após a correcção local, a matriz de 20 testes passou e a suite completa foi repetida. As 100 renderizações são uma execução separada, não somadas artificialmente à suite.
 
 ## 9. Contraste, foco e touch targets
 
@@ -67,11 +67,16 @@ SafeArea e scroll dos contentores existentes são preservados. Insets de teclado
 
 ## 10. Build Android
 
-Build debug local com Flutter 3.35.7/Java 21, sem novos pacotes ou alteração de configuração Android. O artefacto local não foi adicionado ao Git nem publicado. Resultado definitivo e CI na secção seguinte. Não foi feito ensaio de actualização/assinatura sobre telefone com dados reais.
+Build debug local com Flutter 3.35.7/Java 21, sem novos pacotes ou alteração de configuração Android. O artefacto local não foi adicionado ao Git nem publicado. **assembleDebug concluído com êxito em 16,0 s na execução final local**; CI na secção seguinte. Não foi feito ensaio de actualização/assinatura sobre telefone com dados reais.
 
 ## 11. GitHub Actions
 
-Pendente de publicação do commit e observação dos dois workflows. As únicas alterações aos workflows acrescentam este branch às listas de push; comandos, verificações e permissões permanecem iguais.
+Implementação publicada em **b0635e8a2744cf26d539b8bbc5a58d5b8a9e35fe**. Ambos os workflows de push concluídos com **success** neste SHA:
+
+- [Flutter validation — 43491020681](https://github.com/MxxSultane/tudoaki/actions/runs/43491020681): format=0, analyze=0, test=0, lock=0; **292 executados/aprovados**, zero falhas/ignorados/erros; nove testes Python aprovados. Formatação de lib/test: 106 ficheiros, zero alterações (o comando local inclui também o utilitário e conta 107).
+- [Android debug validation — 43491021044](https://github.com/MxxSultane/tudoaki/actions/runs/43491021044): compilação debug e preservação aprovadas; sem publicação do APK.
+
+Este fecho documental não altera produção, testes, capturas ou workflows relativamente ao SHA validado. O HEAD documental subsequente volta a accionar ambos os workflows; a sua conclusão pode ser consultada no branch. Sem merge automático. As únicas alterações aos workflows acrescentaram este branch às listas de push; comandos, verificações e permissões permanecem iguais.
 
 ## 12. Ficheiros modificados
 
