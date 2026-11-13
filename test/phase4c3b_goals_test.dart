@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -99,6 +100,13 @@ void main() {
           await open(t, repo);
           expect(field('Valor pretendido'), findsNothing);
           expect(find.text('Horizonte'), findsNothing);
+          final deadlineLabel = find.descendant(
+            of: field('Prazo opcional em dias'),
+            matching: find.text('Prazo opcional em dias'),
+          );
+          final paragraph = t.renderObject<RenderParagraph>(deadlineLabel.last);
+          expect(paragraph.didExceedMaxLines, isFalse);
+          expect(paragraph.overflow, isNot(TextOverflow.ellipsis));
           await t.enterText(field('Título'), 'Ler com prazer');
           await press(t, find.widgetWithText(FilledButton, 'Criar'));
           expect(await repo.all('Goals'), isEmpty);

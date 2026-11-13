@@ -44,7 +44,7 @@
       ],
       "scale": 2,
       "beforeSha256": "06413e9b4325d0136f21599c43280187b52c5048f0c154750061a5941f33bf74",
-      "afterSha256": "ea2a36b67d15589901c2b1a55d22eb0b43229c25bb9cdbe6e922d36651932818"
+      "afterSha256": "8e85b4c8960d1a1a8b188416bf65bd3ad7e6ec129c1343a80d51378fabe7ad5a"
     },
     {
       "file": "goals-create-200-light.png",
@@ -58,7 +58,7 @@
       ],
       "scale": 2,
       "beforeSha256": "bd57b2eb6c0272f676f800785674515c5beafbd5bfe043de267445982fa6bd45",
-      "afterSha256": "7f8806febedd8e4603eb539c5b6eb788302c1a660d596797300ed2400276aa36"
+      "afterSha256": "88af172b49f35b6c879586a6baf817b4079d8e35d7fa23acfcbd61a8298911cc"
     },
     {
       "file": "goals-create-advanced-200-dark.png",
@@ -72,7 +72,7 @@
       ],
       "scale": 2,
       "beforeSha256": "d4c8e19dd210e6e791dd4bad0e26b3f7d7b3a54a9a9995abc43132bb7a214c09",
-      "afterSha256": "1c4e65629cc02246f0fffe436813596945a33c8df65ff316587e2cda1b06ade9"
+      "afterSha256": "ff3d0e24c0a8ce8eeea408ed6f74890bf9fcc81b456e32433b66fa7e2f356079"
     },
     {
       "file": "goals-create-advanced-200-light.png",
@@ -86,7 +86,7 @@
       ],
       "scale": 2,
       "beforeSha256": "2bea91aa3aecd7a616ad35205252e0bf4e41c9088536351a698619c10feaba36",
-      "afterSha256": "27bc2cd2294548bb678b13b795782f4feff30c6227ef00bb289b532a244eade5"
+      "afterSha256": "6250bf83ada052e28aa735e41575be1b527730fb463e69aa6e3b9858ff4dfbd1"
     },
     {
       "file": "goals-create-advanced-dark.png",
@@ -170,7 +170,7 @@
       ],
       "scale": 2,
       "beforeSha256": "a5d8fd9ed8c8526101bd56c214e267e9e712269ed4c96a88a12b3980411432ae",
-      "afterSha256": "b0b079e71c640c1234b1f33fec768c00e47bc808cd7c5a1e6a76cf8460b77d75"
+      "afterSha256": "431c4c6f88594798c9be6d808ff5dfa14b5d128bbac2f335a5d1fff9b4313809"
     },
     {
       "file": "goals-create-error-200-light.png",
@@ -184,7 +184,7 @@
       ],
       "scale": 2,
       "beforeSha256": "49907abadb435dc9c9a2ff004dd7e1cef3ffb5b4407343eca0533a353579932b",
-      "afterSha256": "0d4cba10e51042f111714881183eb6417d89aacdb4658966f0c757792ccf39d6"
+      "afterSha256": "7d8bea7a50723dd933d218b974cdf1358dae98487721cbd87e98e49c0dfb0fa7"
     },
     {
       "file": "goals-create-error-dark.png",
@@ -254,7 +254,7 @@
       ],
       "scale": 2,
       "beforeSha256": "191b836dfe3b1843979e051036558be50fcbbdf8c42c22f1aff3f44a0bf2bff3",
-      "afterSha256": "7ade7cc1f76027f439da1b28d54613cc8f84486727c6a72a5a7fda4533c3ccdf"
+      "afterSha256": "17594c59e9f44360aea6195ea682705f6891e708bcf0a08d9d36589792dc3024"
     },
     {
       "file": "goals-create-focus-200-light.png",
@@ -268,7 +268,7 @@
       ],
       "scale": 2,
       "beforeSha256": "91ef46c64c01c3d063a107f052ba43e8337aa0315f68f0cb62d3d0305f343ffe",
-      "afterSha256": "3b2163fda36991a2ed3591af46748f28ba7dbb357437837ece55a726690bce86"
+      "afterSha256": "a35d1b689afbeb3179cc71c7f588d51950a0eb61116687e90dfeabee85e3575d"
     },
     {
       "file": "goals-create-focus-dark.png",
@@ -338,7 +338,7 @@
       ],
       "scale": 2,
       "beforeSha256": "820a4abf43dd0a7553733fc6c6c974d07d621e3de2a78d47b9b07d05473144d8",
-      "afterSha256": "9d8d46aa7761308d997efcec38be0cace8881f9034a2f5384c2c75f867a6d059"
+      "afterSha256": "374716104acb9541537385eb36fdfd8b959aae1fbee55298abc7c9ea59d181b6"
     },
     {
       "file": "goals-create-keyboard-200-light.png",
@@ -352,7 +352,7 @@
       ],
       "scale": 2,
       "beforeSha256": "9ab8ce9b9731000620eee0fdb8b8d6174cd3f688a05d14a419af8a2f70a32e72",
-      "afterSha256": "e9ef6d1a5d3dc74846567fe6bd80feb35dba2b4472d6130c733f5147cb13e3b2"
+      "afterSha256": "3e3dfa132d0d9a618b0fe498e7275fe2b6bf90db24dc54da31cc1589c63fc7ad"
     },
     {
       "file": "goals-create-light.png",
@@ -380,7 +380,7 @@
       ],
       "scale": 2,
       "beforeSha256": "074af8ea378040779039b836b763fe2a15bbae59118937ab2224d22e2b34044f",
-      "afterSha256": "dc081271c957a88d7d214f74d352f47c1ca61f50fe0cf4b75233c8d8d8f8912f"
+      "afterSha256": "b43587d14c169427cecf1267d19644072a879df98b3d07b9c5d11143165a949d"
     },
     {
       "file": "goals-create-measure-200-light.png",
@@ -394,7 +394,7 @@
       ],
       "scale": 2,
       "beforeSha256": "e8d8ba1299a239c9d4a0cf8b76803367d8821125dfbcece7f37e351c0a162929",
-      "afterSha256": "a92a458cb2460a12469c2fcd3a5866d860ba86df88fb1da42721c0259a3545f8"
+      "afterSha256": "ea5b9c1de034aeea9a6a7c4726083c2724905d2aed90dafcb40ea9d30412a32a"
     },
     {
       "file": "goals-create-measure-dark.png",

@@ -168,7 +168,10 @@ class _MetricEditorState extends ConsumerState<_MetricEditor> {
                   signed: true,
                 ),
                 decoration: InputDecoration(
-                  labelText: 'Resultado em ${widget.goal['unit']}',
+                  label: Text(
+                    'Resultado em ${widget.goal['unit']}',
+                    softWrap: true,
+                  ),
                   errorText: error,
                 ),
               ),

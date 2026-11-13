@@ -201,7 +201,10 @@ class _EditorState extends ConsumerState<Editor> {
         focusNode: widget.kind == 'Meta'
             ? goalFocus.putIfAbsent(key, FocusNode.new)
             : null,
-        decoration: InputDecoration(labelText: label),
+        decoration: InputDecoration(
+          labelText: widget.kind == 'Meta' ? null : label,
+          label: widget.kind == 'Meta' ? Text(label, softWrap: true) : null,
+        ),
         maxLines: lines,
         keyboardType: numeric
             ? const TextInputType.numberWithOptions(decimal: true)
@@ -257,7 +260,7 @@ class _EditorState extends ConsumerState<Editor> {
             focusNode: goalFocus.putIfAbsent('deadline_days', FocusNode.new),
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
-              labelText: 'Prazo opcional em dias',
+              label: Text('Prazo opcional em dias', softWrap: true),
               helperText: 'Vazio: sem prazo. 1 dia significa amanhã.',
               helperMaxLines: 4,
             ),

@@ -71,13 +71,13 @@ Nove testes novos cobrem dias civis/limites, quatro combinações claro/escuro �
 
 PremiumTokens/PremiumScope/componentes 4C.3A são reutilizados. Texto usa pares ≥4,5:1; outline/foco/action e cursor/handles usam os papéis funcionais ≥3:1. Os seis testes de DS existentes verificam os getters/papéis com Color.computeLuminance e texto 200%; a matriz 4C.3A/4C.2 continua a referência, sem cores funcionais novas. Campos/botões/checkbox têm mínimo 48 dp; os testes reais medem nome, prazo, alvo e Criar. Foco de campo tem anel exterior de 2 dp/intervalo 2, independente do erro. Validação foca o primeiro campo inválido e aproxima-o da área útil.
 
-Resultados de entrega em consolidação: análise sem problemas; nove testes novos aprovados; APK debug aprovado; suite completa em execução com código congelado. O resultado global será registado antes da entrega final.
+Ronda congelada: **271/271 aprovados**, sem falhas/ignorados/erros. Após a revisão final de rótulos, os nove testes novos passaram novamente e a suite completa está a ser repetida. Análise sem problemas; APK debug compilado. Resultados finais serão consolidados antes da entrega.
 
 ## 10. GitHub Actions
 
 Os dois workflows existentes incluem agora o branch 4C.3B no trigger push, sem enfraquecer comandos, versões, preservação ou critérios. Sem upload/distribuição de APK.
 
-Validação remota será iniciada com o push deste branch e registada antes da entrega final.
+Primeira implementação afdd6fa: [Flutter validation](https://github.com/MxxSultane/tudoaki/actions/runs/43470242746) e [Android debug validation](https://github.com/MxxSultane/tudoaki/actions/runs/43470242594) COMPLETED / SUCCESS. O ajuste final de rótulos terá validação no seu próprio SHA, a consolidar antes da entrega.
 
 ## 11. Capturas reais Flutter
 
@@ -106,7 +106,7 @@ As primeiras capturas falharam por usar /goals/id em vez da rota real /goal/id; 
 
 Testes antigos pressupunham defaults métricos e que a associação à meta principal estivesse sempre no primeiro viewport; foram actualizados para escolher a medida e deslocar até à associação, mantendo a verificação. Um finder de TextButton não encontrava a variante .icon; o controlo passou a botão textual mais simples. A verificação do tema do formulário mede agora o campo descendente real, pois PremiumScope é aplicado dentro do Editor. Falhas intermédias não foram contadas como aprovação.
 
-A edição antiga reserializava due e recalculava status mesmo ao renomear; o caminho de Meta agora preserva valores não tocados. O selector de data completo e o prazo em dias foram sincronizados para não mostrarem rascunhos contraditórios. A revisão de imagem corrigiu a barra superior e os vazios do plano auxiliar.
+A edição antiga reserializava due e recalculava status mesmo ao renomear; o caminho de Meta agora preserva valores não tocados. O selector de data completo e o prazo em dias foram sincronizados para não mostrarem rascunhos contraditórios. A revisão de imagem corrigiu a barra superior e os vazios do plano auxiliar. A inspecção a 200% detectou abreviação do rótulo do prazo pelo labelText nativo; os campos de Meta usam agora rótulos Text com quebra de linha. O teste verifica o RenderParagraph real sem excesso de linhas nem overflow por ellipsis, e as capturas foram repetidas.
 
 Uma execução intermédia apanhou um teste actualizado com código anterior compilado enquanto havia alterações em curso. Não foi aceite como resultado final: os testes dirigidos passaram e a suite foi repetida com código congelado. A amostragem visual de nove imagens de oito contextos fora de Metas ficou idêntica byte a byte à base ([registo](ux/phase4c3b/other-modules-validation.json)); isso não certifica todos os estados.
 
