@@ -1,6 +1,6 @@
 {
   "base": "3b86f880e7a3ee5163bb1392d3001a76eff34c17",
-  "implementation": "1bebb721de392d2154dcf34cba7706edd9f2d9fb",
+  "implementation": "b8b1800d8e069432153e47d780affe3b68ef9197",
   "baseline": {
     "executed": 262,
     "passed": 262,
@@ -12,8 +12,8 @@
     "exit_code": 0
   },
   "final": {
-    "executed": 271,
-    "passed": 271,
+    "executed": 272,
+    "passed": 272,
     "failed": 0,
     "skipped": 0,
     "execution_errors": 0,
@@ -21,7 +21,7 @@
     "success": true,
     "exit_code": 0
   },
-  "newTests": 9,
+  "newTests": 10,
   "flutter": "3.35.7",
   "dart": "3.9.2",
   "physicalDevice": false

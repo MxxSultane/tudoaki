@@ -74,15 +74,15 @@ PremiumTokens/PremiumScope/componentes 4C.3A são reutilizados. Texto usa pares 
 | Verificação final local | Resultado |
 | --- | --- |
 | dart format, lib/test/utilitário | Sem diferenças após formatação |
-| flutter analyze --no-pub | Sem problemas (30,2 s) |
-| Suite Flutter completa, código final congelado | **271/271 na ronda anterior; nova suite completa em curso** após acrescentar o teste de integridade de campos recolhidos |
+| flutter analyze --no-pub | Sem problemas (18,4 s) |
+| Suite Flutter completa, código final congelado | **272 executados, 272 aprovados, 0 falhas, 0 ignorados, 0 erros**, runner/processador código 0; 182,5 s |
 | Novos testes | 10 aprovados; nova suite completa em curso após a correcção de integridade |
 | Capturas | 56 antes + 56 depois; fora da contagem da suite |
 | Processador de resultados Python | 9 testes aprovados |
 | check_schema.py | Aprovado, apenas fixtures sintéticas |
-| flutter build apk --debug --no-pub | Aprovado, 16,7 s; mz.lifeos.lifeos / 0.9.2+12 preservados |
+| flutter build apk --debug --no-pub | Aprovado, 18,9 s; mz.lifeos.lifeos / 0.9.2+12 preservados |
 
-APK SHA-256 local: `c74c9a9b1d4794e7a95fa9dc1163d1a318d8b4ed0a88f97a30709097517e6728`. Sem distribuição/instalação. [Resultados](ux/phase4c3b/test-results.json) · [Preservação/documentos](ux/phase4c3b/document-validation.json) · [Contrastes de referência verificados pelos testes](ux/phase4c3a/contrast-results.json).
+APK SHA-256 local: `a39c279baee74ab1f9cc4d1f2100faac4c306b5a038b1493e482946e4d2ee920`. Sem distribuição/instalação. [Resultados](ux/phase4c3b/test-results.json) · [Preservação/documentos](ux/phase4c3b/document-validation.json) · [Contrastes de referência verificados pelos testes](ux/phase4c3a/contrast-results.json).
 
 ## 10. GitHub Actions
 
