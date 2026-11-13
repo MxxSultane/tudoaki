@@ -31,9 +31,9 @@
   "analyze": "No issues found",
   "android_debug": {
     "result": "success",
-    "assemble_seconds": 20.8,
+    "assemble_seconds": 11.9,
     "artifact_committed": false,
-    "sha256_local": "59ea82ec65b726cbaa97970ad16efb8e59cb24f9ed25934ec38d56852e70eea4"
+    "sha256_local": "9672029439dd8ec9bd4eb179ec58dfbcaaf8ebc499f6197c04dc8008d75a0a4d"
   },
   "full_suite": {
     "executed": 318,
@@ -46,16 +46,36 @@
     "success": true,
     "exit_code": 0
   },
-  "ci": "pending push",
+  "ci": [
+    {
+      "workflow": "Flutter validation",
+      "run_id": 43499373232,
+      "conclusion": "success",
+      "executed": 318,
+      "passed": 318,
+      "format": 0,
+      "analyze": 0,
+      "test": 0,
+      "lock": 0,
+      "url": "https://github.com/MxxSultane/tudoaki/actions/runs/43499373232"
+    },
+    {
+      "workflow": "Android debug validation",
+      "run_id": 43499373116,
+      "conclusion": "success",
+      "url": "https://github.com/MxxSultane/tudoaki/actions/runs/43499373116"
+    }
+  ],
   "wcag_integral_claim": false,
   "format": "111 files; zero changes (lib/test + capture utility)",
   "python_summary_tests": {
     "executed": 9,
     "passed": 9
   },
-  "final_recheck_after_ui_fixes": "running",
+  "final_recheck_after_ui_fixes": "318/318 passed; no errors",
   "additional_regressions": [
     "confirmation total visible at 320dp/200%: red then green",
     "horizontal money and expansion PageStorage collision: red then green"
-  ]
+  ],
+  "implementation_commit": "df7a840677e07ae41c6e2eae67d0513f43af466d"
 }

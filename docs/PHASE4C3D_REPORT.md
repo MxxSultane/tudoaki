@@ -115,11 +115,16 @@ As execuções intermédias expuseram as falhas antigas de layout, o conflito de
 
 ## 12. Build Android
 
-`flutter build apk --debug --no-pub` local concluído com êxito, **20,8 s** no assembleDebug final, Flutter 3.35.7/Java 21. APK não adicionado ao Git nem publicado. Android ID/configuração/dependências/lockfile intactos. CI na secção seguinte. Build não certifica actualização/assinatura num telefone com dados reais.
+`flutter build apk --debug --no-pub` local concluído com êxito, **11,9 s** no assembleDebug final, Flutter 3.35.7/Java 21. APK não adicionado ao Git nem publicado. Android ID/configuração/dependências/lockfile intactos. CI na secção seguinte. Build não certifica actualização/assinatura num telefone com dados reais.
 
 ## 13. GitHub Actions
 
-Pendente da publicação e observação dos dois workflows. Acrescentado apenas este branch às listas de push existentes; não se reduziram verificações nem permissões.
+Implementação final publicada em **df7a840677e07ae41c6e2eae67d0513f43af466d**, incluindo a correcção do total visível e do estado das deslocações. Ambos os workflows de push concluídos com **success** neste SHA:
+
+- [Flutter validation — 43499373232](https://github.com/MxxSultane/tudoaki/actions/runs/43499373232): **318 executados/aprovados**, zero falhas/ignorados/erros; format=0, analyze=0, test=0, lock=0; nove testes Python aprovados. Formatação de lib/test: 110 ficheiros, zero alterações; o comando local inclui também o utilitário e conta 111.
+- [Android debug validation — 43499373116](https://github.com/MxxSultane/tudoaki/actions/runs/43499373116): compilação debug e preservação do projecto aprovadas; publicação do APK não executada.
+
+O fecho documental subsequente só actualiza este relatório e test-results.json, sem alterar código, testes, capturas ou workflows relativamente ao SHA validado. O HEAD documental volta a accionar os dois workflows, consultáveis no branch. Sem merge automático. Acrescentado apenas este branch às listas de push existentes; não se reduziram verificações nem permissões.
 
 ## 14. Ficheiros modificados
 
