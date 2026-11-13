@@ -412,6 +412,16 @@ void main() {
       await pressFinance(t, find.text('Renda mensal'));
       await pressFinance(t, find.text('Rever vencimentos'));
       expect(find.text('01/11/2026'), findsOneWidget);
+      expect(
+        find
+            .descendant(
+              of: find.byType(AlertDialog),
+              matching: find.text('500,00 MT'),
+            )
+            .first
+            .hitTestable(),
+        findsOneWidget,
+      );
       expect(await financeSnapshot(repo), before);
       await pressFinance(t, find.widgetWithText(TextButton, 'Cancelar'));
       expect(await financeSnapshot(repo), before);
@@ -454,6 +464,10 @@ void main() {
       addTearDown(db.close);
       final repo = TudoAkiRepository(db);
       await seedFinance(repo, longValues: true);
+      final budget = (await repo.all('Budgets')).single;
+      await repo.save('Budgets', {
+        'limit_cents': 9007199254740991,
+      }, id: budget['id'] as int);
       final before = await financeSnapshot(repo);
       await bootFinance(t, repo);
       final expected = formatMoney(
@@ -491,6 +505,25 @@ void main() {
       expect(t.getSemantics(result).label, contains(expected));
       expect(t.getSemantics(result).label, contains('Metical (MZN)'));
       semantics.dispose();
+      await expandFinance(t, 'finance-budgets');
+      final limit = find.descendant(
+        of: find.byKey(const ValueKey('finance-budgets')),
+        matching: find.byWidgetPredicate(
+          (w) => w is FinanceAmount && w.label == 'Limite',
+        ),
+      );
+      final limitScroll = t.widget<SingleChildScrollView>(
+        find.descendant(
+          of: limit,
+          matching: find.byType(SingleChildScrollView),
+        ),
+      );
+      expect(
+        limitScroll.controller!.offset,
+        0,
+        reason:
+            'A newly revealed amount must not inherit the vertical page offset.',
+      );
       expect(await financeSnapshot(repo), before);
       expect(t.takeException(), isNull);
     },

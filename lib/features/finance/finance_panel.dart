@@ -58,7 +58,7 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
       final yes = await showDialog<bool>(
         context: context,
         builder: (c) => AlertDialog(
-          title: const Text('Registar movimentos?'),
+          title: Text('Rever registo', style: Theme.of(c).textTheme.titleLarge),
           content: SizedBox(
             width: MediaQuery.sizeOf(context).width,
             child: SingleChildScrollView(
@@ -66,16 +66,16 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(preview.title),
-                  Text(
-                    '${preview.kind == 'income' ? 'Receita' : 'Despesa'} · ${preview.category}',
-                  ),
                   FinanceAmount(
                     label: 'Total',
                     cents:
                         BigInt.from(preview.amountCents) *
                         BigInt.from(preview.days.length),
                     currency: preview.currency,
+                  ),
+                  Text(preview.title),
+                  Text(
+                    '${preview.kind == 'income' ? 'Receita' : 'Despesa'} · ${preview.category}',
                   ),
                   for (final day in preview.days)
                     ListTile(
@@ -186,13 +186,16 @@ class _FinancePanelState extends ConsumerState<FinancePanel> {
       String subtitle,
       List<Widget> children,
     ) => focus(
-      ExpansionTile(
+      KeyedSubtree(
         key: ValueKey(id),
-        tilePadding: EdgeInsets.zero,
-        title: Text(title),
-        subtitle: Text(subtitle),
-        expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
-        children: children,
+        child: ExpansionTile(
+          key: PageStorageKey(id),
+          tilePadding: EdgeInsets.zero,
+          title: Text(title),
+          subtitle: Text(subtitle),
+          expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
+          children: children,
+        ),
       ),
     );
     final summary = Padding(

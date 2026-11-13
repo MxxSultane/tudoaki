@@ -79,9 +79,9 @@ Orçamentos mantêm categoria normalizada/mês/moeda, unicidade e apenas despesa
 
 Poupanças mantêm alvo e contribuições em **todos os meses**, da mesma moeda e associação. Fixture: 100025 + 5000 = **105025 cêntimos**, inalterado ao consultar outro mês. Criar, editar, contribuir e eliminar continuam disponíveis; eliminar preserva contribuições sem ligação. O teste antigo de histórico órfão permanece aprovado.
 
-Recorrências continuam a exigir Rever vencimentos → confirmação explícita. Abrir, expandir, cancelar e navegar não emitem movimentos. Mantidos lotes até 24, revisão da regra, idempotência, pausa, bloqueio de início/frequência após ocorrências e histórico (incluindo movimento eliminado). Na fixture, Outubro já registado é preservado e Novembro só entra após confirmação; repetir a revisão não duplica.
+Recorrências continuam a exigir Rever vencimentos → confirmação explícita. Abrir, expandir, cancelar e navegar não emitem movimentos. Mantidos lotes até 24, revisão da regra, idempotência, pausa, bloqueio de início/frequência após ocorrências e histórico (até 12 vencimentos recentes por regra, como antes, incluindo movimento eliminado). Na fixture, Outubro já registado é preservado e Novembro só entra após confirmação; repetir a revisão não duplica.
 
-A confirmação recebeu apenas uma largura de conteúdo delimitada e montantes em linhas próprias, para suportar o novo componente sem erro de dimensões intrínsecas. Chamadas previewRecurring/recordRecurring e guardas de confirmação permanecem as existentes.
+A confirmação recebeu uma largura de conteúdo delimitada e montantes em linhas próprias, para suportar o novo componente sem erro de dimensões intrínsecas. Na revisão manual a 320 dp/200%, o total ainda ficava abaixo da área visível: o título passou a Rever registo e o total passou para o início do conteúdo. Um teste verifica que o montante total é atingível/visível antes de confirmar, além das verificações de cancelamento/idempotência. Chamadas previewRecurring/recordRecurring e guardas de confirmação permanecem as existentes.
 
 ## 9. Capturas reais Flutter
 
@@ -128,6 +128,10 @@ Produção: lib/features/finance/finance_screen.dart e finance_amount.dart (novo
 Testes/diagnóstico: test/phase4c3d_finance_test.dart, test/support/finance_fixture.dart, test/finance_widget_test.dart, test/currency_widget_test.dart e tool/capture_finance.dart. Documentação/evidência: este relatório, docs/ux/phase4c3d/* e docs/ux/previews/phase4c3d/*. Workflows Flutter/Android: só activação do branch. A lista exacta consta do diff do commit.
 
 ## 15. Regressões encontradas e corrigidas
+
+- O esforço adicional de expandir um orçamento de valor elevado reproduziu uma colisão de PageStorage entre estado booleano da expansão e deslocação numérica, causando erro de tipos. Cada expansão recebeu uma PageStorageKey própria e os valores horizontais usam posições efémeras sem guardar scroll nesse armazenamento. O teste verifica que um novo valor começa no início; não se alterou persistência financeira.
+
+- A revisão visual posterior detectou que o total da confirmação ficava fora do primeiro viewport a 320 dp/200%, embora o layout já não lançasse excepção. Um teste de hit testing do montante falhou antes da correcção e passou depois: total no início e título mais curto. Mantidos os mesmos vencimentos, moeda, montantes e confirmação obrigatória. As capturas e a suite completa foram repetidas sobre esta correcção.
 
 - Baseline de esforço: cabeçalhos/valores em trailing causavam overflow a 320 dp/200%, e quatro casos elevados não completavam layout. Linhas abertas com montante separado e acesso horizontal explícito resolvem sem reduzir fonte ou alterar cêntimos.
 - Selector fechado cortava o código da moeda ampliado; código ISO passa a ficar integralmente visível, mantendo nomes completos no menu.

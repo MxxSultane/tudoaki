@@ -22,7 +22,7 @@ class FinanceAmount extends StatefulWidget {
 }
 
 class _FinanceAmountState extends State<FinanceAmount> {
-  final _scroll = ScrollController();
+  final _scroll = ScrollController(keepScrollOffset: false);
   @override
   void dispose() {
     _scroll.dispose();

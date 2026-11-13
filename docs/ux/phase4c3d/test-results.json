@@ -52,5 +52,10 @@
   "python_summary_tests": {
     "executed": 9,
     "passed": 9
-  }
+  },
+  "final_recheck_after_ui_fixes": "running",
+  "additional_regressions": [
+    "confirmation total visible at 320dp/200%: red then green",
+    "horizontal money and expansion PageStorage collision: red then green"
+  ]
 }
