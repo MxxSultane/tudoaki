@@ -71,13 +71,31 @@ Nove testes novos cobrem dias civis/limites, quatro combinações claro/escuro �
 
 PremiumTokens/PremiumScope/componentes 4C.3A são reutilizados. Texto usa pares ≥4,5:1; outline/foco/action e cursor/handles usam os papéis funcionais ≥3:1. Os seis testes de DS existentes verificam os getters/papéis com Color.computeLuminance e texto 200%; a matriz 4C.3A/4C.2 continua a referência, sem cores funcionais novas. Campos/botões/checkbox têm mínimo 48 dp; os testes reais medem nome, prazo, alvo e Criar. Foco de campo tem anel exterior de 2 dp/intervalo 2, independente do erro. Validação foca o primeiro campo inválido e aproxima-o da área útil.
 
-Ronda congelada: **271/271 aprovados**, sem falhas/ignorados/erros. Após a revisão final de rótulos, os nove testes novos passaram novamente e a suite completa está a ser repetida. Análise sem problemas; APK debug compilado. Resultados finais serão consolidados antes da entrega.
+| Verificação final local | Resultado |
+| --- | --- |
+| dart format, lib/test/utilitário | Sem diferenças após formatação |
+| flutter analyze --no-pub | Sem problemas (30,2 s) |
+| Suite Flutter completa, código final congelado | **271 executados, 271 aprovados, 0 falhas, 0 ignorados, 0 erros**, runner/processador código 0; 211,3 s |
+| Novos testes | 9 aprovados, incluídos nos 271 |
+| Capturas | 56 antes + 56 depois; fora da contagem da suite |
+| Processador de resultados Python | 9 testes aprovados |
+| check_schema.py | Aprovado, apenas fixtures sintéticas |
+| flutter build apk --debug --no-pub | Aprovado, 16,7 s; mz.lifeos.lifeos / 0.9.2+12 preservados |
+
+APK SHA-256 local: `c74c9a9b1d4794e7a95fa9dc1163d1a318d8b4ed0a88f97a30709097517e6728`. Sem distribuição/instalação. [Resultados](ux/phase4c3b/test-results.json) · [Preservação/documentos](ux/phase4c3b/document-validation.json) · [Contrastes de referência verificados pelos testes](ux/phase4c3a/contrast-results.json).
 
 ## 10. GitHub Actions
 
 Os dois workflows existentes incluem agora o branch 4C.3B no trigger push, sem enfraquecer comandos, versões, preservação ou critérios. Sem upload/distribuição de APK.
 
-Primeira implementação afdd6fa: [Flutter validation](https://github.com/MxxSultane/tudoaki/actions/runs/43470242746) e [Android debug validation](https://github.com/MxxSultane/tudoaki/actions/runs/43470242594) COMPLETED / SUCCESS. O ajuste final de rótulos terá validação no seu próprio SHA, a consolidar antes da entrega.
+Código final validado: **1bebb721de392d2154dcf34cba7706edd9f2d9fb**. Resultados observados directamente pela API GitHub:
+
+| Workflow | Execução | Resultado |
+| --- | --- | --- |
+| Flutter validation | [43471556105](https://github.com/MxxSultane/tudoaki/actions/runs/43471556105) | COMPLETED / SUCCESS |
+| Android debug validation | [43471556073](https://github.com/MxxSultane/tudoaki/actions/runs/43471556073) | COMPLETED / SUCCESS |
+
+A primeira implementação afdd6fa também passou os dois workflows; a validação acima inclui o ajuste final dos rótulos. A contagem 271 é obtida do runner local machine, não inferida da cor da CI. O commit documental de entrega conserva exactamente o código, testes e workflows desse SHA validado.
 
 ## 11. Capturas reais Flutter
 
