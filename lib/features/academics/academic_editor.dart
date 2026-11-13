@@ -5,6 +5,8 @@ import '../../app/providers.dart';
 import '../../core/database/database.dart';
 import 'academic_rules.dart';
 import 'study_repository.dart';
+import '../../core/theme/premium_tokens.dart';
+import '../../core/widgets/premium_components.dart';
 
 Future<void> showAcademicEditor(
   BuildContext context,
@@ -89,27 +91,39 @@ class _AcademicEditorState extends ConsumerState<AcademicEditor> {
     super.dispose();
   }
 
+  Widget focusField(Widget child) =>
+      PremiumTokens.active(context) ? PremiumFocusOutline(child: child) : child;
+
   Widget field(
     TextEditingController controller,
     String label, {
     bool numeric = false,
   }) => Padding(
     padding: const EdgeInsets.only(bottom: 12),
-    child: TextFormField(
-      controller: controller,
-      keyboardType: numeric ? TextInputType.number : TextInputType.text,
-      decoration: InputDecoration(labelText: label),
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) return 'Preencha este campo';
-        if (numeric) {
-          final number = int.tryParse(value);
-          final max = widget.kind == 'Estudo' ? 180 : 480;
-          if (number == null || number < 1 || number > max) {
-            return 'Use um número entre 1 e $max';
+    child: focusField(
+      TextFormField(
+        controller: controller,
+        keyboardType: numeric ? TextInputType.number : TextInputType.text,
+        decoration: InputDecoration(
+          labelText: PremiumTokens.active(context) ? null : label,
+          label: PremiumTokens.active(context)
+              ? Text(label, softWrap: true)
+              : null,
+        ),
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return 'Preencha este campo';
           }
-        }
-        return null;
-      },
+          if (numeric) {
+            final number = int.tryParse(value);
+            final max = widget.kind == 'Estudo' ? 180 : 480;
+            if (number == null || number < 1 || number > max) {
+              return 'Use um número entre 1 e $max';
+            }
+          }
+          return null;
+        },
+      ),
     ),
   );
   Future<DateTime?> date(DateTime initial) => showDatePicker(
@@ -177,6 +191,9 @@ class _AcademicEditorState extends ConsumerState<AcademicEditor> {
               const SizedBox(height: 20),
               if (widget.kind != 'Aula') field(title, 'Título'),
               DropdownButtonFormField<int>(
+                itemHeight: PremiumTokens.active(context)
+                    ? null
+                    : kMinInteractiveDimension,
                 isExpanded: true,
                 initialValue: subject,
                 decoration: const InputDecoration(labelText: 'Disciplina'),
@@ -188,7 +205,9 @@ class _AcademicEditorState extends ConsumerState<AcademicEditor> {
                       value: row['id'] as int,
                       child: Text(
                         row['title'] as String,
-                        overflow: TextOverflow.ellipsis,
+                        overflow: PremiumTokens.active(context)
+                            ? TextOverflow.visible
+                            : TextOverflow.ellipsis,
                       ),
                     ),
                 ],
@@ -203,6 +222,9 @@ class _AcademicEditorState extends ConsumerState<AcademicEditor> {
                   'O horário repete-se semanalmente no período definido. Editar altera as ocorrências desse período.',
                 ),
                 DropdownButtonFormField<int>(
+                  itemHeight: PremiumTokens.active(context)
+                      ? null
+                      : kMinInteractiveDimension,
                   initialValue: weekday,
                   decoration: const InputDecoration(labelText: 'Dia da semana'),
                   items: [

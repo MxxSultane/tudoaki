@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../app/providers.dart';
 import '../../../core/database/database.dart';
+import '../../../core/theme/premium_tokens.dart';
 import '../domain/task_operations.dart';
 
 /// Creates tasks only. Existing tasks continue to use the complete Editor.
@@ -253,23 +254,45 @@ class _QuickTaskSheetState extends ConsumerState<QuickTaskSheet> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Semantics(
+                    if (PremiumTokens.active(context) &&
+                        MediaQuery.textScalerOf(context).scale(1) > 1.3)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Semantics(
                             header: true,
                             child: Text(
                               'Nova tarefa',
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                           ),
-                        ),
-                        TextButton(
-                          onPressed: _busy ? null : _close,
-                          child: const Text('Cancelar'),
-                        ),
-                      ],
-                    ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: _busy ? null : _close,
+                              child: const Text('Cancelar'),
+                            ),
+                          ),
+                        ],
+                      )
+                    else
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Semantics(
+                              header: true,
+                              child: Text(
+                                'Nova tarefa',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: _busy ? null : _close,
+                            child: const Text('Cancelar'),
+                          ),
+                        ],
+                      ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _title,

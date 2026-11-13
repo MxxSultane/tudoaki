@@ -1,0 +1,103 @@
+{
+  "base": "058ae625bbec82eb97c7eaf0f4eeca0414672f7f",
+  "protected_paths": [
+    {
+      "path": "android",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.yaml",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.lock",
+      "unchanged": true
+    },
+    {
+      "path": "lib/core/database",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/tasks/domain",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/academics/academic_rules.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/academics/study_repository.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/goals",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/finance",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/habits",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/planning",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/agenda",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/progress",
+      "unchanged": true
+    },
+    {
+      "path": "lib/app/navigation",
+      "unchanged": true
+    }
+  ],
+  "academic_operation_methods": [
+    {
+      "file": "lib/features/academics/academic_editor.dart",
+      "method": "void initState()",
+      "body_identical": true,
+      "sha256": "3d719e579565b2d6ce55c2c5d399b603aed2891203d0f68dedab3d3e9e273fe9"
+    },
+    {
+      "file": "lib/features/academics/academic_editor.dart",
+      "method": "Future<void> chooseTime(bool start)",
+      "body_identical": true,
+      "sha256": "82a3178344054fc2685bcf3edfc6e3309a574f3b6e2909a834759035b4bf673a"
+    },
+    {
+      "file": "lib/features/academics/academic_editor.dart",
+      "method": "Future<void> chooseAt()",
+      "body_identical": true,
+      "sha256": "8eb1b2e4ce22041310feb7409d308d16008ae70e08551910f6e54809a05e737f"
+    },
+    {
+      "file": "lib/features/academics/academic_editor.dart",
+      "method": "Future<void> save()",
+      "body_identical": true,
+      "sha256": "9ccd9e98174c84751da407fd1dc8d155402f21ab2c8d97d393b3bdbfe6aa213f"
+    },
+    {
+      "file": "lib/features/academics/academic_editor.dart",
+      "method": "Future<void> remove()",
+      "body_identical": true,
+      "sha256": "8040bb52ff02ca7c883ab4dbc3c3d44bee7dda596e516410d04ccdce7806a134"
+    },
+    {
+      "file": "lib/features/academics/focus_timer.dart",
+      "method": "Future<void> action(",
+      "body_identical": true,
+      "sha256": "0922eb5c8d3a074012cd895369d86af20ec2d8b2ea0ec4ca345f13e88d6df4a0"
+    }
+  ],
+  "real_database_accessed": false,
+  "new_dependencies": false,
+  "migrations": false,
+  "navigation_routes_changed": false
+}

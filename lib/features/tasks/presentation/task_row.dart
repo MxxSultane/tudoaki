@@ -15,11 +15,13 @@ class TaskRow extends ConsumerStatefulWidget {
     required this.task,
     this.subtitle,
     this.showSubtitle = true,
+    this.useCurrentEditorTheme = false,
     super.key,
   });
   final DataRowMap task;
   final String? subtitle;
   final bool showSubtitle;
+  final bool useCurrentEditorTheme;
   @override
   ConsumerState<TaskRow> createState() => _TaskRowState();
 }
@@ -90,7 +92,9 @@ class _TaskRowState extends ConsumerState<TaskRow> {
               style: Theme.of(context).textTheme.bodySmall,
             ),
       onTap: () => showEditor(
-        PremiumScope.legacyContextOf(context),
+        widget.useCurrentEditorTheme
+            ? context
+            : PremiumScope.legacyContextOf(context),
         'Tarefa',
         existing: task,
         compact: true,

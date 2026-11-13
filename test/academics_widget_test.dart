@@ -56,6 +56,9 @@ void main() {
         'Teste de álgebra',
       );
       await tapVisible(find.widgetWithText(FilledButton, 'Guardar'));
+      if (find.text('Teste de álgebra').evaluate().isEmpty) {
+        await tapVisible(find.textContaining('Trabalhos e avaliações ('));
+      }
       final examTile = find.ancestor(
         of: find.text('Teste de álgebra'),
         matching: find.byType(ListTile),

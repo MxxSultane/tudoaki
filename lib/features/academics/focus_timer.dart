@@ -5,6 +5,8 @@ import '../../app/providers.dart';
 import '../../core/database/database.dart';
 import 'academic_rules.dart';
 import 'study_repository.dart';
+import '../../core/theme/premium_tokens.dart';
+import '../../core/widgets/premium_components.dart';
 
 final studyClockProvider = Provider<DateTime Function()>((ref) => DateTime.now);
 
@@ -23,11 +25,25 @@ class FocusTimerCard extends ConsumerStatefulWidget {
 class _FocusTimerCardState extends ConsumerState<FocusTimerCard>
     with WidgetsBindingObserver {
   late final Timer tick;
+  final _primaryAction = GlobalKey();
   bool busy = false;
   String? error;
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !PremiumTokens.active(context)) return;
+      final target = _primaryAction.currentContext;
+      if (target != null) {
+        Scrollable.ensureVisible(
+          target,
+          alignment: .6,
+          duration: MediaQuery.disableAnimationsOf(context)
+              ? Duration.zero
+              : const Duration(milliseconds: 200),
+        );
+      }
+    });
     WidgetsBinding.instance.addObserver(this);
     tick = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) setState(() {});
@@ -78,6 +94,9 @@ class _FocusTimerCardState extends ConsumerState<FocusTimerCard>
     }
   }
 
+  Widget focusAction(Widget child) =>
+      PremiumTokens.active(context) ? PremiumFocusOutline(child: child) : child;
+
   @override
   Widget build(BuildContext context) {
     final row = widget.session;
@@ -86,38 +105,39 @@ class _FocusTimerCardState extends ConsumerState<FocusTimerCard>
     final running = row['focus_end'] != null;
     final ready = !completed && running && seconds == 0;
     final paused = !running && row['focus_started_at'] != null;
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Tempo de foco',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            Text(row['title'] as String),
-            const SizedBox(height: 12),
-            Text(
-              '${(seconds ~/ 60).toString().padLeft(2, '0')}:${(seconds % 60).toString().padLeft(2, '0')}',
-              style: Theme.of(context).textTheme.displayMedium,
-              semanticsLabel:
-                  '${seconds ~/ 60} minutos e ${seconds % 60} segundos restantes',
-            ),
-            Text(
-              completed
-                  ? 'Sessão registada. Bom trabalho!'
-                  : ready
-                  ? 'Tempo concluído. Registe a sessão quando estiver pronto.'
-                  : running
-                  ? 'Uma coisa de cada vez.'
-                  : paused
-                  ? 'Em pausa. Retome quando quiser.'
-                  : 'Escolha um momento tranquilo para começar.',
-            ),
-            const SizedBox(height: 12),
-            if (!completed)
+    final content = Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Tempo de foco', style: Theme.of(context).textTheme.titleLarge),
+          Text(row['title'] as String),
+          const SizedBox(height: 12),
+          Text(
+            '${(seconds ~/ 60).toString().padLeft(2, '0')}:${(seconds % 60).toString().padLeft(2, '0')}',
+            style: PremiumTokens.active(context)
+                ? Theme.of(context).textTheme.headlineLarge
+                : Theme.of(context).textTheme.displayMedium,
+            semanticsLabel:
+                '${seconds ~/ 60} minutos e ${seconds % 60} segundos restantes',
+          ),
+          Text(
+            completed
+                ? 'Sessão registada. Bom trabalho!'
+                : ready
+                ? 'Tempo concluído. Registe a sessão quando estiver pronto.'
+                : running
+                ? 'Uma coisa de cada vez.'
+                : paused
+                ? 'Em pausa. Retome quando quiser.'
+                : 'Escolha um momento tranquilo para começar.',
+          ),
+          const SizedBox(height: 12),
+          if (!completed)
+            focusAction(
               FilledButton(
+                key: _primaryAction,
+                autofocus: PremiumTokens.active(context),
                 onPressed: busy
                     ? null
                     : () => action(
@@ -137,23 +157,26 @@ class _FocusTimerCardState extends ConsumerState<FocusTimerCard>
                       : 'Iniciar foco',
                 ),
               ),
-            if (!running || completed)
-              TextButton(
-                onPressed: widget.onClose,
-                child: const Text('Ocultar temporizador'),
-              ),
-            if (error != null)
-              Text(
-                error!,
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
-            const SizedBox(height: 8),
-            const Text(
-              'O tempo é recuperado ao regressar à aplicação. Não é emitido um alarme de fim em segundo plano.',
             ),
-          ],
-        ),
+          if (!running || completed)
+            TextButton(
+              onPressed: widget.onClose,
+              child: const Text('Ocultar temporizador'),
+            ),
+          if (error != null)
+            Text(
+              error!,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          const SizedBox(height: 8),
+          const Text(
+            'O tempo é recuperado ao regressar à aplicação. Não é emitido um alarme de fim em segundo plano.',
+          ),
+        ],
       ),
     );
+    return PremiumTokens.active(context)
+        ? PremiumSurface(clay: true, child: content)
+        : Card(child: content);
   }
 }

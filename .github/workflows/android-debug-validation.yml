@@ -2,7 +2,7 @@ name: Android debug validation
 
 on:
   push:
-    branches: [qa/fase-3f-integracao, fix/fase-4a-ux-android, fix/fase-4b-funcional-simplificacao, feat/fase-4c3a-design-system-piloto, feat/fase-4c3b-metas-formulario]
+    branches: [qa/fase-3f-integracao, fix/fase-4a-ux-android, fix/fase-4b-funcional-simplificacao, feat/fase-4c3a-design-system-piloto, feat/fase-4c3b-metas-formulario, feat/fase-4c3c-estudos-premium]
   workflow_dispatch:
     inputs:
       disponibilizar_apk:

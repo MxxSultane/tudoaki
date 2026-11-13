@@ -11,6 +11,7 @@ import 'goals/goal_plan.dart';
 import 'academics/academic_rules.dart';
 import 'academics/academic_editor.dart';
 import 'academics/academics_panel.dart';
+import 'academics/academics_screen.dart';
 import 'finance/finance_panel.dart';
 import 'progress/progress_panel.dart';
 import 'habits/presentation/habits_screen.dart';
@@ -112,6 +113,8 @@ class _TudoAkiScreenState extends ConsumerState<TudoAkiScreen> {
   @override
   Widget build(BuildContext context) {
     switch (widget.section) {
+      case 'Estudos':
+        return AcademicsScreen(embedded: widget.embedded);
       case 'Hábitos':
         return HabitsScreen(embedded: widget.embedded);
       case 'Revisões':

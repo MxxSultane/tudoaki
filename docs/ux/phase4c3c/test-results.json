@@ -1,0 +1,20 @@
+{
+  "baseline": {
+    "executed": 272,
+    "passed": 272
+  },
+  "new_targeted_tests": 20,
+  "new_targeted_passed": 20,
+  "format": "107 files, 0 changed",
+  "analyze": "No issues found",
+  "captures": {
+    "cases": 100,
+    "passed": 100,
+    "png": 200,
+    "external_identical_pairs": 16
+  },
+  "android_debug": "success",
+  "full_final_suite": "running; result will be recorded after completion",
+  "ci": "pending push",
+  "wcag_integral_claim": false
+}

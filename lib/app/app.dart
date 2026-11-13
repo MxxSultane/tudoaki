@@ -187,15 +187,20 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
       }.entries)
         GoRoute(
           path: area.key,
-          builder: (_, _) => AreaScaffold(
-            title: area.value.$1,
-            child: switch (area.key) {
-              AppRoutes.habits => const HabitsScreen(embedded: true),
-              AppRoutes.reviews => const ReviewsScreen(embedded: true),
-              AppRoutes.settings => const SettingsScreen(embedded: true),
-              _ => TudoAkiScreen(section: area.value.$2, embedded: true),
-            },
-          ),
+          builder: (_, _) {
+            final page = AreaScaffold(
+              title: area.value.$1,
+              child: switch (area.key) {
+                AppRoutes.habits => const HabitsScreen(embedded: true),
+                AppRoutes.reviews => const ReviewsScreen(embedded: true),
+                AppRoutes.settings => const SettingsScreen(embedded: true),
+                _ => TudoAkiScreen(section: area.value.$2, embedded: true),
+              },
+            );
+            return area.key == AppRoutes.academics
+                ? PremiumScope(child: page)
+                : page;
+          },
         ),
     ],
   );
