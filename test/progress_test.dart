@@ -111,39 +111,50 @@ void main() {
     },
   );
 
-  testWidgets('chart and achievement labels fit narrow screens at large text', (
-    tester,
-  ) async {
-    await initializeDateFormatting('pt');
-    tester.view.physicalSize = const Size(360, 800);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-    final data = {for (final table in exportTables) table: <DataRowMap>[]};
-    Future<void> render(bool enabled) => tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          progressClockProvider.overrideWithValue(() => DateTime(2026, 10, 25)),
-        ],
-        child: MaterialApp(
-          home: MediaQuery(
-            data: const MediaQueryData(textScaler: TextScaler.linear(2)),
-            child: Scaffold(
-              body: SingleChildScrollView(
-                child: ProgressPanel(data: data, gamification: enabled),
+  testWidgets(
+    'weekly counts and achievement labels fit narrow screens at large text',
+    (tester) async {
+      await initializeDateFormatting('pt');
+      tester.view.physicalSize = const Size(360, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final data = {for (final table in exportTables) table: <DataRowMap>[]};
+      Future<void> render(bool enabled) => tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            progressClockProvider.overrideWithValue(
+              () => DateTime(2026, 10, 25),
+            ),
+          ],
+          child: MaterialApp(
+            home: MediaQuery(
+              data: const MediaQueryData(textScaler: TextScaler.linear(2)),
+              child: Scaffold(
+                body: SingleChildScrollView(
+                  child: ProgressPanel(data: data, gamification: enabled),
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
-    await render(true);
-    expect(find.text('Primeiro passo'), findsOneWidget);
-    expect(find.byType(LinearProgressIndicator), findsNWidgets(7));
-    expect(tester.takeException(), isNull);
-    await render(false);
-    expect(find.text('Conquistas'), findsNothing);
-    expect(find.byType(LinearProgressIndicator), findsNWidgets(7));
-    expect(tester.takeException(), isNull);
-  });
+      );
+      await render(true);
+      expect(find.text('Primeiro passo'), findsOneWidget);
+      expect(find.byType(LinearProgressIndicator), findsNothing);
+      expect(
+        find.textContaining('0 tarefas · 0 hábitos · 0 estudos'),
+        findsNWidgets(7),
+      );
+      expect(tester.takeException(), isNull);
+      await render(false);
+      expect(find.text('Conquistas'), findsNothing);
+      expect(find.byType(LinearProgressIndicator), findsNothing);
+      expect(
+        find.textContaining('0 tarefas · 0 hábitos · 0 estudos'),
+        findsNWidgets(7),
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

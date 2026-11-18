@@ -1,0 +1,87 @@
+{
+  "base": "ffc9b0b48da024c566c3ee2b5d47a636495bc840",
+  "protected_paths": [
+    {
+      "path": "android",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.yaml",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.lock",
+      "unchanged": true
+    },
+    {
+      "path": "lib/core",
+      "unchanged": true
+    },
+    {
+      "path": "lib/app/providers.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/app/navigation",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/tasks",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/finance",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/academics",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/goals",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/habits",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/planning",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/agenda",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/forms.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/screens.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/progress/progress_rules.dart",
+      "unchanged": true
+    }
+  ],
+  "progress_reader_tables": [
+    "UserPreferences",
+    "Tasks",
+    "Habits",
+    "HabitCompletions",
+    "StudySessions",
+    "Goals",
+    "GoalProgress",
+    "ExperienceEvents",
+    "Achievements"
+  ],
+  "progress_reader_mutation_calls": false,
+  "shared_loader_sync_unchanged": true,
+  "read_only_scope": "Progress reader/component and navigation from an already loaded application. Existing global cold application syncAchievements is unchanged.",
+  "real_database_accessed": false,
+  "migrations": false,
+  "new_dependencies": false,
+  "new_rewards": false
+}

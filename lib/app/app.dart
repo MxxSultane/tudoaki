@@ -175,8 +175,9 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
       ),
       GoRoute(
         path: AppRoutes.progress,
-        builder: (_, _) =>
-            const AreaScaffold(title: 'Progresso', child: ProgressScreen()),
+        builder: (_, _) => const PremiumScope(
+          child: AreaScaffold(title: 'Progresso', child: ProgressScreen()),
+        ),
       ),
       for (final area in const {
         AppRoutes.habits: ('Hábitos', 'Hábitos'),
