@@ -20,5 +20,19 @@
   "analyze": "no issues",
   "format": "unchanged",
   "android_debug": "passed",
-  "benchmark_tests_passed": 1
+  "benchmark_tests_passed": 1,
+  "result_processor_tests_passed": 9,
+  "implementation_commit": "691696ae99c47e31e845cee9378a1fd1ca6bfd25",
+  "github_actions": [
+    {
+      "run": 44405406201,
+      "workflow": "Flutter validation",
+      "conclusion": "success"
+    },
+    {
+      "run": 44405406207,
+      "workflow": "Android debug validation",
+      "conclusion": "success"
+    }
+  ]
 }

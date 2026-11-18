@@ -81,7 +81,7 @@ Testes verificam alvos internos de pelo menos 48×48 dp, foco por teclado, semâ
 - 27 novos testes cobrem fontes/datas/ausências/futuro, limites da projecção, leitura sem escrita, matriz de 12 combinações, origens, navegação, filtros, gamificação, erro/carregamento, foco, alvos e construção preguiçosa com 10 000 registos.
 - 31 testes dirigidos (27 novos + quatro anteriores) passaram; as asserções de domínio anteriores permanecem. O teste visual das barras passou a verificar sete contagens textuais reais.
 - Capturas: 164/164; benchmark: 1/1, fora da contagem canónica.
-- dart format: sem alterações pendentes; flutter analyze: sem problemas.
+- dart format: sem alterações pendentes; flutter analyze: sem problemas. Os nove testes Python do processador de resultados também passaram.
 
 [Evidência estruturada](ux/phase4c3e/test-results.json). Os comandos de reprodução das capturas estão no respectivo índice. A suite completa foi executada com flutter test --no-pub --machine e validada pelo processador de resultados existente.
 
@@ -91,7 +91,12 @@ flutter build apk --debug --no-pub passou; execução final local de 14,3 s com 
 
 ## 14. GitHub Actions
 
-Pendente apenas a recolha dos resultados remotos após publicação deste commit. Os dois workflows existentes receberam exclusivamente o novo branch na lista de push; os passos e permissões não foram alterados. Sem merge automático.
+Commit de implementação publicado: `691696ae99c47e31e845cee9378a1fd1ca6bfd25`.
+
+- [Flutter validation — sucesso](https://github.com/MxxSultane/tudoaki/actions/runs/44405406201): 345/345 testes; zero falhas/ignorados/erros; 115 ficheiros formatados sem alterações; análise sem problemas; format=0 analyze=0 test=0 lock=0.
+- [Android debug validation — sucesso](https://github.com/MxxSultane/tudoaki/actions/runs/44405406207): APK debug compilado e preservação do projecto confirmada.
+
+Os dois workflows existentes receberam exclusivamente o novo branch na lista de push; os passos e permissões não foram alterados. Este relatório é actualizado num commit documental posterior; os resultados do HEAD desse branch podem ser consultados na [lista de execuções](https://github.com/MxxSultane/tudoaki/actions?query=branch%3Afeat%2Ffase-4c3e-progresso-percurso). Não há merge automático.
 
 ## 15. Ficheiros modificados
 
