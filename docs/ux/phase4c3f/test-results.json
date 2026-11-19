@@ -15,7 +15,8 @@
   },
   "new_tests": 22,
   "targeted": {
-    "passed": 22
+    "new_tests_passed": 22,
+    "regressions_passed": 56
   },
   "captures": {
     "scenarios": 336,
@@ -26,7 +27,47 @@
     "passed": 1,
     "android": false
   },
-  "android_debug": "passed; final rebuild recorded before delivery",
-  "final_suite": "running; update before delivery",
-  "ci": "pending publication"
+  "android_debug": {
+    "success": true,
+    "assemble_debug_seconds": 31.7,
+    "physical_device_tested": false
+  },
+  "final_suite": {
+    "executed": 367,
+    "passed": 367,
+    "failed": 0,
+    "skipped": 0,
+    "error_events": 0,
+    "execution_errors": 0,
+    "issues": [],
+    "errors": [],
+    "runner_complete": true,
+    "success": true,
+    "exit_code": 0
+  },
+  "ci": [
+    {
+      "workflow": "Flutter validation",
+      "run": 44503822474,
+      "conclusion": "success",
+      "executed": 367,
+      "passed": 367
+    },
+    {
+      "workflow": "Android debug validation",
+      "run": 44503822426,
+      "conclusion": "success"
+    }
+  ],
+  "implementation_commit": "6890cb248ee67323a82c3f57c0b3430f86a5b43d",
+  "format": {
+    "changed": 0,
+    "files": 120,
+    "exit_code": 0
+  },
+  "analyze": {
+    "issues": 0,
+    "exit_code": 0
+  },
+  "result_processor_tests_passed": 9
 }

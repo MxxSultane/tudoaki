@@ -1,0 +1,23 @@
+{
+  "main": "9283217523f9952221c98996b56a90b1fbe383dd",
+  "implementation": "6890cb248ee67323a82c3f57c0b3430f86a5b43d",
+  "base_4c3e": "98d281385bd02ccd47ac97cafbc698efeb29682f",
+  "relative_to_main": {
+    "files": 2194,
+    "lib": 51,
+    "tests": 37,
+    "docs": 2088,
+    "android": 0,
+    "tools": 14,
+    "diff_stat": "2194 files changed, 42593 insertions(+), 2004 deletions(-)"
+  },
+  "phase_f_only": {
+    "files": 705,
+    "lib": 13,
+    "tests": 4,
+    "docs": 683,
+    "android": 0,
+    "tools": 3,
+    "diff_stat": "705 files changed, 7362 insertions(+), 407 deletions(-)"
+  }
+}
