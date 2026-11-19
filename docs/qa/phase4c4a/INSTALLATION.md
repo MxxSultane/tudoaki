@@ -12,7 +12,7 @@ Este pacote destina-se a testes controlados. Não é release nem APK de produç�
 
 **O certificado local e o do GitHub Actions podem diferir.** O nome Android Debug não demonstra igualdade das chaves. Builds CI em runners novos geram normalmente chaves debug diferentes. A chave efémera do runner não é entregue nem persistida: este APK não estabelece um canal de actualizações futuras com assinatura estável. Cada pacote tem `apk-metadata.json`, `apksigner.txt`, `aapt.txt` e `SHA256SUMS`; usar os ficheiros que acompanham o APK efectivamente descarregado. Não partilhar, exportar ou guardar keystores no repositório/artefacto.
 
-O relatório da fase identifica a execução e artefacto canónicos. A pasta local `/workspace/work/phase4c4a/local-apk/` é uma compilação independente; não misturar o seu certificado/checksum com o pacote CI. O APK de compilação encontra-se em `/workspace/tudoaki/build/app/outputs/flutter-apk/app-debug.apk`. O artefacto GitHub tem retenção de sete dias; após expirar, um novo build deve ser novamente inspeccionado e pode ter outra assinatura.
+Pacote canónico: [APK debug em ZIP](https://github.com/MxxSultane/tudoaki/actions/runs/44515990323/artifacts/14526515741), expiração 26/11/2026 às 13:39:27 Africa/Maputo. [Metadados CI](apk-ci.json) identificam checksum e certificado. Os certificados CI e local desta entrega foram comparados e são diferentes; um destes APKs não pode ser usado para actualizar o outro só por ambos serem debug. A pasta local `/workspace/work/phase4c4a/local-apk/` é uma compilação independente; não misturar o seu certificado/checksum com o pacote CI. O APK de compilação encontra-se em `/workspace/tudoaki/build/app/outputs/flutter-apk/app-debug.apk`. O artefacto GitHub tem retenção de sete dias; após expirar, um novo build deve ser novamente inspeccionado e pode ter outra assinatura.
 
 ## Compilar e inspeccionar
 
@@ -26,7 +26,7 @@ flutter build apk --debug --no-pub
 python3 tool/inspect_android_apk.py build/app/outputs/flutter-apk/app-debug.apk --output-directory /workspace/work/phase4c4a/local-apk
 ```
 
-O inspector exige assinatura válida, um certificado, ID correcto e APK debuggable; rejeita APK de produção ou fonte/configuração que difira do HEAD. Copia o APK e gera metadados/checksum. Não instala, assina, altera configuração, gera chaves ou toca nos dados de um telefone. `source_head` é o HEAD do build; os hashes das árvores lib/android permitem comparar o código quando commits posteriores só acrescentam documentação. Não é uma garantia de instalação nem compatibilidade com um aparelho ainda desconhecido.
+O inspector exige assinatura válida, um certificado, ID correcto e APK debuggable; rejeita APK de produção ou fonte/configuração que difira do HEAD. Copia o APK e gera metadados/checksum. Não instala, assina, altera configuração, gera chaves ou toca nos dados de um telefone. `source_head` identifica o checkout inspeccionado; a sequência compilar→inspeccionar no workflow associa-o ao build, não se trata de uma atestação criptográfica isolada do código; os hashes das árvores lib/android permitem comparar o código quando commits posteriores só acrescentam documentação. Não é uma garantia de instalação nem compatibilidade com um aparelho ainda desconhecido.
 
 ## Antes de instalar
 

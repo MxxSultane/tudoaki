@@ -20,5 +20,21 @@
   "format": "118 files; 0 changed",
   "android_debug": "success; 8.1s",
   "physical_tests_executed": false,
-  "ci": "pending publication"
+  "ci": [
+    {
+      "workflow": "Flutter validation",
+      "run": 44515990205,
+      "conclusion": "success",
+      "passed": 367,
+      "processor_tests": 9,
+      "apk_tool_tests": 4
+    },
+    {
+      "workflow": "Android debug validation",
+      "run": 44515990323,
+      "conclusion": "success",
+      "apk_artifact": 14526515741
+    }
+  ],
+  "preparation_commit": "45553d8c0bd8b9c5e99244419f258a16d38c838c"
 }

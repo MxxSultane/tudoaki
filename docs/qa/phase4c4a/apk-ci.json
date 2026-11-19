@@ -1,0 +1,56 @@
+{
+  "apk": {
+    "application_id": "mz.lifeos.lifeos",
+    "version_code": 12,
+    "version_name": "0.9.2",
+    "min_sdk": 24,
+    "target_sdk": 36,
+    "debuggable": true,
+    "signature_verified": true,
+    "signer_certificate_sha256": "cc46ba3e4522477042dba20a215b50e09936b480af2e872622a3e6183d214214",
+    "launchable_activity": "mz.tudoaki.tudo_aki.MainActivity",
+    "abis": [
+      "arm64-v8a",
+      "armeabi-v7a",
+      "x86_64"
+    ],
+    "apk_filename": "app-debug.apk",
+    "apk_bytes": 160674168,
+    "apk_sha256": "78cc4fe635308b7e54603ee6f4092b8cad24552d881651590de4ced8c004f77e",
+    "installation_executed": false,
+    "compatibility": "Unknown until the installed certificate, package and version are checked. Debug keys may differ between local/CI builds.",
+    "source_head": "45553d8c0bd8b9c5e99244419f258a16d38c838c",
+    "source_lib_tree": "6c1dc68f9975dee5cdd003e2a8b23116d39fa7f6",
+    "source_android_tree": "654ae748ddfccca8febaf765f199c0ccb5a57989",
+    "source_assets_tree": "686234c9b086a14e9d956bcdfe050ce01ab3d284",
+    "pubspec_sha256": "c7d73e08bf2296d3faba94b7697f3f5309c5c91d9fd8240ce9ef4879ddc0fe19",
+    "lockfile_sha256": "23ed8d6cbd75540a9cb82eaff5a0012eb24b40f823a7696f825a655ae4de833c",
+    "build_mode": "debug"
+  },
+  "artifact": {
+    "id": 14526515741,
+    "run_id": 44515990323,
+    "name": "tudo-aki-debug-45553d8c0bd8b9c5e99244419f258a16d38c838c",
+    "url": "https://github.com/MxxSultane/tudoaki/actions/runs/44515990323/artifacts/14526515741",
+    "zip_bytes": 82727704,
+    "zip_sha256": "1217192d013df67c00f559251ed8f04b06f79f7b0a8522eb93b84aabb90dbab0",
+    "created_at_utc": "2026-11-19T11:39:32Z",
+    "expires_at_utc": "2026-11-26T11:39:27Z",
+    "expires_at_maputo": "2026-11-26 13:39:27 Africa/Maputo"
+  },
+  "ci": {
+    "flutter": {
+      "run": 44515990205,
+      "conclusion": "success",
+      "passed": 367
+    },
+    "android": {
+      "run": 44515990323,
+      "conclusion": "success",
+      "assemble_debug_seconds": 221.2
+    },
+    "flutter_version": "3.35.7",
+    "dart_version": "3.9.2",
+    "java_version": "21.0.13+9"
+  }
+}

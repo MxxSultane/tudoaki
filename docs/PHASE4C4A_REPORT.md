@@ -38,9 +38,9 @@ python3 tool/inspect_android_apk.py build/app/outputs/flutter-apk/app-debug.apk 
 
 [Metadados locais](qa/phase4c4a/apk-local.json) e [verificação da assinatura](qa/phase4c4a/apksigner-local.txt). Build local aprovado em **8,1 s**. Uma assinatura válida e manifesto coerente permitem preparar o pacote para instalação, mas **não equivalem a uma instalação executada**.
 
-A disponibilização canónica pelo GitHub Actions inclui `app-debug.apk`, `apk-metadata.json`, `apksigner.txt`, `aapt.txt` e `SHA256SUMS`, com retenção de sete dias. A execução/artefacto são preenchidos após o upload na secção 11. Não se adiciona um binário de 187 MB ao Git nem se publica release.
+A disponibilização canónica pelo GitHub Actions inclui `app-debug.apk`, `apk-metadata.json`, `apksigner.txt`, `aapt.txt` e `SHA256SUMS`, com retenção de sete dias. [Descarregar o ZIP canónico](https://github.com/MxxSultane/tudoaki/actions/runs/44515990323/artifacts/14526515741); execução e identidade na secção 11. Não se adiciona um binário de 187 MB ao Git nem se publica release.
 
-**Não confundir assinaturas:** o APK CI é um build independente do APK local; os certificados/checksums podem diferir. A chave debug efémera de um runner novo não estabelece um canal de actualizações com chave estável. Usar os metadados que acompanham o ficheiro efectivamente descarregado, sem publicar chaves privadas ou substituir a assinatura de uma instalação existente.
+**Não confundir assinaturas:** o APK CI é um build independente do APK local; os certificados/checksums são diferentes nos dois pacotes verificados desta entrega. A chave debug efémera de um runner novo não estabelece um canal de actualizações com chave estável. Usar os metadados que acompanham o ficheiro efectivamente descarregado, sem publicar chaves privadas ou substituir a assinatura de uma instalação existente.
 
 Antes de instalar, inspeccionar o pacote/versão/certificado instalado com leitura, inventariar dados controlados e comparar o SHA-256 do certificado. Se forem diferentes, desconhecidos ou a versão instalada for superior, **parar**. Opções seguras: conservar a instalação e usar outro telefone de testes sem esse pacote, ou obter do responsável um build com assinatura compatível. Não alterar applicationId, desinstalar, limpar armazenamento, usar downgrade ou copiar SQLite por cima.
 
@@ -95,7 +95,7 @@ Sem operações sobre dados de telefone, instalações, desinstalações, limpez
 
 1. Acesso a Android real indisponível pelos meios verificados, com erro ADB e ausência de USB exposto/servidor acessível.
 2. Assinatura da instalação existente desconhecida. Certificados locais e CI podem divergir; não assumir compatibilidade pelo DN Android Debug. Versão instalada >12 também exigiria plano autorizado, sem downgrade.
-3. Artefactos de testes expiram após sete dias e os próximos builds podem ter outro certificado. Não se promete distribuição permanente ou actualização futura com chave estável.
+3. Artefactos de testes expiram após sete dias e os próximos builds podem ter outro certificado; o APK CI verificado tem assinatura diferente do APK local. Não se promete distribuição permanente ou actualização futura com chave estável.
 
 Não foi reproduzido um defeito novo da aplicação Android nesta fase. Não se atribui aprovação aos cenários não executados.
 
@@ -115,7 +115,23 @@ Workflows existentes: branch habilitado para validação; quatro testes do inspe
 
 Local: **367 executados/aprovados**, zero falhas/ignorados/erros; dart format 118 ficheiros sem alterações; flutter analyze sem problemas; APK debug compilado em 8,1 s e apksigner/aapt verificaram o ficheiro real. Quatro testes unitários do inspector aprovados, separados da contagem Flutter. [Resumo estruturado](qa/phase4c4a/test-results.json).
 
-A CI e o artefacto canónico estão pendentes da primeira publicação deste relatório; os SHA, links, checksum e certificado efectivos serão registados antes da entrega. Nenhum estado remoto é inferido do push ou do sucesso local.
+Commit de preparação: **45553d8c0bd8b9c5e99244419f258a16d38c838c**. Resultados remotos efectivamente observados:
+
+- [Flutter validation — sucesso](https://github.com/MxxSultane/tudoaki/actions/runs/44515990205): 367/367; análise sem problemas; format=0 analyze=0 test=0 lock=0; nove testes do processador e quatro do inspector aprovados.
+- [Android debug validation — sucesso](https://github.com/MxxSultane/tudoaki/actions/runs/44515990323): compilação em 221,2 s, assinatura/manifesto/proveniência verificados, preservação confirmada e upload do pacote de testes.
+
+### APK canónico entregue
+
+**[Descarregar APK debug e metadados (ZIP)](https://github.com/MxxSultane/tudoaki/actions/runs/44515990323/artifacts/14526515741)**. Artefacto `14526515741`, `tudo-aki-debug-45553d8c0bd8b9c5e99244419f258a16d38c838c`; ZIP 82727704 bytes. Requer acesso ao GitHub para descarregar artefactos. Expira em **26/11/2026 às 13:39:27, Africa/Maputo**.
+
+- APK dentro do ZIP: `app-debug.apk`, **160674168 bytes**.
+- SHA-256 do APK: `78cc4fe635308b7e54603ee6f4092b8cad24552d881651590de4ced8c004f77e`.
+- SHA-256 do certificado CI: `cc46ba3e4522477042dba20a215b50e09936b480af2e872622a3e6183d214214`.
+- SHA-256 do ZIP, diferente do APK: `1217192d013df67c00f559251ed8f04b06f79f7b0a8522eb93b84aabb90dbab0`.
+
+[Identidade e proveniência completas](qa/phase4c4a/apk-ci.json). Toolchain CI: Flutter 3.35.7, Dart 3.9.2, Temurin 21.0.13+9. As árvores lib/android/assets e hashes de dependências correspondem à fonte aprovada; não se presume reprodução binária idêntica entre ambientes. A dimensão e assinatura CI diferem do build local documentado na secção 2: não misturar os seus ficheiros de verificação.
+
+O commit documental posterior só consolida resultados. Volta a validar o branch, mas não disponibiliza outro APK, pois não contém o marcador explícito de upload. Usar o artefacto pinado acima, não metadados de outro build ou os logs de uma execução posterior. [Execuções do HEAD final](https://github.com/MxxSultane/tudoaki/actions?query=branch%3Atest%2Ffase-4c4a-validacao-android). Nenhum resultado de compilação é declarado como ensaio físico.
 
 ## 12. Limitações
 
