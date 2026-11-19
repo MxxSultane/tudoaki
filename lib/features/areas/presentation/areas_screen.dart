@@ -1,7 +1,8 @@
 import '../../../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/widgets/skeleton_page.dart';
+import '../../../core/theme/premium_theme.dart';
+import '../../../core/widgets/premium_components.dart';
 
 class AreasScreen extends StatelessWidget {
   const AreasScreen({super.key});
@@ -9,7 +10,12 @@ class AreasScreen extends StatelessWidget {
   Widget build(BuildContext context) => ListView(
     padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
     children: [
-      InsetGroup(
+      Semantics(
+        header: true,
+        child: Text('Mais', style: Theme.of(context).textTheme.titleLarge),
+      ),
+      const SizedBox(height: 16),
+      Column(
         children: [
           for (final area in const [
             (AppRoutes.tasks, 'Tarefas', 'Lista completa'),
@@ -26,14 +32,16 @@ class AreasScreen extends StatelessWidget {
             (AppRoutes.reviews, 'Revisões', 'Reflectir e ajustar'),
             (AppRoutes.settings, 'Definições', 'Aparência, moeda e dados'),
           ])
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(area.$2),
-              subtitle: Text(
-                area.$3,
-                style: Theme.of(context).textTheme.bodySmall,
+            PremiumFocusOutline(
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(area.$2),
+                subtitle: Text(
+                  area.$3,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                onTap: () => context.push(area.$1),
               ),
-              onTap: () => context.push(area.$1),
             ),
         ],
       ),
@@ -57,27 +65,29 @@ class AreaScaffold extends StatelessWidget {
   final Widget child;
   final Widget? floatingActionButton;
   @override
-  Widget build(BuildContext context) => Scaffold(
-    floatingActionButton: floatingActionButton,
-    appBar: AppBar(
-      title: Text(title),
-      leading: IconButton(
-        tooltip: 'Voltar',
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          if (context.canPop()) {
-            context.pop();
-          } else {
-            context.go(AppRoutes.agenda);
-          }
-        },
+  Widget build(BuildContext context) => PremiumScope(
+    child: Scaffold(
+      floatingActionButton: floatingActionButton,
+      appBar: AppBar(
+        title: Text(title),
+        leading: IconButton(
+          tooltip: 'Voltar',
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go(AppRoutes.agenda);
+            }
+          },
+        ),
       ),
-    ),
-    body: SafeArea(
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 720),
-          child: child,
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: child,
+          ),
         ),
       ),
     ),

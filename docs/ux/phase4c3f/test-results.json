@@ -1,0 +1,32 @@
+{
+  "base": "98d281385bd02ccd47ac97cafbc698efeb29682f",
+  "baseline": {
+    "executed": 345,
+    "passed": 345,
+    "failed": 0,
+    "skipped": 0,
+    "error_events": 0,
+    "execution_errors": 0,
+    "issues": [],
+    "errors": [],
+    "runner_complete": true,
+    "success": true,
+    "exit_code": 0
+  },
+  "new_tests": 22,
+  "targeted": {
+    "passed": 22
+  },
+  "captures": {
+    "scenarios": 336,
+    "passed": 336,
+    "png": 672
+  },
+  "benchmark": {
+    "passed": 1,
+    "android": false
+  },
+  "android_debug": "passed; final rebuild recorded before delivery",
+  "final_suite": "running; update before delivery",
+  "ci": "pending publication"
+}

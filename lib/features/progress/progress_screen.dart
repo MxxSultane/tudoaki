@@ -1,3 +1,4 @@
+import '../../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,12 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
   bool completed = false;
   int limit = 3;
   Future<void> open(String route) async {
+    // Shell destinations already exist in indexedStack; pushing another shell
+    // duplicates its page key. Use the same branch navigation as Hoje/Mais.
+    if (route == AppRoutes.tasks || route == AppRoutes.goals) {
+      context.go(route);
+      return;
+    }
     await context.push(route);
     if (mounted) ref.invalidate(progressReadProvider);
   }

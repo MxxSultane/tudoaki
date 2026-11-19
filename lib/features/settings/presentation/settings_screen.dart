@@ -43,7 +43,12 @@ class SettingsScreen extends StatelessWidget {
         DropdownButtonFormField<String>(
           key: ValueKey('theme-${prefs['theme']}'),
           initialValue: prefs['theme'] as String,
-          decoration: const InputDecoration(labelText: 'Aparência'),
+          isExpanded: true,
+          isDense: false,
+          itemHeight: null,
+          decoration: const InputDecoration(
+            label: Text('Aparência', softWrap: true),
+          ),
           items: const [
             DropdownMenuItem(value: 'system', child: Text('Seguir sistema')),
             DropdownMenuItem(value: 'light', child: Text('Claro')),
@@ -58,18 +63,19 @@ class SettingsScreen extends StatelessWidget {
           key: ValueKey('default-currency-${prefs['currency']}'),
           initialValue: prefs['currency'] as String,
           isExpanded: true,
+          isDense: false,
+          itemHeight: null,
+          selectedItemBuilder: (context) => [
+            for (final code in currencyLabels.keys) Text(code),
+          ],
           decoration: const InputDecoration(
-            labelText: 'Moeda para novos registos',
+            label: Text('Moeda para novos registos', softWrap: true),
           ),
           items: [
             for (final entry in currencyLabels.entries)
               DropdownMenuItem(
                 value: entry.key,
-                child: Text(
-                  entry.value,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child: Text(entry.value, softWrap: true),
               ),
           ],
           onChanged: (value) => act(() async {

@@ -102,9 +102,15 @@ void main() {
         });
       }
       await t.runAsync(
-        () => File('docs/ux/phase4c3e/performance-results.json').writeAsString(
-          '${const JsonEncoder.withIndent('  ').convert({'method': 'Flutter debug test on Linux; 1 warmup + 10 projection samples; first widget pump includes font readiness; synthetic rows in memory', 'android_device_measured': false, 'continuous_animation': false, 'provider_table_reads_per_load': 9, 'journey_page_limit': 20, 'results': results})}\n',
-        ),
+        () =>
+            File(
+              const String.fromEnvironment(
+                'PROGRESS_BENCHMARK_OUTPUT',
+                defaultValue: 'docs/ux/phase4c3e/performance-results.json',
+              ),
+            ).writeAsString(
+              '${const JsonEncoder.withIndent('  ').convert({'method': 'Flutter debug test on Linux; 1 warmup + 10 projection samples; first widget pump includes font readiness; synthetic rows in memory', 'android_device_measured': false, 'continuous_animation': false, 'provider_table_reads_per_load': 9, 'journey_page_limit': 20, 'results': results})}\n',
+            ),
       );
     },
   );

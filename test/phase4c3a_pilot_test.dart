@@ -144,13 +144,14 @@ void main() {
         // Cancel through the existing back operation; no write, conversion or XP.
         router.pop();
         await tester.pumpAndSettle();
+        // 4C.3F integrates the approved identity into Planear as well.
         router.go('/plan');
         await tester.pumpAndSettle();
         expect(
           Theme.of(
             tester.element(find.byType(Scaffold).last),
           ).extension<PremiumTokens>(),
-          isNull,
+          isNotNull,
         );
         final after = await todaySnapshot(repo);
         expect(after, before);

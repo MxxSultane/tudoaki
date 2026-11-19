@@ -131,6 +131,20 @@ void main() {
       await tap(tester, find.widgetWithText(NavigationDestination, 'Hoje'));
       await tap(tester, find.widgetWithText(TextButton, 'Semana'));
       await tap(tester, find.byTooltip('Período seguinte'));
+      // The integrated 200% navigation/filters leave less initial viewport.
+      // Reveal the real event; all ID/date/data assertions below stay intact.
+      if (find.text('Reunião semanal').evaluate().isEmpty) {
+        await tester.scrollUntilVisible(
+          find.text('Reunião semanal'),
+          150,
+          scrollable: find
+              .descendant(
+                of: find.byType(WorkspacePage),
+                matching: find.byType(Scrollable),
+              )
+              .first,
+        );
+      }
       expect(find.text('Preparar relatório'), findsOneWidget);
       expect(find.text('Reunião semanal'), findsOneWidget);
       expect(find.text('Sem hora'), findsNWidgets(2));

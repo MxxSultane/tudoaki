@@ -321,130 +321,134 @@ class _PlanningScreenState extends ConsumerState<PlanningScreen>
                 ? 'Tarefa guardada para ${DateFormat('d MMM', 'pt').format(savedDay!)}.'
                 : 'Tarefa guardada.',
           );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: ListView(
-            key: PageStorageKey(
-              'planning-items-${undated ? 'undated' : dayKey(day)}',
-            ),
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-            children: [
-              if (undated) ...[
-                Semantics(
-                  header: true,
-                  child: Text(
-                    'Sem data',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
-                const Text('Escolhe um dia quando fizer sentido.'),
-              ] else
-                TextButton.icon(
-                  onPressed: _opening ? null : _chooseDay,
-                  icon: const Icon(Icons.calendar_today_outlined, size: 20),
-                  label: Text(
-                    DateFormat("EEEE, d 'de' MMMM yyyy", 'pt').format(day),
-                  ),
-                ),
-              _heading(
-                'Tarefas',
-                action: !undated && candidates.isNotEmpty
-                    ? TextButton(
-                        onPressed: _opening
-                            ? null
-                            : () => _chooseTask(candidates),
-                        child: const Text('Escolher pendente'),
-                      )
-                    : null,
-              ),
-              if (pending.isEmpty)
-                Text(
-                  undated
-                      ? 'Não há tarefas pendentes sem data.'
-                      : _view == PlanningView.tomorrow && _pickedDay == null
-                      ? 'Ainda não há tarefas para amanhã.'
-                      : 'Ainda não há tarefas para este dia.',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              for (final task in pending) _task(task, items),
-              if (done.isNotEmpty)
-                ExpansionTile(
-                  key: PageStorageKey(
-                    'plan-completed-${undated ? 'undated' : dayKey(day)}',
-                  ),
-                  tilePadding: EdgeInsets.zero,
-                  title: Text('Concluídas · ${done.length}'),
-                  children: [for (final task in done) _task(task, items)],
-                ),
-              if (!undated) ...[
-                _heading(
-                  'Compromissos',
-                  action: TextButton(
-                    onPressed: _opening
-                        ? null
-                        : () => showEditor(
-                            context,
-                            'Evento',
-                            compact: true,
-                            initialDate: DateTime(
-                              day.year,
-                              day.month,
-                              day.day,
-                              9,
-                            ),
-                          ),
-                    child: const Text('Adicionar evento'),
-                  ),
-                ),
-                if (events.isEmpty)
-                  Text(
-                    'Sem compromissos neste dia.',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                for (final event in events) _event(event, items),
-              ],
-            ],
+    final content = <Widget>[
+      if (undated) ...[
+        Semantics(
+          header: true,
+          child: Text(
+            'Sem data',
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (confirmation != null)
-                Semantics(liveRegion: true, child: Text(confirmation)),
-              if (outside)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                    onPressed: () => setState(() {
-                      _view = savedDay == null
-                          ? PlanningView.undated
-                          : PlanningView.today;
-                      _pickedDay = savedDay;
-                    }),
-                    child: const Text('Ver tarefa'),
+        const Text('Escolhe um dia quando fizer sentido.'),
+      ] else
+        TextButton.icon(
+          onPressed: _opening ? null : _chooseDay,
+          icon: const Icon(Icons.calendar_today_outlined, size: 20),
+          label: Text(DateFormat("EEEE, d 'de' MMMM yyyy", 'pt').format(day)),
+        ),
+      _heading(
+        'Tarefas',
+        action: !undated && candidates.isNotEmpty
+            ? TextButton(
+                onPressed: _opening ? null : () => _chooseTask(candidates),
+                child: const Text('Escolher pendente'),
+              )
+            : null,
+      ),
+      if (pending.isEmpty)
+        Text(
+          undated
+              ? 'Não há tarefas pendentes sem data.'
+              : _view == PlanningView.tomorrow && _pickedDay == null
+              ? 'Ainda não há tarefas para amanhã.'
+              : 'Ainda não há tarefas para este dia.',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+      for (final task in pending) _task(task, items),
+      if (done.isNotEmpty)
+        ExpansionTile(
+          key: PageStorageKey(
+            'plan-completed-${undated ? 'undated' : dayKey(day)}',
+          ),
+          tilePadding: EdgeInsets.zero,
+          title: Text('Concluídas · ${done.length}'),
+          children: [for (final task in done) _task(task, items)],
+        ),
+      if (!undated) ...[
+        _heading(
+          'Compromissos',
+          action: TextButton(
+            onPressed: _opening
+                ? null
+                : () => showEditor(
+                    context,
+                    'Evento',
+                    compact: true,
+                    initialDate: DateTime(day.year, day.month, day.day, 9),
                   ),
-                ),
-              Text(
-                undated
-                    ? 'Sem data'
-                    : DateFormat('d MMM yyyy', 'pt').format(day),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(height: 8),
-              FilledButton(
-                onPressed: _opening ? null : _create,
-                child: const Text('Adicionar tarefa'),
-              ),
-            ],
+            child: const Text('Adicionar evento'),
           ),
         ),
+        if (events.isEmpty)
+          Text(
+            'Sem compromissos neste dia.',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        for (final event in events) _event(event, items),
       ],
+    ];
+    final footer = Padding(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (confirmation != null)
+            Semantics(liveRegion: true, child: Text(confirmation)),
+          if (outside)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () => setState(() {
+                  _view = savedDay == null
+                      ? PlanningView.undated
+                      : PlanningView.today;
+                  _pickedDay = savedDay;
+                }),
+                child: const Text('Ver tarefa'),
+              ),
+            ),
+          Text(
+            undated ? 'Sem data' : DateFormat('d MMM yyyy', 'pt').format(day),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: 8),
+          FilledButton(
+            onPressed: _opening ? null : _create,
+            child: const Text('Adicionar tarefa'),
+          ),
+        ],
+      ),
+    );
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final key = PageStorageKey(
+          'planning-items-${undated ? 'undated' : dayKey(day)}',
+        );
+        if (constraints.maxHeight <
+            MediaQuery.textScalerOf(context).scale(160)) {
+          return ListView(
+            key: key,
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+            children: [...content, footer],
+          );
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: ListView(
+                key: key,
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                children: content,
+              ),
+            ),
+            footer,
+          ],
+        );
+      },
     );
   }
 

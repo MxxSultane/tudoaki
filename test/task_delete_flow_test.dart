@@ -23,7 +23,13 @@ void main() {
       await flows.openTasks(tester, repo, reminders);
       await flows.tap(tester, find.text('Eliminar consulta'));
       await flows.tap(tester, find.widgetWithText(TextButton, 'Eliminar'));
-      await flows.tap(tester, find.widgetWithText(TextButton, 'Cancelar'));
+      await flows.tap(
+        tester,
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.widgetWithText(TextButton, 'Cancelar'),
+        ),
+      );
       expect(await repo.all('Tasks'), hasLength(1));
       expect(reminders.cancelled, isEmpty);
       await flows.tap(tester, find.widgetWithText(TextButton, 'Eliminar'));

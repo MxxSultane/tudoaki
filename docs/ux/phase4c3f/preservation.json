@@ -1,0 +1,100 @@
+{
+  "base": "98d281385bd02ccd47ac97cafbc698efeb29682f",
+  "protected": [
+    {
+      "path": "android",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.yaml",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.lock",
+      "unchanged": true
+    },
+    {
+      "path": "lib/core/database",
+      "unchanged": true
+    },
+    {
+      "path": "lib/core/notifications",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/tasks/domain",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/finance/finance_rules.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/finance/finance_repository.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/finance/finance_providers.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/academics/academic_rules.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/academics/study_repository.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/academics/focus_timer.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/progress/progress_rules.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/app/navigation",
+      "unchanged": true
+    },
+    {
+      "path": "lib/app/providers.dart",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/goals/domain",
+      "unchanged": true
+    },
+    {
+      "path": "lib/features/habits",
+      "unchanged": true
+    }
+  ],
+  "ancestors": {
+    "4C.3A": {
+      "commit": "3b86f880e7a3ee5163bb1392d3001a76eff34c17",
+      "ancestor": true
+    },
+    "4C.3B": {
+      "commit": "058ae625bbec82eb97c7eaf0f4eeca0414672f7f",
+      "ancestor": true
+    },
+    "4C.3C": {
+      "commit": "49e1724319988ef66890f5742de8eea84692c112",
+      "ancestor": true
+    },
+    "4C.3D": {
+      "commit": "ffc9b0b48da024c566c3ee2b5d47a636495bc840",
+      "ancestor": true
+    },
+    "4C.3E": {
+      "commit": "98d281385bd02ccd47ac97cafbc698efeb29682f",
+      "ancestor": true
+    }
+  },
+  "main": "9283217523f9952221c98996b56a90b1fbe383dd",
+  "no_migrations": true,
+  "real_data_used": false,
+  "production_release": false,
+  "merge": false
+}

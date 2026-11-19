@@ -1,0 +1,30 @@
+{
+  "method": "Flutter debug test on Linux; 1 warmup + 10 projection samples; first widget pump includes font readiness; synthetic rows in memory",
+  "android_device_measured": false,
+  "continuous_animation": false,
+  "provider_table_reads_per_load": 9,
+  "journey_page_limit": 20,
+  "results": [
+    {
+      "persisted_rows": 100,
+      "projection_median_ms": 5.686,
+      "projection_max_ms": 32.514,
+      "debug_first_build_ms_including_fonts": 1712.215,
+      "mounted_activity_rows": 3
+    },
+    {
+      "persisted_rows": 1000,
+      "projection_median_ms": 7.148,
+      "projection_max_ms": 41.458,
+      "debug_first_build_ms_including_fonts": 309.387,
+      "mounted_activity_rows": 3
+    },
+    {
+      "persisted_rows": 10000,
+      "projection_median_ms": 50.798,
+      "projection_max_ms": 97.807,
+      "debug_first_build_ms_including_fonts": 141.883,
+      "mounted_activity_rows": 3
+    }
+  ]
+}

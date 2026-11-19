@@ -1,3 +1,4 @@
+import '../../../core/widgets/premium_components.dart';
 import '../../../app/navigation/app_routes.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
@@ -81,16 +82,10 @@ class AgendaBrowser extends ConsumerWidget {
               spacing: 16,
               children: [
                 for (final mode in ['Dia', 'Semana', 'Mês'])
-                  TextButton(
+                  PremiumFilter(
+                    label: mode,
+                    selected: mode == selection.mode,
                     onPressed: () => context.read<AgendaCubit>().mode(mode),
-                    child: Text(
-                      mode,
-                      style: TextStyle(
-                        fontWeight: mode == selection.mode
-                            ? FontWeight.w700
-                            : FontWeight.w400,
-                      ),
-                    ),
                   ),
               ],
             ),

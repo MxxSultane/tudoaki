@@ -1,3 +1,4 @@
+import '../../../core/widgets/premium_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/widgets/workspace_page.dart';
@@ -37,17 +38,11 @@ class TasksScreen extends StatelessWidget {
               spacing: 16,
               children: [
                 for (final value in [false, true])
-                  TextButton(
+                  PremiumFilter(
+                    label: value ? 'Concluídas' : 'Pendentes',
+                    selected: value == completed,
                     onPressed: () =>
                         context.read<TasksCubit>().completed(value),
-                    child: Text(
-                      value ? 'Concluídas' : 'Pendentes',
-                      style: TextStyle(
-                        fontWeight: value == completed
-                            ? FontWeight.w700
-                            : FontWeight.w400,
-                      ),
-                    ),
                   ),
               ],
             ),

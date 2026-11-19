@@ -20,7 +20,7 @@ import '../features/tasks/domain/tasks_cubit.dart';
 import '../features/goals/presentation/goal_detail.dart';
 import '../features/areas/presentation/areas_screen.dart';
 import '../core/theme/app_theme.dart';
-import '../core/theme/today_theme.dart';
+import '../core/widgets/workspace_navigation_bar.dart';
 import '../core/theme/premium_theme.dart';
 import '../core/widgets/premium_components.dart';
 import '../features/agenda/presentation/today_screen.dart';
@@ -157,8 +157,7 @@ class _TudoAkiAppState extends ConsumerState<TudoAkiApp> {
       ),
       GoRoute(
         path: AppRoutes.weeklyPlanner,
-        builder: (context, state) => Theme(
-          data: buildTodayTheme(Theme.of(context)),
+        builder: (context, state) => PremiumScope(
           child: BlocProvider(
             create: (_) =>
                 WeeklyPlannerCubit(ref.read(workspaceClockProvider)()),
@@ -259,8 +258,7 @@ class TudoAkiShell extends StatelessWidget {
   static final paths = AppNavigation.currentPaths;
 
   @override
-  Widget build(BuildContext context) => Theme(
-    data: buildTodayTheme(Theme.of(context)),
+  Widget build(BuildContext context) => PremiumScope(
     child: Builder(
       builder: (context) => BackButtonListener(
         onBackButtonPressed: () async {
@@ -294,12 +292,11 @@ class TudoAkiShell extends StatelessWidget {
                   modalGuard?.active ?? const AlwaysStoppedAnimation(false),
               builder: (context, blocked, child) => AbsorbPointer(
                 absorbing: blocked,
-                child: NavigationBar(
-                  animationDuration: const Duration(milliseconds: 250),
-                  selectedIndex:
+                child: WorkspaceNavigationBar(
+                  index:
                       navigationShell?.currentIndex ??
                       (!paths.contains(path) ? 3 : paths.indexOf(path)),
-                  onDestinationSelected: (index) {
+                  onSelected: (index) {
                     if (modalGuard?.active.value == true) return;
                     if (navigationShell != null) {
                       navigationShell!.goBranch(
@@ -310,14 +307,6 @@ class TudoAkiShell extends StatelessWidget {
                       context.go(paths[index]);
                     }
                   },
-                  labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-                  destinations: [
-                    for (final destination in AppNavigation.currentDestinations)
-                      NavigationDestination(
-                        icon: Icon(destination.icon),
-                        label: destination.title,
-                      ),
-                  ],
                 ),
               ),
             ),

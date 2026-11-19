@@ -1,3 +1,4 @@
+import 'workspace_load_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/providers.dart';
@@ -45,18 +46,10 @@ class LegacySectionPage extends ConsumerWidget {
     return ref
         .watch(dataProvider)
         .when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('Não foi possível abrir os dados locais.'),
-                TextButton(
-                  onPressed: () => ref.invalidate(dataProvider),
-                  child: const Text('Tentar novamente'),
-                ),
-              ],
-            ),
+          loading: () => const WorkspaceLoadState(),
+          error: (_, _) => WorkspaceLoadState(
+            message: 'Não foi possível abrir os dados locais.',
+            onRetry: () => ref.invalidate(dataProvider),
           ),
           data: (data) {
             return ListView(

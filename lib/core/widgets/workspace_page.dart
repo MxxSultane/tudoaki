@@ -1,3 +1,4 @@
+import 'workspace_load_state.dart';
 import '../../app/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,18 +17,10 @@ class WorkspaceData extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) => ref
       .watch(dataProvider)
       .when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('Não foi possível abrir os dados.'),
-              TextButton(
-                onPressed: () => ref.invalidate(dataProvider),
-                child: const Text('Tentar novamente'),
-              ),
-            ],
-          ),
+        loading: () => const WorkspaceLoadState(),
+        error: (_, _) => WorkspaceLoadState(
+          message: 'Não foi possível abrir os dados.',
+          onRetry: () => ref.invalidate(dataProvider),
         ),
         data: builder,
       );

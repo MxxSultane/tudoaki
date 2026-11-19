@@ -204,11 +204,8 @@ class _EditorState extends ConsumerState<Editor> {
             ? goalFocus.putIfAbsent(key, FocusNode.new)
             : null,
         decoration: InputDecoration(
-          labelText: widget.kind == 'Meta' || financial ? null : label,
-          label: widget.kind == 'Meta' || financial
-              ? Text(label, softWrap: true)
-              : null,
-          errorMaxLines: financial ? 6 : null,
+          label: Text(label, softWrap: true),
+          errorMaxLines: 6,
         ),
         maxLines: lines,
         keyboardType: (numeric || financial && key == 'amount')
@@ -234,9 +231,7 @@ class _EditorState extends ConsumerState<Editor> {
       ),
     ),
   );
-  Widget goalField(Widget child) => widget.kind == 'Meta' || financial
-      ? PremiumFocusOutline(child: child)
-      : child;
+  Widget goalField(Widget child) => PremiumFocusOutline(child: child);
   String goalValue(String key, [String fallback = '']) {
     if (original.containsKey(key) &&
         (!fields.containsKey(key) || fields[key]!.text == '${original[key]}')) {
@@ -444,8 +439,7 @@ class _EditorState extends ConsumerState<Editor> {
     ],
   );
   @override
-  Widget build(BuildContext context) =>
-      (widget.kind == 'Meta' || financial) && !PremiumTokens.active(context)
+  Widget build(BuildContext context) => !PremiumTokens.active(context)
       ? PremiumScope(child: Builder(builder: buildForm))
       : buildForm(context);
   Widget buildForm(BuildContext context) {
@@ -469,9 +463,7 @@ class _EditorState extends ConsumerState<Editor> {
             children: [
               Text(
                 '${widget.existing == null ? 'Criar' : 'Editar'} ${widget.kind.toLowerCase()}',
-                style: widget.kind == 'Meta' || financial
-                    ? Theme.of(context).textTheme.titleLarge
-                    : Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               if (financial) ...[
                 Text('Moeda do registo: $currency'),
@@ -483,6 +475,14 @@ class _EditorState extends ConsumerState<Editor> {
                   ),
                 ),
               ],
+              if (!financial && widget.kind != 'Meta')
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: busy ? null : () => Navigator.pop(context),
+                    child: const Text('Cancelar'),
+                  ),
+                ),
               const SizedBox(height: 20),
               if (widget.kind != 'Revisão')
                 text('title', 'Título', required: true),

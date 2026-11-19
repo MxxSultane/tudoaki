@@ -160,7 +160,9 @@ class _WeeklyPlannerScreenState extends ConsumerState<WeeklyPlannerScreen> {
             Scrollable.ensureVisible(
               target,
               alignment: .1,
-              duration: const Duration(milliseconds: 250),
+              duration: MediaQuery.disableAnimationsOf(context)
+                  ? Duration.zero
+                  : const Duration(milliseconds: 250),
               curve: Curves.easeOutCubic,
             );
           }
@@ -171,196 +173,197 @@ class _WeeklyPlannerScreenState extends ConsumerState<WeeklyPlannerScreen> {
         final unscheduled = data['Tasks']!
             .where((t) => t['completed'] == 0 && t['due'] == null)
             .toList();
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: ListView(
-                key: const ValueKey('weekly-days'),
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-                children: [
-                  Text(
-                    'O que vais adicionar?',
-                    style: Theme.of(context).textTheme.bodySmall,
+        final days = <Widget>[
+          Text(
+            'O que vais adicionar?',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 16,
+            children: [
+              for (final kind in PlanKind.values)
+                TextButton(
+                  key: ValueKey('plan-kind-${kind.name}'),
+                  onPressed: () => cubit.kind(kind),
+                  child: Text(
+                    kind == PlanKind.task ? 'Tarefas' : 'Eventos',
+                    style: TextStyle(
+                      fontWeight: selection.kind == kind
+                          ? FontWeight.w700
+                          : FontWeight.w400,
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  Wrap(
-                    spacing: 16,
-                    children: [
-                      for (final kind in PlanKind.values)
-                        TextButton(
-                          key: ValueKey('plan-kind-${kind.name}'),
-                          onPressed: () => cubit.kind(kind),
-                          child: Text(
-                            kind == PlanKind.task ? 'Tarefas' : 'Eventos',
-                            style: TextStyle(
-                              fontWeight: selection.kind == kind
-                                  ? FontWeight.w700
-                                  : FontWeight.w400,
+                ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              IconButton(
+                tooltip: 'Semana anterior',
+                onPressed: cubit.canPrevious ? () => cubit.move(-1) : null,
+                icon: const Icon(Icons.chevron_left),
+              ),
+              Expanded(
+                child: TextButton(
+                  onPressed: () async {
+                    final day = await showDatePicker(
+                      context: context,
+                      initialDate: selection.day,
+                      firstDate: WeeklyPlannerCubit.firstDay,
+                      lastDate: WeeklyPlannerCubit.lastDay,
+                    );
+                    if (day != null && mounted) cubit.selectDate(day);
+                  },
+                  child: Text(
+                    '${DateFormat('d MMM', 'pt').format(selection.monday)} – ${DateFormat('d MMM yyyy', 'pt').format(selection.end)}',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              IconButton(
+                tooltip: 'Semana seguinte',
+                onPressed: cubit.canNext ? () => cubit.move(1) : null,
+                icon: const Icon(Icons.chevron_right),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          for (var index = 0; index < 7; index++)
+            Builder(
+              builder: (context) {
+                final day = DateTime(
+                  selection.monday.year,
+                  selection.monday.month,
+                  selection.monday.day + index,
+                );
+                final items = planningItemsForDay(data, day);
+                final tasks = items.where((i) => i.task).length;
+                final events = items.length - tasks;
+                final selected = selection.dayIndex == index;
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Card(
+                    key: dayKeys[index],
+                    shape: selected
+                        ? RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            side: BorderSide(
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
+                          )
+                        : null,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Semantics(
+                          selected: selected,
+                          child: ListTile(
+                            key: ValueKey('plan-day-$index'),
+                            title: Text(
+                              '${['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'][index]} · ${DateFormat('d MMM', 'pt').format(day)}',
+                            ),
+                            subtitle: Text(
+                              items.isEmpty
+                                  ? 'Dia livre'
+                                  : '$events ${events == 1 ? 'evento' : 'eventos'} · $tasks ${tasks == 1 ? 'tarefa' : 'tarefas'}',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            enabled: cubit.allowed(day),
+                            onTap: () => cubit.selectDay(index),
                           ),
                         ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      IconButton(
-                        tooltip: 'Semana anterior',
-                        onPressed: cubit.canPrevious
-                            ? () => cubit.move(-1)
-                            : null,
-                        icon: const Icon(Icons.chevron_left),
-                      ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () async {
-                            final day = await showDatePicker(
-                              context: context,
-                              initialDate: selection.day,
-                              firstDate: WeeklyPlannerCubit.firstDay,
-                              lastDate: WeeklyPlannerCubit.lastDay,
-                            );
-                            if (day != null && mounted) cubit.selectDate(day);
-                          },
-                          child: Text(
-                            '${DateFormat('d MMM', 'pt').format(selection.monday)} – ${DateFormat('d MMM yyyy', 'pt').format(selection.end)}',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        tooltip: 'Semana seguinte',
-                        onPressed: cubit.canNext ? () => cubit.move(1) : null,
-                        icon: const Icon(Icons.chevron_right),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  for (var index = 0; index < 7; index++)
-                    Builder(
-                      builder: (context) {
-                        final day = DateTime(
-                          selection.monday.year,
-                          selection.monday.month,
-                          selection.monday.day + index,
-                        );
-                        final items = planningItemsForDay(data, day);
-                        final tasks = items.where((i) => i.task).length;
-                        final events = items.length - tasks;
-                        final selected = selection.dayIndex == index;
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Card(
-                            key: dayKeys[index],
-                            shape: selected
-                                ? RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                    side: BorderSide(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurface,
-                                    ),
-                                  )
-                                : null,
+                        if (selected &&
+                            (items.isNotEmpty ||
+                                selection.kind == PlanKind.task &&
+                                    unscheduled.isNotEmpty))
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Semantics(
-                                  selected: selected,
-                                  child: ListTile(
-                                    key: ValueKey('plan-day-$index'),
-                                    title: Text(
-                                      '${['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'][index]} · ${DateFormat('d MMM', 'pt').format(day)}',
-                                    ),
-                                    subtitle: Text(
-                                      items.isEmpty
-                                          ? 'Dia livre'
-                                          : '$events ${events == 1 ? 'evento' : 'eventos'} · $tasks ${tasks == 1 ? 'tarefa' : 'tarefas'}',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodySmall,
-                                    ),
-                                    enabled: cubit.allowed(day),
-                                    onTap: () => cubit.selectDay(index),
-                                  ),
-                                ),
-                                if (selected &&
-                                    (items.isNotEmpty ||
-                                        selection.kind == PlanKind.task &&
-                                            unscheduled.isNotEmpty))
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      16,
-                                      0,
-                                      16,
-                                      16,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        const Divider(height: 1),
-                                        for (final item in items)
-                                          entry(item, items),
-                                        if (selection.kind == PlanKind.task &&
-                                            unscheduled.isNotEmpty)
-                                          Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: TextButton(
-                                              onPressed: editing
-                                                  ? null
-                                                  : () => chooseTask(
-                                                      selection,
-                                                      unscheduled,
-                                                    ),
-                                              child: const Text(
-                                                'Escolher pendente',
-                                              ),
+                                const Divider(height: 1),
+                                for (final item in items) entry(item, items),
+                                if (selection.kind == PlanKind.task &&
+                                    unscheduled.isNotEmpty)
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: TextButton(
+                                      onPressed: editing
+                                          ? null
+                                          : () => chooseTask(
+                                              selection,
+                                              unscheduled,
                                             ),
-                                          ),
-                                      ],
+                                      child: const Text('Escolher pendente'),
                                     ),
                                   ),
                               ],
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Os registos ficam na agenda.',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  if (status != null)
-                    Semantics(liveRegion: true, child: Text(status!)),
-                  Text(
-                    DateFormat('EEEE, d MMM', 'pt').format(selection.day),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 8),
-                  FilledButton(
-                    onPressed: editing ? null : () => edit(selection),
-                    child: Text(
-                      selection.kind == PlanKind.task
-                          ? 'Adicionar tarefa'
-                          : 'Adicionar evento',
+                      ],
                     ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
-          ],
+          const SizedBox(height: 8),
+          Text(
+            'Os registos ficam na agenda.',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ];
+        final footer = Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (status != null)
+                Semantics(liveRegion: true, child: Text(status!)),
+              Text(
+                DateFormat('EEEE, d MMM', 'pt').format(selection.day),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const SizedBox(height: 8),
+              FilledButton(
+                onPressed: editing ? null : () => edit(selection),
+                child: Text(
+                  selection.kind == PlanKind.task
+                      ? 'Adicionar tarefa'
+                      : 'Adicionar evento',
+                ),
+              ),
+            ],
+          ),
+        );
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            // The integrated navigation honours 200% text. In the remaining short
+            // window keep the same seven days/actions on one scroll surface.
+            if (constraints.maxHeight <
+                MediaQuery.textScalerOf(context).scale(160)) {
+              return ListView(
+                key: const ValueKey('weekly-days'),
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                children: [...days, footer],
+              );
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: ListView(
+                    key: const ValueKey('weekly-days'),
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                    children: days,
+                  ),
+                ),
+                footer,
+              ],
+            );
+          },
         );
       },
     ),
