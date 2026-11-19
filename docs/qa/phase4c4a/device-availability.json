@@ -1,0 +1,10 @@
+{
+  "observed_at_utc": "2026-11-19T11:26:39.208384+00:00",
+  "usb_device_directory_exposed": false,
+  "adb_cli": "aborted: cannot create /home/agent/.android (read-only filesystem)",
+  "physical_qa_executed": false,
+  "installations": 0,
+  "data_cleared": false,
+  "adb_server": "not accessible",
+  "inventory_error": "[Errno 111] Connection refused"
+}

@@ -2,7 +2,7 @@ name: Android debug validation
 
 on:
   push:
-    branches: [qa/fase-3f-integracao, fix/fase-4a-ux-android, fix/fase-4b-funcional-simplificacao, feat/fase-4c3a-design-system-piloto, feat/fase-4c3b-metas-formulario, feat/fase-4c3c-estudos-premium, feat/fase-4c3d-financas-premium, feat/fase-4c3e-progresso-percurso, feat/fase-4c3f-integracao-global]
+    branches: [qa/fase-3f-integracao, fix/fase-4a-ux-android, fix/fase-4b-funcional-simplificacao, feat/fase-4c3a-design-system-piloto, feat/fase-4c3b-metas-formulario, feat/fase-4c3c-estudos-premium, feat/fase-4c3d-financas-premium, feat/fase-4c3e-progresso-percurso, feat/fase-4c3f-integracao-global, test/fase-4c4a-validacao-android]
   workflow_dispatch:
     inputs:
       disponibilizar_apk:
@@ -67,12 +67,14 @@ jobs:
       - name: Confirmar preservação do projecto
         if: always()
         run: git diff --exit-code -- pubspec.yaml pubspec.lock android
+      - name: Inspeccionar assinatura e preparar APK debug de testes
+        run: python3 tool/inspect_android_apk.py build/app/outputs/flutter-apk/app-debug.apk --output-directory validation-android/test-apk
       - name: Disponibilizar APK para testes internos
-        if: ${{ success() && ((github.event_name == 'workflow_dispatch' && inputs.disponibilizar_apk) || (github.event_name == 'push' && github.ref == 'refs/heads/fix/fase-4a-ux-android' && contains(github.event.head_commit.message, '[apk-testes]'))) }}
+        if: ${{ success() && ((github.event_name == 'workflow_dispatch' && inputs.disponibilizar_apk) || (github.event_name == 'push' && (github.ref == 'refs/heads/fix/fase-4a-ux-android' || github.ref == 'refs/heads/test/fase-4c4a-validacao-android') && contains(github.event.head_commit.message, '[apk-testes]'))) }}
         uses: actions/upload-artifact@v4
         with:
           name: tudo-aki-debug-${{ github.sha }}
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          path: validation-android/test-apk/
           if-no-files-found: error
           retention-days: 7
       - name: Registar âmbito da validação
@@ -90,6 +92,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-debug-validation-logs
-          path: validation-android/
+          path: |
+            validation-android/build.txt
+            validation-android/test-apk/apk-metadata.json
+            validation-android/test-apk/aapt.txt
+            validation-android/test-apk/apksigner.txt
+            validation-android/test-apk/SHA256SUMS
           if-no-files-found: ignore
           retention-days: 14

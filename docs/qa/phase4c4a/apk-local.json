@@ -1,0 +1,28 @@
+{
+  "application_id": "mz.lifeos.lifeos",
+  "version_code": 12,
+  "version_name": "0.9.2",
+  "min_sdk": 24,
+  "target_sdk": 36,
+  "debuggable": true,
+  "signature_verified": true,
+  "signer_certificate_sha256": "ea75c11172c7f568031f7e09c4698b9e63f3242016652c3668d69bbe74feb5c6",
+  "launchable_activity": "mz.tudoaki.tudo_aki.MainActivity",
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a",
+    "x86_64"
+  ],
+  "apk_filename": "app-debug.apk",
+  "apk_bytes": 187039861,
+  "apk_sha256": "84c2ed115e4c28bce2fcc7d2beab5a21e19a5eaffad12fd4ab6ceb9653b00bc6",
+  "installation_executed": false,
+  "compatibility": "Unknown until the installed certificate, package and version are checked. Debug keys may differ between local/CI builds.",
+  "source_head": "38086977b0dfe62c147ecb32ba4a48af858a2d1a",
+  "source_lib_tree": "6c1dc68f9975dee5cdd003e2a8b23116d39fa7f6",
+  "source_android_tree": "654ae748ddfccca8febaf765f199c0ccb5a57989",
+  "source_assets_tree": "686234c9b086a14e9d956bcdfe050ce01ab3d284",
+  "pubspec_sha256": "c7d73e08bf2296d3faba94b7697f3f5309c5c91d9fd8240ce9ef4879ddc0fe19",
+  "lockfile_sha256": "23ed8d6cbd75540a9cb82eaff5a0012eb24b40f823a7696f825a655ae4de833c",
+  "build_mode": "debug"
+}

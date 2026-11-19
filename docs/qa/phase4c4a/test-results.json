@@ -1,0 +1,24 @@
+{
+  "flutter": {
+    "executed": 367,
+    "passed": 367,
+    "failed": 0,
+    "skipped": 0,
+    "error_events": 0,
+    "execution_errors": 0,
+    "issues": [],
+    "errors": [],
+    "runner_complete": true,
+    "success": true,
+    "exit_code": 0
+  },
+  "apk_tool_unit_tests": {
+    "executed": 4,
+    "passed": 4
+  },
+  "analyze": "No issues found",
+  "format": "118 files; 0 changed",
+  "android_debug": "success; 8.1s",
+  "physical_tests_executed": false,
+  "ci": "pending publication"
+}

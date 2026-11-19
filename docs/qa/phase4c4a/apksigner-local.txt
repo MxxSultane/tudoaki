@@ -1,0 +1,18 @@
+Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: C=US, O=Android, CN=Android Debug
+Signer #1 certificate SHA-256 digest: ea75c11172c7f568031f7e09c4698b9e63f3242016652c3668d69bbe74feb5c6
+Signer #1 certificate SHA-1 digest: 2474f03e188f699d6a07f6ba39f84e654311eade
+Signer #1 certificate MD5 digest: 2183393073a018c2a31178f884785e71
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: 88c2640bd4045ed9c9ac867daf5d04ce1cc39353c9a2759a4a1b46cd2964989a
+Signer #1 public key SHA-1 digest: 47f23827fc0fa161e1215a1a9e771787b4e500bb
+Signer #1 public key MD5 digest: f1725432b9a7133654382ace50c25faf

@@ -1,0 +1,35 @@
+{
+  "base": "38086977b0dfe62c147ecb32ba4a48af858a2d1a",
+  "checks": [
+    {
+      "path": "lib",
+      "unchanged": true
+    },
+    {
+      "path": "android",
+      "unchanged": true
+    },
+    {
+      "path": "assets",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.yaml",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.lock",
+      "unchanged": true
+    },
+    {
+      "path": "AGENTS.md",
+      "unchanged": true
+    }
+  ],
+  "schema_version": 5,
+  "database": "lifeos.sqlite",
+  "physical_installations": 0,
+  "physical_data_operations": 0,
+  "release": false,
+  "merge": false
+}
